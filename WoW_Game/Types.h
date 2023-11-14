@@ -13,6 +13,6 @@ using uint64 = unsigned __int64;
 
 //DX
 using Vec2 = DirectX::XMFLOAT2;
-using Vec3 = DirectX::XMFLOAT2;
-using Vec4 = DirectX::XMFLOAT2;
+using Vec3 = DirectX::XMFLOAT3;
+using Vec4 = DirectX::XMFLOAT4;
 using Color = DirectX::XMFLOAT4;

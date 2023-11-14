@@ -18,6 +18,9 @@
     <Filter Include="소스 파일\Headers\Garbage">
       <UniqueIdentifier>{ae18b8bb-d0b8-456c-a2f3-791b7e572f22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shaders">
+      <UniqueIdentifier>{3ff20c64-5b32-4b76-a161-42c8d5185e4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WoW_Game.h">
@@ -71,5 +74,10 @@
     <Image Include="WoW_Game.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\Default.hlsl">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

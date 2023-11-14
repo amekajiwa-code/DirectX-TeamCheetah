@@ -9,10 +9,12 @@
 #include <list>
 #include <map>
 #include <unordered_map>
+#include <string>
 
 //WINAPI
 #include <Windows.h>
 #include <assert.h>
+using namespace std;
 
 //DX
 #include <d3d11.h>
@@ -32,3 +34,5 @@ using namespace Microsoft::WRL;
 #else
 #pragma comment(lib, "dxtex\\DirectXTex.lib")
 #endif // _DEBUG
+
+#define CHECK(p)	assert(SUCCEEDED(p))
