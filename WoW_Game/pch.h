@@ -10,6 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 //WINAPI
 #include <Windows.h>
@@ -34,5 +35,9 @@ using namespace Microsoft::WRL;
 #else
 #pragma comment(lib, "dxtex\\DirectXTex.lib")
 #endif // _DEBUG
+
+//Engine
+#include "Graphics.h"
+
 
 #define CHECK(p)	assert(SUCCEEDED(p))

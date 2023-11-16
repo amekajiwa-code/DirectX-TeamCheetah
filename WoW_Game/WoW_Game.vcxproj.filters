@@ -21,12 +21,36 @@
     <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{3ff20c64-5b32-4b76-a161-42c8d5185e4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{e065dff8-bc27-41be-8e46-6e487e9df39e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine">
+      <UniqueIdentifier>{4a6ce44b-2e16-4929-ae26-2070d25864ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline">
+      <UniqueIdentifier>{cabfba8d-f868-4126-8896-7a59dcef29fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\01.Geometry">
+      <UniqueIdentifier>{67d8bc26-1247-4e1f-902c-155a959d7941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\02.InputAssembler">
+      <UniqueIdentifier>{719341b5-fdaa-453e-8464-24962fb0ca60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\03.VertexShader">
+      <UniqueIdentifier>{c0cdb142-da26-4715-8c4f-600e79cf89da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\04.Rasterizer">
+      <UniqueIdentifier>{93fafb2a-5b31-4ff2-b61b-5b57f8a950e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\05.PixelShader">
+      <UniqueIdentifier>{b2947715-b3b0-425d-9df0-a7f670ee9ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\06.OuputMerger">
+      <UniqueIdentifier>{989460c7-4945-4a3b-9fe6-1893b2cba517}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WoW_Game.h">
-      <Filter>소스 파일\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Main\Game.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -50,16 +74,31 @@
     <ClInclude Include="Types.h">
       <Filter>소스 파일\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scripts\Main\Game.cpp">
-      <Filter>소스 파일\Main</Filter>
-    </ClCompile>
     <ClCompile Include="WoW_Game.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,5 +118,10 @@
     <FxCompile Include="Shader\Default.hlsl">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl">
+      <Filter>소스 파일\Utils</Filter>
+    </None>
   </ItemGroup>
 </Project>

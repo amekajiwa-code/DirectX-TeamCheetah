@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "framework.h"
 #include "WoW_Game.h"
-#include "Scripts/Main/Game.h"
+#include "Game.h"
 
 #define MAX_LOADSTRING 100
 

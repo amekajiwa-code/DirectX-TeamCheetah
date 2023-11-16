@@ -14,14 +14,20 @@ struct VS_OUTPUT
 
 cbuffer TransformData : register(b0)
 {
-    float4 offset; 
+    row_major matrix matWorld;
+    row_major matrix matView;
+    row_major matrix matProjection;
 }
 
 //vs
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.position = input.position + offset;
+    float4 position = mul(input.position, matWorld);
+    position = mul(position, matView);
+    position = mul(position, matProjection);
+    
+    output.position = position;
     //output.color = input.color;
     output.uv = input.uv;
     
