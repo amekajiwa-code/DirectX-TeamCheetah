@@ -1,5 +1,17 @@
 #include "pch.h"
-#include "Graphics.h"
+
+Graphics* Graphics::_instance = nullptr;
+
+Graphics::Graphics()
+{
+	_hwnd = g_hWnd;
+	_width = g_winSizeX;
+	_height = g_winSizeY;
+
+	CreateDeviceAndSwapChain();
+	CreateRenderTargetView();
+	SetViewPort();
+}
 
 Graphics::Graphics(HWND hwnd)
 {
@@ -14,6 +26,11 @@ Graphics::Graphics(HWND hwnd)
 
 Graphics::~Graphics()
 {
+}
+
+void Graphics::SetHwnd(HWND hwnd)
+{
+	_hwnd = hwnd;
 }
 
 void Graphics::CreateDeviceAndSwapChain()
@@ -78,6 +95,17 @@ void Graphics::SetViewPort()
 	_viewPort.Height = static_cast<float>(_height);
 	_viewPort.MinDepth = 0.f;
 	_viewPort.MaxDepth = 1.f;
+}
+
+void Graphics::Init()
+{
+	_hwnd = g_hWnd;
+	_width = g_winSizeX;
+	_height = g_winSizeY;
+
+	CreateDeviceAndSwapChain();
+	CreateRenderTargetView();
+	SetViewPort();
 }
 
 void Graphics::RenderBegin()

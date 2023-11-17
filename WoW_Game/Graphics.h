@@ -1,7 +1,25 @@
 #pragma once
 class Graphics
 {
+private:
+	static Graphics* _instance;
 public:
+	static Graphics* GetInstance()
+	{
+		if (_instance == nullptr)
+		{
+			_instance = new Graphics();
+
+			return _instance;
+		}
+		else
+		{
+			return _instance;
+		}
+	}
+public:
+	Graphics();
+	Graphics(Graphics* adr);
 	Graphics(HWND hwnd);
 	~Graphics();
 private:
@@ -21,11 +39,15 @@ private:
 public:
 	ComPtr<ID3D11Device> GetDevice() { return _device; }
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return _deviceContext; }
+public:
+	void SetHwnd(HWND hwnd);
+	void SetInstanceAddr(Graphics* adr) { _instance = adr; }
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
 	void SetViewPort();
 public:
+	void Init();
 	void RenderBegin();
 	void RenderEnd();
 };

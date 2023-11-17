@@ -9,7 +9,7 @@
 
 // 전역 변수:
 HINSTANCE hInst;      // 현재 인스턴스입니다.
-HWND g_hWnd;
+HWND      g_hWnd;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);

@@ -83,6 +83,15 @@
     <ClInclude Include="Game.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WoW_Game.cpp">
@@ -99,6 +108,15 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

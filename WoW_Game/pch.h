@@ -9,6 +9,8 @@
 #include <list>
 #include <map>
 #include <unordered_map>
+
+//STD
 #include <string>
 #include <memory>
 
@@ -27,17 +29,25 @@ using namespace std;
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
+//Lib
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-
 #ifdef _DEBUG
 #pragma comment(lib, "dxtex\\DirectXTex_debug.lib")
 #else
 #pragma comment(lib, "dxtex\\DirectXTex.lib")
 #endif // _DEBUG
 
+//Extern
+extern HWND g_hWnd;
+
 //Engine
 #include "Graphics.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "InputLayout.h"
 
-
+//Macro
 #define CHECK(p)	assert(SUCCEEDED(p))
+#define GRAPHICS()	Graphics::GetInstance()
+

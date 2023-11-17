@@ -3,20 +3,22 @@
 class Game
 {
 private:
-	HWND _hwnd;
+	HWND					  _hwnd;
 	std::shared_ptr<Graphics> _graphics;
 private:
 	//geometry
 	std::vector<Vertex>				_vertices;
-	ComPtr<ID3D11Buffer>			_vertexBuffer = nullptr;
+	shared_ptr<VertexBuffer>		_vertexBuffer;
 	std::vector<uint32>				_indices;
-	ComPtr<ID3D11Buffer>			_indexBuffer = nullptr;
-	ComPtr<ID3D11InputLayout>		_inputLayout = nullptr;
+	shared_ptr<IndexBuffer>			_indexBuffer;
+	shared_ptr<InputLayout>			_inputLayout;
+	//endGeo
 	TransformData					_transformData;
 	ComPtr<ID3D11Buffer>			_constantBuffer = nullptr;
 	//vs
 	ComPtr<ID3D11VertexShader>		_vertexShader = nullptr;
 	ComPtr<ID3DBlob>				_vsBlob = nullptr;
+	//endVs
 	//ps
 	ComPtr<ID3D11PixelShader>		_pixelShader = nullptr;
 	ComPtr<ID3DBlob>				_psBlob = nullptr;
