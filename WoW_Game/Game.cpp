@@ -12,37 +12,11 @@ Game::~Game()
 void Game::CreateGeometry()
 {
 	//vertex data 
-	{
-		_vertices.resize(4);
-		_vertices[0].position = Vec3(-0.5f, -0.5f, 0.f);
-		//_vertices[0].color = Color(1.f, 0.f, 0.f, 1.f);
-		_vertices[0].uv = Vec2(0.f, 1.f);
-
-		_vertices[1].position = Vec3(-0.5f, 0.5f, 0.f);
-		//_vertices[1].color = Color(0.f, 1.f, 0.f, 1.f);
-		_vertices[1].uv = Vec2(0.f, 0.f);
-
-		_vertices[2].position = Vec3(0.5f, -0.5f, 0.f);
-		//_vertices[2].color = Color(0.f, 0.f, 1.f, 1.f);
-		_vertices[2].uv = Vec2(1.f, 1.f);
-
-		_vertices[3].position = Vec3(0.5f, 0.5f, 0.f);
-		//_vertices[3].color = Color(0.f, 0.f, 1.f, 1.f);
-		_vertices[3].uv = Vec2(1.f, 0.f);
-
-	}
+	GeometryHelper::CreateRectangle(_geometry);
 	//v buffer
-	{
-		_vertexBuffer->CreateVertexBuffer(_vertices);
-	}
-	//index
-	{
-		_indices = { 0,1,2,2,1,3 };
-	}
+	_vertexBuffer->CreateVertexBuffer(_geometry->GetVertices());
 	//IndexBuffer
-	{
-		_indexBuffer->CreateIndexBuffer(_indices);
-	}
+	_indexBuffer->CreateIndexBuffer(_geometry->GetIndices());
 }
 
 void Game::CreateConstantBuffer()
@@ -64,15 +38,8 @@ void Game::CreateConstantBuffer()
 void Game::CreateInputLayout()
 {
 	HRESULT hr;
-
-	vector<D3D11_INPUT_ELEMENT_DESC> layout
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
-		//{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
-	};
-
-	_inputLayout->CreateInputLayout(layout, _vsBlob);
+	
+	_inputLayout->CreateInputLayout(VertexTextureData::descs, _vsBlob);
 }
 
 void Game::CreateVertexShader()
@@ -126,7 +93,7 @@ void Game::CreateRasterizerState()
 	HRESULT hr;
 	D3D11_RASTERIZER_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-	desc.FillMode = D3D11_FILL_SOLID; 
+	desc.FillMode = D3D11_FILL_SOLID;
 	desc.CullMode = D3D11_CULL_BACK;
 	desc.FrontCounterClockwise = false;
 
@@ -179,9 +146,9 @@ void Game::CreateBlendState()
 	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	//hr = _graphics->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
-	hr = GRAPHICS()-> GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
+	hr = GRAPHICS()->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
 
-	CHECK(hr);	
+	CHECK(hr);
 }
 
 void Game::CreateShaderResourceView()
@@ -192,7 +159,7 @@ void Game::CreateShaderResourceView()
 	//PNG,JPG
 	hr = DirectX::LoadFromWICFile(L"../Resources/night.png", WIC_FLAGS_NONE, &md, img);
 	CHECK(hr);
-	
+
 	//hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), 
 	//	md, _shaderResourceView.GetAddressOf());
 	hr = ::CreateShaderResourceView(GRAPHICS()->GetDevice().Get(), img.GetImages(), img.GetImageCount(),
@@ -232,6 +199,7 @@ void Game::Init(HWND hwnd)
 	_vertexBuffer = make_shared<VertexBuffer>();
 	_indexBuffer = make_shared<IndexBuffer>();
 	_inputLayout = make_shared<InputLayout>();
+	_geometry = make_shared<Geometry<VertexTextureData>>();
 
 	CreateGeometry();
 	CreateVertexShader();
@@ -248,7 +216,7 @@ void Game::Init(HWND hwnd)
 
 void Game::Update()
 {
-	Matrix matScale =  Matrix::CreateScale(_localScale);
+	Matrix matScale = Matrix::CreateScale(_localScale);
 	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
 	matRot *= Matrix::CreateRotationY(_localRotation.y);
 	matRot *= Matrix::CreateRotationZ(_localRotation.z);
@@ -274,7 +242,7 @@ void Game::Render()
 	GRAPHICS()->RenderBegin();
 	{
 		//IA
-		uint32 stride = sizeof(Vertex);
+		uint32 stride = sizeof(VertexTextureData);
 		uint32 offset = 0;
 		GRAPHICS()->GetDeviceContext()->IASetVertexBuffers(0, 1,
 			_vertexBuffer->GetBuffer().GetAddressOf(), &stride, &offset);
@@ -293,7 +261,7 @@ void Game::Render()
 		//OM
 		GRAPHICS()->GetDeviceContext()->OMSetBlendState(_blendState.Get(), nullptr, 0xFFFFFFFF);
 		//_graphicsContext->Draw(_vertices.size(), 0);
-		GRAPHICS()->GetDeviceContext()->DrawIndexed(_indices.size(), 0, 0);
+		GRAPHICS()->GetDeviceContext()->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 	GRAPHICS()->RenderEnd();
 }

@@ -92,6 +92,15 @@
     <ClInclude Include="InputLayout.h">
       <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryHelper.h">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexData.h">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WoW_Game.cpp">
@@ -117,6 +126,15 @@
     </ClCompile>
     <ClCompile Include="InputLayout.cpp">
       <Filter>소스 파일\Engine\Pipeline\02.InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryHelper.cpp">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexData.cpp">
+      <Filter>소스 파일\Engine\Pipeline\01.Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

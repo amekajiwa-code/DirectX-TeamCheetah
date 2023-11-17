@@ -7,9 +7,8 @@ private:
 	std::shared_ptr<Graphics> _graphics;
 private:
 	//geometry
-	std::vector<Vertex>				_vertices;
+	shared_ptr < Geometry<VertexTextureData>> _geometry;
 	shared_ptr<VertexBuffer>		_vertexBuffer;
-	std::vector<uint32>				_indices;
 	shared_ptr<IndexBuffer>			_indexBuffer;
 	shared_ptr<InputLayout>			_inputLayout;
 	//endGeo

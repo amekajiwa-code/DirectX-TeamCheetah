@@ -47,6 +47,10 @@ extern HWND g_hWnd;
 #include "IndexBuffer.h"
 #include "InputLayout.h"
 
+#include "Geometry.h"
+#include "GeometryHelper.h"
+#include "VertexData.h"
+
 //Macro
 #define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
