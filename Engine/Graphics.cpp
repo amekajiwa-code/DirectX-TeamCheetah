@@ -4,13 +4,7 @@ Graphics* Graphics::_instance = nullptr;
 
 Graphics::Graphics()
 {
-	_hwnd = g_hWnd;
-	_width = g_winSizeX;
-	_height = g_winSizeY;
-
-	CreateDeviceAndSwapChain();
-	CreateRenderTargetView();
-	SetViewPort();
+	Init();
 }
 
 Graphics::Graphics(HWND hwnd)

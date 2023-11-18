@@ -9,8 +9,6 @@
 #include <list>
 #include <map>
 #include <unordered_map>
-
-//STD
 #include <string>
 #include <memory>
 
@@ -46,12 +44,14 @@ extern HWND g_hWnd;
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "InputLayout.h"
-
 #include "Geometry.h"
 #include "GeometryHelper.h"
 #include "VertexData.h"
+#include "Shader.h"
+#include "ConstantBuffer.h"
+#include "Texture.h"
 
 //Macro
-#define CHECK(p)	assert(SUCCEEDED(p))
+#define CHECK(p)		assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
 

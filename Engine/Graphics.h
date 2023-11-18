@@ -19,16 +19,15 @@ public:
 	}
 public:
 	Graphics();
-	Graphics(Graphics* adr);
 	Graphics(HWND hwnd);
 	~Graphics();
 private:
-	HWND		_hwnd;
+	HWND			_hwnd;
 	uint32		_width = 0;
 	uint32		_height = 0;
 private:
 	//Device SwapChain
-	ComPtr<ID3D11Device>		_device = nullptr;
+	ComPtr<ID3D11Device>			_device = nullptr;
 	ComPtr<ID3D11DeviceContext>	_deviceContext = nullptr;
 	ComPtr<IDXGISwapChain>		_swapChain = nullptr;
 	//RTV
