@@ -155,7 +155,7 @@
     <ClInclude Include="Values.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexData.h" />
-    <ClInclude Include="WoW_Game.h" />
+    <ClInclude Include="GameWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -170,7 +170,7 @@
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
-    <ClCompile Include="WoW_Game.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WoW_Game.rc" />

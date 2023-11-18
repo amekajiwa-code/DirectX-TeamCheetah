@@ -50,7 +50,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WoW_Game.h">
+    <ClInclude Include="GameWindow.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -103,7 +103,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WoW_Game.cpp">
+    <ClCompile Include="GameWindow.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
