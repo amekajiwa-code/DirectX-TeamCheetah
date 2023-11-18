@@ -49,7 +49,11 @@ extern HWND g_hWnd;
 #include "VertexData.h"
 #include "Shader.h"
 #include "ConstantBuffer.h"
+#include "RasterizerState.h"
 #include "Texture.h"
+#include "SamplerState.h"
+#include "BlendState.h"
+#include "Pipeline.h"
 
 //Macro
 #define CHECK(p)		assert(SUCCEEDED(p))

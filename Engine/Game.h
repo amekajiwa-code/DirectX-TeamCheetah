@@ -4,6 +4,7 @@ class Game
 {
 private:
 	HWND	 _hwnd;
+	shared_ptr<Pipeline> _pipeline;
 private:
 	//Geometry
 	shared_ptr <Geometry<VertexTextureData>>	_geometry;
@@ -15,15 +16,15 @@ private:
 	//VS
 	shared_ptr<VertexShader>		_vertexShader;
 	//RS
-	ComPtr<ID3D11RasterizerState>	_rasterizerState;
+	shared_ptr<RasterizerState>	_rasterizerState;
 	//PS
 	shared_ptr<PixelShader>		_pixelShader;
 	//SRV
 	shared_ptr<Texture>			_texture;
 	//Sampler
-	ComPtr<ID3D11SamplerState>		_samplerState;
+	shared_ptr<SamplerState>		_samplerState;
 	//Blend
-	ComPtr<ID3D11BlendState>		_blendState;
+	shared_ptr<BlendState>		_blendState;
 private:
 	Vec3 _localPosition = { 0.f,0.f,0.f };
 	Vec3 _localRotation = { 0.f,0.f,0.f };
@@ -33,16 +34,17 @@ public:
 	~Game();
 private:
 	void CreateGeometry();
-	void CreateConstantBuffer();
-	void CreateInputLayout();
-
 	void CreateVertexShader();
-	void CreatePixelShader();
+	void CreateInputLayout();
+	void CreateConstantBuffer();
 
 	void CreateRasterizerState();
-	void CreateSamplerState();
-	void CreateBlendState();
+
+	void CreatePixelShader();
 	void CreateTexture(const wstring& path);
+	void CreateSamplerState();
+
+	void CreateBlendState();
 public:
 	void Init(HWND hwnd);
 	void Update();

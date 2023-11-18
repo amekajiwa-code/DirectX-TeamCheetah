@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BlendState.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
@@ -148,7 +149,10 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Pipeline.h" />
+    <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Struct.h" />
@@ -161,6 +165,7 @@
     <ClInclude Include="GameWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -171,6 +176,9 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Pipeline.cpp" />
+    <ClCompile Include="RasterizerState.cpp" />
+    <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Texture.cpp" />

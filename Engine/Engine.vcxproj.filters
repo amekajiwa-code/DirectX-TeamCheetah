@@ -110,6 +110,18 @@
     <ClInclude Include="Texture.h">
       <Filter>소스 파일\Engine\Pipeline\05.PixelShader</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizerState.h">
+      <Filter>소스 파일\Engine\Pipeline\04.Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="SamplerState.h">
+      <Filter>소스 파일\Engine\Pipeline\05.PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>소스 파일\Engine\Pipeline\06.OuputMerger</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -153,6 +165,18 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>소스 파일\Engine\Pipeline\05.PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizerState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\04.Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="SamplerState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\05.PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\06.OuputMerger</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline.cpp">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

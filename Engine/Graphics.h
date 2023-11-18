@@ -18,8 +18,9 @@ public:
 		}
 	}
 public:
-	Graphics();
 	Graphics(HWND hwnd);
+private:
+	Graphics();
 	~Graphics();
 private:
 	HWND			_hwnd;
@@ -27,9 +28,9 @@ private:
 	uint32		_height = 0;
 private:
 	//Device SwapChain
-	ComPtr<ID3D11Device>			_device = nullptr;
-	ComPtr<ID3D11DeviceContext>	_deviceContext = nullptr;
-	ComPtr<IDXGISwapChain>		_swapChain = nullptr;
+	ComPtr<ID3D11Device>			_device;
+	ComPtr<ID3D11DeviceContext>	_deviceContext;
+	ComPtr<IDXGISwapChain>		_swapChain;
 	//RTV
 	ComPtr<ID3D11RenderTargetView>	_renderTargetView;
 	//Misc
@@ -40,7 +41,6 @@ public:
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return _deviceContext; }
 public:
 	void SetHwnd(HWND hwnd);
-	void SetInstanceAddr(Graphics* adr) { _instance = adr; }
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
