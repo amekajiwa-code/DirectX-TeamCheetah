@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "Types.h"
 #include "Values.h"
@@ -56,6 +57,11 @@ extern HWND g_hWnd;
 #include "Pipeline.h"
 
 //Macro
-#define CHECK(p)		assert(SUCCEEDED(p))
+#define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
 
+#ifdef _DEBUG
+#define RESOURCES_ADDR L"../../Resources/"
+#else
+#define RESOURCES_ADDR L"Resources/"
+#endif

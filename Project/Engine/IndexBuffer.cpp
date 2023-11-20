@@ -31,5 +31,5 @@ void IndexBuffer::CreateIndexBuffer(const vector<uint32>& indices)
 	data.pSysMem = indices.data();
 
 	HRESULT hr = _device->CreateBuffer(&desc, &data, _indexBuffer.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }

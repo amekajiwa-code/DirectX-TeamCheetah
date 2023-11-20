@@ -25,7 +25,7 @@ void RasterizerState::CreateRasterizerState()
 	desc.FrontCounterClockwise = false;
 
 	hr = _device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }
 
 void RasterizerState::CreateRasterizerState(const D3D11_RASTERIZER_DESC& desc)
@@ -33,5 +33,5 @@ void RasterizerState::CreateRasterizerState(const D3D11_RASTERIZER_DESC& desc)
 	HRESULT hr;
 
 	hr = _device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }

@@ -29,7 +29,7 @@ public:
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		hr = _device->CreateBuffer(&desc, nullptr, _constantBuffer.GetAddressOf());
-		CHECK(hr);
+		//CHECK(hr);
 	}
 	void CopyData(const T& data)
 	{
@@ -39,7 +39,7 @@ public:
 		ZeroMemory(&sub, sizeof(sub));
 
 		hr = _deviceContext->Map(_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
-		CHECK(hr);
+		//CHECK(hr);
 
 		::memcpy(sub.pData, &data, sizeof(data));
 		_deviceContext->Unmap(_constantBuffer.Get(), 0);

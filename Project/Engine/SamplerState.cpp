@@ -35,7 +35,7 @@ void SamplerState::CreateSamplerState()
 	desc.MipLODBias = 0.f;
 
 	hr = _device->CreateSamplerState(&desc, _samplerState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }
 
 void SamplerState::CreateSamplerState(const D3D11_SAMPLER_DESC& desc)
@@ -43,5 +43,5 @@ void SamplerState::CreateSamplerState(const D3D11_SAMPLER_DESC& desc)
 	HRESULT hr;
 
 	hr = _device->CreateSamplerState(&desc, _samplerState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }

@@ -32,12 +32,16 @@ void Game::CreateInputLayout()
 
 void Game::CreateVertexShader()
 {
-	_vertexShader->CreateShader(L"Shader/Default.hlsl", "VS", "vs_5_0");
+	wstring path = RESOURCES_ADDR;
+	path += L"Shader/Default.hlsl";
+	_vertexShader->CreateShader(path, "VS", "vs_5_0");
 }
 
 void Game::CreatePixelShader()
 {
-	_pixelShader->CreateShader(L"Shader/Default.hlsl", "PS", "ps_5_0");
+	wstring path = RESOURCES_ADDR;
+	path += L"Shader/Default.hlsl";
+	_pixelShader->CreateShader(path, "PS", "ps_5_0");
 }
 
 void Game::CreateRasterizerState()
@@ -63,6 +67,7 @@ void Game::CreateTexture(const wstring& path)
 void Game::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
+	//_graphics = make_shared<Graphics>(_hwnd);
 	//IA
 	_geometry = make_shared<Geometry<VertexTextureData>>();
 	_vertexBuffer = make_shared<VertexBuffer>();
@@ -79,7 +84,6 @@ void Game::Init(HWND hwnd)
 	_samplerState = make_shared<SamplerState>();
 	//OM
 	_blendState = make_shared<BlendState>();
-
 	_pipeline = make_shared<Pipeline>();
 
 	CreateGeometry();
@@ -90,7 +94,9 @@ void Game::Init(HWND hwnd)
 	CreateRasterizerState();
 
 	CreatePixelShader();
-	CreateTexture(L"../Resources/night.png");
+	wstring path = RESOURCES_ADDR;
+	path += L"Texture/night.png";
+	CreateTexture(path);
 	CreateSamplerState();
 
 	CreateBlendState();

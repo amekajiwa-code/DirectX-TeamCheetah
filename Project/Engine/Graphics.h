@@ -19,7 +19,7 @@ public:
 	}
 public:
 	Graphics(HWND hwnd);
-private:
+public:
 	Graphics();
 	~Graphics();
 private:

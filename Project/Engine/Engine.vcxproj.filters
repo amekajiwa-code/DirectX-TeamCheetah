@@ -48,6 +48,9 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{e065dff8-bc27-41be-8e46-6e487e9df39e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\GameObject">
+      <UniqueIdentifier>{396f9b23-b05f-4b80-bd43-a99519bad5d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -180,26 +183,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WoW_Game.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="WoW_Game.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shader\Default.hlsl">
-      <Filter>소스 파일\Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>소스 파일\Utils</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

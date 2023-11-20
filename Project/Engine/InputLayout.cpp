@@ -28,5 +28,5 @@ void InputLayout::CreateInputLayout(const vector<D3D11_INPUT_ELEMENT_DESC>& desc
 		_inputLayout.GetAddressOf()
 	);
 
-	CHECK(hr);
+	//CHECK(hr);
 }

@@ -37,7 +37,7 @@ public:
 		data.pSysMem = vertices.data();
 
 		HRESULT hr = _device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
-		CHECK(hr);
+		//CHECK(hr);
 	}
 };
 

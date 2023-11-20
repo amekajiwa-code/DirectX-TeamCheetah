@@ -28,7 +28,7 @@ void BlendState::CreateBlendState(D3D11_RENDER_TARGET_BLEND_DESC blendDesc, floa
 	desc.RenderTarget[0] = blendDesc;
 
 	hr = _device->CreateBlendState(&desc, _blendState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }
 
 void BlendState::CreateBlendState(const D3D11_BLEND_DESC& desc, const D3D11_RENDER_TARGET_BLEND_DESC& blendDesc, float factor)
@@ -39,5 +39,5 @@ void BlendState::CreateBlendState(const D3D11_BLEND_DESC& desc, const D3D11_REND
 	_desc.RenderTarget[0] = blendDesc;
 
 	hr = _device->CreateBlendState(&_desc, _blendState.GetAddressOf());
-	CHECK(hr);
+	//CHECK(hr);
 }

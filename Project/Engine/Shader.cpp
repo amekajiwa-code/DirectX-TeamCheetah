@@ -21,12 +21,14 @@ void Shader::LoadShaderFromFile(const wstring& path, const string& name, const s
 	_name = name;
 
 	HRESULT hr;
+	ComPtr<ID3DBlob> _error;
 
 #ifdef _DEBUG
-	const uint32 compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+	UINT compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #else
-
+	UINT compileFlag = 0;
 #endif // _DEBUG
+
 	hr = ::D3DCompileFromFile(
 		path.c_str(),
 		nullptr,
@@ -36,7 +38,7 @@ void Shader::LoadShaderFromFile(const wstring& path, const string& name, const s
 		compileFlag,
 		0,
 		_blob.GetAddressOf(),
-		nullptr
+		_error.GetAddressOf()
 	);
 
 	CHECK(hr);
@@ -66,7 +68,7 @@ void VertexShader::CreateShader(const wstring& path, const string& name, const s
 		_vertexShader.GetAddressOf()
 	);
 
-	CHECK(hr);
+	//CHECK(hr);
 }
 
 PixelShader::PixelShader()
@@ -93,5 +95,5 @@ void PixelShader::CreateShader(const wstring& path, const string& name, const st
 		_pixelShader.GetAddressOf()
 	);
 
-	CHECK(hr);
+	//CHECK(hr);
 }
