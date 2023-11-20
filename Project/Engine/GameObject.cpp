@@ -113,18 +113,23 @@ void GameObject::CreateBlendState()
 	_blendState->CreateBlendState();
 }
 
-void GameObject::Update()
+void GameObject::UpdateMatrix()
 {
-	Matrix matScale = Matrix::CreateScale(_localScale);
-	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
+	matScale = Matrix::CreateScale(_localScale);
+	matRot = Matrix::CreateRotationX(_localRotation.x);
 	matRot *= Matrix::CreateRotationY(_localRotation.y);
 	matRot *= Matrix::CreateRotationZ(_localRotation.z);
-	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
+	matTranslation = Matrix::CreateTranslation(_localPosition);
 
-	Matrix matWorld = matScale * matRot * matTranslation;
+	matWorld = matScale * matRot * matTranslation;
 	_transformData.matWorld = matWorld;
 
 	_constantBuffer->CopyData(_transformData);
+}
+
+void GameObject::Update()
+{
+	UpdateMatrix();
 }
 
 void GameObject::Render(shared_ptr<Pipeline> pipeline)
