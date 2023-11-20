@@ -151,6 +151,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BlendState.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
@@ -170,6 +171,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Values.h" />
     <ClInclude Include="VertexBuffer.h" />
@@ -178,6 +180,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlendState.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -195,6 +198,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
     <ClCompile Include="GameWindow.cpp" />

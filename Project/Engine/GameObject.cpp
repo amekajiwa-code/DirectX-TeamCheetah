@@ -115,16 +115,7 @@ void GameObject::CreateBlendState()
 
 void GameObject::UpdateMatrix()
 {
-	matScale = Matrix::CreateScale(_localScale);
-	matRot = Matrix::CreateRotationX(_localRotation.x);
-	matRot *= Matrix::CreateRotationY(_localRotation.y);
-	matRot *= Matrix::CreateRotationZ(_localRotation.z);
-	matTranslation = Matrix::CreateTranslation(_localPosition);
 
-	matWorld = matScale * matRot * matTranslation;
-	_transformData.matWorld = matWorld;
-
-	_constantBuffer->CopyData(_transformData);
 }
 
 void GameObject::Update()
