@@ -125,6 +125,9 @@
     <ClInclude Include="Pipeline.h">
       <Filter>소스 파일\Engine\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\Engine\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="Pipeline.cpp">
       <Filter>소스 파일\Engine\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\Engine\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

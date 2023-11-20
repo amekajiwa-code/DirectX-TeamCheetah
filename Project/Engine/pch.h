@@ -55,6 +55,7 @@ extern HWND g_hWnd;
 #include "SamplerState.h"
 #include "BlendState.h"
 #include "Pipeline.h"
+#include "GameObject.h"
 
 //Macro
 #define CHECK(p)	assert(SUCCEEDED(p))

@@ -7,7 +7,7 @@ class ConstantBuffer
 {
 private:
 	ComPtr<ID3D11Device>			_device;
-	ComPtr<ID3D11DeviceContext>	_deviceContext;
+	ComPtr<ID3D11DeviceContext>		_deviceContext;
 private:
 	ComPtr<ID3D11Buffer>			_constantBuffer;
 public:
@@ -29,7 +29,7 @@ public:
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		hr = _device->CreateBuffer(&desc, nullptr, _constantBuffer.GetAddressOf());
-		//CHECK(hr);
+		CHECK(hr);
 	}
 	void CopyData(const T& data)
 	{
