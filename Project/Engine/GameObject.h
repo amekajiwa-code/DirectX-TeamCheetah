@@ -1,5 +1,9 @@
 #pragma once
-class GameObject
+
+class MonoBehaviour;
+class Camera;
+
+class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
 	GameObject();
@@ -17,8 +21,12 @@ private:
 private:
 	//VS
 	shared_ptr<VertexShader>					_vertexShader;
+private:
+	CameraData									_cameraData;
+	shared_ptr<ConstantBuffer<CameraData>>		_cameraBuffer;
+
 	TransformData								_transformData;
-	shared_ptr<ConstantBuffer<TransformData>>	_constantBuffer;
+	shared_ptr<ConstantBuffer<TransformData>>	_transformBuffer;
 private:
 	//RS
 	shared_ptr<RasterizerState>	_rasterizerState;
@@ -30,13 +38,19 @@ private:
 private:
 	//OM
 	shared_ptr<BlendState>		_blendState;
-private:
-	//Component
-	shared_ptr<Transform>		_transform;
+protected:
+	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;
+	vector<shared_ptr<MonoBehaviour>> _scripts;
+public:
+	shared_ptr<Component> GetFixedComponent(ComponentType type);
+	shared_ptr<Transform> GetTransform();
+	shared_ptr<Transform> GetOrAddTransform();
+	shared_ptr<Camera> GetCamera();
+public:
+	void AddComponent(shared_ptr<Component> component);
 private:
 	void DefaultInit();
 	void DefaultPipelineSet();
-	void DefaultComponentSet();
 private:
 	void CreateGeometry();
 	void CreateVertexShader();
@@ -48,8 +62,12 @@ private:
 	void CreateSamplerState();
 	void CreateBlendState();
 public:
-	virtual void Init();
+	virtual void Awake();
+	virtual void Start();
+	virtual void FixedUpdate();
 	virtual void Update();
+	virtual void LateUpdate();
+public:
 	virtual void Render(shared_ptr<Pipeline> pipeline);
 };
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Transform.h"
 
-Transform::Transform()
+Transform::Transform() : Super(ComponentType::Transform)
 {
 }
 
@@ -78,7 +78,7 @@ void Transform::SetPosition(const Vec3& pos)
 	}
 }
 
-void Transform::Init()
+void Transform::Awake()
 {
 }
 
@@ -108,10 +108,6 @@ void Transform::UpdateTransform()
 	Quaternion quat;
 	_matWorld.Decompose(_scale, quat, _position);
 	_rotation = QuatToEulerAngles(quat);
-
-	_up = Vec3::TransformNormal(Vec3::Up, _matWorld);
-	_right = Vec3::TransformNormal(Vec3::Right, _matWorld);
-	_look = Vec3::TransformNormal(Vec3::Backward, _matWorld);
 
 	for (const shared_ptr<Transform>& child : _children)
 	{

@@ -20,10 +20,6 @@ private:
 	Vec3 _rotation;
 	Vec3 _position;
 private:
-	Vec3 _up;
-	Vec3 _right;
-	Vec3 _look;
-private:
 	Matrix _matLocal = Matrix::Identity;
 	Matrix _matWorld = Matrix::Identity;
 private:
@@ -45,6 +41,10 @@ public:
 	Vec3 GetPosition() const { return _position; }
 	Matrix GetWorldMatrix() const { return _matWorld; }
 public:
+	Vec3 GetUpVector() const { return _matWorld.Up(); }
+	Vec3 GetRightVector() const { return _matWorld.Right(); }
+	Vec3 GetLookVector() const { return _matWorld.Backward(); }
+public:
 	//local
 	void SetLocalScale(const Vec3& scale) { _localScale = scale; UpdateTransform(); }
 	void SetLocalRotation(const Vec3& rot) { _localRotation = rot; UpdateTransform();}
@@ -54,7 +54,7 @@ public:
 	void SetRotation(const Vec3& rot);
 	void SetPosition(const Vec3& pos);
 public:
-	virtual void Init() override;
+	virtual void Awake() override;
 	virtual void Update() override;
 	virtual void UpdateTransform();
 };

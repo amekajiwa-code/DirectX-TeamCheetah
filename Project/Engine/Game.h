@@ -7,6 +7,7 @@ private:
 	HWND					_hwnd;
 	shared_ptr<Pipeline>	_pipeline;
 	shared_ptr<GameObject>	_object;
+	shared_ptr<GameObject>	_camera;
 public:
 	Game();
 	~Game();

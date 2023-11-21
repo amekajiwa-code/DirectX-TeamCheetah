@@ -54,6 +54,15 @@
     <Filter Include="소스 파일\Engine\Component">
       <UniqueIdentifier>{a81575d6-1ff9-4131-bbc7-5b8e2c9ec4a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Component\Animation">
+      <UniqueIdentifier>{5a329e96-6981-4a36-bea4-5f98a6ca8706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Camera">
+      <UniqueIdentifier>{050e4d13-9ef5-4e30-9ae8-83bbdbc06e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Rendering">
+      <UniqueIdentifier>{44662ec2-1500-47c0-b397-06d939ecafa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -137,6 +146,12 @@
     <ClInclude Include="Transform.h">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="MonoBehaviour.h">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -202,6 +217,12 @@
     <ClCompile Include="Transform.cpp">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClCompile>
+    <ClCompile Include="MonoBehaviour.cpp">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -209,7 +230,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Default.hlsl">
+    <FxCompile Include="..\..\Resources\Shader\Default.hlsl">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shader\Color.hlsl">
