@@ -31,17 +31,12 @@ private:
 	//OM
 	shared_ptr<BlendState>		_blendState;
 private:
-	//SRT
-	Vec3 _localPosition = { 0.f,0.f,0.f };
-	Vec3 _localRotation = { 0.f,0.f,0.f };
-	Vec3 _localScale = { 1.f,1.f,1.f };
-	Matrix matScale;
-	Matrix matRot;
-	Matrix matTranslation;
-	Matrix matWorld;
+	//Component
+	shared_ptr<Transform>		_transform;
 private:
 	void DefaultInit();
 	void DefaultPipelineSet();
+	void DefaultComponentSet();
 private:
 	void CreateGeometry();
 	void CreateVertexShader();
@@ -52,10 +47,9 @@ private:
 	void CreateTexture(const wstring& path);
 	void CreateSamplerState();
 	void CreateBlendState();
-private:
-	void UpdateMatrix();
 public:
-	void Update();
-	void Render(shared_ptr<Pipeline> pipeline);
+	virtual void Init();
+	virtual void Update();
+	virtual void Render(shared_ptr<Pipeline> pipeline);
 };
 

@@ -8,12 +8,14 @@ public:
 	Transform();
 	virtual ~Transform();
 private:
-	shared_ptr<Transform> _parent;
+	shared_ptr<Transform>		  _parent;
 	vector<shared_ptr<Transform>> _children;
 private:
+	//local
 	Vec3 _localScale = { 1.f,1.f,1.f };
 	Vec3 _localRotation = { 0.f,0.f,0.f };
 	Vec3 _localPosition = { 0.f,0.f,0.f };
+	//world
 	Vec3 _scale;
 	Vec3 _rotation;
 	Vec3 _position;
@@ -23,11 +25,17 @@ private:
 	Vec3 _look;
 private:
 	Matrix _matLocal = Matrix::Identity;
-	Matrix _matWorld;
+	Matrix _matWorld = Matrix::Identity;
+private:
+	Vec3 QuatToEulerAngles(Quaternion q);
 public:
 	bool HasParent() { return _parent != nullptr; }
 public:
 	shared_ptr<Transform> GetParent() const { return _parent; }
+	const vector<shared_ptr<Transform>>& GetChildren() { return _children; }
+public:
+	void SetParent(shared_ptr<Transform> parent) { _parent = parent; }
+	void AddChild(shared_ptr<Transform> child) { _children.push_back(child); }
 public:
 	Vec3 GetLocalScale() const { return _localScale; }
 	Vec3 GetLocalRotation() const { return _localRotation; }
@@ -37,12 +45,14 @@ public:
 	Vec3 GetPosition() const { return _position; }
 	Matrix GetWorldMatrix() const { return _matWorld; }
 public:
-	void SetLocalScale(const Vec3& scale) { _localScale = scale; }
-	void SetLocalRotation(const Vec3& rot) { _localRotation = rot; }
-	void SetLocalPosition(const Vec3& pos) { _localPosition = pos; }
-	void SetScale(const Vec3& scale) { _scale = scale; }
-	void SetRotation(const Vec3& rot) { _rotation = rot; }
-	void SetPosition(const Vec3& pos) { _position = pos; }
+	//local
+	void SetLocalScale(const Vec3& scale) { _localScale = scale; UpdateTransform(); }
+	void SetLocalRotation(const Vec3& rot) { _localRotation = rot; UpdateTransform();}
+	void SetLocalPosition(const Vec3& pos) { _localPosition = pos; UpdateTransform();}
+	//world
+	void SetScale(const Vec3& scale);
+	void SetRotation(const Vec3& rot);
+	void SetPosition(const Vec3& pos);
 public:
 	virtual void Init() override;
 	virtual void Update() override;

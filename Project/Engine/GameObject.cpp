@@ -41,6 +41,8 @@ void GameObject::DefaultInit()
 	_blendState = make_shared<BlendState>(_device);
 
 	DefaultPipelineSet();
+
+	DefaultComponentSet();
 }
 
 void GameObject::DefaultPipelineSet()
@@ -57,6 +59,11 @@ void GameObject::DefaultPipelineSet()
 	CreateTexture(texPath);
 	CreateSamplerState();
 	CreateBlendState();
+}
+
+void GameObject::DefaultComponentSet()
+{
+	_transform = make_shared<Transform>();
 }
 
 void GameObject::CreateGeometry()
@@ -113,14 +120,18 @@ void GameObject::CreateBlendState()
 	_blendState->CreateBlendState();
 }
 
-void GameObject::UpdateMatrix()
+void GameObject::Init()
 {
-
 }
 
 void GameObject::Update()
 {
-	UpdateMatrix();
+	Vec3 uPos = _transform->GetPosition();
+	uPos.x += 0.001f;
+	_transform->SetPosition(uPos);
+	_transformData.matWorld = _transform->GetWorldMatrix();
+
+	_constantBuffer->CopyData(_transformData);
 }
 
 void GameObject::Render(shared_ptr<Pipeline> pipeline)

@@ -20,3 +20,4 @@ using Vec4 = DirectX::SimpleMath::Vector4;
 using Color = DirectX::SimpleMath::Vector4;
 
 using Matrix = DirectX::SimpleMath::Matrix;
+using Quaternion = DirectX::SimpleMath::Quaternion;

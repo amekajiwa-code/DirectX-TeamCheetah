@@ -55,9 +55,10 @@ extern HWND g_hWnd;
 #include "SamplerState.h"
 #include "BlendState.h"
 #include "Pipeline.h"
-
+#include "Transform.h"
 
 //Macro
+#define PI			3.14159f /2
 #define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
 

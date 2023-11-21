@@ -5,8 +5,8 @@ class GameObject;
 class Component
 {
 public:
-	Component();
-	virtual ~Component();
+	Component(){}
+	virtual ~Component(){}
 protected:
 	shared_ptr<GameObject> _owner;
 public:
@@ -14,6 +14,5 @@ public:
 public:
 	virtual void Init() = 0;
 	virtual void Update() = 0;
-
 };
 
