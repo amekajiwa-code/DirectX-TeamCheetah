@@ -5,7 +5,6 @@ class Game
 {
 private:
 	HWND					_hwnd;
-	shared_ptr<Pipeline>	_pipeline;
 public:
 	Game();
 	~Game();

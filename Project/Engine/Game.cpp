@@ -12,7 +12,6 @@ Game::~Game()
 void Game::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
-	_pipeline = make_shared<Pipeline>();
 
 	MANAGER_SCENE()->LoadScene(L"Test");
 }
