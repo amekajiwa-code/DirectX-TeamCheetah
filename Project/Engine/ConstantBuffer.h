@@ -6,7 +6,7 @@ template<typename T>
 class ConstantBuffer
 {
 private:
-	ComPtr<ID3D11Device>			_device;
+	ComPtr<ID3D11Device>				_device;
 	ComPtr<ID3D11DeviceContext>		_deviceContext;
 private:
 	ComPtr<ID3D11Buffer>			_constantBuffer;

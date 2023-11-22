@@ -27,8 +27,8 @@ public:
 	Component(ComponentType type);
 	virtual ~Component();
 protected:
-	ComponentType _type;
-	weak_ptr<GameObject> _gameObject;
+	ComponentType			_type;
+	weak_ptr<GameObject>	_gameObject;
 private:
 	void SetGameObject(shared_ptr<GameObject> obj) { _gameObject = obj; }
 public:

@@ -63,6 +63,21 @@
     <Filter Include="소스 파일\Engine\Component\Rendering">
       <UniqueIdentifier>{44662ec2-1500-47c0-b397-06d939ecafa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Component\Transform">
+      <UniqueIdentifier>{f160ab7d-9d49-42fb-a77b-92c832b0c71b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager">
+      <UniqueIdentifier>{99183460-64f5-409c-a0ae-c3580713132e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Input">
+      <UniqueIdentifier>{27c15611-ba47-47c0-974d-5079fb5a54f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Time">
+      <UniqueIdentifier>{41a9cbc6-7119-4f4d-92b8-cb4e4f0e01fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Scene">
+      <UniqueIdentifier>{b15a7f24-9f01-4800-81ac-33e2de4757eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -143,14 +158,23 @@
     <ClInclude Include="Component.h">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>소스 파일\Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="MonoBehaviour.h">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>소스 파일\Engine\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>소스 파일\Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,14 +238,23 @@
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>소스 파일\Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="MonoBehaviour.cpp">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>소스 파일\Engine\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>소스 파일\Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
