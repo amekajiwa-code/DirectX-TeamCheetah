@@ -1,6 +1,7 @@
 #include "pch.h"
-#include "SceneManager.h"
 #include "Scene.h"
+#include "SceneManager.h"
+
 #include "GameObject.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
