@@ -86,7 +86,7 @@ extern HWND g_hWnd;
 
 //Macro
 #define PI			3.14159f /2
-#define CHECK(p)		assert(SUCCEEDED(p))
+#define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
 //Manger
 #define MANAGER_SCENE() SceneManager::GetInstance()
