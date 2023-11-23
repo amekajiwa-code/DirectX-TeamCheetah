@@ -74,7 +74,7 @@ extern HWND g_hWnd;
 #include "Geometry.h"
 #include "GeometryHelper.h"
 #include "VertexData.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "ConstantBuffer.h"
 #include "RasterizerState.h"
 #include "Texture.h"
@@ -83,6 +83,9 @@ extern HWND g_hWnd;
 #include "Pipeline.h"
 #include "Transform.h"
 #include "SceneManager.h"
+#include "InputManager.h"
+#include "TimeManager.h"
+#include "ResourceManager.h"
 
 //Macro
 #define PI			3.14159f /2
@@ -90,6 +93,9 @@ extern HWND g_hWnd;
 #define GRAPHICS()	Graphics::GetInstance()
 //Manger
 #define MANAGER_SCENE() SceneManager::GetInstance()
+#define MANAGER_INPUT() InputManager::GetInstance()
+#define MANAGER_TIME() TimeManager::GetInstance()
+#define MANAGER_RESOURCES ResourceManager::GetInstance()
 
 #ifdef _DEBUG
 #define RESOURCES_ADDR_TOP L"../../Resources/"

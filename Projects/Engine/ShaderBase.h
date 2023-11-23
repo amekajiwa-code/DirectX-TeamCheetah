@@ -8,7 +8,7 @@ enum ShaderScope
 	SS_Both = SS_VertexShader | SS_PixelShader
 };
 
-class Shader
+class ShaderBase
 {
 protected:
 	ComPtr<ID3D11Device>	_device;
@@ -16,9 +16,9 @@ protected:
 	wstring				_path;
 	string				_name;
 public:
-	Shader();
-	Shader(ComPtr<ID3D11Device> device);
-	virtual ~Shader();
+	ShaderBase();
+	ShaderBase(ComPtr<ID3D11Device> device);
+	virtual ~ShaderBase();
 public:
 	ComPtr<ID3DBlob> GetBlob() const { return _blob; }
 public:
@@ -27,9 +27,9 @@ protected:
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version);
 };
 
-class VertexShader : public Shader
+class VertexShader : public ShaderBase
 {
-	using Super = Shader;
+	using Super = ShaderBase;
 protected:
 	ComPtr<ID3D11VertexShader>		_vertexShader;
 public:
@@ -42,9 +42,9 @@ public:
 	virtual void CreateShader(const wstring& path, const string& name, const string& version) override;
 };
 
-class PixelShader : public Shader
+class PixelShader : public ShaderBase
 {
-	using Super = Shader;
+	using Super = ShaderBase;
 protected:
 	ComPtr<ID3D11PixelShader>		_pixelShader;
 public:

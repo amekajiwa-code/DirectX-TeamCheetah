@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "Texture.h"
 
-Texture::Texture()
+Texture::Texture() : Super(ResourceBase(ResourceType::Texture))
 {
 	_device = GRAPHICS()->GetDevice();
 }
 
-Texture::Texture(ComPtr<ID3D11Device> device)
+Texture::Texture(ComPtr<ID3D11Device> device) : Super(ResourceBase(ResourceType::Texture))
 {
 	_device = device;
 }
