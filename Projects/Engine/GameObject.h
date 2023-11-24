@@ -11,7 +11,7 @@ public:
 	GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
 	virtual ~GameObject();
 private:
-	ComPtr<ID3D11Device>			_device;
+	ComPtr<ID3D11Device>		_device;
 	ComPtr<ID3D11DeviceContext>	_deviceContext;
 protected:
 	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;
@@ -23,10 +23,10 @@ public:
 public:
 	shared_ptr<Transform>		GetTransform();
 	shared_ptr<Transform>		GetOrAddTransform();
-	shared_ptr<Camera>		GetCamera();
+	shared_ptr<Camera>			GetCamera();
 	shared_ptr<MeshRenderer>	GetMeshRenderer();
 public:
-	void			AddComponent(shared_ptr<Component> component);
+	void AddComponent(shared_ptr<Component> component);
 public:
 	virtual void Awake();
 	virtual void Start();
