@@ -1,147 +1,121 @@
 #include "pch.h"
 #include "TimeManager.h"
-#include <algorithm>
 
 TimeManager* TimeManager::_instance = nullptr;
 
-Timer::Timer()
+GameTimer::GameTimer()
 {
-	_isRunning = false;
-	_isActive = false;
-	_type = TimerType::None;
-
-	_elapsedTime = chrono::duration<double>::zero();
-	_end = chrono::steady_clock::now();
-	_start = chrono::steady_clock::now();
+	_type = TimerType::Nomal;
+	_isActive = true;
+	Init();
 }
 
-FrameTimer::FrameTimer()
+GameTimer::~GameTimer()
 {
-	_type = TimerType::Frame;
-	_isActive = true;
+}
+
+void GameTimer::Init()
+{
+	_deltaTime = 0.0;
+	_gameTime = 0.0;
+	_frameTime = 0.0;
 
 	_fps = 0;
 	_fpsCountig = 0;
-	_framePerSec = 0.0;
+
+	_timeInfo = { 0, };
+
+	_start = chrono::steady_clock::now();
+	_elapsedTime = chrono::duration<double, std::milli>::zero();
 }
 
-FrameTimer::~FrameTimer()
-{
-}
-
-bool FrameTimer::Update()
+bool GameTimer::Update()
 {
 	if (_isActive)
 	{
-		if (_isRunning)
+		_end = chrono::steady_clock::now();
+		_elapsedTime = chrono::duration<double, std::milli>(_end - _start);
+		_deltaTime = _elapsedTime.count() * 0.001;
+
+		_gameTime += _deltaTime;
+		_frameTime += _deltaTime;
+		_fpsCountig++;
+
+		if (_frameTime > 1.0)
 		{
-			_end = chrono::steady_clock::now();
-			_elapsedTime = chrono::duration_cast<chrono::milliseconds>(_end - _start);
+			_fps = _fpsCountig / (uint32)_frameTime;
 
-			_framePerSec += _elapsedTime.count();
-
-			_start = _end;
-
-			return true;
+			_frameTime = 0.0;
+			_fpsCountig = 0;
 		}
+
+		_start = _end;
+
+		return true;
 	}
 
 	return false;
 }
 
-bool FrameTimer::Start()
+const double& GameTimer::GetDeltaTime() const
 {
-	if (_isRunning)
-	{
-		return false;
-	}
-	else
-	{
-		_start = chrono::steady_clock::now();
-		_isRunning = true;
-
-		return true;
-	}
+	return _deltaTime;
 }
 
-bool FrameTimer::Stop()
+const double& GameTimer::GetGameTime() const
 {
-	if (_isRunning == false)
-	{
-		return false;
-	}
-	else
-	{
-		_isRunning = false;
-
-		return true;
-	}
+	return _gameTime;
 }
 
-void FrameTimer::Reset()
+const uint32& GameTimer::GetFPS() const
 {
-	_fps = 0;
-	_fpsCountig = 0;
-	_framePerSec = 0.0;
-	_isRunning = false;
-	_elapsedTime = chrono::duration<double>::zero();
-
-	_end = chrono::steady_clock::now();
-	_start = chrono::steady_clock::now();
+	return _fps;
 }
 
-double FrameTimer::GetElapsedTime()
+const LocalTimeInfo& GameTimer::GetLocalTimeInfo()
 {
-	return _elapsedTime.count();
+	_timeInfo = { 0, };
+
+	_localTime = chrono::system_clock::now();
+	_timeInfo.epoch = _localTime.time_since_epoch() % 1000;
+	time_t tt = chrono::system_clock::to_time_t(_localTime);
+
+	localtime_s(&_timeInfo._tm, &tt);
+	_timeInfo._tm.tm_year += 1900;
+	_timeInfo._tm.tm_mon += 1;
+
+	return _timeInfo;
 }
 
-uint16& FrameTimer::GetFPS()
+void GameTimer::SetActivity(const bool& active)
 {
-	if (_isActive)
+	if (_isActive == false && active == true)
 	{
-		if (_isRunning)
-		{
-			if (_framePerSec >= 1.0)
-			{
-				_fps = _fpsCountig;
-				_fpsCountig = 0;
-				_framePerSec -= 1.0;
-			}
-			_fpsCountig++;
+		Init();
+		_isActive = active;
+	}
 
-			return _fps;
-		}
-	}
-	else
-	{
-		uint16 fail = 0;
-		return fail;
-	}
+	_isActive = active;
 }
+
 
 EventTimer::EventTimer()
 {
 	_type = TimerType::Event;
-	_isActive = true;
+	Init();
 }
 
 EventTimer::~EventTimer()
 {
 }
 
-bool EventTimer::Update()
+void EventTimer::Init()
 {
-	if (_isActive)
-	{
-		if (_isRunning)
-		{
-			_elapsedTime += chrono::duration<double, std::milli>(_end - _start);
+	_isRunning = false;
+	_isActive = true;
 
-			return true;
-		}
-	}
-
-	return false;
+	_eventTime = 0.0;
+	_elapsedTime = chrono::duration<double, std::milli>::zero();
 }
 
 bool EventTimer::Start()
@@ -176,145 +150,63 @@ bool EventTimer::Stop()
 
 void EventTimer::Reset()
 {
-	_isRunning = false;
+	_isRunning = true;
 
-	_elapsedTime = chrono::duration<double>::zero();
-	_end = chrono::steady_clock::now();
 	_start = chrono::steady_clock::now();
 }
 
-double EventTimer::GetElapsedTime()
-{
-	return _elapsedTime.count();
-}
-
-GlobalTimer::GlobalTimer()
-{
-	_type = TimerType::Global;
-	_isActive = true;
-	_gameTime = 0.0;
-	_timeInfo = { 0, };
-}
-
-GlobalTimer::~GlobalTimer()
-{
-}
-
-bool GlobalTimer::Update()
+const double& EventTimer::GetElapsedTime()
 {
 	if (_isActive)
 	{
 		if (_isRunning)
 		{
-			_end = chrono::steady_clock::now();
+			_elapsedTime = chrono::duration<double, std::milli>(chrono::steady_clock::now() - _start);
+			_eventTime = _elapsedTime.count() * 0.001;
+
+			return _eventTime;
+		}
+		else
+		{
 			_elapsedTime = chrono::duration<double, std::milli>(_end - _start);
+			_eventTime = _elapsedTime.count() * 0.001;
 
-			_gameTime += _elapsedTime.count();
-
-			_start = _end;
-
-
-			return true;
+			return _eventTime;
 		}
 	}
 
-	return false;
+	return NULL;
 }
 
-bool GlobalTimer::Start()
-{
-	if (_isRunning)
-	{
-		return false;
-	}
-	else
-	{
-		_start = chrono::steady_clock::now();
-		_isRunning = true;
-
-		return true;
-	}
-}
-
-bool GlobalTimer::Stop()
-{
-	if (_isRunning == false)
-	{
-		return false;
-	}
-	else
-	{
-		_isRunning = false;
-
-		return true;
-	}
-}
-
-void GlobalTimer::Reset()
-{
-	_timeInfo = { 0, };
-	_isRunning = false;
-	_gameTime = 0.0;
-
-	_elapsedTime = chrono::duration<double>::zero();
-	_end = chrono::steady_clock::now();
-	_start = chrono::steady_clock::now();
-	_localTime = chrono::system_clock::now();
-}
-
-double GlobalTimer::GetElapsedTime()
-{
-	return _gameTime;
-}
-
-const LocalTimeInfo& GlobalTimer::GetLocalTimeInfo()
-{
-	_timeInfo = { 0, };
-
-	_localTime = chrono::system_clock::now();
-	_timeInfo.epoch = _localTime.time_since_epoch() % 1000;
-
-	time_t tt = chrono::system_clock::to_time_t(_localTime);
-
-	localtime_s(&_timeInfo._tm, &tt);
-	_timeInfo._tm.tm_year += 1900;
-	_timeInfo._tm.tm_mon += 1;
-
-	return _timeInfo;
-}
 
 TimeManager::TimeManager()
 {
-	_activeTimer = 0;
-	for (int i = 0; i < _eventTimerArray.size(); ++i)
-	{
-		_eventTimerArray[i] = make_shared<EventTimer>();
-	}
-	_fTimer = make_shared<FrameTimer>();
-	_gTimer = make_shared<GlobalTimer>();
-}
-
-void TimeManager::Init()
-{
-	_fTimer->Start();
-	_gTimer->Start();
+	_gTimer = make_shared<GameTimer>();
 }
 
 void TimeManager::Update()
 {
-	_fTimer->Update();
 	_gTimer->Update();
 }
 
-shared_ptr<EventTimer> TimeManager::GetEventTimer()
+void TimeManager::SetActivity(const bool& active)
 {
-	for (auto& timer : _eventTimerArray)
-	{
-		if (timer->GetActivity() == false)
-		{
-			timer->SetActivity(true);
-			_activeTimer++;
-			return timer;
-		}
-	}
+	_gTimer->SetActivity(active);
+}
+
+const double& TimeManager::GetDeltaTime()
+{
+	return _gTimer->GetDeltaTime();
+}
+const double& TimeManager::GetGameTime()
+{
+	return _gTimer->GetGameTime();
+}
+const uint32& TimeManager::GetFPS()
+{
+	return _gTimer->GetFPS();
+}
+const LocalTimeInfo& TimeManager::GetLocalTimeInfo()
+{
+	return _gTimer->GetLocalTimeInfo();
 }

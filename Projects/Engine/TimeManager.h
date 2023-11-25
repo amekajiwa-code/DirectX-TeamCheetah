@@ -2,19 +2,19 @@
 #include <chrono>
 #include <ctime>
 
+constexpr size_t MAX_EVENT_TIMER_COUNT = 100;
+
 enum class TimerType : uint8
 {
 	None,
-	Frame,
+	Nomal,
 	Event,
-	Global,
 	End
 };
 
 enum
 {
-	TIMER_TYPE_COUNT = static_cast<uint8>(TimerType::End ) - 1,
-	MAX_EVENT_TIMER_COUNT = (size_t)100
+	TIMER_TYPE_COUNT = static_cast<uint8>(TimerType::End) - 1,
 };
 
 struct LocalTimeInfo
@@ -23,90 +23,68 @@ struct LocalTimeInfo
 	chrono::system_clock::duration epoch;
 };
 
-class Timer
+class GameTimer
 {
+	using SystemTime_point = chrono::system_clock::time_point;
+	using SteadyTime_point = chrono::steady_clock::time_point;
 public:
-	Timer();
-	virtual ~Timer(){}
-protected:
-	TimerType	_type;
-	bool		_isActive;
-	bool		_isRunning;
-protected:
-	std::chrono::steady_clock::time_point	_start;
-	std::chrono::steady_clock::time_point	_end;
-	std::chrono::duration<double>			_elapsedTime;
-public:
-	virtual bool Update(){}
-public:
-	virtual bool Start() = 0;
-	virtual bool Stop() = 0;
-	virtual void Reset() = 0;
-public:
-	virtual double GetElapsedTime() { return 0.0; }
-	bool GetActivity() const { return _isActive; }
-public:
-	void SetActivity(const bool& act) { if (_isActive  == false && act == true) Reset(); _isActive = act; }
-};
-
-class FrameTimer : public Timer
-{
-public:
-	FrameTimer();
-	virtual ~FrameTimer();
+	GameTimer();
+	virtual ~GameTimer();
 private:
-	double _framePerSec;
-	uint16 _fps;
-	uint16 _fpsCountig;
+	double _deltaTime;
+	double _gameTime;
+	double _frameTime;
+	SystemTime_point _localTime;
+	uint32 _fps;
+	uint32 _fpsCountig;
+	LocalTimeInfo _timeInfo;
+protected:
+	TimerType _type;
+	bool _isActive;
+protected:
+	SteadyTime_point _start;
+	SteadyTime_point _end;
+	chrono::duration<double, std::milli> _elapsedTime;
 public:
-	virtual bool Update() override;
+	virtual void Init();
+	virtual bool Update();
 public:
-	virtual bool Start() override;
-	virtual bool Stop() override;
-	virtual void Reset() override;
+	const double& GetDeltaTime() const;
+	const double& GetGameTime() const;
+	const uint32& GetFPS() const;
+	const LocalTimeInfo& GetLocalTimeInfo();
 public:
-	virtual double GetElapsedTime() override;
-	uint16& GetFPS();
+	bool GetActivity() const { return _isActive; }
+	void SetActivity(const bool& active);
 };
 
-class EventTimer : public Timer
+class EventTimer : public GameTimer
 {
 public:
 	EventTimer();
 	virtual ~EventTimer();
-public:
-	virtual bool Update() override;
-public:
-	virtual bool Start() override;
-	virtual bool Stop() override;
-	virtual void Reset() override;
-public:
-	virtual double GetElapsedTime() override;
-};
-
-class GlobalTimer : public Timer
-{
-public:
-	GlobalTimer();
-	virtual ~GlobalTimer();
 private:
-	chrono::system_clock::time_point _localTime;
-	double			_gameTime;
-	LocalTimeInfo	_timeInfo;
+	bool _isRunning;
+	double _eventTime;
 public:
-	virtual bool Update() override;
+	virtual void Init() override;
+	virtual bool Update() { return false; }
 public:
-	virtual bool Start() override;
-	virtual bool Stop() override;
-	virtual void Reset() override;
+	bool Start();
+	bool Stop();
+	void Reset();
 public:
-	virtual double GetElapsedTime() override;
-	const LocalTimeInfo& GetLocalTimeInfo();
+	const double& GetElapsedTime();
+public:
+	const double& GetDeltaTime() = delete;
+	const double& GetGameTime() = delete;
+	const uint32& GetFPS() = delete;
+	const LocalTimeInfo& GetLocalTimeInfo() = delete;
 };
 
 class TimeManager
 {
-private:
+public:
 	TimeManager();
 	~TimeManager() {}
 private:
@@ -120,17 +98,15 @@ public:
 		return _instance;
 	}
 private:
-	shared_ptr<FrameTimer>	_fTimer;
-	std::array<shared_ptr<EventTimer>, MAX_EVENT_TIMER_COUNT> _eventTimerArray;
-	shared_ptr<GlobalTimer>	_gTimer;
-private:
-	int _activeTimer;
+	shared_ptr<GameTimer>	_gTimer;
 public:
-	void Init();
 	void Update();
 public:
-	shared_ptr<FrameTimer> GetFrameTimer() { return _fTimer; }
-	shared_ptr<EventTimer> GetEventTimer();
-	shared_ptr<GlobalTimer> GetGlobalTimer() { return _gTimer; }
+	void SetActivity(const bool& active);
+public:
+	const double& GetDeltaTime();
+	const double& GetGameTime();
+	const uint32& GetFPS();
+	const LocalTimeInfo& GetLocalTimeInfo();
 };
 

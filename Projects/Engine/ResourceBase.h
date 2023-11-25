@@ -3,7 +3,7 @@
 enum class ResourceType : uint8
 {
 	None = -1,
-	Mesh,
+	Mesh = 0,
 	Shader,
 	Texture,
 	Matertial,

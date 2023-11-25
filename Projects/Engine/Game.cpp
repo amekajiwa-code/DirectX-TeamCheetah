@@ -16,7 +16,6 @@ void Game::Init(HWND hwnd)
 	MANAGER_SCENE()->LoadScene(L"Test");
 
 	MANAGER_INPUT()->Init(_hwnd);
-	MANAGER_TIME()->Init();
 }
 
 void Game::Update()
