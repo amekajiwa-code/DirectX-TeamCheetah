@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MeshRenderer.h"
+#include "Texture.h"
 #include "Camera.h"
 
 MeshRenderer::MeshRenderer() : Super(Component(ComponentType::MeshRenderer))

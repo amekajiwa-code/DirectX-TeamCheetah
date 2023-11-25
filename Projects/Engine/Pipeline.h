@@ -1,5 +1,7 @@
 #pragma once
 
+class Texture;
+
 struct Pipelineinfo
 {
 	shared_ptr<InputLayout>		inputLayout;

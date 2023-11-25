@@ -191,8 +191,20 @@
     <ClInclude Include="Texture.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
     <ClInclude Include="ResourceBase.h">
-      <Filter>소스 파일\Engine\Manager\Resource</Filter>
+      <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,8 +295,20 @@
     <ClCompile Include="Texture.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
     <ClCompile Include="ResourceBase.cpp">
-      <Filter>소스 파일\Engine\Manager\Resource</Filter>
+      <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

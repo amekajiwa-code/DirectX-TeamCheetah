@@ -77,7 +77,6 @@ extern HWND g_hWnd;
 #include "ShaderBase.h"
 #include "ConstantBuffer.h"
 #include "RasterizerState.h"
-#include "Texture.h"
 #include "SamplerState.h"
 #include "BlendState.h"
 #include "Pipeline.h"

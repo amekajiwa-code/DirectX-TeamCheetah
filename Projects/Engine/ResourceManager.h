@@ -1,6 +1,12 @@
 #pragma once
 #include "ResourceBase.h"
 
+class Mesh;
+class Shader;
+class Texture;
+class Material;
+class Animation;
+
 class ResourceManager
 {
 	using KeyObjmap = map<wstring, shared_ptr<ResourceBase>>;
@@ -95,8 +101,20 @@ inline shared_ptr<T> ResourceManager::GetResource(const wstring& key)
 template<typename T>
 inline ResourceType ResourceManager::GetResourceType()
 {
+	if (std::is_same_v<T, Mesh>)
+		return ResourceType::Mesh;
+
+	if (std::is_same_v<T, Shader>)
+		return ResourceType::Shader;
+
 	if (std::is_same_v<T, Texture>)
 		return ResourceType::Texture;
+
+	if (std::is_same_v<T, Material>)
+		return ResourceType::Matertial;
+
+	if (std::is_same_v<T, Animation>)
+		return ResourceType::Animation;
 		
 	assert(false);
 	return ResourceType::None;

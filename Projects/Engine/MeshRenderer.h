@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+class Texture;
+
 class MeshRenderer : public Component
 {
 	using Super = Component;

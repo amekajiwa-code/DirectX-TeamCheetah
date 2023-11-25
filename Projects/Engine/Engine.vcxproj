@@ -121,7 +121,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../Libraries/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Libraries/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>md "..\\..\\Output\\Debug\\Engine\\Resources"
@@ -152,6 +152,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
@@ -165,6 +166,8 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="MonoBehaviour.h" />
     <ClInclude Include="pch.h" />
@@ -176,6 +179,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Struct.h" />
@@ -190,6 +194,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClInclude Include="GameWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BlendState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -202,6 +207,8 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MonoBehaviour.cpp" />
     <ClCompile Include="pch.cpp">
@@ -215,6 +222,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClCompile Include="SamplerState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Texture.cpp" />
