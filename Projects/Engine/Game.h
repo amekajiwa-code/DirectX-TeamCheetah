@@ -3,13 +3,11 @@
 
 class Game
 {
-private:
-	HWND					_hwnd;
 public:
 	Game();
 	~Game();
 public:
-	void Init(HWND hwnd);
+	void Init();
 	void Update();
 	void Render();
 };

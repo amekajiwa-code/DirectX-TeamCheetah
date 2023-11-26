@@ -30,7 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     Game _game;
-    _game.Init(g_hWnd);
+    _game.Init();
 
     MSG msg = {};
 

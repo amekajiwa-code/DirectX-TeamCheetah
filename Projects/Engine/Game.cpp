@@ -9,9 +9,8 @@ Game::~Game()
 {
 }
 
-void Game::Init(HWND hwnd)
+void Game::Init()
 {
-	_hwnd = hwnd;
 	MANAGER_SCENE()->Init();
 	MANAGER_SCENE()->LoadScene(L"Test");
 
