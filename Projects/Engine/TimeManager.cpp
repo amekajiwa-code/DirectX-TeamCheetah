@@ -181,37 +181,37 @@ const double& EventTimer::GetElapsedTime()
 
 TimeManager::TimeManager()
 {
-	_gTimer = make_shared<GameTimer>();
+	_timer = make_shared<GameTimer>();
 }
 
 void TimeManager::Init()
 {
-	_gTimer->Init();
+	_timer->Init();
 }
 
 void TimeManager::Update()
 {
-	_gTimer->Update();
+	_timer->Update();
 }
 
 void TimeManager::SetActivity(const bool& active)
 {
-	_gTimer->SetActivity(active);
+	_timer->SetActivity(active);
 }
 
 const double& TimeManager::GetDeltaTime()
 {
-	return _gTimer->GetDeltaTime();
+	return _timer->GetDeltaTime();
 }
 const double& TimeManager::GetGameTime()
 {
-	return _gTimer->GetGameTime();
+	return _timer->GetGameTime();
 }
 const uint32& TimeManager::GetFPS()
 {
-	return _gTimer->GetFPS();
+	return _timer->GetFPS();
 }
 const LocalTimeInfo& TimeManager::GetLocalTimeInfo()
 {
-	return _gTimer->GetLocalTimeInfo();
+	return _timer->GetLocalTimeInfo();
 }

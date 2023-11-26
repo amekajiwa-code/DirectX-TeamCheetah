@@ -2,8 +2,6 @@
 #include <chrono>
 #include <ctime>
 
-constexpr size_t MAX_EVENT_TIMER_COUNT = 100;
-
 enum class TimerType : uint8
 {
 	None,
@@ -98,7 +96,7 @@ public:
 		return _instance;
 	}
 private:
-	shared_ptr<GameTimer>	_gTimer;
+	shared_ptr<GameTimer>	_timer;
 public:
 	void Init();
 	void Update();
