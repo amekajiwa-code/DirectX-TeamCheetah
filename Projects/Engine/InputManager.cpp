@@ -9,9 +9,9 @@ InputManager::InputManager()
 	_states.resize(KEY_TYPE_COUNT, KEY_STATE::NONE);
 }
 
-void InputManager::Init(HWND hwnd)
+void InputManager::Init()
 {
-	_hwnd = hwnd;
+	_hwnd = g_hWnd;
 	_states.resize(KEY_TYPE_COUNT, KEY_STATE::NONE);
 }
 

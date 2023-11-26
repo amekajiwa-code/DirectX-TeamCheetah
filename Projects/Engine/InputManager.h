@@ -57,7 +57,7 @@ public:
 		return _instance;
 	}
 public:
-	void Init(HWND hwnd);
+	void Init();
 	void Update();
 
 	// 누르고 있을 때
