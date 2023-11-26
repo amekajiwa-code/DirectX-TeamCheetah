@@ -14,9 +14,8 @@ void Game::Init(HWND hwnd)
 	_hwnd = hwnd;
 	MANAGER_SCENE()->Init();
 	MANAGER_SCENE()->LoadScene(L"Test");
-
-	MANAGER_INPUT()->Init(_hwnd);
 	MANAGER_TIME()->Init();
+	MANAGER_INPUT()->Init(_hwnd);
 	MANAGER_RENDERER()->Init();
 }
 
