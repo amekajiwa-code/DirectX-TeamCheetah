@@ -84,6 +84,9 @@
     <Filter Include="소스 파일\Engine\Manager\Resource">
       <UniqueIdentifier>{c5a5b164-1750-4aee-a1a6-2bfa0e53e2fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Render">
+      <UniqueIdentifier>{6741760e-3e78-428d-8845-9550c0a84df9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -206,6 +209,12 @@
     <ClInclude Include="ResourceBase.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\Engine\Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderHelper.h">
+      <Filter>소스 파일\Engine\Manager\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -309,6 +318,12 @@
     </ClCompile>
     <ClCompile Include="ResourceBase.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\Engine\Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderHelper.cpp">
+      <Filter>소스 파일\Engine\Manager\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -100,6 +100,7 @@ public:
 private:
 	shared_ptr<GameTimer>	_gTimer;
 public:
+	void Init();
 	void Update();
 public:
 	void SetActivity(const bool& active);

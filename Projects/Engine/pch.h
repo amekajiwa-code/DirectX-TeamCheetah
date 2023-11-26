@@ -85,6 +85,7 @@ extern HWND g_hWnd;
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
+#include "RenderManager.h"
 
 //Macro
 #define PI			3.14159f /2
@@ -94,7 +95,8 @@ extern HWND g_hWnd;
 #define MANAGER_SCENE() SceneManager::GetInstance()
 #define MANAGER_INPUT() InputManager::GetInstance()
 #define MANAGER_TIME() TimeManager::GetInstance()
-#define MANAGER_RESOURCES ResourceManager::GetInstance()
+#define MANAGER_RESOURCES() ResourceManager::GetInstance()
+#define MANAGER_RENDERER() RenderManager::GetInstance()
 
 #ifdef _DEBUG
 #define RESOURCES_ADDR_TOP L"../../Resources/"

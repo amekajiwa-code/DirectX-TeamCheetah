@@ -16,21 +16,18 @@ void Game::Init(HWND hwnd)
 	MANAGER_SCENE()->LoadScene(L"Test");
 
 	MANAGER_INPUT()->Init(_hwnd);
+	MANAGER_TIME()->Init();
+	MANAGER_RENDERER()->Init();
 }
 
 void Game::Update()
 {
 	MANAGER_TIME()->Update();
 	MANAGER_INPUT()->Update();
-
-	GRAPHICS()->RenderBegin();
-	{
-		MANAGER_SCENE()->Update();
-	}
-	GRAPHICS()->RenderEnd();
+	MANAGER_SCENE()->Update();
 }
 
 void Game::Render()
 {
-
+	MANAGER_RENDERER()->Update();
 }

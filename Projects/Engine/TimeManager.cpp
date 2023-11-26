@@ -184,6 +184,11 @@ TimeManager::TimeManager()
 	_gTimer = make_shared<GameTimer>();
 }
 
+void TimeManager::Init()
+{
+	_gTimer->Init();
+}
+
 void TimeManager::Update()
 {
 	_gTimer->Update();
