@@ -22,9 +22,12 @@ void Texture::CreateTexture(const wstring& path)
 	DirectX::ScratchImage img;
 	//PNG,JPG
 	hr = DirectX::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, &md, img);
-	//CHECK(hr);
+	CHECK(hr);
 
 	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(),
 		md, _shaderResourceView.GetAddressOf());
-	//CHECK(hr);
+	CHECK(hr);
+
+	_size.x = md.width;
+	_size.y = md.height;
 }

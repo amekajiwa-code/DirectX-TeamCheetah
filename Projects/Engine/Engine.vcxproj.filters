@@ -215,6 +215,9 @@
     <ClInclude Include="RenderHelper.h">
       <Filter>소스 파일\Engine\Manager\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>소스 파일\Engine\Component\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -324,6 +327,9 @@
     </ClCompile>
     <ClCompile Include="RenderHelper.cpp">
       <Filter>소스 파일\Engine\Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>소스 파일\Engine\Component\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

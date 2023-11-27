@@ -19,12 +19,23 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::CreateDefaultTexture()
 {
-	auto tex = make_shared<Texture>();
-	tex->SetName(L"night");
-	wstring path = RESOURCES_ADDR_TEXTURE;
-	path += L"night.png";
-	tex->CreateTexture(path);
-	AddResource(tex->GetName(), tex);
+	{
+		auto tex = make_shared<Texture>();
+		tex->SetName(L"night");
+		wstring path = RESOURCES_ADDR_TEXTURE;
+		path += L"night.png";
+		tex->CreateTexture(path);
+		AddResource(tex->GetName(), tex);
+	}
+	{
+		auto tex = make_shared<Texture>();
+		tex->SetName(L"snake");
+		wstring path = RESOURCES_ADDR_SPRITE;
+		path += L"Snake.bmp";
+		tex->CreateTexture(path);
+		AddResource(tex->GetName(), tex);
+	}
+
 }
 
 void ResourceManager::CreateDefaultMesh()
