@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-
-class Texture;
+#include "Mesh.h"
+#include "Material.h"
 
 class MeshRenderer : public Component
 {
@@ -9,33 +9,22 @@ class MeshRenderer : public Component
 	using Super = Component;
 public:
 	MeshRenderer();
-	MeshRenderer(shared_ptr<Pipeline> pipe);
 	virtual ~MeshRenderer();
 private:
-	ComPtr<ID3D11Device>			_device;
-	ComPtr<ID3D11DeviceContext>		_deviceContext;
-	shared_ptr<Pipeline>			_pipeLine;
-private:
-	//Geometry & Mesh
-	shared_ptr <Geometry<VertexTextureData>>	_geometry;
-	shared_ptr<VertexBuffer>					_vertexBuffer;
-	shared_ptr<IndexBuffer>	_indexBuffer;
-	shared_ptr<InputLayout>	_inputLayout;
-private:
-	//VS
-	shared_ptr<VertexShader>	_vertexShader;
-	//PS
-	shared_ptr<PixelShader>		_pixelShader;
-	shared_ptr<Texture>			_texture;
-private:
-	void DefaultInit();
-private:
-	void CreateGeometry();
-	void CreateVertexShader();
-	void CreateInputLayout();
-	void CreatePixelShader();
-	void CreateTexture(const wstring& path);
+	shared_ptr<Mesh>		_mesh;
+	shared_ptr<Material>	_material;
 public:
-	virtual void Update() override;
+	//Mesh : vertexbuffer, indexbuffer, geometry data
+	shared_ptr<Mesh>		GetMesh() { return _mesh; }
+	//Matertial : shader, texture
+	shared_ptr<Material>	GetMaterial() { return _material; }
+	//Shader : vertexshader, inputlayout, pixelshader
+	shared_ptr<Shader>		GetShader() { return _material->GetShader(); }
+	shared_ptr<Texture>		GetTexture() { return _material->GetTexture(); }
+public:
+	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
+	void SetMaterial(shared_ptr<Material> material) { _material = material; }
+	void SetShader(shared_ptr<Shader> shader) { _material->SetShader(shader); }
+	void SetTexture(shared_ptr<Texture> texture) { _material->SetTexture(texture); }
 };
 

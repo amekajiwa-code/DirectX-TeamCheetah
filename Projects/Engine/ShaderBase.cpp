@@ -68,7 +68,7 @@ void VertexShader::CreateShader(const wstring& path, const string& name, const s
 		_vertexShader.GetAddressOf()
 	);
 
-	//CHECK(hr);
+	CHECK(hr);
 }
 
 PixelShader::PixelShader()
@@ -95,5 +95,5 @@ void PixelShader::CreateShader(const wstring& path, const string& name, const st
 		_pixelShader.GetAddressOf()
 	);
 
-	//CHECK(hr);
+	CHECK(hr);
 }

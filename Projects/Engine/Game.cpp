@@ -11,6 +11,7 @@ Game::~Game()
 
 void Game::Init()
 {
+	MANAGER_RESOURCES()->Init();
 	MANAGER_SCENE()->Init();
 	MANAGER_SCENE()->LoadScene(L"Test");
 

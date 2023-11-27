@@ -15,7 +15,7 @@ public:
 
 		return _instance;
 	}
-public:
+private:
 	RenderManager();
 	~RenderManager();
 private:
@@ -25,7 +25,6 @@ private:
 private:
 	CameraData									_cameraData;
 	shared_ptr<ConstantBuffer<CameraData>>		_cameraBuffer;
-
 	TransformData								_transformData;
 	shared_ptr<ConstantBuffer<TransformData>>	_transformBuffer;
 private:

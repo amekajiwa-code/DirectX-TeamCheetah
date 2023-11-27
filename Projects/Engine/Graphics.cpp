@@ -112,5 +112,5 @@ void Graphics::RenderBegin()
 void Graphics::RenderEnd()
 {
 	HRESULT hr = _swapChain->Present(1, 0);
-	//CHECK(hr);
+	CHECK(hr);
 }

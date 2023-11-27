@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "MeshRenderer.h"
 
 SceneManager* SceneManager::_instance = nullptr;
@@ -34,6 +35,14 @@ shared_ptr<Scene> SceneManager::LoadTestScene()
 		shared_ptr<GameObject> _object = make_shared<GameObject>();
 		_object->GetOrAddTransform();
 		_object->AddComponent(make_shared<MeshRenderer>());
+
+		wstring _key = L"Rectangle";
+		auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(_key);
+		_object->GetMeshRenderer()->SetMesh(mesh);
+
+		auto material = MANAGER_RESOURCES()->GetResource<Material>(L"DefaultM");
+		_object->GetMeshRenderer()->SetMaterial(material);
+
 		scene->AddGameObject(_object);
 	}
 

@@ -4,6 +4,9 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "Shader.h"
 
 RenderManager* RenderManager::_instance = nullptr;
 
@@ -43,7 +46,6 @@ void RenderManager::GetRederableObjects()
 			_renderObjects.push_back(object);
 		}
 	}
-
 }
 
 void RenderManager::RenderObjects()
@@ -64,24 +66,29 @@ void RenderManager::RenderObjects()
 		_transformData.matWorld = transform->GetWorldMatrix();
 		PushTransformData();
 
+		auto mesh = meshRenderer->GetMesh();
+		auto shader = meshRenderer->GetShader();
+		auto texture = meshRenderer->GetTexture();
+
 		Pipelineinfo info;
-		info.vertexShader = meshRenderer->_vertexShader;
-		info.inputLayout = meshRenderer->_inputLayout;
-		info.pixelShader = meshRenderer->_pixelShader;
+		info.vertexShader = shader->GetVertexShader();
+		info.inputLayout = shader->GetInputLayout();
+		info.pixelShader = shader->GetPixelShader();
 		info.rasterizerState = _rasterizerState;
 		info.blendState = _blendState;
 		_pipeline->UpdatePipeline(info);
 
-		_pipeline->SetVertexBuffer(meshRenderer->_vertexBuffer);
-		_pipeline->SetIndexBuffer(meshRenderer->_indexBuffer);
+
+		_pipeline->SetVertexBuffer(mesh->GetVertexBuffer());
+		_pipeline->SetIndexBuffer(mesh->GetIndexBuffer());
 
 		_pipeline->SetConstantBuffer(0, SS_VertexShader, _cameraBuffer);
 		_pipeline->SetConstantBuffer(1, SS_VertexShader, _transformBuffer);
 
-		_pipeline->SetTexture(0, SS_PixelShader, meshRenderer->_texture);
+		_pipeline->SetTexture(0, SS_PixelShader, texture);
 		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 
-		_pipeline->DrawIndexed(meshRenderer->_geometry->GetIndexCount(), 0, 0);
+		_pipeline->DrawIndexed(mesh->GetIndexBuffer()->GetCount(), 0, 0);
 	}
 }
 

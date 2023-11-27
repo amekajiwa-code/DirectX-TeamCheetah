@@ -42,6 +42,7 @@ private:
 	void CreateDefaultTexture();
 	void CreateDefaultMesh();
 	void CreateDefaultShader();
+	void CreateDefaultMaterial();
 	void CreateDefaultAnimation();
 public:
 	void Init();

@@ -5,11 +5,11 @@ class Texture;
 struct Pipelineinfo
 {
 	shared_ptr<InputLayout>		inputLayout;
-	shared_ptr<VertexShader>		vertexShader;
+	shared_ptr<VertexShader>	vertexShader;
 	shared_ptr<PixelShader>		pixelShader;
 	shared_ptr<RasterizerState>	rasterizerState;
 	shared_ptr<BlendState>		blendState;
-	D3D11_PRIMITIVE_TOPOLOGY		topology = D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	D3D11_PRIMITIVE_TOPOLOGY	topology = D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 };
 
 class Pipeline

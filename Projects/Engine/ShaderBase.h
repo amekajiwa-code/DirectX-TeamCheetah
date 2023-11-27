@@ -11,8 +11,8 @@ enum ShaderScope
 class ShaderBase
 {
 protected:
-	ComPtr<ID3D11Device>	_device;
-	ComPtr<ID3DBlob>		_blob;
+	ComPtr<ID3D11Device>_device;
+	ComPtr<ID3DBlob>	_blob;
 	wstring				_path;
 	string				_name;
 public:

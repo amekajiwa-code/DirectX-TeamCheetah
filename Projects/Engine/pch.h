@@ -88,15 +88,15 @@ extern HWND g_hWnd;
 #include "RenderManager.h"
 
 //Macro
-#define PI			3.14159f /2
+#define PI			3.14159f / 2.0f
 #define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
-//Manger
-#define MANAGER_SCENE() SceneManager::GetInstance()
-#define MANAGER_INPUT() InputManager::GetInstance()
-#define MANAGER_TIME() TimeManager::GetInstance()
+//Manager
+#define MANAGER_SCENE()		SceneManager::GetInstance()
+#define MANAGER_INPUT()		InputManager::GetInstance()
+#define MANAGER_TIME()		TimeManager::GetInstance()
 #define MANAGER_RESOURCES() ResourceManager::GetInstance()
-#define MANAGER_RENDERER() RenderManager::GetInstance()
+#define MANAGER_RENDERER()	RenderManager::GetInstance()
 
 #ifdef _DEBUG
 #define RESOURCES_ADDR_TOP L"../../Resources/"
