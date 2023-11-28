@@ -24,6 +24,10 @@
 #include <assert.h>
 using namespace std;
 
+//Utils
+#include "tinyxml2.h"
+using namespace tinyxml2;
+
 //DX
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -91,6 +95,8 @@ extern HWND g_hWnd;
 #define PI			3.14159f / 2.0f
 #define CHECK(p)	assert(SUCCEEDED(p))
 #define GRAPHICS()	Graphics::GetInstance()
+#define WTM(p) string(p.begin(), p.end())
+#define MTW(p) wstring(p.begin(), p.end()) 
 //Manager
 #define MANAGER_SCENE()		SceneManager::GetInstance()
 #define MANAGER_INPUT()		InputManager::GetInstance()
@@ -107,6 +113,7 @@ extern HWND g_hWnd;
 #define RESOURCES_ADDR_SOUND L"../../Resources/Sound/"
 //data
 #define DATA_ADDR_SCREENSHOT L"../../Data/ScreenShot/"
+#define DATA_ADDR_ANIMATION L"../../Data/Resources/Animation/"
 #else
 //resources
 #define RESOURCES_ADDR_TOP L"Resources/"
@@ -116,5 +123,7 @@ extern HWND g_hWnd;
 #define RESOURCES_ADDR_SOUND L"Resources/Sound/"
 //data
 #define DATA_ADDR_SCREENSHOT L"Data/ScreenShot/"
+#define DATA_ADDR_ANIMATION L"Data/Resources/Animation/"
 #endif
+
 #include "Utils.h"

@@ -80,16 +80,12 @@ void ResourceManager::CreateDefaultMaterial()
 void ResourceManager::CreateDefaultAnimation()
 {
 	shared_ptr<Animation> animation = make_shared<Animation>();
-	animation->SetName(L"SnakeAnim");
-	animation->SetTexture(GetResource<Texture>(L"snake"));
-	animation->SetLoop(true);
-
-	animation->AddKeyframe(Keyframe{ Vec2{0.f,0.f}, Vec2{100.f,100.f}, 0.1f });
-	animation->AddKeyframe(Keyframe{ Vec2{100.f,0.f}, Vec2{100.f,100.f}, 0.1f });
-	animation->AddKeyframe(Keyframe{ Vec2{200.f,0.f}, Vec2{100.f,100.f}, 0.1f });
-	animation->AddKeyframe(Keyframe{ Vec2{300.f,0.f}, Vec2{100.f,100.f}, 0.1f });
-
+	wstring sPath = DATA_ADDR_ANIMATION;
+	sPath += L"TestAnim.xml";
+	animation->Load(sPath);
 	AddResource(animation->GetName(), animation);
+	//shared_ptr<animation> anim2 = make_shared <animation>();
+	//anim2->load(spath);
 }
 
 void ResourceManager::Init()

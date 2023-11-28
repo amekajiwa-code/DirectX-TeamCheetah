@@ -221,6 +221,9 @@
     <ClInclude Include="Utils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -335,6 +338,9 @@
       <Filter>소스 파일\Engine\Component\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>

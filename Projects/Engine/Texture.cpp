@@ -30,4 +30,13 @@ void Texture::CreateTexture(const wstring& path)
 
 	_size.x = md.width;
 	_size.y = md.height;
+	_path = path;
+}
+
+void Texture::Load(const wstring& path)
+{
+}
+
+void Texture::Save(const wstring& path)
+{
 }
