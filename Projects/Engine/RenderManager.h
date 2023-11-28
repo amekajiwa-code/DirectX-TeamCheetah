@@ -23,10 +23,15 @@ private:
 	ComPtr<ID3D11DeviceContext> _deviceContext;
 	shared_ptr<Pipeline> _pipeline;
 private:
+	//Camera
 	CameraData									_cameraData;
 	shared_ptr<ConstantBuffer<CameraData>>		_cameraBuffer;
+	//SRT
 	TransformData								_transformData;
 	shared_ptr<ConstantBuffer<TransformData>>	_transformBuffer;
+	//Animation
+	AnimationData _animationData;
+	shared_ptr<ConstantBuffer<AnimationData>> _animationBuffer;
 private:
 	shared_ptr<SamplerState>	_samplerState;
 	shared_ptr<RasterizerState>	_rasterizerState;
@@ -36,6 +41,7 @@ private:
 private:
 	void PushCameraData();
 	void PushTransformData();
+	void PushAnimationData();
 	void GetRederableObjects();
 	void RenderObjects();
 public:

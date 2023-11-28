@@ -9,9 +9,7 @@ enum class ComponentType : uint8
 	MeshRenderer,
 	Camera,
 	Animator,
-
 	Script,
-
 	End
 };
 

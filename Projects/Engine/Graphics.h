@@ -19,7 +19,7 @@ public:
 	}
 public:
 	Graphics(HWND hwnd);
-public:
+private:
 	Graphics();
 	~Graphics();
 private:
@@ -39,6 +39,7 @@ private:
 public:
 	ComPtr<ID3D11Device> GetDevice() { return _device; }
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return _deviceContext; }
+	ComPtr<IDXGISwapChain> GetSwapChain() { return _swapChain; }
 public:
 	void SetHwnd(HWND hwnd);
 private:

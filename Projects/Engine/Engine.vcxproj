@@ -191,6 +191,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Values.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexData.h" />
@@ -234,6 +235,7 @@ copy "..\\..\\Resources\\Texture\\" "..\\..\\Output\\Debug\\Engine\\Resources\\T
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
     <ClCompile Include="GameWindow.cpp" />

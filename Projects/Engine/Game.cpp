@@ -25,9 +25,14 @@ void Game::Update()
 	MANAGER_TIME()->Update();
 	MANAGER_INPUT()->Update();
 	MANAGER_SCENE()->Update();
+
 }
 
 void Game::Render()
 {
 	MANAGER_RENDERER()->Update();
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::F12))
+	{
+		Utils::ScreenShot(GRAPHICS()->GetDeviceContext());
+	}
 }

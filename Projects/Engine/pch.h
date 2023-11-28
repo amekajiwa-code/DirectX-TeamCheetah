@@ -99,15 +99,22 @@ extern HWND g_hWnd;
 #define MANAGER_RENDERER()	RenderManager::GetInstance()
 
 #ifdef _DEBUG
+//resources
 #define RESOURCES_ADDR_TOP L"../../Resources/"
 #define RESOURCES_ADDR_SHADER L"../../Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"../../Resources/Texture/"
 #define RESOURCES_ADDR_SPRITE L"../../Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"../../Resources/Sound/"
+//data
+#define DATA_ADDR_SCREENSHOT L"../../Data/ScreenShot/"
 #else
+//resources
 #define RESOURCES_ADDR_TOP L"Resources/"
 #define RESOURCES_ADDR_SHADER L"Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"Resources/Texture/"
 #define RESOURCES_ADDR_SPRITE L"Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"Resources/Sound/"
+//data
+#define DATA_ADDR_SCREENSHOT L"Data/ScreenShot/"
 #endif
+#include "Utils.h"

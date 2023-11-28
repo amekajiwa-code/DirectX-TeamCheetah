@@ -79,6 +79,17 @@ void ResourceManager::CreateDefaultMaterial()
 
 void ResourceManager::CreateDefaultAnimation()
 {
+	shared_ptr<Animation> animation = make_shared<Animation>();
+	animation->SetName(L"SnakeAnim");
+	animation->SetTexture(GetResource<Texture>(L"snake"));
+	animation->SetLoop(true);
+
+	animation->AddKeyframe(Keyframe{ Vec2{0.f,0.f}, Vec2{100.f,100.f}, 0.1f });
+	animation->AddKeyframe(Keyframe{ Vec2{100.f,0.f}, Vec2{100.f,100.f}, 0.1f });
+	animation->AddKeyframe(Keyframe{ Vec2{200.f,0.f}, Vec2{100.f,100.f}, 0.1f });
+	animation->AddKeyframe(Keyframe{ Vec2{300.f,0.f}, Vec2{100.f,100.f}, 0.1f });
+
+	AddResource(animation->GetName(), animation);
 }
 
 void ResourceManager::Init()
@@ -87,4 +98,5 @@ void ResourceManager::Init()
 	CreateDefaultMesh();
 	CreateDefaultShader();
 	CreateDefaultMaterial();
+	CreateDefaultAnimation();
 }

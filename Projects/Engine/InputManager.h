@@ -12,18 +12,21 @@ enum class KEY_TYPE
 	S = 'S',
 	D = 'D',
 
-	Q = 'Q', 
+	Q = 'Q',
 	E = 'E',
 	Z = 'Z',
 	C = 'C',
+	M = 'M',
 
 	KEY_1 = '1',
 	KEY_2 = '2',
 	KEY_3 = '3',
 	KEY_4 = '4',
+	KEY_5 = '5',
 
 	LBUTTON = VK_LBUTTON,
 	RBUTTON = VK_RBUTTON,
+	F12 = VK_F12,
 };
 
 enum class KEY_STATE
@@ -71,7 +74,6 @@ public:
 
 private:
 	inline KEY_STATE GetState(KEY_TYPE key) { return _states[static_cast<uint8>(key)]; }
-
 private:
 	HWND _hwnd;
 	vector<KEY_STATE> _states;

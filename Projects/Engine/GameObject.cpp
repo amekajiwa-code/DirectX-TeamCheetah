@@ -3,6 +3,7 @@
 #include "MonoBehaviour.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "Animator.h"
 
 GameObject::GameObject()
 {
@@ -35,17 +36,6 @@ shared_ptr<Transform> GameObject::GetTransform()
 	return dynamic_pointer_cast<Transform>(com);
 }
 
-shared_ptr<Transform> GameObject::GetOrAddTransform()
-{
-	if (GetTransform() == nullptr)
-	{
-		shared_ptr<Transform> trans = make_shared<Transform>();
-		AddComponent(trans);
-	}
-
-	return GetTransform();
-}
-
 shared_ptr<Camera> GameObject::GetCamera()
 {
 	shared_ptr<Component> com = GetFixedComponent(ComponentType::Camera);
@@ -58,6 +48,13 @@ shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
 	shared_ptr<Component> com = GetFixedComponent(ComponentType::MeshRenderer);
 
 	return dynamic_pointer_cast<MeshRenderer>(com);
+}
+
+shared_ptr<Animator> GameObject::GetAnimator()
+{
+	shared_ptr<Component> com = GetFixedComponent(ComponentType::Animator);
+
+	return dynamic_pointer_cast<Animator>(com);
 }
 
 void GameObject::AddComponent(shared_ptr<Component> component)
@@ -77,6 +74,12 @@ void GameObject::AddComponent(shared_ptr<Component> component)
 
 void GameObject::Awake()
 {
+	if (GetTransform() == nullptr)
+	{
+		shared_ptr<Transform> trans = make_shared<Transform>();
+		AddComponent(trans);
+	}
+
 	for (shared_ptr<Component>& com : _components)
 	{
 		if (com)

@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Shader.h"
+#include "Animator.h"
 
 RenderManager* RenderManager::_instance = nullptr;
 
@@ -30,6 +31,11 @@ void RenderManager::PushCameraData()
 void RenderManager::PushTransformData()
 {
 	_transformBuffer->CopyData(_transformData);
+}
+
+void RenderManager::PushAnimationData()
+{
+	_animationBuffer->CopyData(_animationData);
 }
 
 void RenderManager::GetRederableObjects()
@@ -63,8 +69,35 @@ void RenderManager::RenderObjects()
 			continue;
 		}
 
+		//SRT
 		_transformData.matWorld = transform->GetWorldMatrix();
 		PushTransformData();
+
+		//Animation
+		auto animator = rObject->GetAnimator();
+		if (animator)
+		{
+			const Keyframe& keyframe = animator->GetCurrentKeyframe();
+			_animationData.spriteOffset = keyframe.offset;
+			_animationData.spriteSize = keyframe.size;
+			_animationData.textureSize = animator->GetCurrentAnimation()->GetTextureSize();
+			_animationData.useAnimation = 1.f;
+			PushAnimationData();
+
+			_pipeline->SetConstantBuffer(2, SS_VertexShader, _animationBuffer);
+			_pipeline->SetTexture(0, SS_PixelShader, animator->GetCurrentAnimation()->GetTexture());
+		}
+		else
+		{
+			_animationData.spriteOffset = Vec2(0.f, 0.f);
+			_animationData.spriteSize = Vec2(0.f, 0.f);
+			_animationData.textureSize = Vec2(0.f, 0.f);
+			_animationData.useAnimation = 0.f;
+			PushAnimationData();
+
+			_pipeline->SetConstantBuffer(2, SS_VertexShader, _animationBuffer);
+			_pipeline->SetTexture(0, SS_PixelShader, meshRenderer->GetTexture());
+		}
 
 		auto mesh = meshRenderer->GetMesh();
 		auto shader = meshRenderer->GetShader();
@@ -85,7 +118,7 @@ void RenderManager::RenderObjects()
 		_pipeline->SetConstantBuffer(0, SS_VertexShader, _cameraBuffer);
 		_pipeline->SetConstantBuffer(1, SS_VertexShader, _transformBuffer);
 
-		_pipeline->SetTexture(0, SS_PixelShader, texture);
+		//_pipeline->SetTexture(0, SS_PixelShader, texture);
 		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 
 		_pipeline->DrawIndexed(mesh->GetIndexBuffer()->GetCount(), 0, 0);
@@ -100,6 +133,8 @@ void RenderManager::Init()
 	_cameraBuffer->CreateConstantBuffer();
 	_transformBuffer = make_shared<ConstantBuffer<TransformData>>(_device, _deviceContext);
 	_transformBuffer->CreateConstantBuffer();
+	_animationBuffer = make_shared<ConstantBuffer<AnimationData>>(_device, _deviceContext);
+	_animationBuffer->CreateConstantBuffer();
 
 	_rasterizerState = make_shared<RasterizerState>(_device);
 	_rasterizerState->CreateRasterizerState();

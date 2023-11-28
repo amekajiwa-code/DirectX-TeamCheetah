@@ -218,6 +218,9 @@
     <ClInclude Include="Animator.h">
       <Filter>소스 파일\Engine\Component\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -330,6 +333,9 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>소스 파일\Engine\Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
