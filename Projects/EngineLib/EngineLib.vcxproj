@@ -134,9 +134,9 @@
     <PostBuildEvent>
       <Command>copy "*.h" "..\\..\\Libraries\\Include\\engine"
 copy "*.inl" "..\\..\\Libraries\\Include\\engine"
-copy "Bin\\Debug\\*.lib" "..\\..\\Libraries\\lib\\engine\\EngineLib_d.lib"
-copy "Bin\\Debug\\*.pdb" "..\\..\\Libraries\\lib\\engine\\EngineLib_d.pdb"
-copy "Bin\\Debug\\*.idb" "..\\..\\Libraries\\lib\\engine\\EngineLib_d.idb"</Command>
+copy "Bin\\Debug\\*.idb" "..\\..\\Libraries\\lib\\engine"
+copy "Bin\\Debug\\*.lib" "..\\..\\Libraries\\lib\\engine"
+copy "Bin\\Debug\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

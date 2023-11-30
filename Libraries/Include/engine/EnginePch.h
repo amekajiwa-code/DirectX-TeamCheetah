@@ -1,7 +1,6 @@
 #pragma once
 
 #define WIN32_LEAN_AND_MEAN
-#define _CRT_SECURE_NO_WARNINGS
 
 #ifdef _DEBUG
 //resources
@@ -40,7 +39,6 @@
 #include <map>
 #include <unordered_map>
 #include <algorithm>
-#include <filesystem>
 using namespace std;
 
 //WINAPI
@@ -61,10 +59,9 @@ using namespace tinyxml2;
 #include <DirectXMath.h>
 #include <dxtex/DirectXTex.h>
 #include <dxtex/DirectXTex.inl>
+#include <fx11/d3dx11effect.h>
 using namespace DirectX;
 using namespace Microsoft::WRL;
-
-#include <fx11/d3dx11effect.h>
 
 //Lib Header
 //#include <assimp/Importer.hpp>
@@ -96,7 +93,6 @@ using namespace Microsoft::WRL;
 ////Imgui
 //#pragma comment(lib, "imgui\\Imgui.lib")
 #endif
-
 
 //Macro
 #define PI			3.14159f / 2.0f

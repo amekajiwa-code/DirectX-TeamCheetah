@@ -1,42 +1,42 @@
 #include "pch.h"
 #include "Utils.h"
 
-bool Utils::StartsWith(string str, string comp)
+bool Utils::StartsWith(std::string str, std::string comp)
 {
-	wstring::size_type index = str.find(comp);
-	if (index != wstring::npos && index == 0)
+	std::wstring::size_type index = str.find(comp);
+	if (index != std::wstring::npos && index == 0)
 		return true;
 
 	return false;
 }
 
-bool Utils::StartsWith(wstring str, wstring comp)
+bool Utils::StartsWith(std::wstring str, std::wstring comp)
 {
-	wstring::size_type index = str.find(comp);
-	if (index != wstring::npos && index == 0)
+	std::wstring::size_type index = str.find(comp);
+	if (index != std::wstring::npos && index == 0)
 		return true;
 
 	return false;
 }
 
-std::wstring Utils::ToWString(string value)
+std::wstring Utils::ToWString(std::string value)
 {
-	return wstring(value.begin(), value.end());
+	return std::wstring(value.begin(), value.end());
 }
 
-std::string Utils::ToString(wstring value)
+std::string Utils::ToString(std::wstring value)
 {
-	return string(value.begin(), value.end());
+	return std::string(value.begin(), value.end());
 }
 
-void Utils::ScreenShot(ComPtr<ID3D11DeviceContext> context, const wstring& fileName)
+void Utils::ScreenShot(ComPtr<ID3D11DeviceContext> context, const std::wstring& fileName)
 {
 	HRESULT hr;
 	ComPtr<ID3D11Texture2D> backbuffer;
 	hr = GRAPHICS()->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)backbuffer.GetAddressOf());
 	CHECK(hr);
 
-	wstring path = DATA_ADDR_SCREENSHOT;
+	std::wstring path = DATA_ADDR_SCREENSHOT;
 	if (!fileName.empty())
 	{
 		path += fileName;
@@ -45,7 +45,7 @@ void Utils::ScreenShot(ComPtr<ID3D11DeviceContext> context, const wstring& fileN
 	else
 	{
 		tm lt = MANAGER_TIME()->GetLocalTimeInfo()._tm;
-		wstring lstring;
+		std::wstring lstring;
 		lstring += L"£¯";
 		lstring += ::to_wstring(lt.tm_year);
 		lstring += L"£¯";

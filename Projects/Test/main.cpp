@@ -1,7 +1,7 @@
 #include "pch.h"
+#include "main.h"
 #include "engine/CGame.h"
 #include "Demo.h"
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {

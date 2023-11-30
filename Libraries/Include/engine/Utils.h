@@ -7,11 +7,11 @@
 class Utils
 {
 public:
-	static bool StartsWith(string str, string comp);
-	static bool StartsWith(wstring str, wstring comp);
+	static bool StartsWith(std::string str, std::string comp);
+	static bool StartsWith(std::wstring str, std::wstring comp);
 
-	static wstring ToWString(string value);
-	static string ToString(wstring value);
+	static std::wstring ToWString(std::string value);
+	static std::string ToString(std::wstring value);
 
-	static void ScreenShot(ComPtr<ID3D11DeviceContext> context, const wstring& fileName = L"");
+	static void ScreenShot(ComPtr<ID3D11DeviceContext> context, const wstring& fileName);
 };
