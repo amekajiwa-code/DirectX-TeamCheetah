@@ -25,7 +25,6 @@ void Game::Update()
 	MANAGER_TIME()->Update();
 	MANAGER_INPUT()->Update();
 	MANAGER_SCENE()->Update();
-
 }
 
 void Game::Render()

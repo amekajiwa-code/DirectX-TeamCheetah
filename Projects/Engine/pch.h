@@ -1,6 +1,6 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
 #define _CRT_SECURE_NO_WARNINGS
-
 //Default
 #include "Types.h"
 #include "Values.h"
