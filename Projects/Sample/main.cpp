@@ -6,18 +6,20 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	CGameDesc desc;
-	desc.AppName = L"GameCoding";
+	desc.AppName = L"TestScene";
 	desc.hInstance = hInstance;
 	desc.vsync = false;
 	desc.hWnd = NULL;
-	desc.width = 800;
-	desc.height = 600;
+	desc.width = 1600;
+	desc.height = 900;
 	desc.clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
 	desc.App = make_shared<Demo>();
 
 	CGame* game = new CGame();
 
 	game->Run(desc);
+
+	delete game;
 
 	return 0;
 }

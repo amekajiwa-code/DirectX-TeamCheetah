@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Demo.h"
 
-
 void Demo::Init()
 {
 }
