@@ -13,6 +13,18 @@ void MonoBehaviour::Awake()
 {
 }
 
+void MonoBehaviour::Start()
+{
+}
+
+void MonoBehaviour::FixedUpdate()
+{
+}
+
 void MonoBehaviour::Update()
+{
+}
+
+void MonoBehaviour::LateUpdate()
 {
 }

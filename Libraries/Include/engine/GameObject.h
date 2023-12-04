@@ -1,8 +1,5 @@
 #pragma once
 
-//class MeshRenderer;
-//class Animator;
-
 class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
