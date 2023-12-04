@@ -18,6 +18,7 @@ public:
 	ComPtr<ID3D11ShaderResourceView> GetTexture() { return _shaderResourceView; }
 	Vec2			GetSize() const { return _size; }
 	const wstring&	GetPath() { return _path; }
+	const DirectX::ScratchImage& GetInfo() { return _img; }
 public:
 	void CreateTexture(const wstring& path);
 public:
