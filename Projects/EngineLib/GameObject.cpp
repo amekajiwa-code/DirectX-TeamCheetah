@@ -39,12 +39,12 @@ shared_ptr<Camera> GameObject::GetCamera()
 	return dynamic_pointer_cast<Camera>(com);
 }
 
-//shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
-//{
-//	shared_ptr<Component> com = GetFixedComponent(ComponentType::MeshRenderer);
-//
-//	return dynamic_pointer_cast<MeshRenderer>(com);
-//}
+shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
+{
+	shared_ptr<Component> com = GetFixedComponent(ComponentType::MeshRenderer);
+
+	return dynamic_pointer_cast<MeshRenderer>(com);
+}
 //
 //shared_ptr<Animator> GameObject::GetAnimator()
 //{

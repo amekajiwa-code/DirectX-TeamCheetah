@@ -133,12 +133,15 @@ extern CGameDesc g_gameDesc;
 //Components
 #include "Component.h"
 #include "MonoBehaviour.h"
+//fixed
 #include "Transform.h"
 #include "Camera.h"
+#include "MeshRenderer.h"
 
 //Resources
 #include "Texture.h"
 #include "Shader.h"
+#include "Mesh.h"
 
 //GameObject
 #include "GameObject.h"
