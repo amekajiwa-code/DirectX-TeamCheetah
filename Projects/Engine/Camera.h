@@ -15,7 +15,7 @@ public:
 	virtual ~Camera();
 //member
 private:
-	ProjectionType _type = ProjectionType::Orthographic;
+	ProjectionType _type = ProjectionType::Perspective;
 public:
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;

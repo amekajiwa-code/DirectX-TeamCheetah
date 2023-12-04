@@ -14,8 +14,8 @@ void Demo::Init()
 	heightmap += L"height.png";
 	_heightMap = MANAGER_RESOURCES()->LoadResource<Texture>(L"Height", heightmap.c_str());
 
-	const int32 width = _heightMap->GetSize().x;
-	const int32 height = _heightMap->GetSize().y;
+	const int32 width = 256;
+	const int32 height = 256;
 
 	const DirectX::ScratchImage& info = _heightMap->GetInfo();
 	uint8* pixelBuffer = info.GetPixels();
@@ -33,7 +33,7 @@ void Demo::Init()
 			for (int32 x = 0; x < width; x++)
 			{
 				int32 idx = width * z + x;
-				uint8 height = pixelBuffer[idx] / 255.f * 25.f;
+				uint8 height = (pixelBuffer[idx] / 255.f) * 1.0f;
 				v[idx].position.y = height;
 			}
 		}
@@ -85,7 +85,7 @@ void Demo::Render()
 	DC()->IASetIndexBuffer(_idxbuffer->GetBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 	
 	//tex
-	//_shader->DrawIndexed(0, 0, _idxbuffer->GetCount(), 0, 0);
+	_shader->DrawIndexed(0, 0, _idxbuffer->GetCount(), 0, 0);
 	//wire
-	_shader->DrawIndexed(0, 1, _idxbuffer->GetCount(), 0, 0);
+	//_shader->DrawIndexed(0, 1, _idxbuffer->GetCount(), 0, 0);
 }

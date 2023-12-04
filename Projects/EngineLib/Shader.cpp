@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "Utils.h"
 
-Shader::Shader(wstring file) : _file(L"..\\..\\Resources\\Shader\\" + file)
+Shader::Shader(wstring file) : _file(RESOURCES_ADDR_SHADER + file)
 {
 	_initialStateBlock = make_shared<StateBlock>();
 	{

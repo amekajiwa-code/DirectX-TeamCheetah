@@ -25,7 +25,7 @@ void Camera::UpdateMatrix()
 	{
 	case ProjectionType::Perspective:
 	{
-		S_MatProjection = ::XMMatrixPerspectiveFovLH(XM_PI / 4.f, (float)g_winSizeX / (float)g_winSizeY, 1.f, 100.f);
+		S_MatProjection = ::XMMatrixPerspectiveFovLH(XM_PI / 4.f, (float)g_winSizeX / (float)g_winSizeY, 1.f, 1000.f);
 	}break;
 	case ProjectionType::Orthographic:
 	{
