@@ -31,6 +31,18 @@
     <Filter Include="01. Graphics\Shader">
       <UniqueIdentifier>{018dd310-b237-4866-9ed8-34175423cda6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\Fixed">
+      <UniqueIdentifier>{295e276f-c2fe-4a5f-b070-33a7a00c3b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Player">
+      <UniqueIdentifier>{8d010ad0-d0be-489f-b771-5d2554540710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Enemy">
+      <UniqueIdentifier>{9968aebb-d016-4d42-825e-a4bcdae6b7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\StaticMesh">
+      <UniqueIdentifier>{3e80ea2a-1e71-429e-88ac-340f849591b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -105,6 +117,21 @@
     <ClInclude Include="Structs.h">
       <Filter>99. Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoBehaviour.h">
+      <Filter>04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>04. Component\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>04. Component\Fixed</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -172,6 +199,21 @@
     </ClCompile>
     <ClCompile Include="Structs.cpp">
       <Filter>99. Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehaviour.cpp">
+      <Filter>04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>04. Component\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>04. Component\Fixed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

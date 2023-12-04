@@ -94,8 +94,8 @@ using namespace Microsoft::WRL;
 //#pragma comment(lib, "imgui\\Imgui.lib")
 #endif
 
-//Macro
-#define PI			3.14159f / 2.0f
+
+#define PI			XM_PI
 #define CHECK(p)	assert(SUCCEEDED(p))
 
 //Extern
@@ -107,6 +107,8 @@ extern CGameDesc g_gameDesc;
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "ResourceManager.h"
+
+//Global Macro
 #define GRAPHICS()		Graphics::GetInstance()
 #define DEVICE()		GRAPHICS()->GetDevice()
 #define DC()			GRAPHICS()->GetDeviceContext()
@@ -119,14 +121,25 @@ extern CGameDesc g_gameDesc;
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "ConstantBuffer.h"
+#include "Geometry.h"
+#include "GeometryHelper.h"
 //#include "InputLayout.h"
 //#include "ShaderBase.h"
 //#include "RasterizerState.h"
 //#include "SamplerState.h"
 //#include "BlendState.h"
 //#include "Pipeline.h"
-//#include "Transform.h"
 
-//#define MANAGER_RENDERER()	RenderManager::GetInstance()
-//#define MANAGER_SCENE()		SceneManager::GetInstance()
+//Components
+#include "Component.h"
+#include "MonoBehaviour.h"
+#include "Transform.h"
+#include "Camera.h"
+
+//Resources
+#include "Texture.h"
+#include "Shader.h"
+
+//GameObject
+#include "GameObject.h"
 

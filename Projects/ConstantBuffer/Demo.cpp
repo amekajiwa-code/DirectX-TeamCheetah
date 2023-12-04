@@ -43,8 +43,8 @@ void Demo::Render()
 {
 	//fx 파일에 정의된 matrix를 가져와서 Set
 	_shader->GetMatrix("World")->SetMatrix((float*)&_world);
-	_shader->GetMatrix("View")->SetMatrix((float*)&_view);
-	_shader->GetMatrix("Projection")->SetMatrix((float*)&_projection);
+	_shader->GetMatrix("View")->SetMatrix((float*)&Camera::S_MatView);
+	_shader->GetMatrix("Projection")->SetMatrix((float*)&Camera::S_MatProjection);
 
 	uint32 stride = _vtxbuffer->GetStride();
 	uint32 offset = _vtxbuffer->GetOffset();
