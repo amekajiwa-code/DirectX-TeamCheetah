@@ -22,6 +22,5 @@ public:
 	void CreateTexture(const wstring& path);
 public:
 	void Load(const wstring& path) override;
-	void Save(const wstring& path) override;
 };
 

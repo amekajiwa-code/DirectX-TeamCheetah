@@ -1,10 +1,5 @@
 #include "pch.h"
 #include "ResourceManager.h"
-#include "Mesh.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "Material.h"
-#include "Animation.h"
 
 ResourceManager* ResourceManager::_instance = nullptr;
 

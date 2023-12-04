@@ -34,8 +34,17 @@ void Texture::CreateTexture(const wstring& path)
 
 void Texture::Load(const wstring& path)
 {
-}
+	HRESULT hr;
+	DirectX::TexMetadata md;
+	//PNG,JPG
+	hr = DirectX::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, &md, _img);
+	CHECK(hr);
 
-void Texture::Save(const wstring& path)
-{
+	hr = ::CreateShaderResourceView(_device.Get(), _img.GetImages(), _img.GetImageCount(),
+		md, _shaderResourceView.GetAddressOf());
+	CHECK(hr);
+
+	_size.x = md.width;
+	_size.y = md.height;
+	_path = path;
 }
