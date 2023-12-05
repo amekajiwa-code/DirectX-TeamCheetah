@@ -5,8 +5,8 @@
 void Demo::Init()
 {
 	MANAGER_RESOURCES()->Init();
-	auto shader = make_shared<Shader>(L"GlobalTest.fx");
-	MANAGER_RENDERER()->Init(shader);
+	_shader = make_shared<Shader>(L"Ambient.fx");
+	MANAGER_RENDERER()->Init(_shader);
 
 	//camera
 	_camera = make_shared<GameObject>();
@@ -21,7 +21,7 @@ void Demo::Init()
 	_obj->AddComponent(make_shared<MeshRenderer>());
 	{
 		//Shader set
-		_obj->GetMeshRenderer()->SetShader(shader);
+		_obj->GetMeshRenderer()->SetShader(_shader);
 	}
 	{
 		//Mesh Set
@@ -43,7 +43,7 @@ void Demo::Init()
 	_obj2->AddComponent(make_shared<MeshRenderer>());
 	{
 		//Shader set
-		_obj2->GetMeshRenderer()->SetShader(shader);
+		_obj2->GetMeshRenderer()->SetShader(_shader);
 	}
 	{
 		//Mesh Set
@@ -65,8 +65,25 @@ void Demo::Update()
 	_camera->Update();
 
 	MANAGER_RENDERER()->Update();
-	_obj->Update();
-	_obj2->Update();
+
+	//조명 설정(rgba 0~1)
+	//Vec4 lightAmbient{ 0.5f,0.f,0.f,1.f };
+	Vec4 lightAmbient{ 1.f, };
+
+	_shader->GetVector("LightAmbient")->SetFloatVector((float*)&lightAmbient);
+
+	{
+		//머티리얼 설정(조명을 받아들이는 세기(0~1))
+		Vec4 abMaterial(0.45f);
+		_shader->GetVector("MaterialAmbient")->SetFloatVector((float*)&abMaterial);
+		_obj->Update();
+	}
+	{
+		//머티리얼 설정
+		Vec4 abMaterial(0.75f);
+		_shader->GetVector("MaterialAmbient")->SetFloatVector((float*)&abMaterial);
+		_obj2->Update();
+	}
 }
 
 void Demo::Render()

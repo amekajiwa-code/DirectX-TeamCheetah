@@ -169,6 +169,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Resources\Shader\Ambient.fx" />
     <FxCompile Include="..\..\Resources\Shader\Global.fx" />
     <FxCompile Include="..\..\Resources\Shader\GlobalTest.fx" />
   </ItemGroup>

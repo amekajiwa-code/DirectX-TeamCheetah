@@ -58,5 +58,8 @@
     <FxCompile Include="..\..\Resources\Shader\GlobalTest.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Ambient.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
