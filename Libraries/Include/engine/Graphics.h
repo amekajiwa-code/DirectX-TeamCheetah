@@ -27,6 +27,9 @@ private:
 	ComPtr<IDXGISwapChain>		_swapChain;
 	//RTV
 	ComPtr<ID3D11RenderTargetView>	_renderTargetView;
+	//DSV
+	ComPtr<ID3D11Texture2D> _depthStancilTexture;
+	ComPtr<ID3D11DepthStencilView> _depthStancilView;
 	//Misc
 	D3D11_VIEWPORT				_viewPort = { 0, };
 	float						_clearColor[4] = { 0.f,0.f,0.f,0.f };
@@ -37,6 +40,7 @@ public:
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
+	void CreateDepthStencilView();
 	void SetViewPort();
 public:
 	void Init();
