@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shader", "Shader", "{5B08DF
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DepthStencilView", "Projects\DepthStencilView\DepthStencilView.vcxproj", "{C679D178-B86C-4053-ADCA-C268A8B3F224}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ambient", "Projects\Ambient\Ambient.vcxproj", "{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -139,6 +141,14 @@ Global
 		{C679D178-B86C-4053-ADCA-C268A8B3F224}.Release|x64.Build.0 = Release|x64
 		{C679D178-B86C-4053-ADCA-C268A8B3F224}.Release|x86.ActiveCfg = Release|Win32
 		{C679D178-B86C-4053-ADCA-C268A8B3F224}.Release|x86.Build.0 = Release|Win32
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Debug|x64.ActiveCfg = Debug|x64
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Debug|x64.Build.0 = Debug|x64
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Debug|x86.ActiveCfg = Debug|Win32
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Debug|x86.Build.0 = Debug|Win32
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Release|x64.ActiveCfg = Release|x64
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Release|x64.Build.0 = Release|x64
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Release|x86.ActiveCfg = Release|Win32
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +170,7 @@ Global
 		{28283ABA-CD21-4C0D-94F3-DC8E47355BCA} = {5B08DF7B-88C6-4758-92F9-F55B2FE2ABD2}
 		{5B08DF7B-88C6-4758-92F9-F55B2FE2ABD2} = {08C4202D-61E5-4D95-BB5F-246F80C37718}
 		{C679D178-B86C-4053-ADCA-C268A8B3F224} = {9DEC661C-6700-4510-AA38-7FCC7F130A00}
+		{341E47DF-42B7-4C6E-87FA-6D3A96A2B191} = {CEDFBFF4-074D-47F3-A125-37BBBED0D786}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4983060C-B398-4026-85DA-0E060E22D851}

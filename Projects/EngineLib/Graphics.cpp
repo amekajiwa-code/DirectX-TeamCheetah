@@ -94,7 +94,7 @@ void Graphics::CreateDepthStencilView()
 		desc.CPUAccessFlags = 0;
 		desc.MiscFlags = 0;
 
-		hr = DEVICE()->CreateTexture2D(&desc, nullptr, _depthStancilTexture.GetAddressOf());
+		hr = _device->CreateTexture2D(&desc, nullptr, _depthStancilTexture.GetAddressOf());
 		CHECK(hr);
 	}
 	//Create DepthStencilView
@@ -105,7 +105,7 @@ void Graphics::CreateDepthStencilView()
 		desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		desc.Texture2D.MipSlice = 0;
 
-		hr = DEVICE()->CreateDepthStencilView(_depthStancilTexture.Get(), &desc,
+		hr = _device->CreateDepthStencilView(_depthStancilTexture.Get(), &desc,
 			_depthStancilView.GetAddressOf());
 		CHECK(hr);
 	}
