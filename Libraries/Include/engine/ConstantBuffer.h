@@ -1,6 +1,4 @@
 #pragma once
-#define GRAPHICS()	Graphics::GetInstance()
-
 
 template<typename T>
 class ConstantBuffer
