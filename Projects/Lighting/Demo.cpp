@@ -67,6 +67,7 @@ void Demo::Update()
 	MANAGER_RENDERER()->Update();
 
 	{
+		//각 light별 색상을 결정하고 광원의 방향을 설정한다.
 		LightDesc lightDesc;
 		lightDesc.ambient = Vec4(0.5f);
 		lightDesc.diffuse = Vec4(1.f);
@@ -75,6 +76,7 @@ void Demo::Update()
 		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 	{
+		//광원에 영향받는 정도를 설정한다.
 		MaterialDesc desc;
 		desc.ambient = Vec4(0.2f);
 		desc.diffuse = Vec4(1.f);
@@ -83,6 +85,7 @@ void Demo::Update()
 		_obj->Update();
 	}
 	{
+		//오브젝트 마다 다른 머티리얼을 적용 할 수 있다.
 		MaterialDesc desc;
 		desc.ambient = Vec4(0.5f);
 		desc.diffuse = Vec4(1.f);
