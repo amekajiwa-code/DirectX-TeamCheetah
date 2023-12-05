@@ -1,7 +1,7 @@
 #include "Global.fx"
 
-float4 LightAmbient;
-float4 MaterialAmbient;
+float4 LightAmbient; //환경광의 색상
+float4 MaterialAmbient; //환경광을 받아들 일 수 있는 정도(0~1)
 
 VertexOutput VS(VertexTextureNormal input)
 {
