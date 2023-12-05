@@ -102,19 +102,10 @@ using namespace Microsoft::WRL;
 extern HWND g_hWnd;
 extern CGameDesc g_gameDesc;
 
-//Manager
 #include "Graphics.h"
-#include "InputManager.h"
-#include "TimeManager.h"
-#include "ResourceManager.h"
-
-//Global Macro
 #define GRAPHICS()		Graphics::GetInstance()
 #define DEVICE()		GRAPHICS()->GetDevice()
 #define DC()			GRAPHICS()->GetDeviceContext()
-#define MANAGER_INPUT() InputManager::GetInstance()
-#define MANAGER_TIME()	TimeManager::GetInstance()
-#define MANAGER_RESOURCES() ResourceManager::GetInstance()
 
 //Engine
 #include "VertexData.h"
@@ -123,12 +114,18 @@ extern CGameDesc g_gameDesc;
 #include "ConstantBuffer.h"
 #include "Geometry.h"
 #include "GeometryHelper.h"
-//#include "InputLayout.h"
-//#include "ShaderBase.h"
-//#include "RasterizerState.h"
-//#include "SamplerState.h"
-//#include "BlendState.h"
-//#include "Pipeline.h"
+
+//Manager
+#include "InputManager.h"
+#include "TimeManager.h"
+#include "ResourceManager.h"
+#include "RenderManager.h"
+
+//Global Macro
+#define MANAGER_INPUT() InputManager::GetInstance()
+#define MANAGER_TIME()	TimeManager::GetInstance()
+#define MANAGER_RESOURCES() ResourceManager::GetInstance()
+#define MANAGER_RENDERER() RenderManager::GetInstance()
 
 //Components
 #include "Component.h"

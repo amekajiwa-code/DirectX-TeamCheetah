@@ -138,6 +138,9 @@
     <ClInclude Include="MeshRenderer.h">
       <Filter>04. Component\Fixed</Filter>
     </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -226,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>04. Component\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>02. Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
