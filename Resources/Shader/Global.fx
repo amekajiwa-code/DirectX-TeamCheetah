@@ -73,5 +73,8 @@ RasterizerState FillModeWireFrame
 		SetPixelShader(CompileShader(ps_5_0, ps()));    \
 	}                                                   \
 //Function//
-
+float3 CameraPosition()
+{
+    return -V._41_42_43;
+}
 #endif

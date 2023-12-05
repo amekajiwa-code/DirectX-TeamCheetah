@@ -2,18 +2,6 @@
 
 class Shader;
 
-struct GlobalDesc
-{
-	Matrix V = Matrix::Identity;
-	Matrix P = Matrix::Identity;
-	Matrix VP = Matrix::Identity;
-};
-
-struct TransformDesc
-{
-	Matrix W = Matrix::Identity;
-};
-
 class RenderManager
 {
 private:
@@ -39,9 +27,19 @@ private:
 	TransformDesc _transformDesc;
 	shared_ptr<ConstantBuffer<TransformDesc>> _transformBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> _transformEffectBuffer;
+private:
+	LightDesc _lightDesc;
+	shared_ptr<ConstantBuffer<LightDesc>> _lightBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> _lightEffectBuffer;
+private:
+	MaterialDesc _materialDesc;
+	shared_ptr<ConstantBuffer<MaterialDesc>> _materialBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> _materialEffectBuffer;
 public:
 	void PushGlobalData(const Matrix& view, const Matrix& projection);
 	void PushTransformData(const TransformDesc& desc);
+	void PushLightData(const LightDesc& desc);
+	void PushMaterialData(const MaterialDesc& desc);
 public:
 	void Init(shared_ptr<Shader> shader);
 	void Update();

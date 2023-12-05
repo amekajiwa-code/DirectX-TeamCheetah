@@ -17,7 +17,7 @@ MeshOutput VS(VertexTextureNormal input)
 	return output;
 }
 
-//Emissive(외곽선)
+//Emissive(발광 재질)
 /*
 외곽선을 구할 때 사용한다(림라이트)
 */
