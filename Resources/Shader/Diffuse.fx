@@ -20,7 +20,7 @@ VertexOutput VS(VertexTextureNormal input)
 //Diffuse(분산광)
 /*
 물체의 표면에서 분산되어 눈으로 들어오는 빛
-각도에 따라 밝기가 다름(람베르트 공식)
+분산 된 각도에 따라 밝기가 다름(람베르트 공식)
 */
 
 float4 PS(VertexOutput input) : SV_TARGET

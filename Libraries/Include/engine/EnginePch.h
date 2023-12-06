@@ -140,6 +140,7 @@ extern CGameDesc g_gameDesc;
 #include "Texture.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "Material.h"
 
 //GameObject
 #include "GameObject.h"

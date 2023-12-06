@@ -63,7 +63,6 @@ void Demo::Init()
 void Demo::Update()
 {
 	_camera->Update();
-
 	MANAGER_RENDERER()->Update();
 
 	{

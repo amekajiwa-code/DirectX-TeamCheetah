@@ -4,6 +4,7 @@
 class Mesh;
 class Shader;
 class Texture;
+class Material;
 
 class ResourceManager
 {
@@ -105,6 +106,9 @@ inline ResourceType ResourceManager::GetResourceType()
 
 	if (std::is_same_v<T, Mesh>)
 		return ResourceType::Mesh;
+
+	if (std::is_same_v<T, Material>)
+		return ResourceType::Matertial;
 		
 	assert(false);
 	return ResourceType::None;
