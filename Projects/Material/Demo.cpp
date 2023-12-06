@@ -4,33 +4,42 @@
 
 void Demo::Init()
 {
+	//리소스 매니저 초기화
 	MANAGER_RESOURCES()->Init();
-	_shader = make_shared<Shader>(L"Lighting.fx");
-	MANAGER_RENDERER()->Init(_shader);
-
-	//Material
 	{
-		//생성
-		shared_ptr<Material> material = make_shared<Material>();
+		//리소스 추가
+		//쉐이더
+		MANAGER_RESOURCES()->AddResource(L"Default", make_shared<Shader>(L"Lighting.fx"));
+		//텍스쳐
+		wstring texAddr = RESOURCES_ADDR_TEXTURE;
+		texAddr += L"veigar.jpg";
+		auto tex = MANAGER_RESOURCES()->LoadResource<Texture>(L"veigar", texAddr.c_str());
+		MANAGER_RESOURCES()->AddResource<Texture>(L"Veigar", tex);
+		//머티리얼
 		{
-			//쉐이더 설정
-			material->SetShader(_shader);
-			//텍스쳐 설정
-			wstring texAddr = RESOURCES_ADDR_TEXTURE;
-			texAddr += L"veigar.jpg";
-			auto tex = MANAGER_RESOURCES()->LoadResource<Texture>(L"veigar", texAddr.c_str());
-			material->SetDiffuseMap(tex);
+			//생성
+			shared_ptr<Material> material = make_shared<Material>();
+			{
+				//쉐이더 설정
+				auto shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
+				material->SetShader(shader);
+				//텍스쳐 설정
+				auto tex = MANAGER_RESOURCES()->GetResource<Texture>(L"Veigar");
+				material->SetDiffuseMap(tex);
+			}
+			//Desc
+			MaterialDesc desc;
+			//각 광원(환경광, 분산광, 반사광)에 해당하는 영향을 받는 정도를 설정한다 (0~1)
+			desc.ambient = Vec4(1.f);
+			desc.diffuse = Vec4(1.f);
+			desc.specular = Vec4(1.f);
+			material->SetMaterialDesc(desc);
+			//리소스 매니저에 머티리얼 추가
+			MANAGER_RESOURCES()->AddResource<Material>(L"Veigar", material);
 		}
-		//Desc
-		MaterialDesc desc;
-		//각 광원(환경광, 분산광, 반사광)에 해당하는 영향을 받는 정도를 설정한다 (0~1)
-		desc.ambient = Vec4(1.f);
-		desc.diffuse = Vec4(1.f);
-		desc.specular = Vec4(1.f);
-		material->SetMaterialDesc(desc);
-		//리소스 매니저에 머티리얼 추가
-		MANAGER_RESOURCES()->AddResource<Material>(L"Veigar", material);
 	}
+	//랜더 매니저 초기화
+	MANAGER_RENDERER()->Init(MANAGER_RESOURCES()->GetResource<Shader>(L"Default"));
 
 	//camera
 	{
@@ -72,6 +81,8 @@ void Demo::Init()
 		}
 		//Material Set
 		{
+			//특정 오브젝트의 머티리얼 변경시 Clone을 통해 인스턴싱을 해야함 (꼭)
+			//하지 않을 경우 원본이 오염된다.
 			auto material = MANAGER_RESOURCES()->GetResource<Material>(L"Veigar")->Clone();
 			MaterialDesc& desc = material->GetMaterialDesc();
 			desc.ambient = Vec4(0.33f);

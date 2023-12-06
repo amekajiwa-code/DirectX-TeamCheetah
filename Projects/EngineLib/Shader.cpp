@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "Utils.h"
 
-Shader::Shader(wstring file) : _file(RESOURCES_ADDR_SHADER + file)
+Shader::Shader(wstring file) : _file(RESOURCES_ADDR_SHADER + file), Super(ResourceType::Shader)
 {
 	_initialStateBlock = make_shared<StateBlock>();
 	{
@@ -17,6 +17,18 @@ Shader::Shader(wstring file) : _file(RESOURCES_ADDR_SHADER + file)
 Shader::~Shader()
 {
 
+}
+
+void Shader::Load(const wstring& path)
+{
+	_initialStateBlock = make_shared<StateBlock>();
+	{
+		DC()->RSGetState(_initialStateBlock->RSRasterizerState.GetAddressOf());
+		DC()->OMGetBlendState(_initialStateBlock->OMBlendState.GetAddressOf(), _initialStateBlock->OMBlendFactor, &_initialStateBlock->OMSampleMask);
+		DC()->OMGetDepthStencilState(_initialStateBlock->OMDepthStencilState.GetAddressOf(), &_initialStateBlock->OMStencilRef);
+	}
+
+	CreateEffect();
 }
 
 void Shader::CreateEffect()

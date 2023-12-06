@@ -8,7 +8,7 @@ class Material;
 
 class ResourceManager
 {
-	using KeyObjmap = map<wstring, shared_ptr<ResourceBase>>;
+	using ResourceMap = map<wstring, shared_ptr<ResourceBase>>;
 private:
 	static ResourceManager* _instance;
 public:
@@ -23,8 +23,7 @@ private:
 	ResourceManager();
 	~ResourceManager();
 private:
-	ComPtr<ID3D11Device> _device;
-	array<KeyObjmap, RESOURCE_TYPE_COUNT> _resources;
+	array<ResourceMap, RESOURCE_TYPE_COUNT> _resources;
 public:
 	template<typename T>
 	bool AddResource(const wstring& key, shared_ptr<T> obj);
@@ -52,7 +51,7 @@ inline bool ResourceManager::AddResource(const wstring& key, shared_ptr<T> obj)
 {
 	ResourceType rType = GetResourceType<T>();
 
-	KeyObjmap& kMap = _resources[static_cast<uint8>(rType)];
+	ResourceMap& kMap = _resources[static_cast<uint8>(rType)];
 
 	auto _find = kMap.find(key);
 
@@ -70,7 +69,7 @@ template<typename T>
 inline shared_ptr<T> ResourceManager::LoadResource(const wstring& key, const wstring& path)
 {
 	auto objType = GetResourceType<T>();
-	KeyObjmap& keyMap = _resources[static_cast<uint8>(objType)];
+	ResourceMap& keyMap = _resources[static_cast<uint8>(objType)];
 
 	auto _find = keyMap.find(key);
 	if (_find != keyMap.end())
@@ -88,7 +87,7 @@ inline shared_ptr<T> ResourceManager::GetResource(const wstring& key)
 {
 	ResourceType rType = GetResourceType<T>();
 
-	KeyObjmap& kMap = _resources[static_cast<uint8>(rType)];
+	ResourceMap& kMap = _resources[static_cast<uint8>(rType)];
 
 	auto _find = kMap.find(key);
 
@@ -101,6 +100,9 @@ inline shared_ptr<T> ResourceManager::GetResource(const wstring& key)
 template<typename T>
 inline ResourceType ResourceManager::GetResourceType()
 {
+	if (std::is_same_v<T, Shader>)
+		return ResourceType::Shader;
+
 	if (std::is_same_v<T, Texture>)
 		return ResourceType::Texture;
 

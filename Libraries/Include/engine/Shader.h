@@ -8,14 +8,18 @@ struct ShaderDesc
 	ComPtr<ID3DX11Effect> effect;
 };
 
-class Shader
+class Shader : public ResourceBase
 {
+	using Super = ResourceBase;
 public:
 	friend struct Pass;
 
 public:
+	Shader() : ResourceBase(ResourceType::Shader) {}
 	Shader(wstring file);
 	~Shader();
+
+	void Load(const wstring& path);
 
 	wstring GetFile() { return _file; }
 	ComPtr<ID3DX11Effect> Effect() { return _shaderDesc.effect; }

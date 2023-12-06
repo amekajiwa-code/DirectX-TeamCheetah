@@ -5,7 +5,6 @@ ResourceManager* ResourceManager::_instance = nullptr;
 
 ResourceManager::ResourceManager()
 {
-	_device = GRAPHICS()->GetDevice();
 }
 
 ResourceManager::~ResourceManager()
