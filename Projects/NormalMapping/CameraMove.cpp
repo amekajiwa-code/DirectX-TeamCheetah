@@ -29,6 +29,23 @@ void CameraMove::Update()
 		pos += GetTransform()->GetRightVector() * _speed * _dt;
 	}
 
+	//if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
+	//{
+	//	pos += GetTransform()->GetLookVector() * _speed * _dt;
+	//}
+	//if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
+	//{
+	//	pos -= GetTransform()->GetLookVector() * _speed * _dt;
+	//}
+	//if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+	//{
+	//	pos.x -= _speed * _dt;
+	//}
+	//if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+	//{
+	//	pos.x +=  _speed * _dt;
+	//}
+
 	GetTransform()->SetPosition(pos);
 
 	//rotate

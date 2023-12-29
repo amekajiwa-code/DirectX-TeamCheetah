@@ -18,7 +18,7 @@ void Demo::Init()
 	_camera->Awake();
 	_camera->AddComponent(make_shared<Camera>());
 	_camera->AddComponent(make_shared<CameraMove>());
-	_camera->GetTransform()->SetPosition(Vec3(0.f, 0.f, -2.f));
+	_camera->GetTransform()->SetPosition(Vec3(0.f, 0.f, -5.f));
 
 	wstring texAddr = RESOURCES_ADDR_TEXTURE;
 	texAddr += L"night.png";

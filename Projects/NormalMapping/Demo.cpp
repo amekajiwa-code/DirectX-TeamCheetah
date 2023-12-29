@@ -60,6 +60,8 @@ void Demo::Init()
 		//생성 초기화
 		_obj = make_shared<GameObject>();
 		_obj->Awake();
+		_obj->GetTransform()->SetScale(Vec3(100, 100, 1));
+		_obj->GetTransform()->SetPosition(Vec3(0, 0, 100));
 		_obj->AddComponent(make_shared<MeshRenderer>());
 		//Mesh Set
 		{
@@ -77,7 +79,8 @@ void Demo::Init()
 	{
 		_obj2 = make_shared<GameObject>();
 		_obj2->Awake();
-		_obj2->GetTransform()->SetPosition(Vec3(0.5f, 0.f, 2.f));
+		_obj2->GetTransform()->SetScale(Vec3(100, 100, 1));
+		_obj2->GetTransform()->SetPosition(Vec3(500, 0.f, 0.f));
 		_obj2->AddComponent(make_shared<MeshRenderer>());
 		//Mesh Set
 		{
@@ -102,7 +105,6 @@ void Demo::Init()
 void Demo::Update()
 {
 	_camera->Update();
-	MANAGER_RENDERER()->Update();
 
 	//light
 	{
@@ -121,6 +123,8 @@ void Demo::Update()
 	{
 		_obj2->Update();
 	}
+	MANAGER_RENDERER()->Update();
+
 }
 
 void Demo::Render()

@@ -29,7 +29,7 @@ void Camera::UpdateMatrix()
 	}break;
 	case ProjectionType::Orthographic:
 	{
-		S_MatProjection = ::XMMatrixOrthographicLH(8, 6, 0.f, 1.f);
+		S_MatProjection = ::XMMatrixOrthographicLH((float)g_winSizeX, (float)g_winSizeY, 0.f, 1.f);
 	}break;
 	}
 }

@@ -15,7 +15,7 @@ public:
 	virtual ~Camera();
 //member
 private:
-	ProjectionType _type = ProjectionType::Perspective;
+	ProjectionType _type = ProjectionType::Orthographic;
 private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;
