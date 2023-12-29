@@ -15,6 +15,12 @@ void Demo::Init()
 		texAddr += L"veigar.jpg";
 		auto tex = MANAGER_RESOURCES()->LoadResource<Texture>(L"veigar", texAddr.c_str());
 		MANAGER_RESOURCES()->AddResource<Texture>(L"Veigar", tex);
+
+		wstring minimap = RESOURCES_ADDR_TEXTURE;
+		minimap += L"minimap.png";
+		auto tex2 = MANAGER_RESOURCES()->LoadResource<Texture>(L"minimap", minimap.c_str());
+		MANAGER_RESOURCES()->AddResource<Texture>(L"Minimap", tex2);
+
 		//머티리얼
 		{
 			//생성
@@ -61,7 +67,7 @@ void Demo::Init()
 		_obj = make_shared<GameObject>();
 		_obj->Awake();
 		_obj->GetTransform()->SetScale(Vec3(1600, 900, 1));
-		_obj->GetTransform()->SetPosition(Vec3(0, 0, 1.f));
+		_obj->GetTransform()->SetPosition(Vec3(0, 0, 3.f));
 		_obj->AddComponent(make_shared<MeshRenderer>());
 		//Mesh Set
 		{
@@ -79,19 +85,24 @@ void Demo::Init()
 	{
 		_obj2 = make_shared<GameObject>();
 		_obj2->Awake();
-		_obj2->GetTransform()->SetScale(Vec3(100, 100, 1));
-		_obj2->GetTransform()->SetPosition(Vec3(500, 0.f, 1.f));
+		_obj2->GetTransform()->SetScale(Vec3(500, 100, 1));
+		_obj2->GetTransform()->SetPosition(Vec3(550, -400.f, 1.f));
 		_obj2->AddComponent(make_shared<MeshRenderer>());
 		//Mesh Set
 		{
-			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Cube");
+			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Quad");
 			_obj2->GetMeshRenderer()->SetMesh(mesh);
 		}
 		//Material Set
 		{
-			//특정 오브젝트의 머티리얼 변경시 Clone을 통해 인스턴싱을 해야함 (꼭)
-			//하지 않을 경우 원본이 오염된다.
 			auto material = MANAGER_RESOURCES()->GetResource<Material>(L"Veigar")->Clone();
+			auto tex = make_shared<Texture>();
+			wstring path = RESOURCES_ADDR_TEXTURE;
+			path += L"grass.jpg";
+			tex->Load(path);
+			material->SetDiffuseMap(tex);
+			material->SetNormalMap(nullptr);
+
 			MaterialDesc& desc = material->GetMaterialDesc();
 			desc.ambient = Vec4(0.33f);
 			desc.diffuse = Vec4(0.33f);
@@ -100,11 +111,61 @@ void Demo::Init()
 		}
 	}
 
+	//obj3
+	{
+		_obj3 = make_shared<GameObject>();
+		_obj3->Awake();
+		_obj3->GetTransform()->SetScale(Vec3(200, 200, 1));
+		_obj3->GetTransform()->SetPosition(Vec3(700, 350.f, 1.f));
+		_obj3->AddComponent(make_shared<MeshRenderer>());
+
+		//머티리얼
+		{
+			//생성
+			shared_ptr<Material> material = make_shared<Material>();
+			{
+				//쉐이더 설정
+				auto shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
+				material->SetShader(shader);
+				//텍스쳐 설정
+				auto tex = MANAGER_RESOURCES()->GetResource<Texture>(L"Minimap");
+				material->SetDiffuseMap(tex);
+			}
+			//Desc
+			MaterialDesc desc;
+			//각 광원(환경광, 분산광, 반사광)에 해당하는 영향을 받는 정도를 설정한다 (0~1)
+			desc.ambient = Vec4(1.f);
+			desc.diffuse = Vec4(1.f);
+			desc.specular = Vec4(1.f);
+			material->SetMaterialDesc(desc);
+			//리소스 매니저에 머티리얼 추가
+			MANAGER_RESOURCES()->AddResource<Material>(L"Minimap", material);
+		}
+		//Mesh Set
+		{
+			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Sphere");
+			_obj3->GetMeshRenderer()->SetMesh(mesh);
+		}
+		//Material Set
+		{
+			//특정 오브젝트의 머티리얼 변경시 Clone을 통해 인스턴싱을 해야함 (꼭)
+			//하지 않을 경우 원본이 오염된다.
+			auto material = MANAGER_RESOURCES()->GetResource<Material>(L"Minimap")->Clone();
+			material->SetNormalMap(nullptr);
+			MaterialDesc& desc = material->GetMaterialDesc();
+			desc.ambient = Vec4(0.33f);
+			desc.diffuse = Vec4(0.33f);
+
+			_obj3->GetMeshRenderer()->SetMaterial(material);
+		}
+	}
+
 }
 
 void Demo::Update()
 {
 	_camera->Update();
+	MANAGER_RENDERER()->Update();
 
 	//light
 	{
@@ -113,17 +174,20 @@ void Demo::Update()
 		lightDesc.ambient = Vec4(0.5f);
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(1.f);
-		lightDesc.direction = Vec3(1.f, 0.f, 1.f);
+		lightDesc.direction = Vec3(0.f, 0.f, 1.f);
 		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 	//obj
 	{
-		_obj->Update();
-	}
-	{
 		_obj2->Update();
 	}
-	MANAGER_RENDERER()->Update();
+	{
+		_obj3->Update();
+	}
+	{
+		_obj->Update();
+	}
+
 
 }
 
