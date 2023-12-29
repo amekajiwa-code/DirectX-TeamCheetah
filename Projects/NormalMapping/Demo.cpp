@@ -60,12 +60,12 @@ void Demo::Init()
 		//생성 초기화
 		_obj = make_shared<GameObject>();
 		_obj->Awake();
-		_obj->GetTransform()->SetScale(Vec3(100, 100, 1));
+		_obj->GetTransform()->SetScale(Vec3(1600, 900, 1));
 		_obj->GetTransform()->SetPosition(Vec3(0, 0, 1.f));
 		_obj->AddComponent(make_shared<MeshRenderer>());
 		//Mesh Set
 		{
-			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Sphere");
+			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Quad");
 			_obj->GetMeshRenderer()->SetMesh(mesh);
 		}
 		//Material Set
