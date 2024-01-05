@@ -151,17 +151,16 @@ void ModelAnimator::Update()
 		if (_texture == nullptr)
 			CreateTexture();
 
-		//TOOL
-		{
-			auto rtv = GRAPHICS()->GetRenderTargetView(1);
-			auto dsv = GRAPHICS()->GetDepthStencilView(1);
+		//{
+		//	auto rtv = GRAPHICS()->GetRenderTargetView(1);
+		//	auto dsv = GRAPHICS()->GetDepthStencilView(1);
 
-			float clearColor[4] = { 0.f,0.5f,0.f,0.5f };
-			DC()->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
-			DC()->ClearRenderTargetView(rtv.Get(), clearColor);
-			DC()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-			DC()->RSSetViewports(1, &GRAPHICS()->GetViewport());
-		}
+		//	float clearColor[4] = { 0.f,0.5f,0.f,0.5f };
+		//	DC()->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
+		//	DC()->ClearRenderTargetView(rtv.Get(), clearColor);
+		//	DC()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+		//	DC()->RSSetViewports(1, &GRAPHICS()->GetViewport());
+		//}
 
 		_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
 		_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
