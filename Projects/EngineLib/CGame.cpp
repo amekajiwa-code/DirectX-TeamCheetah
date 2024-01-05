@@ -21,7 +21,10 @@ BOOL CGame::InitInstance(int cmdShow)
 	RECT windowRect = { 0, 0, _desc.width, _desc.height };
 	::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
-	_desc.hWnd = CreateWindowW(_desc.AppName.c_str(), _desc.AppName.c_str(), WS_OVERLAPPEDWINDOW,
+	_dwStyle = WS_OVERLAPPED | WS_SYSMENU;
+	//_dwStyle = WS_OVERLAPPEDWINDOW;
+	
+	_desc.hWnd = CreateWindowW(_desc.AppName.c_str(), _desc.AppName.c_str(), _dwStyle,
 		CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, _desc.hInstance, nullptr);
 
 	if (!_desc.hWnd)

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{0a28282c-0757-44fe-baa6-bbea25cf8758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{97dd4543-e9fb-4c69-99b2-3f1a47ff2b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Common">
+      <UniqueIdentifier>{4904ac4c-625f-4ee6-ba61-49fa53553672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{9f76e7fd-580b-4b0a-bb5d-465eb85be5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Component">
+      <UniqueIdentifier>{a9bcc220-f2c3-429f-ab45-248cc26ddb81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager">
+      <UniqueIdentifier>{329fdb32-7b37-4b3e-b9d9-f1b3e24e0d7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Converter">
+      <UniqueIdentifier>{00bf2971-2d5a-4354-8196-c71dc155ca0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager\GUI">
+      <UniqueIdentifier>{c549dbec-5d2c-473d-818b-fe110d5f3c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager\GUI\Component">
+      <UniqueIdentifier>{8ff8c85b-bf9f-42b0-9dc0-59c195d8b8a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Manager\Model">
+      <UniqueIdentifier>{04aea38a-89f5-4f51-bb9d-dce086fec5c9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Converter.cpp">
+      <Filter>Scripts\Converter</Filter>
+    </ClCompile>
+    <ClCompile Include="AsTypes.cpp">
+      <Filter>Scripts\Converter</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMove.cpp">
+      <Filter>Scripts\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolWindows.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIFile.cpp">
+      <Filter>Scripts\Manager\GUI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIView.cpp">
+      <Filter>Scripts\Manager\GUI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIInterface.cpp">
+      <Filter>Scripts\Manager\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>Scripts\Manager\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Scripts\Manager\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Demo.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Converter.h">
+      <Filter>Scripts\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="AsTypes.h">
+      <Filter>Scripts\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMove.h">
+      <Filter>Scripts\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolWindows.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIFile.h">
+      <Filter>Scripts\Manager\GUI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIView.h">
+      <Filter>Scripts\Manager\GUI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIInterface.h">
+      <Filter>Scripts\Manager\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>Scripts\Manager\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Scripts\Manager\Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Resources\Shader\Global.fx">
+      <Filter>Shader\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Light.fx">
+      <Filter>Shader\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\GameObject.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

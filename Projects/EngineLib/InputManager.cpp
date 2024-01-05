@@ -54,7 +54,30 @@ void InputManager::Update()
 				state = KEY_STATE::NONE;
 		}
 	}
+	//Screen pos
+	{
+		::GetCursorPos(&_mousePos);
+		::ScreenToClient(_hwnd, &_mousePos);
+		_screenMousePos.x = _mousePos.x;
+		_screenMousePos.y = _mousePos.y;
+	}
+	//World Pos
+	{
+		CalculateWorldPos();
+	}
+}
 
-	::GetCursorPos(&_mousePos);
-	::ScreenToClient(_hwnd, &_mousePos);
+void InputManager::CalculateWorldPos()
+{
+	float ndcX = ((2.0f * _screenMousePos.x) / g_gameDesc.width - 1.0f);
+	float ndcY = -((2.0f * _screenMousePos.y) / g_gameDesc.height - 1.0f);
+
+	Vec3 nVec(ndcX, ndcY, 1.0f);
+	Matrix mat = (Camera::S_MatView).Invert();
+	Vec3 last = Vec3::Transform(nVec, mat);
+
+	_worldMousePos.x = last.x;
+	_worldMousePos.y = last.y;
+	_worldMousePos.z = last.z;
+
 }

@@ -184,12 +184,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __GNUC__
 #   define AI_WONT_RETURN_SUFFIX __attribute__((noreturn))
-#elif _MSC_VER
-#if defined(__clang__)
-#   define AI_WONT_RETURN_SUFFIX __attribute__((noreturn))
-#else
-#   define AI_WONT_RETURN_SUFFIX
-#endif
 #else
 #   define AI_WONT_RETURN_SUFFIX
 #endif // (defined __clang__)
@@ -289,11 +283,7 @@ typedef unsigned int ai_uint;
 #define AI_RAD_TO_DEG(x) ((x) * (ai_real) 57.2957795)
 
 /* Numerical limits */
-#ifdef __cplusplus
-constexpr ai_real ai_epsilon = (ai_real) 1e-6;
-#else
-#define ai_epsilon ((ai_real)1e-6)
-#endif
+static const ai_real ai_epsilon = (ai_real) 1e-6;
 
 /* Support for big-endian builds */
 #if defined(__BYTE_ORDER__)

@@ -19,11 +19,15 @@ private:
 private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;
-	float _near = 1.f;
-	float _far = 1000.f;
+	float _near = 0.1f;
+	float _far = 100.f;
 	float _fov = XM_PI / 4.f;
 	float _width = 0.f;
 	float _height = 0.f;
+private:
+	Vec3 _right;
+	Vec3 _up;
+	Vec3 _look;
 public:
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;

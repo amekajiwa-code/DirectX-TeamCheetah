@@ -10,6 +10,9 @@ public:
 	static bool StartsWith(std::string str, std::string comp);
 	static bool StartsWith(std::wstring str, std::wstring comp);
 
+	static void Replace(OUT string& str, string comp, string rep);
+	static void Replace(OUT wstring& str, wstring comp, wstring rep);
+
 	static std::wstring ToWString(std::string value);
 	static std::string ToString(std::wstring value);
 

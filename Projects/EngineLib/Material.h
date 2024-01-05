@@ -5,6 +5,7 @@ class Material : public ResourceBase
 {
 	using Super = ResourceBase;
 	friend class MeshRenderer;
+	friend class ModelRenderer;
 public:
 	Material();
 	virtual ~Material();

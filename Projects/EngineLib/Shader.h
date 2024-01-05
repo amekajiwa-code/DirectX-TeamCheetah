@@ -15,7 +15,6 @@ public:
 	friend struct Pass;
 
 public:
-	Shader() : ResourceBase(ResourceType::Shader) {}
 	Shader(wstring file);
 	~Shader();
 

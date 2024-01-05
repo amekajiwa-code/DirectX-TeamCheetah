@@ -27,7 +27,7 @@ void Graphics::CreateDeviceAndSwapChain()
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
 		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		desc.BufferCount = 1;
+		desc.BufferCount = 2;
 		desc.OutputWindow = _hwnd;
 		desc.Windowed = true;
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
@@ -54,15 +54,28 @@ void Graphics::CreateDeviceAndSwapChain()
 void Graphics::CreateRenderTargetView()
 {
 	HRESULT hr;
-	ComPtr<ID3D11Texture2D> backBuffer = nullptr;
 
+	UINT size = MAX_SIZE_RTV_DSV;
+
+	_backBuffers.resize(size);
+	_renderTargetViews.resize(size);
+
+	//Main BackBuffer
 	hr = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-		(void**)backBuffer.GetAddressOf());
+		(void**)_backBuffers[0].GetAddressOf());
 	CHECK(hr);
 
-	hr = _device->CreateRenderTargetView(backBuffer.Get(), nullptr,
-		_renderTargetView.GetAddressOf());
-	CHECK(hr);
+	for (int i = 1; i < _backBuffers.size(); i++)
+	{
+		CreateRenderTexture(1600, 900, _backBuffers[i]);
+	}
+
+	for (int i = 0; i < _renderTargetViews.size(); i++)
+	{
+		hr = _device->CreateRenderTargetView(_backBuffers[i].Get(), nullptr,
+			_renderTargetViews[i].GetAddressOf());
+		CHECK(hr);
+	}
 }
 
 void Graphics::SetViewPort()
@@ -75,8 +88,36 @@ void Graphics::SetViewPort()
 	_viewPort.MaxDepth = 1.f;
 }
 
+void Graphics::CreateRenderTexture(UINT width, UINT height, ComPtr<ID3D11Texture2D>& texture)
+{
+	HRESULT hr;
+
+	//desc
+	{
+		D3D11_TEXTURE2D_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Width = width;
+		desc.Height = height;
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+
+		hr = _device->CreateTexture2D(&desc, nullptr, texture.GetAddressOf());
+		CHECK(hr);
+	}
+}
+
 void Graphics::CreateDepthStencilView()
 {
+
+	UINT size = MAX_SIZE_RTV_DSV;
+	_depthStancilTextures.resize(size);
+	_depthStancilViews.resize(size);
+
 	HRESULT hr;
 	//Create DepthStencilTexture
 	{
@@ -94,8 +135,11 @@ void Graphics::CreateDepthStencilView()
 		desc.CPUAccessFlags = 0;
 		desc.MiscFlags = 0;
 
-		hr = _device->CreateTexture2D(&desc, nullptr, _depthStancilTexture.GetAddressOf());
-		CHECK(hr);
+		for (int i = 0; i < _depthStancilTextures.size(); i++)
+		{
+			hr = _device->CreateTexture2D(&desc, nullptr, _depthStancilTextures[i].GetAddressOf());
+			CHECK(hr);
+		}
 	}
 	//Create DepthStencilView
 	{
@@ -105,9 +149,12 @@ void Graphics::CreateDepthStencilView()
 		desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		desc.Texture2D.MipSlice = 0;
 
-		hr = _device->CreateDepthStencilView(_depthStancilTexture.Get(), &desc,
-			_depthStancilView.GetAddressOf());
-		CHECK(hr);
+		for (int i = 0; i < _depthStancilViews.size(); i++)
+		{
+			hr = _device->CreateDepthStencilView(_depthStancilTextures[i].Get(), &desc,
+				_depthStancilViews[i].GetAddressOf());
+			CHECK(hr);
+		}
 	}
 }
 
@@ -130,9 +177,9 @@ void Graphics::Init()
 
 void Graphics::RenderBegin()
 {
-	_deviceContext->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStancilView.Get());
-	_deviceContext->ClearRenderTargetView(_renderTargetView.Get(), _clearColor);
-	_deviceContext->ClearDepthStencilView(_depthStancilView.Get(),
+	_deviceContext->OMSetRenderTargets(1, _renderTargetViews[0].GetAddressOf(), _depthStancilViews[0].Get());
+	_deviceContext->ClearRenderTargetView(_renderTargetViews[0].Get(), _clearColor);
+	_deviceContext->ClearDepthStencilView(_depthStancilViews[0].Get(),
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	_deviceContext->RSSetViewports(1, &_viewPort);
 }

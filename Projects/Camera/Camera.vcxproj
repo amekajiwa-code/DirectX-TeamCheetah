@@ -169,11 +169,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EngineLib\EngineLib.vcxproj">
-      <Project>{beb44029-16eb-44e8-91b6-af8b3208e491}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\World.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

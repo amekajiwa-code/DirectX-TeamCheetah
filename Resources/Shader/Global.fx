@@ -5,9 +5,9 @@
 cbuffer GlobalBuffer
 {
     matrix V;
-    matrix VInv;
     matrix P;
     matrix VP;
+    matrix VInv;
 };
 
 cbuffer TransformBuffer
@@ -46,6 +46,16 @@ struct VertexTextureNormalTangent
     float2 uv : TEXCOORD;
     float3 normal : NORMAL;
     float3 tangent : TANGENT;
+};
+
+struct VertexTextureNormalTangentBlend
+{
+    float4 position : POSITION;
+    float2 uv : TEXCOORD;
+    float3 normal : NORMAL;
+    float3 tangent : TANGENT;
+    float4 blendIndices : BLEND_INDICES;
+    float4 blendWeights : BLEND_WEIGHTS;
 };
 
 //VertexOutput//
@@ -87,12 +97,22 @@ RasterizerState FillModeWireFrame
 };
 
 //Macro//
-#define PASS_VP(name, vs, ps)                           \
-	pass name                                           \
-	{                                                   \
-		SetVertexShader(CompileShader(vs_5_0, vs()));   \
-		SetPixelShader(CompileShader(ps_5_0, ps()));    \
-	}                                                   \
+
+#define PASS_VP(name, vs, ps)						\
+pass name											\
+{													\
+	SetVertexShader(CompileShader(vs_5_0, vs()));	\
+	SetPixelShader(CompileShader(ps_5_0, ps()));	\
+}
+
+#define PASS_RS_VP(name, rs, vs, ps)				\
+pass name											\
+{													\
+    SetRasterizerState(rs);							\
+    SetVertexShader(CompileShader(vs_5_0, vs()));	\
+    SetPixelShader(CompileShader(ps_5_0, ps()));	\
+}                                                  
+
 //Function//
 float3 CameraPosition()
 {
