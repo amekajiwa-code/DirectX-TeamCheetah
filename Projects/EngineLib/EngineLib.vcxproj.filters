@@ -43,6 +43,9 @@
     <Filter Include="03. GameObject\StaticMesh">
       <UniqueIdentifier>{3e80ea2a-1e71-429e-88ac-340f849591b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Engine\Resource\Model">
+      <UniqueIdentifier>{bd7b0f9c-ef87-4059-a3f0-8dd7cee03442}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -144,6 +147,24 @@
     <ClInclude Include="Material.h">
       <Filter>00. Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="FileUtils.h">
+      <Filter>100. Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelRenderer.h">
+      <Filter>04. Component\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelMesh.h">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelAnimation.h">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelAnimator.h">
+      <Filter>04. Component\Fixed</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -238,6 +259,24 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>00. Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>100. Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelRenderer.cpp">
+      <Filter>04. Component\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelMesh.cpp">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAnimation.cpp">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>00. Engine\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAnimator.cpp">
+      <Filter>04. Component\Fixed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

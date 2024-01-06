@@ -151,8 +151,6 @@ public:
 
 
 typedef aiVector3t<ai_real> aiVector3D;
-typedef aiVector3t<float> aiVector3f;
-typedef aiVector3t<double> aiVector3d;
 
 #else
 

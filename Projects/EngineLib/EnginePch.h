@@ -5,23 +5,43 @@
 #ifdef _DEBUG
 //resources
 #define RESOURCES_ADDR_TOP L"../../Resources/"
+#define RESOURCES_ADDR_ASSET L"../../Resources/Assets/"
+#define RESOURCES_ADDR_ASSET_SKELETAL L"../../Resources/Assets/Skeletal/"
+#define RESOURCES_ADDR_ASSET_STATIC L"../../Resources/Assets/Static/"
+#define RESOURCES_ADDR_MESH L"../../Resources/Mesh/"
+#define RESOURCES_ADDR_MESH_SKELETAL L"../../Resources/Mesh/Skeletal/"
+#define RESOURCES_ADDR_MESH_STATIC L"../../Resources/Mesh/Static/"
+#define RESOURCES_ADDR_ANIMATION L"../../Resources/Animation/"
 #define RESOURCES_ADDR_SHADER L"../../Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"../../Resources/Texture/"
+#define RESOURCES_ADDR_TEXTURE_SKELETAL L"../../Resources/Texture/Skeletal/"
+#define RESOURCES_ADDR_TEXTURE_STATIC L"../../Resources/Texture/Static/"
 #define RESOURCES_ADDR_SPRITE L"../../Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"../../Resources/Sound/"
 //data
+#define DATA_ADDR_SAVE L"../../Data/Save/"
+#define DATA_ADDR_LOAD L"../../Data/Load/"
 #define DATA_ADDR_SCREENSHOT L"../../Data/ScreenShot/"
-#define DATA_ADDR_ANIMATION L"../../Data/Resources/Animation/"
 #else
 //resources
 #define RESOURCES_ADDR_TOP L"Resources/"
+#define RESOURCES_ADDR_ASSET L"Resources/Assets/"
+#define RESOURCES_ADDR_ASSET_SKELETAL L"Resources/Assets/Skeletal/"
+#define RESOURCES_ADDR_ASSET_STATIC L"Resources/Assets/Static/"
+#define RESOURCES_ADDR_MESH L"Resources/Mesh/"
+#define RESOURCES_ADDR_MESH_SKELETAL L"Resources/Mesh/Skeletal/"
+#define RESOURCES_ADDR_MESH_STATIC L"Resources/Mesh/Static/"
+#define RESOURCES_ADDR_ANIMATION L"Resources/Animation/"
 #define RESOURCES_ADDR_SHADER L"Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"Resources/Texture/"
+#define RESOURCES_ADDR_TEXTURE_SKELETAL L"Resources/Texture/Skeletal/"
+#define RESOURCES_ADDR_TEXTURE_STATIC L"Resources/Texture/Static/"
 #define RESOURCES_ADDR_SPRITE L"Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"Resources/Sound/"
 //data
+#define DATA_ADDR_SAVE L"Data/Save/"
+#define DATA_ADDR_LOAD L"Data/Load/"
 #define DATA_ADDR_SCREENSHOT L"Data/ScreenShot/"
-#define DATA_ADDR_ANIMATION L"Data/Resources/Animation/"
 #endif
 
 //Default
@@ -31,7 +51,6 @@
 //STL
 #include <memory>
 #include <iostream>
-#include <array>
 #include <vector>
 #include <list>
 #include <queue>
@@ -39,6 +58,8 @@
 #include <map>
 #include <unordered_map>
 #include <algorithm>
+#include <type_traits>
+
 using namespace std;
 
 //WINAPI
@@ -64,12 +85,22 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 
 //Lib Header
-//#include <assimp/Importer.hpp>
-//#include <assimp/Exporter.hpp>
+//assimp
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+//imgui
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 #include <imgui/ImGuiFileDialog.h>
+#include <imgui/ImGuizmo.h>
+#include <imgui/ImSequencer.h>
+#include <imgui/ImZoomSlider.h>
+#include <imgui/ImCurveEdit.h>
+#include <imgui/GraphEditor.h>
 
 //Lib
 #pragma comment(lib, "d3d11.lib")
@@ -93,7 +124,6 @@ using namespace Microsoft::WRL;
 ////Imgui
 #pragma comment(lib, "imgui\\Imgui.lib")
 #endif
-
 
 #define PI			XM_PI
 #define CHECK(p)	assert(SUCCEEDED(p))
@@ -135,12 +165,15 @@ extern CGameDesc g_gameDesc;
 #include "Transform.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "ModelRenderer.h"
+#include "ModelAnimator.h"
 
 //Resources
 #include "Texture.h"
 #include "Shader.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Model.h"
 
 //GameObject
 #include "GameObject.h"

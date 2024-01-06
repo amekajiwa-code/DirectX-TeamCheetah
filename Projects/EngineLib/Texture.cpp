@@ -38,6 +38,11 @@ void Texture::Load(const wstring& path)
 	DirectX::TexMetadata md;
 	//PNG,JPG
 	hr = DirectX::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, &md, _img);
+	if (FAILED(hr))
+	{
+		//TGA
+		hr = DirectX::LoadFromTGAFile(path.c_str(), TGA_FLAGS_NONE, &md, _img);
+	}
 	CHECK(hr);
 
 	hr = ::CreateShaderResourceView(_device.Get(), _img.GetImages(), _img.GetImageCount(),

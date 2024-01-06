@@ -53,6 +53,7 @@ public:
 	void SetScale(const Vec3& scale);
 	void SetRotation(const Vec3& rot);
 	void SetPosition(const Vec3& pos);
+	void SetLookVector(const Vec3& look) { _matWorld.Backward() = look; }
 public:
 	virtual void Awake() override;
 	virtual void Update() override;

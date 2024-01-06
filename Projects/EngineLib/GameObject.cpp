@@ -45,13 +45,43 @@ shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
 
 	return dynamic_pointer_cast<MeshRenderer>(com);
 }
-//
-//shared_ptr<Animator> GameObject::GetAnimator()
-//{
-//	shared_ptr<Component> com = GetFixedComponent(ComponentType::Animator);
-//
-//	return dynamic_pointer_cast<Animator>(com);
-//}
+
+shared_ptr<ModelRenderer> GameObject::GetModelRenderer()
+{
+	shared_ptr<Component> com = GetFixedComponent(ComponentType::ModelRenderer);
+
+	return dynamic_pointer_cast<ModelRenderer>(com);
+}
+
+shared_ptr<ModelAnimator> GameObject::GetModelAnimator()
+{
+	shared_ptr<Component> com = GetFixedComponent(ComponentType::ModelAnimator);
+
+	return dynamic_pointer_cast<ModelAnimator>(com);
+}
+
+void GameObject::SetActive(bool active)
+{
+	if (_isActive == false )
+	{
+		if (active)
+		{
+			Start();
+		}
+	}
+
+	_isActive = active;
+}
+
+void GameObject::SetName(wstring& name)
+{
+	_name = name;
+}
+
+wstring GameObject::GetName()
+{
+	return _name;
+}
 
 void GameObject::AddComponent(shared_ptr<Component> component)
 {
@@ -90,61 +120,68 @@ void GameObject::Awake()
 
 void GameObject::Start()
 {
-	for (shared_ptr<Component>& com : _components)
+	if (_isActive)
 	{
-		if (com)
-			com->Start();
-	}
+		for (shared_ptr<Component>& com : _components)
+		{
+			if (com)
+				com->Start();
+		}
 
-	for (shared_ptr<MonoBehaviour>& com : _scripts)
-	{
-		com->Start();
+		for (shared_ptr<MonoBehaviour>& com : _scripts)
+		{
+			com->Start();
+		}
 	}
 }
 
 void GameObject::FixedUpdate()
 {
-	for (shared_ptr<Component>& com : _components)
+	if (_isActive)
 	{
-		if (com)
-			com->FixedUpdate();
-	}
+		for (shared_ptr<Component>& com : _components)
+		{
+			if (com)
+				com->FixedUpdate();
+		}
 
-	for (shared_ptr<MonoBehaviour>& com : _scripts)
-	{
-		com->FixedUpdate();
+		for (shared_ptr<MonoBehaviour>& com : _scripts)
+		{
+			com->FixedUpdate();
+		}
 	}
 }
 
 void GameObject::Update()
 {
-	for (shared_ptr<Component>& com : _components)
+	if (_isActive)
 	{
-		if (com)
+		for (shared_ptr<Component>& com : _components)
+		{
+			if (com)
+				com->Update();
+		}
+
+		for (shared_ptr<MonoBehaviour>& com : _scripts)
+		{
 			com->Update();
-	}
-
-	for (shared_ptr<MonoBehaviour>& com : _scripts)
-	{
-		com->Update();
-	}
-
-	if (GetCamera())
-	{
-		return;
+		}
 	}
 }
 
 void GameObject::LateUpdate()
 {
-	for (shared_ptr<Component>& com : _components)
+	if (_isActive)
 	{
-		if (com)
-			com->LateUpdate();
-	}
+		for (shared_ptr<Component>& com : _components)
+		{
+			if (com)
+				com->LateUpdate();
+		}
 
-	for (shared_ptr<MonoBehaviour>& com : _scripts)
-	{
-		com->LateUpdate();
+		for (shared_ptr<MonoBehaviour>& com : _scripts)
+		{
+			com->LateUpdate();
+		}
 	}
 }

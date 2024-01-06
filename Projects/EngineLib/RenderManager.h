@@ -35,11 +35,21 @@ private:
 	MaterialDesc _materialDesc;
 	shared_ptr<ConstantBuffer<MaterialDesc>> _materialBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> _materialEffectBuffer;
+private:
+	BoneDesc _boneDesc;
+	shared_ptr<ConstantBuffer<BoneDesc>> _boneBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> _boneEffectBuffer;
+private:
+	KeyframeDesc _keyframeDesc;
+	shared_ptr<ConstantBuffer<KeyframeDesc>> _keyframeBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> _keyframeEffectBuffer;
 public:
 	void PushGlobalData(const Matrix& view, const Matrix& projection);
 	void PushTransformData(const TransformDesc& desc);
 	void PushLightData(const LightDesc& desc);
 	void PushMaterialData(const MaterialDesc& desc);
+	void PushBoneData(const BoneDesc& desc);
+	void PushKeyframeData(const KeyframeDesc& desc);
 public:
 	void Init(shared_ptr<Shader> shader);
 	void Update();

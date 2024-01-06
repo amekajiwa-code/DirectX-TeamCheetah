@@ -63,7 +63,7 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
         float3 E = normalize(cameraPosition - worldPosition);
         
         float value = saturate(dot(R, E));
-        float specular = pow(value, 5);
+        float specular = pow(value, 2);
 	
         specularColor = GlobalLight.specular * Material.specular * specular;
     }
