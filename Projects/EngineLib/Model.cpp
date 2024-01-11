@@ -243,7 +243,6 @@ void Model::ReadModel(wstring fileName)
 			bone->name = Utils::ToWString(file->Read<string>());
 			bone->parentIndex = file->Read<int32>();
 			bone->transform = file->Read<Matrix>();
-
 			_bones.push_back(bone);
 		}
 

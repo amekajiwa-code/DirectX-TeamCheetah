@@ -7,6 +7,14 @@ enum class ProjectionType
 	Orthographic
 };
 
+enum class CameraMode
+{
+	None,
+	Debug,
+	Target,
+	End
+};
+
 class Camera : public Component
 {
 	using Super = Component;
@@ -16,6 +24,7 @@ public:
 //member
 private:
 	ProjectionType _type = ProjectionType::Perspective;
+	CameraMode _mode = CameraMode::Debug;
 private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;
@@ -24,6 +33,8 @@ private:
 	float _fov = XM_PI / 4.f;
 	float _width = 0.f;
 	float _height = 0.f;
+private:
+	Vec3 _target;
 private:
 	Vec3 _right;
 	Vec3 _up;

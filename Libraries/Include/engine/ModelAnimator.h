@@ -20,7 +20,7 @@ private:
 private:
 	vector<AnimTransform>				_animTransforms;
 	shared_ptr<ModelAnimation>			_currentAnim;
-	ComPtr<ID3D11Texture2D>				_texture;
+	ComPtr<ID3D11Texture2D>			_texture;
 	ComPtr<ID3D11ShaderResourceView>	_srv;
 private:
 	KeyframeDesc _keyFrameDesc;
@@ -37,7 +37,7 @@ public:
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetPass(uint8 pass) { _pass = pass; }
 public:
-	void	SetAnimationByIndex(int32 index);
+	void		SetAnimationByIndex(int32 index);
 	int32	GetCurrentAnimationByIndex() const { return _keyFrameDesc.animIndex; }
 public:
 	void SetPlay(bool play) { _isPlay = play; }

@@ -104,11 +104,10 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 			{
 				ModelKeyframeData& data = frame->transforms[f];
 
-				Matrix S, R, T;
+				Matrix S, R,T;
 				S = Matrix::CreateScale(data.scale.x, data.scale.y, data.scale.z);
 				R = Matrix::CreateFromQuaternion(data.rotation);
 				T = Matrix::CreateTranslation(data.translation.x, data.translation.y, data.translation.z);
-
 				matAnimation = S * R * T;
 			}
 			else
@@ -116,10 +115,8 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 				matAnimation = Matrix::Identity;
 			}
 
-			// [ !!!!!!! ]
 			Matrix toRootMatrix = bone->transform;
 			Matrix invGlobal = toRootMatrix.Invert();
-
 			int32 parentIndex = bone->parentIndex;
 
 			Matrix matParent = Matrix::Identity;
@@ -173,32 +170,13 @@ void ModelAnimator::Update()
 
 				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
 			}
-		}
-		else
-		{
-			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
-			_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
-			if (_currentAnim)
-			{
-				_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
+			// 애니메이션 현재 프레임 정보
+			MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
 
-				if (_keyFrameDesc.sumTime >= _timePerFrame)
-				{
-					_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-					_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-					_keyFrameDesc.sumTime = 0.f;
-				}
-
-				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
-			}
+			// SRV를 통해 정보 전달
+			_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
 		}
 	}
 
-
-	// 애니메이션 현재 프레임 정보
-	MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
-
-	// SRV를 통해 정보 전달
-	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
 }
 
