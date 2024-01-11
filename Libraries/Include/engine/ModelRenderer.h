@@ -25,5 +25,6 @@ public:
 public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
+	virtual MetaData& GetMetaData() override;
 };
 

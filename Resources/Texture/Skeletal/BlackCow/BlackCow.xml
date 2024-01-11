@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+    <Material>
+        <Name>character_tauren_male_taurenmale_hd_0</Name>
+        <DiffuseFile>Body.png</DiffuseFile>
+        <SpecularFile>Body.png</SpecularFile>
+        <NormalFile>Body.png</NormalFile>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>character_tauren_male_taurenmale_hd_1</Name>
+        <DiffuseFile>taurenmaleskin00_00_extra_hd.png</DiffuseFile>
+        <SpecularFile>taurenmaleskin00_00_extra_hd.png</SpecularFile>
+        <NormalFile>taurenmaleskin00_00_extra_hd.png</NormalFile>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>character_tauren_male_taurenmale_hd_66</Name>
+        <DiffuseFile>taurenhorns_01.png</DiffuseFile>
+        <SpecularFile>taurenhorns_01.png</SpecularFile>
+        <NormalFile>taurenhorns_01.png</NormalFile>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>character_tauren_male_taurenmale_hd_99</Name>
+        <DiffuseFile>eyes00_00_3614550.png</DiffuseFile>
+        <SpecularFile>eyes00_00_3614550.png</SpecularFile>
+        <NormalFile>eyes00_00_3614550.png</NormalFile>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+</Materials>

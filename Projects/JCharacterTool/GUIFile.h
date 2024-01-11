@@ -17,6 +17,7 @@ private:
 	//Cache
 	wstring		_filePath;
 	wstring		_fileName;
+	wstring		_fileParentPath;
 	AssetType	_type;
 private:
 	//Dialog
@@ -29,7 +30,7 @@ private:
 	bool _isReadMesh = false;
 	bool _isSaveMesh = false;
 	//Animation
-	bool _isReadAnimation = false;
+	bool _isReadAnimationAsset = false;
 	bool _isSaveAnimation = false;
 	//Effect
 	bool _isReadEffect = false;
@@ -38,7 +39,8 @@ private:
 	//Helper
 	MeshPathDesc	CreateMeshPathDesc(wstring& fileName, wstring& filePath);
 	AnimPathDesc	CreateAnimPathDesc(wstring& fileName, wstring& filePath);
-	wstring			SplitFileName(string name);
+	wstring		SplitFileName(string name);
+	wstring		SplitParentFilePath(string path);
 private:
 	void MeshReadPoPUp();
 	void MeshSavePoPUp();

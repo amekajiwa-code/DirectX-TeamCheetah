@@ -6,41 +6,53 @@
 //resources
 #define RESOURCES_ADDR_TOP L"../../Resources/"
 #define RESOURCES_ADDR_ASSET L"../../Resources/Assets/"
+#define RESOURCES_ADDR_ASSET_ANIMATION L"../../Resources/Assets/Animation/"
+#define RESOURCES_ADDR_ASSET_EFFECT L"../../Resources/Assets/Effect/"
 #define RESOURCES_ADDR_ASSET_SKELETAL L"../../Resources/Assets/Skeletal/"
 #define RESOURCES_ADDR_ASSET_STATIC L"../../Resources/Assets/Static/"
 #define RESOURCES_ADDR_MESH L"../../Resources/Mesh/"
 #define RESOURCES_ADDR_MESH_SKELETAL L"../../Resources/Mesh/Skeletal/"
 #define RESOURCES_ADDR_MESH_STATIC L"../../Resources/Mesh/Static/"
+#define RESOURCES_ADDR_MESH_EFFECT L"../../Resources/Mesh/Effect/"
 #define RESOURCES_ADDR_ANIMATION L"../../Resources/Animation/"
+#define RESOURCES_ADDR_EFFECT L"../../Resources/Effect/"
 #define RESOURCES_ADDR_SHADER L"../../Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"../../Resources/Texture/"
 #define RESOURCES_ADDR_TEXTURE_SKELETAL L"../../Resources/Texture/Skeletal/"
 #define RESOURCES_ADDR_TEXTURE_STATIC L"../../Resources/Texture/Static/"
+#define RESOURCES_ADDR_TEXTURE_EFFECT L"../../Resources/Texture/Effect/"
 #define RESOURCES_ADDR_SPRITE L"../../Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"../../Resources/Sound/"
 //data
 #define DATA_ADDR_SAVE L"../../Data/Save/"
 #define DATA_ADDR_LOAD L"../../Data/Load/"
+#define DATA_ADDR_META L"../../Data/Meta/"
 #define DATA_ADDR_SCREENSHOT L"../../Data/ScreenShot/"
 #else
 //resources
 #define RESOURCES_ADDR_TOP L"Resources/"
 #define RESOURCES_ADDR_ASSET L"Resources/Assets/"
+#define RESOURCES_ADDR_ASSET_ANIMATION L"Resources/Assets/Animation/"
+#define RESOURCES_ADDR_ASSET_EFFECT L"Resources/Assets/Effect/"
 #define RESOURCES_ADDR_ASSET_SKELETAL L"Resources/Assets/Skeletal/"
 #define RESOURCES_ADDR_ASSET_STATIC L"Resources/Assets/Static/"
 #define RESOURCES_ADDR_MESH L"Resources/Mesh/"
 #define RESOURCES_ADDR_MESH_SKELETAL L"Resources/Mesh/Skeletal/"
 #define RESOURCES_ADDR_MESH_STATIC L"Resources/Mesh/Static/"
+#define RESOURCES_ADDR_MESH_EFFECT L"Resources/Mesh/Effect/"
 #define RESOURCES_ADDR_ANIMATION L"Resources/Animation/"
+#define RESOURCES_ADDR_EFFECT L"Resources/Effect/"
 #define RESOURCES_ADDR_SHADER L"Resources/Shader/"
 #define RESOURCES_ADDR_TEXTURE L"Resources/Texture/"
 #define RESOURCES_ADDR_TEXTURE_SKELETAL L"Resources/Texture/Skeletal/"
 #define RESOURCES_ADDR_TEXTURE_STATIC L"Resources/Texture/Static/"
+#define RESOURCES_ADDR_TEXTURE_EFFECT L"Resources/Texture/Effect/"
 #define RESOURCES_ADDR_SPRITE L"Resources/Sprite/"
 #define RESOURCES_ADDR_SOUND L"Resources/Sound/"
 //data
 #define DATA_ADDR_SAVE L"Data/Save/"
 #define DATA_ADDR_LOAD L"Data/Load/"
+#define DATA_ADDR_META L"Data/Meta/"
 #define DATA_ADDR_SCREENSHOT L"Data/ScreenShot/"
 #endif
 
@@ -59,6 +71,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <type_traits>
+#include <typeinfo>
 
 using namespace std;
 
@@ -125,7 +138,7 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "imgui\\Imgui.lib")
 #endif
 
-#define PI			XM_PI
+#define PI		XM_PI
 #define CHECK(p)	assert(SUCCEEDED(p))
 
 //Extern

@@ -9,16 +9,14 @@ public:
 	Model();
 	~Model();
 private:
-	shared_ptr<ModelBone>			_root;
-	vector<shared_ptr<Material>>	_materials;
-	vector<shared_ptr<ModelBone>>	_bones;
-	vector<shared_ptr<ModelMesh>>	_meshes;
-	vector<shared_ptr<ModelAnimation>> _animations;
+	shared_ptr<ModelBone>				_root;
+	vector<shared_ptr<Material>>		_materials;
+	vector<shared_ptr<ModelBone>>		_bones;
+	vector<shared_ptr<ModelMesh>>		_meshes;
+	vector<shared_ptr<ModelAnimation>>	_animations;
 private:
-	ModelType	_modelType = ModelType::None;
-	wstring		_modelPath = RESOURCES_ADDR_MESH;
-	wstring		_animPath = RESOURCES_ADDR_ANIMATION;
-	wstring		_texturePath = RESOURCES_ADDR_TEXTURE;
+	ModelType		_modelType = ModelType::None;
+	ModelMetaData	_modelData;
 private:
 	void BindCacheInfo();
 public:
@@ -42,13 +40,13 @@ public:
 	shared_ptr<ModelAnimation> GetAnimationByIndex(UINT index) { return (index < 0 || index >= _animations.size()) ? nullptr : _animations[index]; }
 	shared_ptr<ModelAnimation> GetAnimationByName(wstring name);
 public:
-	ModelType GetModelType() { return _modelType; }
-	void	  SetModelType(ModelType type);
+	ModelType		GetModelType() { return _modelType; }
+	void			SetModelType(ModelType type);
+	ModelMetaData	GetModelMetaData() { return _modelData; }
 public:
+	//Asset Read Helper
 	void ReadMaterial(wstring fileName);
 	void ReadModel(wstring fileName);
 	void ReadAnimation(wstring filename);
-public:
-	virtual void Save(const wstring& path) override;
 };
 

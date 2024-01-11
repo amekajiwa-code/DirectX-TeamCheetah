@@ -29,6 +29,12 @@ Vec3 Transform::QuatToEulerAngles(Quaternion q)
 	return angle;
 }
 
+void Transform::AddChild(shared_ptr<Transform> child)
+{
+	child->SetParent(shared_from_this());
+	_children.push_back(child);
+}
+
 void Transform::SetScale(const Vec3& scale)
 {
 	if (HasParent())
@@ -76,6 +82,46 @@ void Transform::SetPosition(const Vec3& pos)
 	{
 		SetLocalPosition(pos);
 	}
+}
+
+void Transform::PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex)
+{
+	if (node == nullptr)
+		return;
+	
+	//Data
+	TransformMetaData matData;
+
+	//Index
+	matData.parentIndex = parentIndex;
+	matData.index = localIndex;
+
+	//Local
+	matData.local.position = node->GetLocalPosition();
+	matData.local.rotation = node->GetLocalRotation();
+	matData.local.scale = node->GetLocalScale();
+
+	//Push Data
+	_transfromMetaDataList.push_back(matData);
+
+	//Preorder Search
+	auto children = node->GetChildren();
+
+	for (auto& child : children)
+	{
+		PreorderTransfroms(child, _transfromMetaDataList.size(), localIndex);
+	}
+}
+
+void Transform::LoadMetaData(wstring& metaPath)
+{
+}
+
+void Transform::SaveMetaData(wstring& metaPath)
+{
+	PreorderTransfroms(shared_from_this(), 0, -1);
+
+	Vec3 temp;
 }
 
 void Transform::Awake()

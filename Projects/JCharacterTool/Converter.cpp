@@ -15,7 +15,7 @@ Converter::~Converter()
 
 void Converter::ReadModelData(aiNode* node, int32 index, int32 parent)
 {
-	//if (node == nullptr) return;
+	if (node == nullptr) return;
 
 	shared_ptr<asBone> bone = make_shared<asBone>();
 	bone->index = index;
@@ -224,11 +224,12 @@ shared_ptr<asAnimation> Converter::ReadAnimationData(aiAnimation* srcAnimation)
 	shared_ptr<asAnimation> animation = make_shared<asAnimation>();
 	animation->name = srcAnimation->mName.C_Str();
 	animation->duration = (float)srcAnimation->mDuration;
-	//animation->frameCount = (uint32)srcAnimation->mDuration + 1;
+	animation->frameCount = srcAnimation->mDuration+1;
+	animation->frameRate = srcAnimation->mTicksPerSecond;
+
 	//animation->frameRate = (float)srcAnimation->mTicksPerSecond;
-	uint32 num = (srcAnimation->mChannels[0]->mNumPositionKeys + srcAnimation->mChannels[0]->mNumRotationKeys + srcAnimation->mChannels[0]->mNumScalingKeys) / 3;
-	animation->frameCount = num;
-	animation->frameRate = (float)(num / 2);
+	//uint32 num = (srcAnimation->mChannels[0]->mNumPositionKeys + srcAnimation->mChannels[0]->mNumRotationKeys + srcAnimation->mChannels[0]->mNumScalingKeys) / 3;
+	//animation->frameCount = num;
 
 	map<string, shared_ptr<asAnimationNode>> cacheAnimNodes;
 	for (uint32 i = 0; i < srcAnimation->mNumChannels; i++)
@@ -297,7 +298,6 @@ void Converter::WriteAnimationData(shared_ptr<asAnimation> animation, wstring fi
 	file->Write<float>(animation->duration);
 	file->Write<float>(animation->frameRate);
 	file->Write<uint32>(animation->frameCount);
-
 	file->Write<uint32>(animation->keyframes.size());
 
 	for (shared_ptr<asKeyframe> keyframe : animation->keyframes)
@@ -437,7 +437,7 @@ void Converter::WriteMaterialData(wstring finalPath)
 	//머티리얼 목록
 	tinyxml2::XMLElement* root = document->NewElement("Materials");
 	document->LinkEndChild(root);
-
+	
 	for (auto material : _materials)
 	{
 		//머티리얼 당
@@ -602,6 +602,16 @@ void Converter::Init()
 	}
 }
 
+void Converter::ExportAnimationData(wstring& name, wstring& savePath, uint32 index)
+{
+	wstring finalPath = savePath;
+	assert(index < _scene->mNumAnimations);
+
+	_animation = ReadAnimationData(_scene->mAnimations[index]);
+	_animation->name = Utils::ToString(name);
+	WriteAnimationData(_animation, finalPath);
+}
+
 void Converter::ReadAssetFile(ModelType type, wstring fileName)
 {
 	//Type Check
@@ -665,7 +675,7 @@ bool Converter::ReadAssetFile(wstring filePath)
 			aiProcess_GenUVCoords |
 			aiProcess_TransformUVCoords |
 			aiProcess_GenNormals |
-			aiProcess_CalcTangentSpace
+			aiProcess_CalcTangentSpace 
 		);
 		//is not Read
 		if (_scene == nullptr)

@@ -8,7 +8,7 @@ public:
 	Converter();
 	~Converter();
 private:
-	shared_ptr<Assimp::Importer> _importer;
+	shared_ptr<Assimp::Importer>	_importer;
 	const aiScene*				_scene = nullptr;
 	vector<aiNode*>				_nodeList;
 	vector<aiNodeAnim*>			_animNodeList;
@@ -45,6 +45,7 @@ public:
 	void ExportModelData(wstring savePath);
 	void ExportMaterialData(wstring savePath);
 	void ExportAnimationData(wstring savePath, uint32 index = 0);
+	void ExportAnimationData(wstring& name, wstring& savePath, uint32 index = 0);
 public: 
 	void Init();
 	void ReadAssetFile(ModelType type, wstring fileName);

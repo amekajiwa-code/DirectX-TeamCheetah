@@ -1,15 +1,16 @@
 #pragma once
 #include "Component.h"
 
-class Transform : public Component
+class Transform : public Component, public enable_shared_from_this<Transform>
 {
 	using Super = Component;
 public:
 	Transform();
 	virtual ~Transform();
 private:
-	shared_ptr<Transform>		  _parent;
-	vector<shared_ptr<Transform>> _children;
+	shared_ptr<Transform>			_parent;
+	vector<shared_ptr<Transform>>	_children;
+	vector<TransformMetaData>		_transfromMetaDataList;
 private:
 	//local
 	Vec3 _localScale = { 1.f,1.f,1.f };
@@ -31,7 +32,7 @@ public:
 	const vector<shared_ptr<Transform>>& GetChildren() { return _children; }
 public:
 	void SetParent(shared_ptr<Transform> parent) { _parent = parent; }
-	void AddChild(shared_ptr<Transform> child) { _children.push_back(child); }
+	void AddChild(shared_ptr<Transform> child);
 public:
 	Vec3 GetLocalScale() const { return _localScale; }
 	Vec3 GetLocalRotation() const { return _localRotation; }
@@ -54,6 +55,11 @@ public:
 	void SetRotation(const Vec3& rot);
 	void SetPosition(const Vec3& pos);
 	void SetLookVector(const Vec3& look) { _matWorld.Backward() = look; }
+private:
+	void PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex);
+public:
+	virtual void LoadMetaData(wstring& metaPath) override;
+	virtual void SaveMetaData(wstring& metaPath) override;
 public:
 	virtual void Awake() override;
 	virtual void Update() override;

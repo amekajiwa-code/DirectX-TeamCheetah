@@ -49,6 +49,7 @@ private:
 private:
 	float* ConvertMatrixToFloat(Matrix& mat);
 	void HelpMarker(const char* desc);
+	void ButtonManage();
 private:
 	//
 	void LoadedAsset();

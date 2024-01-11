@@ -57,8 +57,8 @@ struct MaterialDesc
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
 //Bone
-#define MAX_MODEL_TRANSFORMS 255
-#define MAX_MODEL_KEYFRAMES 500
+#define MAX_MODEL_TRANSFORMS 250	
+#define MAX_MODEL_KEYFRAMES 250
 
 struct BoneDesc
 {

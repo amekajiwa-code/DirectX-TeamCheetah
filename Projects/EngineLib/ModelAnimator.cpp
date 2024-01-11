@@ -99,6 +99,7 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 			Matrix matAnimation;
 
 			shared_ptr<ModelKeyframe> frame = animation->GetKeyframe(bone->name);
+
 			if (frame != nullptr)
 			{
 				ModelKeyframeData& data = frame->transforms[f];
@@ -133,6 +134,10 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 	}
 }
 
+void ModelAnimator::SetAnimationByIndex(int32 index)
+{
+}
+
 void ModelAnimator::Awake()
 {
 	_model = GetGameObject()->GetModelRenderer()->GetModel();
@@ -151,37 +156,49 @@ void ModelAnimator::Update()
 		if (_texture == nullptr)
 			CreateTexture();
 
-		//{
-		//	auto rtv = GRAPHICS()->GetRenderTargetView(1);
-		//	auto dsv = GRAPHICS()->GetDepthStencilView(1);
-
-		//	float clearColor[4] = { 0.f,0.5f,0.f,0.5f };
-		//	DC()->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
-		//	DC()->ClearRenderTargetView(rtv.Get(), clearColor);
-		//	DC()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-		//	DC()->RSSetViewports(1, &GRAPHICS()->GetViewport());
-		//}
-
-		_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
-		_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
-		if (_currentAnim)
+		if (_isLoop)
 		{
-			_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
-
-			if (_keyFrameDesc.sumTime >= _timePerFrame)
+			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
+			_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
+			if (_currentAnim)
 			{
-				_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-				_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-				_keyFrameDesc.sumTime = 0.f;
+				_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
+
+				if (_keyFrameDesc.sumTime >= _timePerFrame)
+				{
+					_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.sumTime = 0.f;
+				}
+
+				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
 			}
-
-			_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
 		}
+		else
+		{
+			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
+			_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
+			if (_currentAnim)
+			{
+				_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
 
-		// 애니메이션 현재 프레임 정보
-		MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
+				if (_keyFrameDesc.sumTime >= _timePerFrame)
+				{
+					_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.sumTime = 0.f;
+				}
 
-		// SRV를 통해 정보 전달
-		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
+			}
+		}
 	}
+
+
+	// 애니메이션 현재 프레임 정보
+	MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
+
+	// SRV를 통해 정보 전달
+	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
 }
+

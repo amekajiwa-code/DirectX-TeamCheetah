@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "GUIView.h"
+#include "AssetManager.h"
+#include "engine/Utils.h"
 
 static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 
@@ -15,11 +17,52 @@ void GUIView::HelpMarker(const char* desc)
 	}
 }
 
+void GUIView::ButtonManage()
+{
+	//Exception
+	{
+		if (!_showLoadedAsset ||
+			!_showScene)
+		{
+			_showAssetSection = false;
+		}
+		else
+		{
+			_showAssetSection = true;
+		}
+
+		if (!_showInspector ||
+			!_showBoneHierarchy)
+		{
+			_showModelSection = false;
+		}
+		else
+		{
+			_showModelSection = true;
+		}
+
+		if (!_showAssetSection ||
+			!_showLoadedAsset ||
+			!_showScene ||
+			!_showModelSection ||
+			!_showInspector ||
+			!_showBoneHierarchy ||
+			!_showAnimation)
+		{
+			_showAll = false;
+		}
+		else
+		{
+			_showAll = true;
+		}
+	}
+}
+
 GUIView::GUIView() : Super(GUIType::View)
 {
 	{
-		_loadedAssetPos.x = g_gameDesc.width - 350.f;
-		_loadedAssetPos.y = (g_gameDesc.height - 250.f);
+		_loadedAssetPos.x = 0;
+		_loadedAssetPos.y = 18.f;
 		_loadedAssetSize.x = 350.f;
 		_loadedAssetSize.y = 250.f;
 	}
@@ -33,14 +76,14 @@ GUIView::GUIView() : Super(GUIType::View)
 
 	{
 		_boneHierarchyPos.x = 0.f;
-		_boneHierarchyPos.y = 18.f;
+		_boneHierarchyPos.y = 268.f;
 		_boneHierarchySize.x = 350.f;
-		_boneHierarchySize.y = g_gameDesc.height - 18.f;
+		_boneHierarchySize.y = 632.f;
 	}
 
 	{
 		_inspectorPos.x = g_gameDesc.width - 350.f;
-		_inspectorPos.y = 18.f;
+		_inspectorPos.y = 268.f;
 		_inspectorSize.x = 350.f;
 		_inspectorSize.y = 632.f;
 	}
@@ -65,11 +108,6 @@ GUIView::GUIView() : Super(GUIType::View)
 		_transformScale[1] = 1.f;
 		_transformScale[2] = 1.f;
 	}
-
-	wstring texadr = RESOURCES_ADDR_TEXTURE;
-	texadr += L"veigar.jpg";
-	tempTex = make_shared<Texture>();
-	tempTex->CreateTexture(texadr);
 }
 
 GUIView::~GUIView()
@@ -84,9 +122,56 @@ void GUIView::LoadedAsset()
 		ImGui::SetNextWindowSize(_loadedAssetSize);
 		ImGuiWindowFlags assetFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize;
 
+		const map<wstring, shared_ptr<GameObject>>& assetList = MANAGER_ASSET()->GetLoadedAssetList();
+
+		ImGuiTabBarFlags tabBarFlag = ImGuiTabBarFlags_TabListPopupButton | ImGuiTabBarFlags_FittingPolicyResizeDown;
+
 		if (ImGui::Begin("AssetList",&_showLoadedAsset, assetFlags))
 		{
+			if (ImGui::BeginTabBar("mtbar", tabBarFlag))
+			{
+				//Skeletal Moddel Tab
+				if (ImGui::BeginTabItem("Skeletal"))
+				{
+					if (ImGui::BeginListBox("##SkeletalTabBox", ImVec2(_loadedAssetSize.x - 15, _loadedAssetSize.y - 58.f)))
+					{
+						for (auto& asset : assetList)
+						{
+							ImGui::Selectable(Utils::ToString(asset.second->GetName()).c_str());
+						}
 
+						ImGui::EndListBox();
+					}
+
+					ImGui::EndTabItem();
+				}
+				//Static Model Tab
+				if (ImGui::BeginTabItem("Static"))
+				{
+					if (ImGui::BeginListBox("##StaticTabBox", ImVec2(_loadedAssetSize.x - 15, _loadedAssetSize.y - 58.f)))
+					{
+						for (auto& asset : assetList)
+						{
+							ImGui::Selectable(Utils::ToString(asset.second->GetName()).c_str());
+						}
+
+						ImGui::EndListBox();
+					}
+
+					ImGui::EndTabItem();
+				}
+				//Animation Tab
+				if (ImGui::BeginTabItem("Animation"))
+				{
+					ImGui::EndTabItem();
+				}
+				//Effect Tab
+				if (ImGui::BeginTabItem("Effect"))
+				{
+					ImGui::EndTabItem();
+				}
+				ImGui::EndTabBar();
+			}
 		}
 		ImGui::End();
 	}
@@ -98,7 +183,9 @@ void GUIView::Scene()
 	{
 		ImGui::SetNextWindowPos(_scenePos);
 		ImGui::SetNextWindowSize(_sceneSize);
-		ImGuiWindowFlags scFlags = ImGuiWindowFlags_NoMove;
+		ImGuiWindowFlags scFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize;
+
+		MANAGER_ASSET()->Update();
 
 		ImGui::Begin("Scene", &_showScene, scFlags);
 		{
@@ -367,7 +454,6 @@ void GUIView::Update()
 			}
 		}
 
-
 		//----------------------
 		ImGui::Separator();
 		//----------------------
@@ -394,7 +480,7 @@ void GUIView::Update()
 			}
 		}
 
-		if (ImGui::MenuItem("Loaded AssetList",NULL, _showLoadedAsset))
+		if (ImGui::MenuItem("Loaded AssetList", NULL, _showLoadedAsset))
 		{
 			if (_showLoadedAsset)
 			{
@@ -494,6 +580,7 @@ void GUIView::Update()
 		ImGui::EndMenu();
 	}
 
+	ButtonManage();
 }
 
 void GUIView::Render()

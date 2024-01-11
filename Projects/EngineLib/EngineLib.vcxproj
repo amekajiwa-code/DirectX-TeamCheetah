@@ -134,12 +134,15 @@
     <PostBuildEvent>
       <Command>copy "*.h" "..\\..\\Libraries\\Include\\engine"
 copy "*.inl" "..\\..\\Libraries\\Include\\engine"
-copy "..\\..\\Libraries\\lib\\assimp\\*.dll" "..\\..\\output\\Debug"
-copy "..\\..\\Libraries\\lib\\fmod\\*.dll" "..\\..\\output\\Debug"
 copy "Bin\\Debug\\*.idb" "..\\..\\Libraries\\lib\\engine"
 copy "Bin\\Debug\\*.lib" "..\\..\\Libraries\\lib\\engine"
 copy "Bin\\Debug\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>mkdir "..\\..\\Output\\Debug"
+copy "..\\..\\Libraries\\lib\\assimp\\*.dll" "..\\..\\output\\Debug"
+copy "..\\..\\Libraries\\lib\\fmod\\*.dll" "..\\..\\output\\Debug"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -176,6 +179,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="CGame.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="GameFactory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GeometryHelper.h" />
@@ -186,6 +190,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="MetaData.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelAnimation.h" />
     <ClInclude Include="ModelAnimator.h" />
@@ -216,6 +221,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CGame.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="GameFactory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GeometryHelper.cpp" />
@@ -226,6 +232,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="MetaData.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelAnimation.cpp" />
     <ClCompile Include="ModelAnimator.cpp" />
