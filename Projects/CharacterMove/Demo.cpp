@@ -16,9 +16,13 @@ void Demo::Init()
 	{
 		_camera = make_shared<GameObject>();
 		_camera->Awake();
-		_camera->GetTransform()->SetPosition(Vec3(0.f, 0.f, -50.f));
+		_camera->GetTransform()->SetLocalPosition(Vec3(0.f, 550.f, -500.f));
+		float angle = ::XMConvertToRadians(45.f);
+		Vec3 rot = _camera->GetTransform()->GetLocalRotation();
+		rot.x += angle;
+		_camera->GetTransform()->SetLocalRotation(rot);
 		_camera->AddComponent(make_shared<Camera>());
-		_camera->AddComponent(make_shared<CameraMove>());
+		//_camera->AddComponent(make_shared<CameraMove>());
 	}
 	//light
 	{
@@ -65,21 +69,21 @@ void Demo::Init()
 		_chr = make_shared<GameObject>();
 		_chr->Awake();
 		_chr->AddChild(cow);
+		_chr->AddChild(_camera);
 		_chr->GetTransform()->SetScale(Vec3(0.1f));
 	}
 }
 
 void Demo::Update()
 {
-	_camera->Update();
 	MANAGER_RENDERER()->Update();
 
 	{
-		Vec3 look = _chr->GetTransform()->GetLookVector();
-		Vec3 tf = _chr->GetTransform()->GetPosition();
-		tf += look * 100.f * MANAGER_TIME()->GetDeltaTime();
+		//Vec3 look = _chr->GetTransform()->GetLookVector();
+		//Vec3 tf = _chr->GetTransform()->GetPosition();
+		//tf += look * 100.f * MANAGER_TIME()->GetDeltaTime();
 
-		_chr->GetTransform()->SetPosition(tf);
+		//_chr->GetTransform()->SetPosition(tf);
 
 		_chr->FixedUpdate();
 		_chr->Update();

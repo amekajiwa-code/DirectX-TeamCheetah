@@ -31,6 +31,7 @@ enum class ModelType
 	Effect,
 	End
 };
+
 //AssetType
 enum class AssetType
 {
@@ -39,5 +40,16 @@ enum class AssetType
 	StaticMesh,
 	Effect,
 	Animation,
+	End
+};
+
+//Unit State
+enum class PlayerUnitState
+{
+	None,
+	Idle,
+	Walk,
+	Run,
+
 	End
 };
