@@ -31,6 +31,7 @@ enum class ModelType
 	Effect,
 	End
 };
+
 //AssetType
 enum class AssetType
 {
@@ -39,5 +40,53 @@ enum class AssetType
 	StaticMesh,
 	Effect,
 	Animation,
+	End
+};
+
+//Object Type
+enum class ObjectType
+{
+	None,
+	Unit,
+	Environment,
+	Structure,
+	Ui,
+	End
+};
+
+//Unit State
+enum class PlayerUnitState
+{
+	None,
+	Stand,
+	Move,
+	Stun,
+	Loot,
+	Death,
+	Jump,
+	Battle,
+	Attack,
+	End
+};
+
+enum class PlayerAnimState
+{
+	None,
+	Idle,
+	FrontWalk,
+	BackWalk,
+	Run,
+	Stun,
+	Loot,
+	Death,
+	JumpStart,
+	JumpFall,
+	JumpEnd,
+	Battle,
+	Attack1,
+	Attack2,
+	Casting,
+	Ability1,
+	Ability2,
 	End
 };

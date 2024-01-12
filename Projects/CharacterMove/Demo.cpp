@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Demo.h"
 #include "CameraMove.h"
+#include "PlayerController.h"
 
 void Demo::Init()
 {
@@ -22,7 +23,7 @@ void Demo::Init()
 		rot.x += angle;
 		_camera->GetTransform()->SetLocalRotation(rot);
 		_camera->AddComponent(make_shared<Camera>());
-		//_camera->AddComponent(make_shared<CameraMove>());
+		_camera->SetName(L"Camera");
 	}
 	//light
 	{
@@ -61,16 +62,49 @@ void Demo::Init()
 		cow->AddComponent(tempRenderer);
 		cow->AddComponent(tempAnimator);
 		cow->Awake();
+		cow->Start();
+
 		Vec3 rot = cow->GetTransform()->GetLocalRotation();
 		rot.x += ::XMConvertToRadians(90.f);
 		rot.y -= ::XMConvertToRadians(90.f);
 		cow->GetTransform()->SetLocalRotation(rot);
 
 		_chr = make_shared<GameObject>();
+		_chr->SetName(L"BlackCow");
+		_chr->AddComponent(make_shared<PlayerController>());
 		_chr->Awake();
 		_chr->AddChild(cow);
 		_chr->AddChild(_camera);
+		_chr->Start();
 		_chr->GetTransform()->SetScale(Vec3(0.1f));
+	}
+
+	//Plane
+	{
+		_map = make_shared<GameObject>();
+		_map->Awake();
+
+		{
+			shared_ptr<Mesh> plane = make_shared<Mesh>();
+			plane->CreateQuad();
+			shared_ptr<Material> mtrl = make_shared<Material>();
+			mtrl->SetShader(_shader);
+			wstring tex = RESOURCES_ADDR_TEXTURE;
+			tex += L"grass.jpg";
+			shared_ptr<Texture> grass = make_shared<Texture>();
+			grass->Load(tex);
+			mtrl->SetDiffuseMap(grass);
+
+			shared_ptr<MeshRenderer> _renderer = make_shared<MeshRenderer>();
+			_renderer->SetMesh(plane);
+			_renderer->SetMaterial(mtrl);
+			_map->AddComponent(_renderer);
+		}
+		_map->GetTransform()->SetScale(Vec3(100, 100, 1));
+
+		Vec3 rot = _map->GetTransform()->GetLocalRotation();
+		rot.x += ::XMConvertToRadians(90.f);
+		_map->GetTransform()->SetRotation(rot);
 	}
 }
 
@@ -79,16 +113,13 @@ void Demo::Update()
 	MANAGER_RENDERER()->Update();
 
 	{
-		//Vec3 look = _chr->GetTransform()->GetLookVector();
-		//Vec3 tf = _chr->GetTransform()->GetPosition();
-		//tf += look * 100.f * MANAGER_TIME()->GetDeltaTime();
-
-		//_chr->GetTransform()->SetPosition(tf);
-
 		_chr->FixedUpdate();
 		_chr->Update();
 		_chr->LateUpdate();
+	}
 
+	{
+		_map->Update();
 	}
 }
 

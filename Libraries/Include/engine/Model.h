@@ -16,7 +16,7 @@ private:
 	vector<shared_ptr<ModelAnimation>>	_animations;
 private:
 	ModelType		_modelType = ModelType::None;
-	ModelMetaData	_modelData;
+	ModelMetaData		_modelData;
 private:
 	void BindCacheInfo();
 public:
@@ -41,8 +41,8 @@ public:
 	shared_ptr<ModelAnimation> GetAnimationByName(wstring name);
 public:
 	ModelType		GetModelType() { return _modelType; }
-	void			SetModelType(ModelType type);
-	ModelMetaData	GetModelMetaData() { return _modelData; }
+	void				SetModelType(ModelType type);
+	ModelMetaData		GetModelMetaData() { return _modelData; }
 public:
 	//Asset Read Helper
 	void ReadMaterial(wstring fileName);

@@ -19,16 +19,17 @@ private:
 	uint8				_pass = 0;
 private:
 	vector<AnimTransform>				_animTransforms;
+	vector<shared_ptr<ModelAnimation>> _anims;
 	shared_ptr<ModelAnimation>			_currentAnim;
 	ComPtr<ID3D11Texture2D>			_texture;
 	ComPtr<ID3D11ShaderResourceView>	_srv;
 private:
 	KeyframeDesc _keyFrameDesc;
-	uint16	_animCount = 0;
-	bool	_isPlay = false;
-	bool	_isLoop = false;
-	float	_timePerFrame = 0.f;
-	float	_duration = 0.f;
+	uint16		_animCount = 0;
+	bool			_isPlay = false;
+	bool			_isLoop = false;
+	float		_timePerFrame = 0.f;
+	float		_duration = 0.f;
 private:
 	void CreateTexture();
 	void CreateAnimationTransform(uint32 index);
@@ -37,15 +38,14 @@ public:
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetPass(uint8 pass) { _pass = pass; }
 public:
-	void		SetAnimationByIndex(int32 index);
-	int32	GetCurrentAnimationByIndex() const { return _keyFrameDesc.animIndex; }
+	void		SetAnimationByName(wstring name);
 public:
 	void SetPlay(bool play) { _isPlay = play; }
 	bool GetPlay() const { return _isPlay; }
 	void SetLoop(bool loop) { _isLoop = loop; }
 	bool GetLoop() const { return _isLoop; }
 public:
-	virtual void Awake() override;
+	virtual void Start() override;
 	virtual void Update() override;
 };
 

@@ -17,9 +17,9 @@ private:
 	Vec3 _localRotation = { 0.f,0.f,0.f };
 	Vec3 _localPosition = { 0.f,0.f,0.f };
 	//world
-	Vec3 _scale;
-	Vec3 _rotation;
-	Vec3 _position;
+	Vec3 _scale = { 1,1,1 };
+	Vec3 _rotation = { 0,0,0 };
+	Vec3 _position = { 0,0,0 };
 private:
 	Matrix _matLocal = Matrix::Identity;
 	Matrix _matWorld = Matrix::Identity;

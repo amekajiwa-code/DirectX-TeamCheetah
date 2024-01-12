@@ -73,7 +73,7 @@ void GameObject::SetActive(bool active)
 	_isActive = active;
 }
 
-void GameObject::SetName(wstring& name)
+void GameObject::SetName(wstring name)
 {
 	_name = name;
 }
@@ -89,6 +89,19 @@ void GameObject::AddChild(shared_ptr<GameObject>& child)
 	_children.push_back(child);
 
 	GetTransform()->AddChild(child->GetTransform());
+}
+
+shared_ptr<GameObject> GameObject::GetChildByName(wstring name)
+{
+	shared_ptr<GameObject> temp;
+
+	for (auto child : _children)
+	{
+		if (child->GetName() == name)
+			temp = child;
+	}
+
+	return temp;
 }
 
 void GameObject::LoadGameObjcet(wstring& loadPath)

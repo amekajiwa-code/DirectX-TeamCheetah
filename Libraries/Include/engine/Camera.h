@@ -7,14 +7,6 @@ enum class ProjectionType
 	Orthographic
 };
 
-enum class CameraMode
-{
-	None,
-	Debug,
-	Target,
-	End
-};
-
 class Camera : public Component
 {
 	using Super = Component;
@@ -24,7 +16,6 @@ public:
 //member
 private:
 	ProjectionType _type = ProjectionType::Perspective;
-	CameraMode _mode = CameraMode::Debug;
 private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;

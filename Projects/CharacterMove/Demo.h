@@ -14,5 +14,7 @@ private:
 	shared_ptr<GameObject>	_camera;
 	//Character
 	shared_ptr<GameObject>	_chr;
+	//Map
+	shared_ptr<GameObject> _map;
 };
 

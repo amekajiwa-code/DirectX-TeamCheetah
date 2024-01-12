@@ -61,7 +61,6 @@
 #include "Structs.h"
 
 //STL
-#include <memory>
 #include <iostream>
 #include <vector>
 #include <list>

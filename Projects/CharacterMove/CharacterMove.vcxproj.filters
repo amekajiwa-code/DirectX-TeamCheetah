@@ -30,6 +30,9 @@
     <ClCompile Include="CameraMove.cpp">
       <Filter>Scripts\Component</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="CameraMove.h">
       <Filter>Scripts\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

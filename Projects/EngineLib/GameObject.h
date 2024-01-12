@@ -31,10 +31,12 @@ public:
 public:
 	void SetActive(bool active);
 	bool GetActive() { return _isActive; }
-	void SetName(wstring& name);
+	void SetName(wstring name);
 	wstring GetName();
+public:
 	void SetParent(const shared_ptr<GameObject>& parent) { _parent = parent; }
 	void AddChild(shared_ptr<GameObject>& child);
+	shared_ptr<GameObject> GetChildByName(wstring name);
 public:
 	void LoadGameObjcet(wstring& loadPath);
 	void SaveGameObject(wstring& savePath);

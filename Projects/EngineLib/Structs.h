@@ -3,7 +3,10 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <memory>
 #include "Types.h"
+
+class GameObject;
 
 struct CGameDesc
 {
@@ -48,6 +51,7 @@ struct LightDesc
 	Vec3 direction;
 	float padding0 = 0;
 };
+
 //Material
 struct MaterialDesc
 {
@@ -56,6 +60,7 @@ struct MaterialDesc
 	Color specular = Color(0.f, 0.f, 0.f, 1.f);
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
+
 //Bone
 #define MAX_MODEL_TRANSFORMS 250	
 #define MAX_MODEL_KEYFRAMES 250
@@ -83,4 +88,11 @@ struct KeyframeDesc
 	float sumTime = 0.f;
 	float speed = 1.f;
 	Vec2 padding;
+};
+
+//Event Protocol
+struct EventArgs
+{
+	std::weak_ptr<GameObject> _sender;
+	DWORD _protocol;
 };
