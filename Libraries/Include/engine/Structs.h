@@ -25,6 +25,8 @@ struct CGameDesc
 	bool vsync = false;
 	//BackBuffer Clear Color
 	Color clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
+	//MouseWheel if (state == 1) up, or (state == -1 )down
+	int WheelState = 0;
 };
 
 struct GlobalDesc

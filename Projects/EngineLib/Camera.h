@@ -16,9 +16,12 @@ public:
 //member
 private:
 	ProjectionType _type = ProjectionType::Perspective;
+	CameraType _camType = CameraType::Normal;
 private:
 	Matrix _matView = Matrix::Identity;
 	Matrix _matProjection = Matrix::Identity;
+	Matrix _matAround = Matrix::Identity;
+
 	float _near = 0.1f;
 	float _far = 1000.f;
 	float _fov = XM_PI / 4.f;
@@ -27,13 +30,15 @@ private:
 private:
 	Vec3 _target;
 private:
-	Vec3 _right;
-	Vec3 _up;
+	Vec3 _eye;
 	Vec3 _look;
+	Vec3 _up;
 public:
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;
 //function
+private:
+	Matrix CalculateViewMat(const Vec3 axis);
 public:
 	void SetProjectionType(ProjectionType type) { _type = type; }
 	void SetNear(float value) { _near = value; }
@@ -41,6 +46,7 @@ public:
 	void SetFov(float value) { _fov = value; }
 	void SetWidth(float value) { _width = value; }
 	void SetHeight(float value) { _height = value; }
+	void SetCameraType(CameraType type) { _camType = type; }
 public:
 	ProjectionType GetProjectionType() const { return _type; }
 	Matrix& GetViewMatrix() { return _matView; }

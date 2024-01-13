@@ -2,6 +2,7 @@
 #include "Demo.h"
 #include "CameraMove.h"
 #include "PlayerController.h"
+#include "engine\Utils.h"
 
 void Demo::Init()
 {
@@ -17,12 +18,9 @@ void Demo::Init()
 	{
 		_camera = make_shared<GameObject>();
 		_camera->Awake();
-		_camera->GetTransform()->SetLocalPosition(Vec3(0.f, 550.f, -500.f));
-		float angle = ::XMConvertToRadians(45.f);
-		Vec3 rot = _camera->GetTransform()->GetLocalRotation();
-		rot.x += angle;
-		_camera->GetTransform()->SetLocalRotation(rot);
+		_camera->GetTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
 		_camera->AddComponent(make_shared<Camera>());
+		_camera->GetCamera()->SetCameraType(CameraType::Target);
 		_camera->SetName(L"Camera");
 	}
 	//light
@@ -120,6 +118,11 @@ void Demo::Update()
 
 	{
 		_map->Update();
+	}
+
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
+	{
+		Utils::ScreenShot(DC(),L"");
 	}
 }
 

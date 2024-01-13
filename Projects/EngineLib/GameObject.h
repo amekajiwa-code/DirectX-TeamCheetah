@@ -24,7 +24,7 @@ public:
 	shared_ptr<Component>		GetFixedComponent(ComponentType type);
 public:
 	shared_ptr<Transform>		GetTransform();
-	shared_ptr<Camera>		GetCamera();
+	shared_ptr<Camera>			GetCamera();
 	shared_ptr<MeshRenderer>	GetMeshRenderer();
 	shared_ptr<ModelRenderer>	GetModelRenderer();
 	shared_ptr<ModelAnimator>	GetModelAnimator();
@@ -37,6 +37,7 @@ public:
 	void SetParent(const shared_ptr<GameObject>& parent) { _parent = parent; }
 	void AddChild(shared_ptr<GameObject>& child);
 	shared_ptr<GameObject> GetChildByName(wstring name);
+	shared_ptr<GameObject> GetParent() { return _parent; }
 public:
 	void LoadGameObjcet(wstring& loadPath);
 	void SaveGameObject(wstring& savePath);

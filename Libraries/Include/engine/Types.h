@@ -22,6 +22,16 @@ using Color = DirectX::XMFLOAT4;
 using Matrix = DirectX::SimpleMath::Matrix;
 using Quaternion = DirectX::SimpleMath::Quaternion;
 
+//Cameratype
+enum class CameraType
+{
+	None,
+	Debug,
+	Normal,
+	Target,
+	End
+};
+
 //Model Type
 enum class ModelType
 {

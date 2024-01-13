@@ -13,6 +13,7 @@ private:
 	Vec3 _rotation;
 	Vec3 _pos;
 	Vec3 _target;
+	float _camSpeed = 2000.f;
 private:
 	weak_ptr<ModelAnimator> _animator;
 	float _speed = 200.f;
@@ -21,7 +22,10 @@ private:
 	weak_ptr<GameObject> _camera;
 	Vec3 _prevMousePos;
 	Vec3 _currentMousePos;
-	Vec3 _camRotation;
+	Vec3 _camRot;
+	Vec3 _camPos;
+	Vec3 _playerRot;
+	Vec3 _platerPos;
 private:
 	void CameraMove();
 	void PlayerInput();

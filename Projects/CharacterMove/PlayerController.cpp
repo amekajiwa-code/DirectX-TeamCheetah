@@ -11,24 +11,60 @@ PlayerController::~PlayerController()
 
 void PlayerController::CameraMove()
 {
-
 	_dt = MANAGER_TIME()->GetDeltaTime();
+	_currentMousePos = MANAGER_INPUT()->GetScreenMousePos();
 
+	//마우스 왼쪽 버튼 누르고 있을 때
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::LBUTTON))
 	{
-		//shared_ptr<Transform> tf =
-		_camRotation = _camera.lock()->GetTransform()->GetLocalRotation();
+		{
+			_camRot = _camera.lock()->GetTransform()->GetLocalRotation();
 
-		float deltaX = _currentMousePos.x - _prevMousePos.x;
-		_camRotation.y -= deltaX * _dt * 0.075f;
+			float deltaX = _currentMousePos.x - _prevMousePos.x;
+			float deltaY = _currentMousePos.y - _prevMousePos.y;
 
-		//_camRotation.x = (std::max<float>(std::min(_camRotation.x, 90.0f), -90.0f));
-		_camera.lock()->GetTransform()->SetLocalRotation(_camRotation);
+			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
+			_camRot.z = 0;
+
+			_camera.lock()->GetTransform()->RotateAround(_camRot);
+		}
 	}
+	//마우스 오른쪽 버튼 누르고 있을 때
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
-		
+		{
+			_playerRot = GetTransform()->GetLocalRotation();
+			float deltaX = _currentMousePos.x - _prevMousePos.x;
+			_playerRot.y -= deltaX * _dt * 0.3f;
+			GetTransform()->SetRotation(_playerRot);
+		}
 	}
+
+	//휠 올렸을 때
+	if (g_gameDesc.WheelState == 1)
+	{
+		_camPos = _camera.lock()->GetTransform()->GetLocalPosition();
+		if (_camPos.z <= 1000.f)
+		{
+			_camPos.z += _camSpeed * _dt;
+			_camera.lock()->GetTransform()->SetLocalPosition(_camPos);
+		}
+	}
+	//휠 내렸을 때
+	else if (g_gameDesc.WheelState == -1)
+	{
+		_camPos = _camera.lock()->GetTransform()->GetLocalPosition();
+
+		if (_camPos.z >= -1000.f)
+		{
+			_camPos.z -= _camSpeed * _dt;
+			_camera.lock()->GetTransform()->SetLocalPosition(_camPos);
+		}
+	}
+
+
+	_prevMousePos = _currentMousePos;
 }
 
 void PlayerController::PlayerInput()
@@ -50,6 +86,7 @@ void PlayerController::PlayerInput()
 
 	}
 
+	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
 		_pos = _transform.lock()->GetPosition();
@@ -58,6 +95,7 @@ void PlayerController::PlayerInput()
 		_pos += _look * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_pos);
 	}
+	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
 		_pos = _transform.lock()->GetPosition();
@@ -66,6 +104,7 @@ void PlayerController::PlayerInput()
 		_pos -= _look * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_pos);
 	}
+	//왼쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
 		_pos = _transform.lock()->GetPosition();
@@ -74,6 +113,7 @@ void PlayerController::PlayerInput()
 		_pos -= _right * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_pos);
 	}
+	//오른쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
 		_pos = _transform.lock()->GetPosition();

@@ -21,8 +21,8 @@ BOOL CGame::InitInstance(int cmdShow)
 	RECT windowRect = { 0, 0, _desc.width, _desc.height };
 	::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
-	_dwStyle = WS_OVERLAPPED | WS_SYSMENU;
-	//_dwStyle = WS_OVERLAPPEDWINDOW;
+	//_dwStyle = WS_OVERLAPPED | WS_SYSMENU;
+	_dwStyle = WS_OVERLAPPEDWINDOW;
 	
 	_desc.hWnd = CreateWindowW(_desc.AppName.c_str(), _desc.AppName.c_str(), _dwStyle,
 		CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, _desc.hInstance, nullptr);
@@ -63,6 +63,20 @@ LRESULT CGame::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_SIZE:
 		break;
+	case WM_MOUSEWHEEL:
+	{
+		int rawData = GET_WHEEL_DELTA_WPARAM(wParam);
+
+		if (rawData > 0)
+		{
+			g_gameDesc.WheelState = 1;
+		}
+		else if (rawData < 0)
+		{
+			g_gameDesc.WheelState = -1;
+		}
+		break;
+	}
 	case WM_CLOSE:
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -104,7 +118,9 @@ WPARAM CGame::Run(CGameDesc& desc)
 		}
 		else
 		{
+
 			Update();
+			g_gameDesc.WheelState = 0;
 		}
 	}
 
