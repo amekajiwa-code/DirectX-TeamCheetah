@@ -84,7 +84,7 @@ void Transform::SetPosition(const Vec3& pos)
 	}
 }
 
-void Transform::RotateAround(const Vec3& axis)
+void Transform::RotateAround(const Vec3 axis)
 {
 	Matrix matScale = Matrix::CreateScale(_localScale);
 	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
@@ -98,8 +98,10 @@ void Transform::RotateAround(const Vec3& axis)
 	r1 = Matrix::CreateRotationX(axis.x);
 	r2 = Matrix::CreateRotationY(axis.y);
 	r3 = Matrix::CreateRotationZ(axis.z);
-	 
-	rFinal = r1 * r2 * r3;
+
+	_aroundRotInvert = rFinal = r1 * r2 * r3;
+	_aroundRotInvert.Invert(_aroundRotInvert);
+
 	rFinal = W * rFinal;
 
 	Quaternion qTemp;
@@ -107,6 +109,10 @@ void Transform::RotateAround(const Vec3& axis)
 	_rotation = QuatToEulerAngles(qTemp);
 
 	UpdateTransform();
+}
+
+void Transform::InitRotate()
+{
 }
 
 void Transform::PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex)

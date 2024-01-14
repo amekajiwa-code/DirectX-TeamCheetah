@@ -56,7 +56,9 @@ public:
 	void SetPosition(const Vec3& pos);
 	void SetLookVector(const Vec3& look) { _matWorld.Backward() = look; }
 public:
-	void RotateAround(const Vec3& axis);
+	Matrix _aroundRotInvert = Matrix::Identity;
+	void RotateAround(const Vec3 axis);
+	void InitRotate();
 private:
 	void PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex);
 public:

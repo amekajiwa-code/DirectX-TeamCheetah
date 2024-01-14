@@ -9,6 +9,26 @@ PlayerController::~PlayerController()
 {
 }
 
+Vec3 PlayerController::QuatToEulerAngles(Quaternion q)
+{
+	Vec3 angle;
+
+	//x roll
+	double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
+	double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+	angle.x = std::atan2(sinr_cosp, cosr_cosp);
+	//y pitch
+	double sinp = std::sqrt(1 + 2 * (q.w * q.y - q.x * q.z));
+	double cosp = std::sqrt(1 - 2 * (q.w * q.y - q.x * q.z));
+	angle.y = std::atan2(sinp, cosp) - PI;
+	//z yaw
+	double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
+	double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+	angle.z = std::atan2(siny_cosp, cosy_cosp);
+
+	return angle;
+}
+
 void PlayerController::CameraMove()
 {
 	_dt = MANAGER_TIME()->GetDeltaTime();
@@ -17,27 +37,44 @@ void PlayerController::CameraMove()
 	//마우스 왼쪽 버튼 누르고 있을 때
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::LBUTTON))
 	{
-		{
-			_camRot = _camera.lock()->GetTransform()->GetLocalRotation();
 
-			float deltaX = _currentMousePos.x - _prevMousePos.x;
-			float deltaY = _currentMousePos.y - _prevMousePos.y;
-
-			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
-			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
-			_camRot.z = 0;
-
-			_camera.lock()->GetTransform()->RotateAround(_camRot);
-		}
 	}
 	//마우스 오른쪽 버튼 누르고 있을 때
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
+		if( MANAGER_INPUT()->GetButton(KEY_TYPE::W) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::S) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::A) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
-			_playerRot = GetTransform()->GetLocalRotation();
-			float deltaX = _currentMousePos.x - _prevMousePos.x;
-			_playerRot.y -= deltaX * _dt * 0.3f;
-			GetTransform()->SetRotation(_playerRot);
+			{
+				_playerRot = GetTransform()->GetLocalRotation();
+				float deltaX = _currentMousePos.x - _prevMousePos.x;
+				_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
+				GetTransform()->SetLocalRotation(_playerRot);
+
+				const auto& Camtransform = _camera.lock()->GetTransform();
+
+				Matrix rFinal = Camtransform->GetWorldMatrix() * GetTransform()->GetWorldMatrix().Invert();
+				Vec3 temp = { rFinal._41,rFinal._42,rFinal._43 };
+				temp.x = 0;
+				Camtransform->SetLocalPosition(temp);
+			}
+		}
+		else
+		{
+			{
+				_camRot = _camera.lock()->GetTransform()->GetLocalRotation();
+
+				float deltaX = _currentMousePos.x - _prevMousePos.x;
+				float deltaY = _currentMousePos.y - _prevMousePos.y;
+
+				_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+				_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
+				_camRot.z = 0;
+
+				_camera.lock()->GetTransform()->RotateAround(_camRot);
+			}
 		}
 	}
 

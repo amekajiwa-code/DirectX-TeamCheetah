@@ -27,6 +27,7 @@ private:
 	Vec3 _playerRot;
 	Vec3 _platerPos;
 private:
+	Vec3 QuatToEulerAngles(Quaternion q);
 	void CameraMove();
 	void PlayerInput();
 public:
