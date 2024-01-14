@@ -86,18 +86,10 @@ void Transform::SetPosition(const Vec3& pos)
 
 void Transform::RotateAround(const Vec3 axis)
 {
-	Matrix matScale = Matrix::CreateScale(_localScale);
-	Quaternion mq = Quaternion::CreateFromYawPitchRoll(_localRotation.y, _localRotation.x, _localRotation.z);
-	Matrix matRot = Matrix::CreateFromQuaternion(mq);
-	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
-
-	//Matrix W = matScale * matRot * matTranslation;
-	Matrix W = _matLocal;
-
 	Quaternion qt = Quaternion::CreateFromYawPitchRoll(axis.y, axis.x, axis.z);
 	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
 
-	rFinal = W * rFinal;
+	rFinal = _matLocal * rFinal;
 
 	Quaternion qTemp;
 	rFinal.Decompose(_localScale, qTemp, _localPosition);
