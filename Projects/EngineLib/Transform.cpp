@@ -91,7 +91,8 @@ void Transform::RotateAround(const Vec3 axis)
 	Matrix matRot = Matrix::CreateFromQuaternion(mq);
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
 
-	Matrix W = matScale * matRot * matTranslation;
+	//Matrix W = matScale * matRot * matTranslation;
+	Matrix W = _matLocal;
 
 	Quaternion qt = Quaternion::CreateFromYawPitchRoll(axis.y, axis.x, axis.z);
 	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
