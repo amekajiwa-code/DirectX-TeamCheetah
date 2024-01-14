@@ -43,12 +43,13 @@ void Camera::UpdateMatrix()
 	{
 		_eye = GetTransform()->GetPosition();
 		_look = GetGameObject()->GetParent()->GetTransform()->GetPosition();
-		_look.y += 10.f;
+		_look.y += 15.f;
 		_up = GetTransform()->GetUpVector();
 	}break;
 	}
 
 	S_MatView = _matView = ::XMMatrixLookAtLH(_eye, _look, _up);
+
 
 	switch (_type)
 	{
