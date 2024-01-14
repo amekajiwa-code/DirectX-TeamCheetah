@@ -42,6 +42,17 @@ void PlayerController::CameraMove()
 	//마우스 오른쪽 버튼 누르고 있을 때
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
+		{
+			float deltaX = _currentMousePos.x - _prevMousePos.x;
+			float deltaY = _currentMousePos.y - _prevMousePos.y;
+
+			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
+			_camRot.z = 0;
+
+			_camera.lock()->GetTransform()->RotateAround(_camRot);
+		}
+
 		if( MANAGER_INPUT()->GetButton(KEY_TYPE::W) ||
 			MANAGER_INPUT()->GetButton(KEY_TYPE::S) ||
 			MANAGER_INPUT()->GetButton(KEY_TYPE::A) ||
@@ -58,24 +69,12 @@ void PlayerController::CameraMove()
 				Matrix rFinal = Camtransform->GetWorldMatrix() * GetTransform()->GetWorldMatrix().Invert();
 				Vec3 temp = { rFinal._41,rFinal._42,rFinal._43 };
 				temp.x = 0;
+				if (temp.z >= 0)
+					temp.z = -temp.z;
 				Camtransform->SetLocalPosition(temp);
 			}
 		}
-		else
-		{
-			{
-				_camRot = _camera.lock()->GetTransform()->GetLocalRotation();
 
-				float deltaX = _currentMousePos.x - _prevMousePos.x;
-				float deltaY = _currentMousePos.y - _prevMousePos.y;
-
-				_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
-				_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
-				_camRot.z = 0;
-
-				_camera.lock()->GetTransform()->RotateAround(_camRot);
-			}
-		}
 	}
 
 	//휠 올렸을 때

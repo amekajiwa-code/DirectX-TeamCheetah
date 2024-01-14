@@ -87,20 +87,14 @@ void Transform::SetPosition(const Vec3& pos)
 void Transform::RotateAround(const Vec3 axis)
 {
 	Matrix matScale = Matrix::CreateScale(_localScale);
-	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
-	matRot *= Matrix::CreateRotationY(_localRotation.y);
-	matRot *= Matrix::CreateRotationZ(_localRotation.z);
+	Quaternion mq = Quaternion::CreateFromYawPitchRoll(_localRotation.y, _localRotation.x, _localRotation.z);
+	Matrix matRot = Matrix::CreateFromQuaternion(mq);
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
 
 	Matrix W = matScale * matRot * matTranslation;
 
-	Matrix r1, r2,r3, rFinal;
-	r1 = Matrix::CreateRotationX(axis.x);
-	r2 = Matrix::CreateRotationY(axis.y);
-	r3 = Matrix::CreateRotationZ(axis.z);
-
-	_aroundRotInvert = rFinal = r1 * r2 * r3;
-	_aroundRotInvert.Invert(_aroundRotInvert);
+	Quaternion qt = Quaternion::CreateFromYawPitchRoll(axis.y, axis.x, axis.z);
+	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
 
 	rFinal = W * rFinal;
 
@@ -166,9 +160,8 @@ void Transform::Update()
 void Transform::UpdateTransform()
 {
 	Matrix matScale = Matrix::CreateScale(_localScale);
-	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
-	matRot *= Matrix::CreateRotationY(_localRotation.y);
-	matRot *= Matrix::CreateRotationZ(_localRotation.z);
+	Quaternion mq = Quaternion::CreateFromYawPitchRoll(_localRotation.y, _localRotation.x, _localRotation.z);
+	Matrix matRot = Matrix::CreateFromQuaternion(mq);
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
 
 	_matLocal = matScale * matRot * matTranslation;

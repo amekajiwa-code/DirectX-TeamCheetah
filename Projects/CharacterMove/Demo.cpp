@@ -26,10 +26,23 @@ void Demo::Init()
 	//light
 	{
 		LightDesc lightDesc;
-		lightDesc.ambient = Vec4(0.93, 0.91f, 0.67f, 1.0f);
-		lightDesc.diffuse = Vec4(0.93, 0.91f, 0.67f, 1.0f);
-		lightDesc.specular = Vec4(0.93, 0.91f, 0.67f, 1.0f);
-		lightDesc.direction = Vec3(1.f, -1.f, -1.f);
+		lightDesc.ambient = Vec4(1.f, 1.f, 1.f, 1.0f);
+		lightDesc.diffuse = Vec4(1.f, 1.f, 1.f, 0.5f);
+		lightDesc.specular = Vec4(1.0, 1.0f, 1.0f, 1.0f);
+
+		{
+			Transform tf;
+			Vec3 rv(0.f);
+			rv.x += ::XMConvertToRadians(45.f);
+			rv.y += ::XMConvertToRadians(90.f);
+			rv.z = 0;
+			tf.SetRotation(rv);
+			tf.UpdateTransform();
+			Vec3 sundir = tf.GetLookVector();
+			sundir.Normalize();
+			lightDesc.direction = sundir;
+		}
+
 		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 	//Character

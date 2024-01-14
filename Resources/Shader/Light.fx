@@ -42,7 +42,7 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
     float4 ambientColor = 0;
     float4 diffuseColor = 0;
     float4 specularColor = 0;
-    float4 emissiveColor = 0;
+    //float4 emissiveColor = 0;
     
     //Ambient
     {
@@ -52,7 +52,7 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
     //Diffuse
     {
         float4 color = DiffuseMap.Sample(LinearSampler, uv);
-        float value = dot(-GlobalLight.direction, normal);
+        float value = max(dot(-GlobalLight.direction, normal), 0);
         diffuseColor = color * value * GlobalLight.diffuse * Material.diffuse;
     }
     //Specular
@@ -63,25 +63,28 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
         float3 E = normalize(cameraPosition - worldPosition);
         
         float value = saturate(dot(R, E));
-        float specular = pow(value, 2);
-	
-        specularColor = GlobalLight.specular * Material.specular * specular;
-    }
-    //Emissive
-    {
-        float3 cameraPosition = CameraPosition();
-        float3 E = normalize(cameraPosition - worldPosition);
-	
-        float value = saturate(dot(E, normal));
-        float emissive = 1.0f - value;
-
-        emissive = smoothstep(0.0f, 1.0f, emissive);
-        emissive = pow(emissive, 5);
+        float specular = pow(value, 10);
         
-        emissiveColor = GlobalLight.emissive * Material.emissive * emissive;
+        float4 color = DiffuseMap.Sample(LinearSampler, uv);
+	
+        specularColor = color * GlobalLight.specular * Material.specular * specular;
     }
     
-    return ambientColor + diffuseColor + specularColor + emissiveColor;
+    ////Emissive
+    //{
+    //    float3 cameraPosition = CameraPosition();
+    //    float3 E = normalize(cameraPosition - worldPosition);
+	
+    //    float value = saturate(dot(E, normal));
+    //    float emissive = 1.0f - value;
+
+    //    emissive = smoothstep(0.0f, 1.0f, emissive);
+    //    emissive = pow(emissive, 5);
+        
+    //    emissiveColor = GlobalLight.emissive * Material.emissive * emissive;
+    //}
+    
+    return ambientColor + diffuseColor + specularColor;
 };
 
 void ComputeNormalMapping(inout float3 normal, float3 tangent, float2 uv)
