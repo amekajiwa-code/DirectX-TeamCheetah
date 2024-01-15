@@ -41,9 +41,7 @@ void PlayerController::CameraMove()
 	}
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::MBUTTON))
 	{
-		_rCamPos.x = 0;
-		_rCamPos.z = _camDist * -1.f;
-		_camera.lock()->GetTransform()->SetLocalPosition(_rCamPos);
+
 	}
 	//마우스 오른쪽 버튼 누르고 있을 때
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
@@ -59,6 +57,10 @@ void PlayerController::CameraMove()
 
 			_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
 			_transform.lock()->SetLocalRotation(_playerRot);
+
+			_rCamPos.x = 0;
+			_rCamPos.z = _camDist * -1.f;
+			_camera.lock()->GetTransform()->SetLocalPosition(_rCamPos);
 		}
 		else
 		{
