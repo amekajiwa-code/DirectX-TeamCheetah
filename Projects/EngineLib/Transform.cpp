@@ -90,16 +90,12 @@ void Transform::RotateAround(const Vec3 axis)
 	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
 
 	rFinal = _matLocal * rFinal;
-
+	
 	Quaternion qTemp;
 	rFinal.Decompose(_localScale, qTemp, _localPosition);
 	_rotation = QuatToEulerAngles(qTemp);
 
 	UpdateTransform();
-}
-
-void Transform::InitRotate()
-{
 }
 
 void Transform::PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex)

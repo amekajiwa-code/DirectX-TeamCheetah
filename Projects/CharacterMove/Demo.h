@@ -15,6 +15,6 @@ private:
 	//Character
 	shared_ptr<GameObject>	_chr;
 	//Map
-	shared_ptr<GameObject> _map;
+	shared_ptr<GameObject>	_map;
 };
 

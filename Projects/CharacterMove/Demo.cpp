@@ -14,6 +14,7 @@ void Demo::Init()
 	}
 	//랜더 매니저 초기화
 	MANAGER_RENDERER()->Init(_shader);
+
 	//Camera
 	{
 		_camera = make_shared<GameObject>();

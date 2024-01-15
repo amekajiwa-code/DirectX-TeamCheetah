@@ -18,12 +18,14 @@ private:
 	weak_ptr<ModelAnimator> _animator;
 	float _speed = 200.f;
 	float _dt = 0.f;
+	float _camDist = 0.f;
 private:
 	weak_ptr<GameObject> _camera;
 	Vec3 _prevMousePos;
 	Vec3 _currentMousePos;
 	Vec3 _camRot;
 	Vec3 _camPos;
+	Vec3 _rCamPos;
 	Vec3 _playerRot;
 	Vec3 _platerPos;
 private:

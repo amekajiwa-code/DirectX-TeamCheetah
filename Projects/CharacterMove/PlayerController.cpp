@@ -39,39 +39,42 @@ void PlayerController::CameraMove()
 	{
 
 	}
-	//마우스 오른쪽 버튼 누르고 있을 때
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::MBUTTON))
 	{
-		{
-			const auto& Camtransform = _camera.lock()->GetTransform();
-			Matrix rFinal = Camtransform->GetWorldMatrix() * GetTransform()->GetWorldMatrix().Invert();
-			Vec3 temp = { rFinal._41,rFinal._42,rFinal._43 };
-			temp.x = 0;
-			if (temp.z >= 0)
-				temp.z = -temp.z;
-
-			_playerRot = GetTransform()->GetLocalRotation();
-
-			float deltaX = _currentMousePos.x - _prevMousePos.x;
-			_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
-
-			GetTransform()->SetRotation(_playerRot);
-			Camtransform->SetLocalPosition(temp);
-		}
+		_rCamPos.x = 0;
+		_rCamPos.z = _camDist * -1.f;
+		_camera.lock()->GetTransform()->SetLocalPosition(_rCamPos);
 	}
-	//마우스 가운데 버튼 누르고 있을 때
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::MBUTTON))
+	//마우스 오른쪽 버튼 누르고 있을 때
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
+		if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::S) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::A) ||
+			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
-			_camRot = _camera.lock()->GetTransform()->GetLocalRotation();
+			_playerRot = _transform.lock()->GetLocalRotation();
+	
 			float deltaX = _currentMousePos.x - _prevMousePos.x;
-			float deltaY = _currentMousePos.y - _prevMousePos.y;
 
-			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
-			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
-			_camRot.z = ::XMConvertToRadians(_camRot.z) * 10 * _dt;
+			_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
+			_transform.lock()->SetLocalRotation(_playerRot);
+		}
+		else
+		{
+			{
+				_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
+				_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 
-			_camera.lock()->GetTransform()->RotateAround(_camRot);
+				float deltaX = _currentMousePos.x - _prevMousePos.x;
+				float deltaY = _currentMousePos.y - _prevMousePos.y;
+
+				_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+				_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
+				_camRot.z = ::XMConvertToRadians(_camera.lock()->GetTransform()->GetLocalRotation().z) * 10 * _dt;
+
+				_camera.lock()->GetTransform()->RotateAround(_camRot);
+			}
 		}
 	}
 
@@ -83,6 +86,9 @@ void PlayerController::CameraMove()
 		{
 			_camPos.z += _camSpeed * _dt;
 			_camera.lock()->GetTransform()->SetLocalPosition(_camPos);
+
+			_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
+			_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 		}
 	}
 	//휠 내렸을 때
@@ -94,9 +100,23 @@ void PlayerController::CameraMove()
 		{
 			_camPos.z -= _camSpeed * _dt;
 			_camera.lock()->GetTransform()->SetLocalPosition(_camPos);
+
+			_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
+			_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 		}
 	}
 
+	{
+		Vec3 num = _camera.lock()->GetTransform()->GetLocalPosition();
+		string xyz = "X :";
+		xyz += to_string(num.x);
+		xyz += " Y :";
+		xyz += to_string(num.y);
+		xyz += " Z :";
+		xyz += to_string(num.z);
+		xyz += "\n";
+		::OutputDebugStringA(xyz.c_str());
+	}
 
 	_prevMousePos = _currentMousePos;
 }
@@ -157,17 +177,7 @@ void PlayerController::PlayerInput()
 		_transform.lock()->SetPosition(_pos);
 	}
 
-	{
-		Vec3 num = _camera.lock()->GetTransform()->GetLocalPosition();
-		string xyz = "X :";
-		xyz += to_string(num.x);
-		xyz += " Y :";
-		xyz += to_string(num.y);
-		xyz += " Z :";
-		xyz += to_string(num.z);
-		xyz += "\n";
-		::OutputDebugStringA(xyz.c_str());
-	}
+
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)
@@ -182,6 +192,9 @@ void PlayerController::Start()
 {
 	_transform = GetGameObject()->GetTransform();
 	_camera = GetGameObject()->GetChildByName(L"Camera");
+
+	_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
+	_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 }
 
 void PlayerController::FixedUpdate()
