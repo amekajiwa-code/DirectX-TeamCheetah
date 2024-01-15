@@ -39,17 +39,25 @@ void PlayerController::CameraMove()
 	{
 
 	}
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::MBUTTON))
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::MBUTTON))
 	{
+		{
+			_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
+			_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 
+			float deltaX = _currentMousePos.x - _prevMousePos.x;
+			float deltaY = _currentMousePos.y - _prevMousePos.y;
+
+			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
+			_camRot.z = ::XMConvertToRadians(_camera.lock()->GetTransform()->GetLocalRotation().z) * 10 * _dt;
+
+			_camera.lock()->GetTransform()->RotateAround(_camRot);
+		}
 	}
 	//마우스 오른쪽 버튼 누르고 있을 때
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
-		if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) ||
-			MANAGER_INPUT()->GetButton(KEY_TYPE::S) ||
-			MANAGER_INPUT()->GetButton(KEY_TYPE::A) ||
-			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
 			_playerRot = _transform.lock()->GetLocalRotation();
 	
@@ -61,22 +69,6 @@ void PlayerController::CameraMove()
 			_rCamPos.x = 0;
 			_rCamPos.z = _camDist * -1.f;
 			_camera.lock()->GetTransform()->SetLocalPosition(_rCamPos);
-		}
-		else
-		{
-			{
-				_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
-				_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
-
-				float deltaX = _currentMousePos.x - _prevMousePos.x;
-				float deltaY = _currentMousePos.y - _prevMousePos.y;
-
-				_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
-				_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
-				_camRot.z = ::XMConvertToRadians(_camera.lock()->GetTransform()->GetLocalRotation().z) * 10 * _dt;
-
-				_camera.lock()->GetTransform()->RotateAround(_camRot);
-			}
 		}
 	}
 
@@ -109,7 +101,7 @@ void PlayerController::CameraMove()
 	}
 
 	{
-		Vec3 num = _camera.lock()->GetTransform()->GetLocalPosition();
+		Vec3 num = _currentMousePos;
 		string xyz = "X :";
 		xyz += to_string(num.x);
 		xyz += " Y :";
@@ -178,7 +170,7 @@ void PlayerController::PlayerInput()
 		_pos += _right * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_pos);
 	}
-
+	//if(MANAGER_INPUT()->GetButtonDown(KEY_TYPE::))
 
 }
 

@@ -11,6 +11,7 @@ enum class KEY_TYPE
 	A = 'A',
 	S = 'S',
 	D = 'D',
+	SPACE = VK_SPACE,
 
 	Q = 'Q',
 	E = 'E',
@@ -77,6 +78,7 @@ public:
 private:
 	inline KEY_STATE GetState(KEY_TYPE key) { return _states[static_cast<uint8>(key)]; }
 	void CalculateWorldPos();
+	void CalculateScreenPos();
 private:
 	HWND _hwnd;
 	vector<KEY_STATE> _states;

@@ -14,19 +14,6 @@ Camera::~Camera()
 {
 }
 
-Matrix Camera::CalculateViewMat(const Vec3 axis)
-{
-	Matrix fMat;
-
-	fMat = ::XMMatrixLookAtLH(_eye, _look, _up);
-
-	Matrix rotmat = Matrix::CreateRotationX(axis.x);
-
-	fMat = ::XMMatrixMultiply(rotmat, fMat);
-
-	return fMat;
-}
-
 void Camera::UpdateMatrix()
 {
 	switch (_camType)
@@ -49,7 +36,6 @@ void Camera::UpdateMatrix()
 	}
 
 	S_MatView = _matView = ::XMMatrixLookAtLH(_eye, _look, _up);
-
 
 	switch (_type)
 	{

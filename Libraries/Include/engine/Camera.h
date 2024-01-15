@@ -37,8 +37,6 @@ public:
 	static Matrix S_MatView;
 	static Matrix S_MatProjection;
 //function
-private:
-	Matrix CalculateViewMat(const Vec3 axis);
 public:
 	void SetProjectionType(ProjectionType type) { _type = type; }
 	void SetNear(float value) { _near = value; }

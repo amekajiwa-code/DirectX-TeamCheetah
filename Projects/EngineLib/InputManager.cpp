@@ -54,12 +54,13 @@ void InputManager::Update()
 				state = KEY_STATE::NONE;
 		}
 	}
+
+	::GetCursorPos(&_mousePos);
+	::ScreenToClient(_hwnd, &_mousePos);
+
 	//Screen pos
 	{
-		::GetCursorPos(&_mousePos);
-		::ScreenToClient(_hwnd, &_mousePos);
-		_screenMousePos.x = _mousePos.x;
-		_screenMousePos.y = _mousePos.y;
+		CalculateScreenPos();
 	}
 	//World Pos
 	{
@@ -69,8 +70,8 @@ void InputManager::Update()
 
 void InputManager::CalculateWorldPos()
 {
-	float ndcX = ((2.0f * _screenMousePos.x) / g_gameDesc.width - 1.0f);
-	float ndcY = -((2.0f * _screenMousePos.y) / g_gameDesc.height - 1.0f);
+	float ndcX = 2.0f * _mousePos.x / g_gameDesc.width - 1.0f;
+	float ndcY = -2.0f * _mousePos.y / g_gameDesc.height + 1.0f;
 
 	Vec3 nVec(ndcX, ndcY, 1.0f);
 	Matrix mat = (Camera::S_MatView).Invert();
@@ -80,4 +81,16 @@ void InputManager::CalculateWorldPos()
 	_worldMousePos.y = last.y;
 	_worldMousePos.z = last.z;
 
+}
+
+void InputManager::CalculateScreenPos()
+{
+	float ndcX = 2.0f * _mousePos.x / g_gameDesc.width - 1.0f;
+	float ndcY = -2.0f * _mousePos.y / g_gameDesc.height + 1.0f;
+
+	float scaleX = -g_gameDesc.width / 2 + (ndcX + 1.0f) * g_gameDesc.width / 2;
+	float scaleY = -g_gameDesc.height / 2 + (ndcY + 1.0f) * g_gameDesc.height / 2;
+
+	_screenMousePos.x = scaleX;
+	_screenMousePos.y = scaleY;
 }
