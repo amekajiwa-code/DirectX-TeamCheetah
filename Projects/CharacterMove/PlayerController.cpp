@@ -34,12 +34,8 @@ void PlayerController::CameraMove()
 	_dt = MANAGER_TIME()->GetDeltaTime();
 	_currentMousePos = MANAGER_INPUT()->GetScreenMousePos();
 
-	//마우스 왼쪽 버튼 누르고 있을 때
+	//마우스 왼쪽 버튼 누르고 있을 때(카메라만 시점 변경)
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::LBUTTON))
-	{
-
-	}
-	if (MANAGER_INPUT()->GetButton(KEY_TYPE::MBUTTON))
 	{
 		{
 			_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
@@ -55,24 +51,26 @@ void PlayerController::CameraMove()
 			_camera.lock()->GetTransform()->RotateAround(_camRot);
 		}
 	}
-	//마우스 오른쪽 버튼 누르고 있을 때
+
+	//마우스 오른쪽 버튼 누르고 있을 때(캐릭터회전 = 카메라 회전(위치이동))
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
 	{
 		{
 			_playerRot = _transform.lock()->GetLocalRotation();
 	
 			float deltaX = _currentMousePos.x - _prevMousePos.x;
-
 			_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
 			_transform.lock()->SetLocalRotation(_playerRot);
 
-			_rCamPos.x = 0;
-			_rCamPos.z = _camDist * -1.f;
-			_camera.lock()->GetTransform()->SetLocalPosition(_rCamPos);
+			Vec3 look = _transform.lock()->GetLookVector();
+			look.y = _rCamPos.y;
+			look.z -= _camDist;
+
+			_camera.lock()->GetTransform()->SetLocalPosition(look);
 		}
 	}
 
-	//휠 올렸을 때
+	//휠 올렸을 때(시점 앞으로)
 	if (g_gameDesc.WheelState == 1)
 	{
 		_camPos = _camera.lock()->GetTransform()->GetLocalPosition();
@@ -85,7 +83,8 @@ void PlayerController::CameraMove()
 			_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
 		}
 	}
-	//휠 내렸을 때
+
+	//휠 내렸을 때(시점 뒤로)
 	else if (g_gameDesc.WheelState == -1)
 	{
 		_camPos = _camera.lock()->GetTransform()->GetLocalPosition();
@@ -100,23 +99,20 @@ void PlayerController::CameraMove()
 		}
 	}
 
-	{
-		Vec3 num = _currentMousePos;
-		string xyz = "X :";
-		xyz += to_string(num.x);
-		xyz += " Y :";
-		xyz += to_string(num.y);
-		xyz += " Z :";
-		xyz += to_string(num.z);
-		xyz += "\n";
-		::OutputDebugStringA(xyz.c_str());
-	}
-
 	_prevMousePos = _currentMousePos;
 }
 
 void PlayerController::PlayerInput()
 {
+	PlayerMove();
+}
+
+void PlayerController::PlayerMove()
+{
+	_movePos = _transform.lock()->GetPosition();
+
+	PlayerJump();
+
 	if (MANAGER_INPUT()->GetButtonUp(KEY_TYPE::W))
 	{
 
@@ -137,41 +133,80 @@ void PlayerController::PlayerInput()
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
-		_pos = _transform.lock()->GetPosition();
-		_look = _transform.lock()->GetLookVector();
+		_moveLook = _transform.lock()->GetLookVector();
 
-		_pos += _look * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_pos);
+		_movePos += _moveLook * _speed * MANAGER_TIME()->GetDeltaTime();
+		_transform.lock()->SetPosition(_movePos);
 	}
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
-		_pos = _transform.lock()->GetPosition();
-		_look = _transform.lock()->GetLookVector();
+		_moveLook = _transform.lock()->GetLookVector();
 
-		_pos -= _look * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_pos);
+		_movePos -= _moveLook * _speed * MANAGER_TIME()->GetDeltaTime();
+		_transform.lock()->SetPosition(_movePos);
 	}
 	//왼쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
-		_pos = _transform.lock()->GetPosition();
-		_right = _transform.lock()->GetRightVector();
+		_moveRight = _transform.lock()->GetRightVector();
 
-		_pos -= _right * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_pos);
+		_movePos -= _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
+		_transform.lock()->SetPosition(_movePos);
 	}
 	//오른쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
-		_pos = _transform.lock()->GetPosition();
-		_right = _transform.lock()->GetRightVector();
+		_moveRight = _transform.lock()->GetRightVector();
 
-		_pos += _right * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_pos);
+		_movePos += _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
+		_transform.lock()->SetPosition(_movePos);
 	}
-	//if(MANAGER_INPUT()->GetButtonDown(KEY_TYPE::))
+	//점프
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
+	{
+		if (!_isJump)
+		{
+			_isJump = true;
+			_isJumpUP = true;
+			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
+		}
+	}
+}
 
+void PlayerController::PlayerJump()
+{
+	if (_isJump)
+	{
+		if (_isJumpUP)
+		{
+			if (_movePos.y <= _jumpUpMaxPos.y)
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.5f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+			else
+			{
+				_isJumpUP = false;
+				_isJumpFall = true;
+			}
+		}
+		if (_isJumpFall)
+		{
+			if (_movePos.y <= 0.f)
+			{
+				_movePos.y = 0.5f;
+				_transform.lock()->SetPosition(_movePos);
+				_isJumpFall = false;
+				_isJump = false;
+			}
+			else
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.5f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+		}
+	}
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)

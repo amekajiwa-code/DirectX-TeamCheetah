@@ -80,7 +80,6 @@ void InputManager::CalculateWorldPos()
 	_worldMousePos.x = last.x;
 	_worldMousePos.y = last.y;
 	_worldMousePos.z = last.z;
-
 }
 
 void InputManager::CalculateScreenPos()

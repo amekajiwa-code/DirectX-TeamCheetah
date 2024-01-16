@@ -7,13 +7,21 @@ public:
 	~PlayerController();
 private:
 	weak_ptr<Transform> _transform;
-	Vec3 _look;
-	Vec3 _right;
+	Vec3 _movePos;
+	Vec3 _moveLook;
+	Vec3 _moveRight;
 	Vec3 _scale;
 	Vec3 _rotation;
-	Vec3 _pos;
 	Vec3 _target;
 	float _camSpeed = 2000.f;
+	Vec3 _jumpStartPos;
+	Vec3 _jumpUpMaxPos;
+	Vec3 _jumpUpDir = { 0,1,0 };
+	Vec3 _jumpDownDir = { 0,-1,0 };
+	float _jumpPower = 18.f;
+	bool _isJumpUP = false;
+	bool _isJumpFall = false;
+	bool _isJump = false;
 private:
 	weak_ptr<ModelAnimator> _animator;
 	float _speed = 200.f;
@@ -27,11 +35,13 @@ private:
 	Vec3 _camPos;
 	Vec3 _rCamPos;
 	Vec3 _playerRot;
-	Vec3 _platerPos;
+	Vec3 _playerPos;
 private:
 	Vec3 QuatToEulerAngles(Quaternion q);
 	void CameraMove();
 	void PlayerInput();
+	void PlayerMove();
+	void PlayerJump();
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();
