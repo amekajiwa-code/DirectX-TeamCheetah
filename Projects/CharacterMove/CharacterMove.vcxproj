@@ -157,6 +157,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="UiObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraMove.cpp" />
@@ -169,6 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="UiObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\GameObject.fx" />

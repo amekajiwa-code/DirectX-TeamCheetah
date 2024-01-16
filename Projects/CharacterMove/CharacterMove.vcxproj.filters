@@ -33,6 +33,7 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="UiObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -50,6 +51,7 @@
     <ClInclude Include="PlayerController.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="UiObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\Global.fx">

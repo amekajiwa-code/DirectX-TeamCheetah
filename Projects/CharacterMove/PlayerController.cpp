@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PlayerController.h"
+#include <float.h>
 
 PlayerController::PlayerController()
 {
@@ -180,7 +181,7 @@ void PlayerController::PlayerJump()
 	{
 		if (_isJumpUP)
 		{
-			if (_movePos.y <= _jumpUpMaxPos.y)
+			if (_movePos.y + FLT_EPSILON <= _jumpUpMaxPos.y )
 			{
 				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
@@ -193,7 +194,7 @@ void PlayerController::PlayerJump()
 		}
 		if (_isJumpFall)
 		{
-			if (_movePos.y <= 0.f)
+			if (_movePos.y <= 0.5f + FLT_EPSILON)
 			{
 				_movePos.y = 0.5f;
 				_transform.lock()->SetPosition(_movePos);
@@ -202,7 +203,7 @@ void PlayerController::PlayerJump()
 			}
 			else
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.5f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 3.0f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
 		}
