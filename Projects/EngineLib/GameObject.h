@@ -7,11 +7,11 @@ public:
 	GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
 	virtual ~GameObject();
 private:
-	ComPtr<ID3D11Device>			_device;
+	ComPtr<ID3D11Device>		_device;
 	ComPtr<ID3D11DeviceContext>	_deviceContext;
 private:
-	shared_ptr<GameObject>		_parent;
-	vector<shared_ptr<GameObject>> _children;
+	shared_ptr<GameObject>			_parent;
+	vector<shared_ptr<GameObject>>	_children;
 protected:
 	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;
 	vector<shared_ptr<MonoBehaviour>>					_scripts;
