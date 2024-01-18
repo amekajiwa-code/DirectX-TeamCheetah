@@ -45,6 +45,8 @@ public:
 	void SetLoop(bool loop) { _isLoop = loop; }
 	bool GetLoop() const { return _isLoop; }
 public:
+	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
+public:
 	virtual void Start() override;
 	virtual void Update() override;
 };

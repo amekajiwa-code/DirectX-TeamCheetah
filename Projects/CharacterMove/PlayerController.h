@@ -18,7 +18,7 @@ private:
 	Vec3 _jumpUpMaxPos;
 	Vec3 _jumpUpDir = { 0,1,0 };
 	Vec3 _jumpDownDir = { 0,-1,0 };
-	float _jumpPower = 18.f;
+	float _jumpPower = 25.f;
 	bool _isJumpUP = false;
 	bool _isJumpFall = false;
 	bool _isJump = false;

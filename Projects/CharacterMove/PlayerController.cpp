@@ -95,11 +95,11 @@ void PlayerController::PlayerMove()
 	PlayerJump();
 	PlayerAnimControll();
 
-
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
-		_currentAnimState = PlayerAnimState::Run;
+		if (!_isJump)
+			_currentAnimState = PlayerAnimState::Run;
 
 		_speed = 300.f;
 		_moveForward = _transform.lock()->GetLookVector();
@@ -110,7 +110,8 @@ void PlayerController::PlayerMove()
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
-		_currentAnimState = PlayerAnimState::BackRun;
+		if (!_isJump)
+			_currentAnimState = PlayerAnimState::BackRun;
 
 		_speed = 150.f;
 		_moveForward = _transform.lock()->GetLookVector();
@@ -118,34 +119,61 @@ void PlayerController::PlayerMove()
 		_movePos -= _moveForward * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_movePos);
 	}
-
+	//오른쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
-		if (_currentAnimState == PlayerAnimState::Idle)
+		if (!_isJump)
 		{
-			_currentAnimState = PlayerAnimState::Run;
-
+			if (_prevAnimState == PlayerAnimState::Idle ||
+				_prevAnimState == PlayerAnimState::JumpFall)
+			{
+				_currentAnimState = PlayerAnimState::Run;
+			}
 		}
-		_moveRight = _transform.lock()->GetRightVector();
 
-		_movePos -= _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_movePos);
+		{
+			_moveRight = _transform.lock()->GetRightVector();
+			_movePos -= _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
+			_transform.lock()->SetPosition(_movePos);
+		}
 	}
 	//왼쪽
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
-		if (_currentAnimState == PlayerAnimState::Idle)
+		if (!_isJump)
 		{
-			_currentAnimState = PlayerAnimState::Run;
-
+			if (_prevAnimState == PlayerAnimState::Idle ||
+				_prevAnimState == PlayerAnimState::JumpFall)
+			{
+				_currentAnimState = PlayerAnimState::Run;
+			}
 		}
 
-		_moveRight = _transform.lock()->GetRightVector();
-
-		_movePos += _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
-		_transform.lock()->SetPosition(_movePos);
+		{
+			_moveRight = _transform.lock()->GetRightVector();
+			_movePos += _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
+			_transform.lock()->SetPosition(_movePos);
+		}
 	}
 
+	if (!_isJump)
+	{
+		if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+		{
+			_currentAnimState = PlayerAnimState::Idle;
+			_speed = 300.f;
+		}
+	}
+
+
+	_prevAnimState = _currentAnimState;
+}
+
+void PlayerController::PlayerJump()
+{
 	//점프
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
 	{
@@ -154,23 +182,11 @@ void PlayerController::PlayerMove()
 			_isJump = true;
 			_isJumpUP = true;
 			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
+			_currentAnimState = PlayerAnimState::JumpStart;
+			_animator.lock()->GetKeyFrame().currentFrame = 0;
 		}
 	}
 
-
-	if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-	{
-		_currentAnimState = PlayerAnimState::Idle;
-	}
-
-	_prevAnimState = _currentAnimState;
-}
-
-void PlayerController::PlayerJump()
-{
 	if (_isJump)
 	{
 		if (_isJumpUP)
@@ -188,6 +204,8 @@ void PlayerController::PlayerJump()
 		}
 		if (_isJumpFall)
 		{
+			_currentAnimState = PlayerAnimState::JumpFall;
+
 			if (_movePos.y <= 0.5f - FLT_EPSILON)
 			{
 				_movePos.y = 0.5f;
@@ -197,7 +215,7 @@ void PlayerController::PlayerJump()
 			}
 			else
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 3.0f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
 		}
@@ -228,10 +246,13 @@ void PlayerController::PlayerAnimControll()
 	case PlayerAnimState::Death:
 		break;
 	case PlayerAnimState::JumpStart:
+		_animator.lock()->SetAnimationByName(L"JumpStart");
 		break;
 	case PlayerAnimState::JumpFall:
+		_animator.lock()->SetAnimationByName(L"JumpFall");
 		break;
 	case PlayerAnimState::JumpEnd:
+		_animator.lock()->SetAnimationByName(L"JumpEnd");
 		break;
 	case PlayerAnimState::Battle:
 		break;
