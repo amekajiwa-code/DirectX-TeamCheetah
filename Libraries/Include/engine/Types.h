@@ -86,6 +86,7 @@ enum class PlayerAnimState
 	FrontWalk,
 	BackWalk,
 	Run,
+	BackRun,
 	Stun,
 	Loot,
 	Death,

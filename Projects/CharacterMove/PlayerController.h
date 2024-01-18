@@ -8,7 +8,7 @@ public:
 private:
 	weak_ptr<Transform> _transform;
 	Vec3 _movePos;
-	Vec3 _moveLook;
+	Vec3 _moveForward;
 	Vec3 _moveRight;
 	Vec3 _scale;
 	Vec3 _rotation;
@@ -24,7 +24,9 @@ private:
 	bool _isJump = false;
 private:
 	weak_ptr<ModelAnimator> _animator;
-	float _speed = 200.f;
+	PlayerAnimState _currentAnimState = PlayerAnimState::Idle;
+	PlayerAnimState _prevAnimState = PlayerAnimState::Idle;
+	float _speed = 300.f;
 	float _dt = 0.f;
 	float _camDist = 0.f;
 private:
@@ -37,11 +39,13 @@ private:
 	Vec3 _playerRot;
 	Vec3 _playerPos;
 private:
-	Vec3 QuatToEulerAngles(Quaternion q);
+	//Camera
 	void CameraMove();
+	//Player
 	void PlayerInput();
 	void PlayerMove();
 	void PlayerJump();
+	void PlayerAnimControll();
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();

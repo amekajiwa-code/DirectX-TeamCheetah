@@ -56,9 +56,25 @@ void Demo::Init()
 			wstring modelMatrial = RESOURCES_ADDR_TEXTURE_SKELETAL;
 			modelMatrial += L"BlackCow/BlackCow.xml";
 			tempModel->ReadMaterial(modelMatrial);
-			wstring modelAnimation = RESOURCES_ADDR_ANIMATION;
-			modelAnimation += L"BlackCow/Stand.anim";
-			tempModel->ReadAnimation(modelAnimation);
+
+			wstring stand = RESOURCES_ADDR_ANIMATION;
+			stand += L"BlackCow/Stand.anim";
+			tempModel->ReadAnimation(stand);
+			wstring run = RESOURCES_ADDR_ANIMATION;
+			run += L"BlackCow/Run.anim";
+			tempModel->ReadAnimation(run);
+			wstring backRun = RESOURCES_ADDR_ANIMATION;
+			backRun += L"BlackCow/BackRun.anim";
+			tempModel->ReadAnimation(backRun);
+			wstring jumpStart = RESOURCES_ADDR_ANIMATION;
+			jumpStart += L"BlackCow/JumpStart.anim";
+			tempModel->ReadAnimation(jumpStart);
+			wstring jumpFall = RESOURCES_ADDR_ANIMATION;
+			jumpFall += L"BlackCow/JumpFall.anim";
+			tempModel->ReadAnimation(jumpFall);
+			wstring jumpEnd = RESOURCES_ADDR_ANIMATION;
+			jumpEnd += L"BlackCow/JumpEnd.anim";
+			tempModel->ReadAnimation(jumpEnd);
 		}
 		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(_shader);
 		{
@@ -75,6 +91,7 @@ void Demo::Init()
 		cow->AddComponent(tempAnimator);
 		cow->Awake();
 		cow->Start();
+		cow->SetName(L"Model");
 
 		Vec3 rot = cow->GetTransform()->GetLocalRotation();
 		rot.x += ::XMConvertToRadians(90.f);

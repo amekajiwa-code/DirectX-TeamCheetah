@@ -133,11 +133,12 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 
 void ModelAnimator::SetAnimationByName(wstring name)
 {
-	for (auto& anim : _anims)
+	for (int i = 0; i < _anims.size(); i++)
 	{
-		if (anim->name == name)
+		if (_anims[i]->name == name)
 		{
-			_currentAnim = anim;
+			_currentAnim = _anims[i];
+			_keyFrameDesc.animIndex = i;
 			return;
 		}
 	}
@@ -163,6 +164,7 @@ void ModelAnimator::Start()
 	}
 
 	_currentAnim = _anims[0];
+	_keyFrameDesc.animIndex = 0;
 
 	_shader = GetGameObject()->GetModelRenderer()->GetShader();
 	assert(_shader != nullptr);
@@ -180,6 +182,7 @@ void ModelAnimator::Update()
 
 		if (_isLoop)
 		{
+			
 			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
 			if (_currentAnim)
 			{

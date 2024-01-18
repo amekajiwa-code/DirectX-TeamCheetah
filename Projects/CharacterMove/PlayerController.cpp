@@ -10,26 +10,6 @@ PlayerController::~PlayerController()
 {
 }
 
-Vec3 PlayerController::QuatToEulerAngles(Quaternion q)
-{
-	Vec3 angle;
-
-	//x roll
-	double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
-	double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
-	angle.x = std::atan2(sinr_cosp, cosr_cosp);
-	//y pitch
-	double sinp = std::sqrt(1 + 2 * (q.w * q.y - q.x * q.z));
-	double cosp = std::sqrt(1 - 2 * (q.w * q.y - q.x * q.z));
-	angle.y = std::atan2(sinp, cosp) - PI;
-	//z yaw
-	double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
-	double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
-	angle.z = std::atan2(siny_cosp, cosy_cosp);
-
-	return angle;
-}
-
 void PlayerController::CameraMove()
 {
 	_dt = MANAGER_TIME()->GetDeltaTime();
@@ -58,7 +38,7 @@ void PlayerController::CameraMove()
 	{
 		{
 			_playerRot = _transform.lock()->GetLocalRotation();
-	
+
 			float deltaX = _currentMousePos.x - _prevMousePos.x;
 			_playerRot.y += ::XMConvertToRadians(deltaX) * 10 * _dt;
 			_transform.lock()->SetLocalRotation(_playerRot);
@@ -113,56 +93,59 @@ void PlayerController::PlayerMove()
 	_movePos = _transform.lock()->GetPosition();
 
 	PlayerJump();
+	PlayerAnimControll();
 
-	if (MANAGER_INPUT()->GetButtonUp(KEY_TYPE::W))
-	{
-
-	}
-	else if (MANAGER_INPUT()->GetButtonUp(KEY_TYPE::S))
-	{
-
-	}
-	else if (MANAGER_INPUT()->GetButtonUp(KEY_TYPE::A))
-	{
-
-	}
-	else if (MANAGER_INPUT()->GetButtonUp(KEY_TYPE::D))
-	{
-
-	}
 
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
-		_moveLook = _transform.lock()->GetLookVector();
+		_currentAnimState = PlayerAnimState::Run;
 
-		_movePos += _moveLook * _speed * MANAGER_TIME()->GetDeltaTime();
+		_speed = 300.f;
+		_moveForward = _transform.lock()->GetLookVector();
+
+		_movePos += _moveForward * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_movePos);
 	}
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
-		_moveLook = _transform.lock()->GetLookVector();
+		_currentAnimState = PlayerAnimState::BackRun;
 
-		_movePos -= _moveLook * _speed * MANAGER_TIME()->GetDeltaTime();
+		_speed = 150.f;
+		_moveForward = _transform.lock()->GetLookVector();
+
+		_movePos -= _moveForward * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_movePos);
 	}
-	//왼쪽
+
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
+		if (_currentAnimState == PlayerAnimState::Idle)
+		{
+			_currentAnimState = PlayerAnimState::Run;
+
+		}
 		_moveRight = _transform.lock()->GetRightVector();
 
 		_movePos -= _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_movePos);
 	}
-	//오른쪽
-	if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+	//왼쪽
+	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
+		if (_currentAnimState == PlayerAnimState::Idle)
+		{
+			_currentAnimState = PlayerAnimState::Run;
+
+		}
+
 		_moveRight = _transform.lock()->GetRightVector();
 
 		_movePos += _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
 		_transform.lock()->SetPosition(_movePos);
 	}
+
 	//점프
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
 	{
@@ -173,6 +156,17 @@ void PlayerController::PlayerMove()
 			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
 		}
 	}
+
+
+	if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+		!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+		!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
+		!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+	{
+		_currentAnimState = PlayerAnimState::Idle;
+	}
+
+	_prevAnimState = _currentAnimState;
 }
 
 void PlayerController::PlayerJump()
@@ -210,6 +204,50 @@ void PlayerController::PlayerJump()
 	}
 }
 
+void PlayerController::PlayerAnimControll()
+{
+	switch (_currentAnimState)
+	{
+	case PlayerAnimState::Idle:
+		_animator.lock()->SetAnimationByName(L"Stand");
+		break;
+	case PlayerAnimState::FrontWalk:
+		break;
+	case PlayerAnimState::BackWalk:
+		break;
+	case PlayerAnimState::Run:
+		_animator.lock()->SetAnimationByName(L"Run");
+		break;
+	case PlayerAnimState::BackRun:
+		_animator.lock()->SetAnimationByName(L"BackRun");
+		break;
+	case PlayerAnimState::Stun:
+		break;
+	case PlayerAnimState::Loot:
+		break;
+	case PlayerAnimState::Death:
+		break;
+	case PlayerAnimState::JumpStart:
+		break;
+	case PlayerAnimState::JumpFall:
+		break;
+	case PlayerAnimState::JumpEnd:
+		break;
+	case PlayerAnimState::Battle:
+		break;
+	case PlayerAnimState::Attack1:
+		break;
+	case PlayerAnimState::Attack2:
+		break;
+	case PlayerAnimState::Casting:
+		break;
+	case PlayerAnimState::Ability1:
+		break;
+	case PlayerAnimState::Ability2:
+		break;
+	}
+}
+
 void PlayerController::ReceiveEvent(const EventArgs& args)
 {
 }
@@ -222,6 +260,7 @@ void PlayerController::Start()
 {
 	_transform = GetGameObject()->GetTransform();
 	_camera = GetGameObject()->GetChildByName(L"Camera");
+	_animator = GetGameObject()->GetChildByName(L"Model")->GetModelAnimator();
 
 	_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
 	_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));

@@ -38,7 +38,7 @@ public:
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetPass(uint8 pass) { _pass = pass; }
 public:
-	void		SetAnimationByName(wstring name);
+	void	 SetAnimationByName(wstring name);
 public:
 	void SetPlay(bool play) { _isPlay = play; }
 	bool GetPlay() const { return _isPlay; }
