@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Allocator.cpp" />
+    <ClCompile Include="BufferReader.cpp" />
+    <ClCompile Include="BufferWriter.cpp" />
+    <ClCompile Include="CoreGlobal.cpp" />
+    <ClCompile Include="CorePch.cpp" />
+    <ClCompile Include="CoreTLS.cpp" />
+    <ClCompile Include="DeadLockProfiler.cpp" />
+    <ClCompile Include="IocpCore.cpp" />
+    <ClCompile Include="IocpEvent.cpp" />
+    <ClCompile Include="Listener.cpp" />
+    <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="MemoryPool.cpp" />
+    <ClCompile Include="NetAddress.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="RecvBuffer.cpp" />
+    <ClCompile Include="RefCounting.cpp" />
+    <ClCompile Include="SendBuffer.cpp" />
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="Session.cpp" />
+    <ClCompile Include="SocketUtils.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Allocator.h" />
+    <ClInclude Include="BufferReader.h" />
+    <ClInclude Include="BufferWriter.h" />
+    <ClInclude Include="Container.h" />
+    <ClInclude Include="CoreGlobal.h" />
+    <ClInclude Include="CoreMacro.h" />
+    <ClInclude Include="CorePch.h" />
+    <ClInclude Include="CoreTLS.h" />
+    <ClInclude Include="DeadLockProfiler.h" />
+    <ClInclude Include="IocpCore.h" />
+    <ClInclude Include="IocpEvent.h" />
+    <ClInclude Include="Listener.h" />
+    <ClInclude Include="Lock.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="MemoryPool.h" />
+    <ClInclude Include="NetAddress.h" />
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="RecvBuffer.h" />
+    <ClInclude Include="RefCounting.h" />
+    <ClInclude Include="SendBuffer.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="Session.h" />
+    <ClInclude Include="SocketUtils.h" />
+    <ClInclude Include="ThreadManager.h" />
+    <ClInclude Include="TypeCast.h" />
+    <ClInclude Include="Types.h" />
+  </ItemGroup>
+</Project>

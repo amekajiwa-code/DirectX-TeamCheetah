@@ -101,11 +101,14 @@ shared_ptr<ModelAnimation> Model::GetAnimationByName(wstring name)
 void Model::SetModelType(ModelType type)
 {
 	_modelType = type;
+	_modelData.type = static_cast<uint16>(_modelType);
 }
 
 void Model::ReadMaterial(wstring fileName)
 {
 	wstring fullPath = fileName;
+	_modelData.materialPath = fullPath;
+
 	auto parentPath = filesystem::path(fullPath).parent_path();
 
 	tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
@@ -224,6 +227,7 @@ void Model::ReadMaterial(wstring fileName)
 void Model::ReadModel(wstring fileName)
 {
 	wstring fullPath = fileName;
+	_modelData.modelPath = fullPath;
 
 	shared_ptr<FileUtils> file = make_shared<FileUtils>();
 	file->Open(fullPath, FileMode::Read);
@@ -239,7 +243,6 @@ void Model::ReadModel(wstring fileName)
 			bone->name = Utils::ToWString(file->Read<string>());
 			bone->parentIndex = file->Read<int32>();
 			bone->transform = file->Read<Matrix>();
-
 			_bones.push_back(bone);
 		}
 
@@ -309,6 +312,7 @@ void Model::ReadModel(wstring fileName)
 void Model::ReadAnimation(wstring filename)
 {
 	wstring fullPath = filename;
+	_modelData.animationPath = fullPath;
 
 	shared_ptr<FileUtils> file = make_shared<FileUtils>();
 	file->Open(fullPath, FileMode::Read);
@@ -318,7 +322,7 @@ void Model::ReadAnimation(wstring filename)
 	animation->duration = file->Read<float>();
 	animation->frameRate = file->Read<float>();
 	animation->frameCount = file->Read<uint32>();
-	
+
 	uint32 keyframesCount = file->Read<uint32>();
 	for (uint32 i = 0; i < keyframesCount; i++)
 	{
@@ -339,8 +343,4 @@ void Model::ReadAnimation(wstring filename)
 	}
 
 	_animations.push_back(animation);
-}
-
-void Model::Save(const wstring& path)
-{
 }

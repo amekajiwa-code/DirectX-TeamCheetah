@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="99. Headers">
-      <UniqueIdentifier>{54d14474-30de-4c39-b064-15d7ee535bc1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="100. Utils">
-      <UniqueIdentifier>{ee3c9157-0f33-47a7-bf6c-a497f7a33534}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Engine">
       <UniqueIdentifier>{42eea8e2-c523-40eb-aa2b-71b15b8d094b}</UniqueIdentifier>
     </Filter>
@@ -40,31 +34,34 @@
     <Filter Include="03. GameObject\Enemy">
       <UniqueIdentifier>{9968aebb-d016-4d42-825e-a4bcdae6b7f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\StaticMesh">
-      <UniqueIdentifier>{3e80ea2a-1e71-429e-88ac-340f849591b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Engine\Resource\Model">
       <UniqueIdentifier>{bd7b0f9c-ef87-4059-a3f0-8dd7cee03442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Headers">
+      <UniqueIdentifier>{54d14474-30de-4c39-b064-15d7ee535bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Utils">
+      <UniqueIdentifier>{ee3c9157-0f33-47a7-bf6c-a497f7a33534}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClInclude>
     <ClInclude Include="EnginePch.h">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml2.h">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>02. Managers</Filter>
@@ -118,7 +115,7 @@
       <Filter>01. Graphics\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Structs.h">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>04. Component</Filter>
@@ -148,7 +145,7 @@
       <Filter>00. Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="FileUtils.h">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClInclude>
     <ClInclude Include="ModelRenderer.h">
       <Filter>04. Component\Fixed</Filter>
@@ -165,19 +162,25 @@
     <ClInclude Include="ModelAnimator.h">
       <Filter>04. Component\Fixed</Filter>
     </ClInclude>
+    <ClInclude Include="MetaData.h">
+      <Filter>03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFactory.h">
+      <Filter>06. Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClCompile>
     <ClCompile Include="tinyxml2.cpp">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>02. Managers</Filter>
@@ -231,7 +234,7 @@
       <Filter>01. Graphics\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Structs.cpp">
-      <Filter>99. Headers</Filter>
+      <Filter>05. Headers</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>04. Component</Filter>
@@ -261,7 +264,7 @@
       <Filter>00. Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="FileUtils.cpp">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </ClCompile>
     <ClCompile Include="ModelRenderer.cpp">
       <Filter>04. Component\Fixed</Filter>
@@ -278,10 +281,16 @@
     <ClCompile Include="ModelAnimator.cpp">
       <Filter>04. Component\Fixed</Filter>
     </ClCompile>
+    <ClCompile Include="MetaData.cpp">
+      <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFactory.cpp">
+      <Filter>06. Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>100. Utils</Filter>
+      <Filter>06. Utils</Filter>
     </None>
   </ItemGroup>
 </Project>

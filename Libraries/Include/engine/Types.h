@@ -22,6 +22,16 @@ using Color = DirectX::XMFLOAT4;
 using Matrix = DirectX::SimpleMath::Matrix;
 using Quaternion = DirectX::SimpleMath::Quaternion;
 
+//Cameratype
+enum class CameraType
+{
+	None,
+	Debug,
+	Normal,
+	Target,
+	End
+};
+
 //Model Type
 enum class ModelType
 {
@@ -31,6 +41,7 @@ enum class ModelType
 	Effect,
 	End
 };
+
 //AssetType
 enum class AssetType
 {
@@ -39,5 +50,54 @@ enum class AssetType
 	StaticMesh,
 	Effect,
 	Animation,
+	End
+};
+
+//Object Type
+enum class ObjectType
+{
+	None,
+	Unit,
+	Environment,
+	Structure,
+	Ui,
+	End
+};
+
+//Unit State
+enum class PlayerUnitState
+{
+	None,
+	Stand,
+	Move,
+	Stun,
+	Loot,
+	Death,
+	Jump,
+	Battle,
+	Attack,
+	End
+};
+
+enum class PlayerAnimState
+{
+	None,
+	Idle,
+	FrontWalk,
+	BackWalk,
+	Run,
+	BackRun,
+	Stun,
+	Loot,
+	Death,
+	JumpStart,
+	JumpFall,
+	JumpEnd,
+	Battle,
+	Attack1,
+	Attack2,
+	Casting,
+	Ability1,
+	Ability2,
 	End
 };

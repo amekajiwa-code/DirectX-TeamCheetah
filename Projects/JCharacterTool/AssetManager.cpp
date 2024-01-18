@@ -26,12 +26,13 @@ bool AssetManager::ReadMeshAssetFile(MeshPathDesc& desc)
 		ExportMaterialData(_meshDesc.SaveMaterialPath);
 		ExportModelData(_meshDesc.SaveMeshPath);
 
-		AssetData data;
+		AssetMeshData data;
+		data.meshName = _meshDesc.Name;
 		data.materials = _converter->_materials;
-		data.meshes = _converter->_meshes;
 		data.bones = _converter->_bones;
+		data.meshes = _converter->_meshes;
 
-		_assetData.insert(make_pair(_meshDesc.Name, data));
+		_meshData.insert(make_pair(_meshDesc.Name, data));
 
 		if (CreateMeshAsset(_meshDesc))
 		{
@@ -55,7 +56,7 @@ bool AssetManager::ReadAnimAssetFile(AnimPathDesc& desc)
 	//read animation file
 	if (_converter->ReadAssetFile(_animDesc.ReadAnimPath))
 	{
-		if (ExportAnimationData(_animDesc.SaveAnimPath))
+		if (ExportAnimationData(_animDesc.AnimName,_animDesc.SaveAnimPath))
 		{
 			return true;
 		}
@@ -97,24 +98,42 @@ bool AssetManager::ExportAnimationData(wstring& exportPath)
 
 bool AssetManager::ExportAnimationData(wstring& name, wstring& exportPath)
 {
-	return false;
+	_converter->ExportAnimationData(name, exportPath);
+
+	return true;
 }
 
 bool AssetManager::CreateMeshAsset(MeshPathDesc& desc)
 {
+	//Shader Set
 	auto shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
+
+	//Model Create
 	shared_ptr<Model> model = make_shared<Model>();
 	model->SetModelType(desc.Type);
 	model->ReadModel(desc.SaveMeshPath);
 	model->ReadMaterial(desc.SaveMaterialPath);
 
+	//Object Create
 	shared_ptr<GameObject> asset = make_shared<GameObject>();
-	asset->AddComponent(make_shared<ModelRenderer>(shader));
-	asset->GetModelRenderer()->SetModel(model);
-	asset->GetModelRenderer()->SetPass(0);
-	asset->Awake();
+	{
+		//Init
+		asset->SetName(desc.Name);
+		asset->AddComponent(make_shared<ModelRenderer>(shader));
+		asset->GetModelRenderer()->SetModel(model);
+		asset->GetModelRenderer()->SetPass(0);
+		asset->Awake();
 
-	asset->GetTransform()->SetLocalScale(Vec3(0.01f));
+		//Default Setting
+		asset->GetTransform()->SetPosition(Vec3(0.f, -10.f, 0.f));
+		asset->GetTransform()->SetLocalScale(Vec3(0.1f));
+		auto rot = asset->GetTransform()->GetLocalRotation();
+		rot.x += ::XMConvertToRadians(90.f);
+		rot.y += ::XMConvertToRadians(90.f);
+		asset->GetTransform()->SetRotation(rot);
+	}
+
+	//Add Object in Loaded Object List
 	_assets.insert(make_pair(desc.Name, asset));
 
 	return true;
@@ -122,7 +141,19 @@ bool AssetManager::CreateMeshAsset(MeshPathDesc& desc)
 
 bool AssetManager::CreateAnimAsset(AnimPathDesc& desc)
 {
-	return false;
+
+	//{
+	//	wstring adr = RESOURCES_ADDR_ASSET;
+	//	adr += L"Animation/";
+	//	adr += L"/BlackCow/Loot.fbx";
+	//	_converter->ReadAssetFile(adr);
+	//	wstring anim = RESOURCES_ADDR_ANIMATION;
+	//	anim += L"BlackCow/Loot.anim";
+	//	_converter->ExportAnimationData(anim);
+	//	model->ReadAnimation(anim);
+	//}
+
+	return true;
 }
 
 shared_ptr<GameObject> AssetManager::GetAssetByName(wstring& name)
@@ -133,19 +164,6 @@ shared_ptr<GameObject> AssetManager::GetAssetByName(wstring& name)
 		return findIter->second;
 
 	return nullptr;
-}
-
-AssetData& AssetManager::GetAssetDataByName(wstring& name)
-{
-	AssetData ta;
-	const auto& findIter = _assetData.find(name);
-
-	if (findIter != _assetData.end())
-	{
-		ta = findIter->second;
-	}
-	
-	return ta;
 }
 
 void AssetManager::Init()
@@ -161,7 +179,7 @@ void AssetManager::Update()
 		auto rtv = GRAPHICS()->GetRenderTargetView(1);
 		auto dsv = GRAPHICS()->GetDepthStencilView(1);
 
-		float clearColor[4] = { 0.f,0.5f,0.f,0.5f };
+		float clearColor[4] = { 1.f,1.f,1.f,0.3f };
 		DC()->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
 		DC()->ClearRenderTargetView(rtv.Get(), clearColor);
 		DC()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
@@ -170,6 +188,7 @@ void AssetManager::Update()
 
 	for (int i = 0; i < _currentAssets.size(); i++)
 	{
+		_currentAssets[i]->FixedUpdate();
 		_currentAssets[i]->Update();
 		_currentAssets[i]->LateUpdate();
 	}

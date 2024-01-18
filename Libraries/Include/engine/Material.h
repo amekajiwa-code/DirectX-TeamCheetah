@@ -10,7 +10,7 @@ public:
 	Material();
 	virtual ~Material();
 private:
-	MaterialDesc		_desc;
+	MaterialDesc			_desc;
 	shared_ptr<Shader>	_shader;
 	shared_ptr<Texture> _diffuseMap;
 	shared_ptr<Texture> _specularMap;

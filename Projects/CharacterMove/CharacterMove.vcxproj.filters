@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{0a28282c-0757-44fe-baa6-bbea25cf8758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{97dd4543-e9fb-4c69-99b2-3f1a47ff2b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Common">
+      <UniqueIdentifier>{4904ac4c-625f-4ee6-ba61-49fa53553672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{9f76e7fd-580b-4b0a-bb5d-465eb85be5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Component">
+      <UniqueIdentifier>{a9bcc220-f2c3-429f-ab45-248cc26ddb81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{2976750a-9945-4213-87ac-600d6e9d021a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{550b9282-3b1e-4c80-a1f0-dc93c4dcfcbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMove.cpp">
+      <Filter>Scripts\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="UiObject.cpp" />
+    <ClCompile Include="Character.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="AIController.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Demo.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMove.h">
+      <Filter>Scripts\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="UiObject.h" />
+    <ClInclude Include="Character.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h" />
+    <ClInclude Include="AIController.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Resources\Shader\Global.fx">
+      <Filter>Shader\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Light.fx">
+      <Filter>Shader\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\GameObject.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

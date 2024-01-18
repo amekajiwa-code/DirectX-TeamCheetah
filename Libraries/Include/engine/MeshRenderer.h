@@ -15,10 +15,8 @@ private:
 	shared_ptr<Mesh>	_mesh;
 	shared_ptr<Material> _material;
 private:
-	uint32 _stride;
-	uint32 _offset;
-	//shared_ptr<Texture> _texture;
-	//shared_ptr<Shader>	_shader;
+	uint32 _stride = 0;
+	uint32 _offset = 0;
 public:
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
 	void SetMaterial(shared_ptr<Material> material) { _material = material; }

@@ -65,3 +65,16 @@ void ModelRenderer::LateUpdate()
 		_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
 	}
 }
+
+MetaData& ModelRenderer::GetMetaData()
+{
+	if (_model)
+	{
+		shared_ptr<GameData> data = make_shared<ModelMetaData>();
+		*data = _model->GetModelMetaData();
+
+		_metaData.SetData(data);
+	}
+
+	return _metaData;
+}

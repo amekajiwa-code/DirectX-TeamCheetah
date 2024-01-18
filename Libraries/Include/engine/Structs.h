@@ -3,7 +3,10 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <memory>
 #include "Types.h"
+
+class GameObject;
 
 struct CGameDesc
 {
@@ -22,6 +25,8 @@ struct CGameDesc
 	bool vsync = false;
 	//BackBuffer Clear Color
 	Color clearColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
+	//MouseWheel if (state == 1) up, or (state == -1 )down
+	int WheelState = 0;
 };
 
 struct GlobalDesc
@@ -48,6 +53,7 @@ struct LightDesc
 	Vec3 direction;
 	float padding0 = 0;
 };
+
 //Material
 struct MaterialDesc
 {
@@ -56,9 +62,10 @@ struct MaterialDesc
 	Color specular = Color(0.f, 0.f, 0.f, 1.f);
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
+
 //Bone
-#define MAX_MODEL_TRANSFORMS 255
-#define MAX_MODEL_KEYFRAMES 500
+#define MAX_MODEL_TRANSFORMS 250	
+#define MAX_MODEL_KEYFRAMES 250
 
 struct BoneDesc
 {
@@ -83,4 +90,11 @@ struct KeyframeDesc
 	float sumTime = 0.f;
 	float speed = 1.f;
 	Vec2 padding;
+};
+
+//Event Protocol
+struct EventArgs
+{
+	std::weak_ptr<GameObject> _sender;
+	DWORD _protocol;
 };

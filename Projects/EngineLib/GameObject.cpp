@@ -73,7 +73,7 @@ void GameObject::SetActive(bool active)
 	_isActive = active;
 }
 
-void GameObject::SetName(wstring& name)
+void GameObject::SetName(wstring name)
 {
 	_name = name;
 }
@@ -81,6 +81,37 @@ void GameObject::SetName(wstring& name)
 wstring GameObject::GetName()
 {
 	return _name;
+}
+
+void GameObject::AddChild(shared_ptr<GameObject>& child)
+{
+	child->SetParent(shared_from_this());
+	_children.push_back(child);
+
+	GetTransform()->AddChild(child->GetTransform());
+}
+
+shared_ptr<GameObject> GameObject::GetChildByName(wstring name)
+{
+	shared_ptr<GameObject> temp;
+
+	for (auto child : _children)
+	{
+		if (child->GetName() == name)
+			temp = child;
+	}
+
+	return temp;
+}
+
+void GameObject::LoadGameObjcet(wstring& loadPath)
+{
+
+}
+
+void GameObject::SaveGameObject(wstring& savePath)
+{
+	
 }
 
 void GameObject::AddComponent(shared_ptr<Component> component)
@@ -116,6 +147,14 @@ void GameObject::Awake()
 	{
 		com->Awake();
 	}
+
+	if (_children.size() > 0)
+	{
+		for (auto& ch : _children)
+		{
+			ch->Awake();
+		}
+	}
 }
 
 void GameObject::Start()
@@ -131,6 +170,14 @@ void GameObject::Start()
 		for (shared_ptr<MonoBehaviour>& com : _scripts)
 		{
 			com->Start();
+		}
+
+		if (_children.size() > 0)
+		{
+			for (auto& ch : _children)
+			{
+				ch->Start();
+			}
 		}
 	}
 }
@@ -149,6 +196,14 @@ void GameObject::FixedUpdate()
 		{
 			com->FixedUpdate();
 		}
+
+		if (_children.size() > 0)
+		{
+			for (auto& ch : _children)
+			{
+				ch->FixedUpdate();
+			}
+		}
 	}
 }
 
@@ -166,6 +221,14 @@ void GameObject::Update()
 		{
 			com->Update();
 		}
+
+		if (_children.size() > 0)
+		{
+			for (auto& ch : _children)
+			{
+				ch->Update();
+			}
+		}
 	}
 }
 
@@ -182,6 +245,14 @@ void GameObject::LateUpdate()
 		for (shared_ptr<MonoBehaviour>& com : _scripts)
 		{
 			com->LateUpdate();
+		}
+
+		if (_children.size() > 0)
+		{
+			for (auto& ch : _children)
+			{
+				ch->LateUpdate();
+			}
 		}
 	}
 }

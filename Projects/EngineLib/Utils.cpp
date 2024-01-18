@@ -73,18 +73,18 @@ void Utils::ScreenShot(ComPtr<ID3D11DeviceContext> context, const std::wstring& 
 	else
 	{
 		tm lt = MANAGER_TIME()->GetLocalTimeInfo()._tm;
-		std::wstring lstring = ::to_wstring(lt.tm_year);
-		lstring += L"/";
-		lstring += ::to_wstring(lt.tm_mon);
-		lstring += L"／";
-		lstring += ::to_wstring(lt.tm_mday);
-		lstring += L"／";
-		lstring += ::to_wstring(lt.tm_hour);
-		lstring += L"／";
-		lstring += ::to_wstring(lt.tm_min);
-		lstring += L"／";
-		lstring += ::to_wstring(lt.tm_sec);
-		lstring += L".png";
+		std::wstring lstring = L"(" +  ::to_wstring(lt.tm_year);
+		lstring += L"년)";
+		lstring += L"(" + ::to_wstring(lt.tm_mon);
+		lstring += L"월)";
+		lstring += L"(" + ::to_wstring(lt.tm_mday);
+		lstring += L"일)";
+		lstring += L"(" + ::to_wstring(lt.tm_hour);
+		lstring += L"시)";
+		lstring += L"(" + ::to_wstring(lt.tm_min);
+		lstring += L"분)";
+		lstring += L"(" + ::to_wstring(lt.tm_sec);
+		lstring += L"초).png";
 
 		path += lstring;
 	}

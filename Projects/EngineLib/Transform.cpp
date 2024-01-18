@@ -29,6 +29,12 @@ Vec3 Transform::QuatToEulerAngles(Quaternion q)
 	return angle;
 }
 
+void Transform::AddChild(shared_ptr<Transform> child)
+{
+	child->SetParent(shared_from_this());
+	_children.push_back(child);
+}
+
 void Transform::SetScale(const Vec3& scale)
 {
 	if (HasParent())
@@ -78,6 +84,60 @@ void Transform::SetPosition(const Vec3& pos)
 	}
 }
 
+void Transform::RotateAround(const Vec3 axis)
+{
+	Quaternion qt = Quaternion::CreateFromYawPitchRoll(axis.y, axis.x, axis.z);
+	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
+
+	rFinal = _matLocal * rFinal;
+	
+	Quaternion qTemp;
+	rFinal.Decompose(_localScale, qTemp, _localPosition);
+	_rotation = QuatToEulerAngles(qTemp);
+
+	UpdateTransform();
+}
+
+void Transform::PreorderTransfroms(const shared_ptr<Transform>& node, int32 localIndex, int32 parentIndex)
+{
+	if (node == nullptr)
+		return;
+	
+	//Data
+	TransformMetaData matData;
+
+	//Index
+	matData.parentIndex = parentIndex;
+	matData.index = localIndex;
+
+	//Local
+	matData.local.position = node->GetLocalPosition();
+	matData.local.rotation = node->GetLocalRotation();
+	matData.local.scale = node->GetLocalScale();
+
+	//Push Data
+	_transfromMetaDataList.push_back(matData);
+
+	//Preorder Search
+	auto children = node->GetChildren();
+
+	for (auto& child : children)
+	{
+		PreorderTransfroms(child, _transfromMetaDataList.size(), localIndex);
+	}
+}
+
+void Transform::LoadMetaData(wstring& metaPath)
+{
+}
+
+void Transform::SaveMetaData(wstring& metaPath)
+{
+	PreorderTransfroms(shared_from_this(), 0, -1);
+
+	Vec3 temp;
+}
+
 void Transform::Awake()
 {
 }
@@ -89,9 +149,8 @@ void Transform::Update()
 void Transform::UpdateTransform()
 {
 	Matrix matScale = Matrix::CreateScale(_localScale);
-	Matrix matRot = Matrix::CreateRotationX(_localRotation.x);
-	matRot *= Matrix::CreateRotationY(_localRotation.y);
-	matRot *= Matrix::CreateRotationZ(_localRotation.z);
+	Quaternion mq = Quaternion::CreateFromYawPitchRoll(_localRotation.y, _localRotation.x, _localRotation.z);
+	Matrix matRot = Matrix::CreateFromQuaternion(mq);
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
 
 	_matLocal = matScale * matRot * matTranslation;

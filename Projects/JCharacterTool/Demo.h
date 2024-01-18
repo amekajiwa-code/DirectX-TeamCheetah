@@ -8,16 +8,9 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 private:
-	//TEST
-	void CreateRagnaros();
-	void CreateCoreHound();
-	void CreateGiant();
-	void CreateBaronGeddon();
-private:
-	shared_ptr<GameObject> _obj;
 	//Shader
-	shared_ptr<Shader> _shader;
+	shared_ptr<Shader>		_shader;
 	//Camera
-	shared_ptr<GameObject> _camera;
+	shared_ptr<GameObject>	_camera;
 };
 

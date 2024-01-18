@@ -99,15 +99,15 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 			Matrix matAnimation;
 
 			shared_ptr<ModelKeyframe> frame = animation->GetKeyframe(bone->name);
+
 			if (frame != nullptr)
 			{
 				ModelKeyframeData& data = frame->transforms[f];
 
-				Matrix S, R, T;
+				Matrix S, R,T;
 				S = Matrix::CreateScale(data.scale.x, data.scale.y, data.scale.z);
 				R = Matrix::CreateFromQuaternion(data.rotation);
 				T = Matrix::CreateTranslation(data.translation.x, data.translation.y, data.translation.z);
-
 				matAnimation = S * R * T;
 			}
 			else
@@ -115,10 +115,8 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 				matAnimation = Matrix::Identity;
 			}
 
-			// [ !!!!!!! ]
 			Matrix toRootMatrix = bone->transform;
 			Matrix invGlobal = toRootMatrix.Invert();
-
 			int32 parentIndex = bone->parentIndex;
 
 			Matrix matParent = Matrix::Identity;
@@ -133,10 +131,41 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 	}
 }
 
-void ModelAnimator::Awake()
+void ModelAnimator::SetAnimationByName(wstring name)
+{
+	for (int i = 0; i < _anims.size(); i++)
+	{
+		if (_anims[i]->name == name)
+		{
+			_currentAnim = _anims[i];
+			_keyFrameDesc.animIndex = i;
+			return;
+		}
+	}
+
+	assert(false);
+}
+
+void ModelAnimator::Start()
 {
 	_model = GetGameObject()->GetModelRenderer()->GetModel();
 	assert(_model != nullptr);
+
+	if (_model)
+	{
+		uint32 count = _model->GetAnimationCount();
+		if (count > 0)
+		{
+			for (uint32 i = 0; i < count; i++)
+			{
+				_anims.push_back(_model->GetAnimationByIndex(i));
+			}
+		}
+	}
+
+	_currentAnim = _anims[0];
+	_keyFrameDesc.animIndex = 0;
+
 	_shader = GetGameObject()->GetModelRenderer()->GetShader();
 	assert(_shader != nullptr);
 }
@@ -151,37 +180,30 @@ void ModelAnimator::Update()
 		if (_texture == nullptr)
 			CreateTexture();
 
-		//{
-		//	auto rtv = GRAPHICS()->GetRenderTargetView(1);
-		//	auto dsv = GRAPHICS()->GetDepthStencilView(1);
-
-		//	float clearColor[4] = { 0.f,0.5f,0.f,0.5f };
-		//	DC()->OMSetRenderTargets(1, rtv.GetAddressOf(), dsv.Get());
-		//	DC()->ClearRenderTargetView(rtv.Get(), clearColor);
-		//	DC()->ClearDepthStencilView(dsv.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-		//	DC()->RSSetViewports(1, &GRAPHICS()->GetViewport());
-		//}
-
-		_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
-		_currentAnim = _model->GetAnimationByIndex(_keyFrameDesc.animIndex);
-		if (_currentAnim)
+		if (_isLoop)
 		{
-			_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
-
-			if (_keyFrameDesc.sumTime >= _timePerFrame)
+			
+			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
+			if (_currentAnim)
 			{
-				_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-				_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-				_keyFrameDesc.sumTime = 0.f;
+				_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
+
+				if (_keyFrameDesc.sumTime >= _timePerFrame)
+				{
+					_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
+					_keyFrameDesc.sumTime = 0.f;
+				}
+
+				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
 			}
+			// 애니메이션 현재 프레임 정보
+			MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
 
-			_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
+			// SRV를 통해 정보 전달
+			_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
 		}
-
-		// 애니메이션 현재 프레임 정보
-		MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
-
-		// SRV를 통해 정보 전달
-		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
 	}
+
 }
+

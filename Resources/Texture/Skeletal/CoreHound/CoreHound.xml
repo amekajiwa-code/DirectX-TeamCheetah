@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+    <Material>
+        <Name>creature/corehound2/corehound2_0</Name>
+        <DiffuseFile>corehound.png</DiffuseFile>
+        <SpecularFile>corehound.png</SpecularFile>
+        <NormalFile>corehound.png</NormalFile>
+        <Ambient R="0.69999999" G="0.69999999" B="0.69999999" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>creature/corehound2/corehound2_1</Name>
+        <DiffuseFile>corehound.png</DiffuseFile>
+        <SpecularFile>corehound.png</SpecularFile>
+        <NormalFile>corehound.png</NormalFile>
+        <Ambient R="0.69999999" G="0.69999999" B="0.69999999" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>creature/corehound2/corehound2_2</Name>
+        <DiffuseFile>corehoundmount2.png</DiffuseFile>
+        <SpecularFile>corehoundmount2.png</SpecularFile>
+        <NormalFile>corehoundmount2.png</NormalFile>
+        <Ambient R="0.69999999" G="0.69999999" B="0.69999999" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>creature/corehound2/corehound2_3</Name>
+        <DiffuseFile>corehoundmount2.png</DiffuseFile>
+        <SpecularFile>corehoundmount2.png</SpecularFile>
+        <NormalFile>corehoundmount2.png</NormalFile>
+        <Ambient R="0.69999999" G="0.69999999" B="0.69999999" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+</Materials>

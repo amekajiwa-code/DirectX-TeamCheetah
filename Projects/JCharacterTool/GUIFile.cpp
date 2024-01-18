@@ -33,7 +33,6 @@ MeshPathDesc GUIFile::CreateMeshPathDesc(wstring& fileName, wstring& filePath)
 		case AssetType::SkeletalMesh:
 			desc.SaveMeshPath = RESOURCES_ADDR_MESH_SKELETAL + desc.Name + L"/" + desc.Name + L".mesh";
 			desc.SaveMaterialPath = RESOURCES_ADDR_TEXTURE_SKELETAL + desc.Name + L"/" + desc.Name + L".xml";
-
 			break;
 		case AssetType::StaticMesh:
 			desc.SaveMeshPath = RESOURCES_ADDR_MESH_STATIC + desc.Name + L"/" + desc.Name + L".mesh";
@@ -47,7 +46,14 @@ MeshPathDesc GUIFile::CreateMeshPathDesc(wstring& fileName, wstring& filePath)
 
 AnimPathDesc GUIFile::CreateAnimPathDesc(wstring& fileName, wstring& filePath)
 {
-	return AnimPathDesc();
+	AnimPathDesc desc;
+	{
+		desc.AnimName = fileName;
+		desc.ReadAnimPath = filePath;
+		//desc.SaveAnimPath = RESOURCES_ADDR_ANIMATION + desc.Name + L"/" + desc.Name + L".anim";
+	}
+
+	return desc;
 }
 
 wstring GUIFile::SplitFileName(string name)
@@ -57,6 +63,11 @@ wstring GUIFile::SplitFileName(string name)
 	wstring rName = Utils::ToWString(spName.substr(0, sp));
 
 	return rName;
+}
+
+wstring GUIFile::SplitParentFilePath(string path)
+{
+	return wstring();
 }
 
 void GUIFile::MeshReadPoPUp()
@@ -70,11 +81,10 @@ void GUIFile::MeshReadPoPUp()
 			{
 				_isReadMesh = false;
 
+				MANAGER_IMGUI()->GetGui<GUIView>()->_showLoadedAsset = true;
 				MANAGER_IMGUI()->GetGui<GUIView>()->_showScene = true;
 				MANAGER_IMGUI()->GetGui<GUIView>()->_showBoneHierarchy = true;
 				MANAGER_IMGUI()->GetGui<GUIView>()->_showInspector = true;
-				MANAGER_IMGUI()->GetGui<GUIView>()->_showLoadedAsset = true;
-
 
 				ImGui::CloseCurrentPopup();
 			}
@@ -150,7 +160,7 @@ void GUIFile::Update()
 				{
 					//Dialog Open
 					string adr = Utils::ToString(RESOURCES_ADDR_ASSET_SKELETAL);
-					_dialog.OpenDialog("ReadModelAssets", "File", ".fbx,.obj",
+					_dialog.OpenDialog("ReadModelAssets", "Read", ".fbx,.FBX,.obj",
 						adr, 1, nullptr, ImGuiFileDialogFlags_Modal);
 					//Asset Type Set
 					_type = AssetType::SkeletalMesh;
@@ -159,7 +169,7 @@ void GUIFile::Update()
 				{
 					//Dialog Open
 					string adr = Utils::ToString(RESOURCES_ADDR_ASSET_STATIC);
-					_dialog.OpenDialog("ReadModelAssets", "File", ".fbx,.obj",
+					_dialog.OpenDialog("ReadModelAssets", "Read", ".fbx,.FBX,.obj",
 						adr, 1, nullptr, ImGuiFileDialogFlags_Modal);
 					//Asset Type Set
 					_type = AssetType::StaticMesh;
@@ -172,9 +182,9 @@ void GUIFile::Update()
 			//----------------------
 
 			//Save Mesh File
-			if (ImGui::MenuItem("Save Mesh Asset File"))
+			if (ImGui::MenuItem("Save Mesh File"))
 			{
-				_isSaveMesh = true;
+
 			}
 		}
 
@@ -188,7 +198,20 @@ void GUIFile::Update()
 
 			if (ImGui::MenuItem("Read Animation Asset File"))
 			{
+				string adr = Utils::ToString(RESOURCES_ADDR_ASSET_ANIMATION);
+				_dialog.OpenDialog("ReadAnimAsset", "Read", ".fbx,.FBX",
+					adr, 1, nullptr, ImGuiFileDialogFlags_Modal);
+			}
 
+			//----------------------
+			ImGui::Separator();
+			//----------------------
+
+			if (ImGui::MenuItem("Read Animation Anim File"))
+			{
+				string adr = Utils::ToString(RESOURCES_ADDR_ANIMATION);
+				_dialog.OpenDialog("ReadAnim", "Read", ".fbx,.FBX",
+					adr, 1, nullptr, ImGuiFileDialogFlags_Modal);
 			}
 
 			//----------------------
@@ -257,6 +280,23 @@ void GUIFile::Render()
 		{
 			_filePath = Utils::ToWString(_dialog.GetCurrentPath());
 			_fileName = SplitFileName(_dialog.GetCurrentFileName());
+		}
+		_dialog.Close();
+	}
+
+	if (_dialog.Display("ReadAnimAsset", ImGuiWindowFlags_NoCollapse, _minDialogSize, _maxDialogSize))
+	{
+		if (_dialog.IsOk())
+		{
+			_fileName = SplitFileName(_dialog.GetCurrentFileName());
+			_filePath = Utils::ToWString(_dialog.GetFilePathName());
+
+			AnimPathDesc desc = CreateAnimPathDesc(_fileName, _filePath);
+
+			if (MANAGER_ASSET()->ReadAnimAssetFile(desc))
+			{
+				_isReadAnimationAsset = true;
+			}
 		}
 		_dialog.Close();
 	}
