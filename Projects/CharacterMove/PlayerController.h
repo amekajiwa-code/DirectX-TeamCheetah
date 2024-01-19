@@ -9,14 +9,6 @@ class PlayerAnimJumpStart;
 class PlayerAnimJumpFall;
 class PlayerAnimJumpEnd;
 class PlayerAnimJumpEndRun;
-class PlayerAnimFrontWalk;
-class PlayerAnimBackWalk;
-class PlayerAnimStun;
-class PlayerAnimLoot;
-class PlayerAnimDeath;
-class PlayerAnimBattle;
-class PlayerAnimAttack1;
-class PlayerAnimAttack2;
 #pragma endregion
 
 class PlayerController : public MonoBehaviour
@@ -69,8 +61,7 @@ private:
 	void PlayerMove();
 	void PlayerJump();
 public:
-	const shared_ptr<PlayerAnimState>& GetCurrentAnimState() { return _animState; }
-	void SetAnimState(const PlayerAnimType& animType);
+	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 public:
 	void ReceiveEvent(const EventArgs& args);

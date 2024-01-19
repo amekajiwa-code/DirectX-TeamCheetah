@@ -81,7 +81,6 @@ enum class PlayerUnitState
 
 enum class PlayerAnimType
 {
-	None,
 	Idle,
 	Run,
 	BackRun,
@@ -100,5 +99,5 @@ enum class PlayerAnimType
 	Casting,
 	Ability1,
 	Ability2,
-	End
+	None
 };

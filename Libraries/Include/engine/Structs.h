@@ -101,12 +101,11 @@ struct TweenDesc
 	}
 	void ClearCurrentAnim()
 	{
+		current.animIndex = -1;
 		current.currentFrame = 0;
 		current.nextFrame = 0;
 		current.sumTime = 0;
 		current.ratio = 0;
-		tweenRatio = 0;
-		tweenSumTime = 0;
 	}
 	void ClearNextAnim()
 	{

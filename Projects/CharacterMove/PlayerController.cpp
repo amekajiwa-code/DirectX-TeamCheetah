@@ -200,8 +200,41 @@ void PlayerController::PlayerJump()
 	}
 }
 
-void PlayerController::SetAnimState(const PlayerAnimType& animType)
+bool PlayerController::SetAnimState(const PlayerAnimType& animType)
 {
+	switch (animType)
+	{
+		case PlayerAnimType::Idle:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::Run:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::BackRun:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::JumpStart:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::JumpFall:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::JumpEnd:
+		{
+			return true;
+		}break;
+		case PlayerAnimType::JumpEndRun:
+		{
+			return true;
+		}break;
+	}
+
+	return false;
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)

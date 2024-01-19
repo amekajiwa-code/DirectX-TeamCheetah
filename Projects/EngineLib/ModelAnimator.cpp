@@ -131,51 +131,6 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 	}
 }
 
-void ModelAnimator::SetAnimationByName(wstring name)
-{
-	for (int i = 0; i < _anims.size(); i++)
-	{
-		if (_anims[i]->name == name)
-		{
-			_currentAnim = _anims[i];
-			_keyFrameDesc.animIndex = i;
-			return;
-		}
-	}
-
-	assert(false);
-}
-
-void ModelAnimator::SetTweenCurrentAnimationByName(wstring name)
-{
-	for (int i = 0; i < _anims.size(); i++)
-	{
-		if (_anims[i]->name == name)
-		{
-			_currentAnim = _anims[i];
-			_tweenDesc.current.animIndex = i;
-			return;
-		}
-	}
-
-	assert(false);
-}
-
-void ModelAnimator::SetTweenNextAnimationByName(wstring name)
-{
-	for (int i = 0; i < _anims.size(); i++)
-	{
-		if (_anims[i]->name == name)
-		{
-			_nextAnim = _anims[i];
-			_tweenDesc.next.animIndex = i;
-			return;
-		}
-	}
-
-	assert(false);
-}
-
 void ModelAnimator::Start()
 {
 	_model = GetGameObject()->GetModelRenderer()->GetModel();
@@ -183,6 +138,11 @@ void ModelAnimator::Start()
 
 	if (_model)
 	{
+		if (_anims.size() > 0)
+		{
+			_anims.clear();
+		}
+
 		uint32 count = _model->GetAnimationCount();
 		if (count > 0)
 		{
@@ -192,9 +152,6 @@ void ModelAnimator::Start()
 			}
 		}
 	}
-
-	_currentAnim = _anims[0];
-	_keyFrameDesc.animIndex = 0;
 
 	_shader = GetGameObject()->GetModelRenderer()->GetShader();
 	assert(_shader != nullptr);
@@ -247,23 +204,27 @@ void ModelAnimator::Update()
 		if (_texture == nullptr)
 			CreateTexture();
 
+		//루프 애니메이션
 		if (_isLoop)
 		{
 			//현재 애니메이션
-			if (_currentAnim)
+			if (_tweenDesc.current.animIndex >= 0)
 			{
-				_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
-				_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
-
-				if (_tweenDesc.current.sumTime >= _timePerFrame)
+				if (_currentAnim)
 				{
-					_tweenDesc.current.sumTime = 0;
-					_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-					_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
+					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
+					if (_tweenDesc.current.sumTime >= _timePerFrame)
+					{
+						_tweenDesc.current.sumTime = 0;
+						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+
+					}
+
+					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
 				}
-
-				_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
 			}
 			//다음 애니메이션 예약 시
 			if (_tweenDesc.next.animIndex >= 0)
@@ -290,12 +251,12 @@ void ModelAnimator::Update()
 							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
 							_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
 						}
-
 						_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
 					}
 				}
 			}
 		}
+		//논 루프 애니메이션
 		else
 		{
 
