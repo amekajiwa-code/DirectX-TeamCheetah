@@ -92,6 +92,40 @@ struct KeyframeDesc
 	Vec2 padding;
 };
 
+struct TweenDesc
+{
+	TweenDesc()
+	{
+		current.animIndex = 0;
+		next.animIndex = -1;
+	}
+	void ClearCurrentAnim()
+	{
+		current.currentFrame = 0;
+		current.nextFrame = 0;
+		current.sumTime = 0;
+		current.ratio = 0;
+		tweenRatio = 0;
+		tweenSumTime = 0;
+	}
+	void ClearNextAnim()
+	{
+		next.animIndex = -1;
+		next.currentFrame = 0;
+		next.nextFrame = 0;
+		next.sumTime = 0;
+		next.ratio = 0;
+		tweenRatio = 0;
+		tweenSumTime = 0;
+	}
+	float tweenDuration = 1.0f;
+	float tweenRatio = 1.0f;
+	float tweenSumTime = 1.0f;
+	float padding = 0.f;
+	KeyframeDesc current;
+	KeyframeDesc next;
+};
+
 //Event Protocol
 struct EventArgs
 {

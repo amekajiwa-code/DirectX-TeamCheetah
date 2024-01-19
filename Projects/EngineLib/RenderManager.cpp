@@ -31,6 +31,10 @@ void RenderManager::Init(shared_ptr<Shader> shader)
 	_keyframeBuffer = make_shared<ConstantBuffer<KeyframeDesc>>();
 	_keyframeBuffer->CreateConstantBuffer();
 	_keyframeEffectBuffer = _shader->GetConstantBuffer("KeyframeBuffer");
+	//Tween
+	_tweenBuffer = make_shared<ConstantBuffer<TweenDesc>>();
+	_tweenBuffer->CreateConstantBuffer();
+	_tweenEffectBuffer = _shader->GetConstantBuffer("TweenBuffer");
 }
 
 void RenderManager::Update()
@@ -81,4 +85,11 @@ void RenderManager::PushKeyframeData(const KeyframeDesc& desc)
 	_keyframeDesc = desc;
 	_keyframeBuffer->CopyData(_keyframeDesc);
 	_keyframeEffectBuffer->SetConstantBuffer(_keyframeBuffer->GetBuffer().Get());
+}
+
+void RenderManager::PushTweenData(const TweenDesc& desc)
+{
+	_tweenDesc = desc;
+	_tweenBuffer->CopyData(_tweenDesc);
+	_tweenEffectBuffer->SetConstantBuffer(_tweenBuffer->GetBuffer().Get());
 }

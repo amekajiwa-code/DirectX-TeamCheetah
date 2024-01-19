@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerController.h"
 #include <float.h>
+#include "AnimState.h"
 
 PlayerController::PlayerController()
 {
@@ -92,15 +93,9 @@ void PlayerController::PlayerMove()
 {
 	_movePos = _transform.lock()->GetPosition();
 
-	PlayerJump();
-	PlayerAnimControll();
-
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
-		if (!_isJump)
-			_currentAnimState = PlayerAnimState::Run;
-
 		_speed = 300.f;
 		_moveForward = _transform.lock()->GetLookVector();
 
@@ -110,9 +105,6 @@ void PlayerController::PlayerMove()
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
-		if (!_isJump)
-			_currentAnimState = PlayerAnimState::BackRun;
-
 		_speed = 150.f;
 		_moveForward = _transform.lock()->GetLookVector();
 
@@ -122,15 +114,6 @@ void PlayerController::PlayerMove()
 	//오른쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
-		if (!_isJump)
-		{
-			if (_prevAnimState == PlayerAnimState::Idle ||
-				_prevAnimState == PlayerAnimState::JumpFall)
-			{
-				_currentAnimState = PlayerAnimState::Run;
-			}
-		}
-
 		{
 			_moveRight = _transform.lock()->GetRightVector();
 			_movePos -= _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
@@ -140,15 +123,6 @@ void PlayerController::PlayerMove()
 	//왼쪽
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
-		if (!_isJump)
-		{
-			if (_prevAnimState == PlayerAnimState::Idle ||
-				_prevAnimState == PlayerAnimState::JumpFall)
-			{
-				_currentAnimState = PlayerAnimState::Run;
-			}
-		}
-
 		{
 			_moveRight = _transform.lock()->GetRightVector();
 			_movePos += _moveRight * _speed * MANAGER_TIME()->GetDeltaTime();
@@ -156,20 +130,7 @@ void PlayerController::PlayerMove()
 		}
 	}
 
-	if (!_isJump)
-	{
-		if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-		{
-			_currentAnimState = PlayerAnimState::Idle;
-			_speed = 300.f;
-		}
-	}
-
-
-	_prevAnimState = _currentAnimState;
+	PlayerJump();
 }
 
 void PlayerController::PlayerJump()
@@ -182,8 +143,6 @@ void PlayerController::PlayerJump()
 			_isJump = true;
 			_isJumpUP = true;
 			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
-			_currentAnimState = PlayerAnimState::JumpStart;
-			_animator.lock()->GetKeyFrame().currentFrame = 0;
 		}
 	}
 
@@ -191,9 +150,9 @@ void PlayerController::PlayerJump()
 	{
 		if (_isJumpUP)
 		{
-			if (_movePos.y <= _jumpUpMaxPos.y - FLT_EPSILON)
+			if (_movePos.y <= _jumpUpMaxPos.y)
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.5f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 1.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
 			else
@@ -204,69 +163,45 @@ void PlayerController::PlayerJump()
 		}
 		if (_isJumpFall)
 		{
-			_currentAnimState = PlayerAnimState::JumpFall;
 
-			if (_movePos.y <= 0.5f - FLT_EPSILON)
+			if (_movePos.y <= _jumpPower/2.0f +1.0f)
 			{
-				_movePos.y = 0.5f;
-				_transform.lock()->SetPosition(_movePos);
 				_isJumpFall = false;
-				_isJump = false;
+				_isJumEnd = true;
 			}
 			else
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.5f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 1.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
+		}
+		if (_isJumEnd)
+		{
+			//if(_prevAnimState != PlayerAnimState::JumpEndRun)
+			//_currentAnimState = PlayerAnimState::JumpEndRun;
+
+			//if (_movePos.y <= 0.5f)
+			//{
+			//	_movePos.y = 0.5f;
+			//	_transform.lock()->SetLocalPosition(_movePos);
+			//	if (_prevAnimState == PlayerAnimState::JumpEndRun)
+			//		_currentAnimState = PlayerAnimState::Run;
+			//	_isJumEnd = false;
+			//	_isJump = false;
+			//	return;
+			//}
+			
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 1.5f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+
 		}
 	}
 }
 
-void PlayerController::PlayerAnimControll()
+void PlayerController::SetAnimState(const PlayerAnimType& animType)
 {
-	switch (_currentAnimState)
-	{
-	case PlayerAnimState::Idle:
-		_animator.lock()->SetAnimationByName(L"Stand");
-		break;
-	case PlayerAnimState::FrontWalk:
-		break;
-	case PlayerAnimState::BackWalk:
-		break;
-	case PlayerAnimState::Run:
-		_animator.lock()->SetAnimationByName(L"Run");
-		break;
-	case PlayerAnimState::BackRun:
-		_animator.lock()->SetAnimationByName(L"BackRun");
-		break;
-	case PlayerAnimState::Stun:
-		break;
-	case PlayerAnimState::Loot:
-		break;
-	case PlayerAnimState::Death:
-		break;
-	case PlayerAnimState::JumpStart:
-		_animator.lock()->SetAnimationByName(L"JumpStart");
-		break;
-	case PlayerAnimState::JumpFall:
-		_animator.lock()->SetAnimationByName(L"JumpFall");
-		break;
-	case PlayerAnimState::JumpEnd:
-		_animator.lock()->SetAnimationByName(L"JumpEnd");
-		break;
-	case PlayerAnimState::Battle:
-		break;
-	case PlayerAnimState::Attack1:
-		break;
-	case PlayerAnimState::Attack2:
-		break;
-	case PlayerAnimState::Casting:
-		break;
-	case PlayerAnimState::Ability1:
-		break;
-	case PlayerAnimState::Ability2:
-		break;
-	}
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)
@@ -274,6 +209,10 @@ void PlayerController::ReceiveEvent(const EventArgs& args)
 }
 
 void PlayerController::DispatchEvent()
+{
+}
+
+void PlayerController::Awake()
 {
 }
 
@@ -294,6 +233,7 @@ void PlayerController::FixedUpdate()
 
 void PlayerController::Update()
 {
+
 }
 
 void PlayerController::LateUpdate()

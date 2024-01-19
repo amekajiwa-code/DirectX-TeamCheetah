@@ -9,7 +9,7 @@ void Demo::Init()
 	//리소스 매니저 초기화
 	MANAGER_RESOURCES()->Init();
 	{
-		_shader = make_shared<Shader>(L"GameObject.fx");
+		_shader = make_shared<Shader>(L"TweenAnimation.fx");
 		MANAGER_RESOURCES()->AddResource<Shader>(L"Default", _shader);
 	}
 	//랜더 매니저 초기화
@@ -75,6 +75,9 @@ void Demo::Init()
 			wstring jumpEnd = RESOURCES_ADDR_ANIMATION;
 			jumpEnd += L"BlackCow/JumpEnd.anim";
 			tempModel->ReadAnimation(jumpEnd);
+			wstring jumpEndRun = RESOURCES_ADDR_ANIMATION;
+			jumpEndRun += L"BlackCow/JumpEndRun.anim";
+			tempModel->ReadAnimation(jumpEndRun);
 		}
 		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(_shader);
 		{
@@ -90,7 +93,6 @@ void Demo::Init()
 		cow->AddComponent(tempRenderer);
 		cow->AddComponent(tempAnimator);
 		cow->Awake();
-		cow->Start();
 		cow->SetName(L"Model");
 
 		Vec3 rot = cow->GetTransform()->GetLocalRotation();

@@ -19,15 +19,19 @@ private:
 	uint8				_pass = 0;
 private:
 	vector<AnimTransform>				_animTransforms;
-	vector<shared_ptr<ModelAnimation>> _anims;
+	vector<shared_ptr<ModelAnimation>>	_anims;
 	shared_ptr<ModelAnimation>			_currentAnim;
-	ComPtr<ID3D11Texture2D>			_texture;
+	shared_ptr<ModelAnimation>			_nextAnim;
+
+	ComPtr<ID3D11Texture2D>				_texture;
 	ComPtr<ID3D11ShaderResourceView>	_srv;
 private:
 	KeyframeDesc _keyFrameDesc;
+	TweenDesc	_tweenDesc;
 	uint16		_animCount = 0;
 	bool			_isPlay = false;
 	bool			_isLoop = false;
+	bool			_isAnimationEnd = false;
 	float		_timePerFrame = 0.f;
 	float		_duration = 0.f;
 private:
@@ -39,13 +43,17 @@ public:
 	void SetPass(uint8 pass) { _pass = pass; }
 public:
 	void	 SetAnimationByName(wstring name);
+	void	 SetTweenCurrentAnimationByName(wstring name);
+	void	 SetTweenNextAnimationByName(wstring name);
 public:
 	void SetPlay(bool play) { _isPlay = play; }
 	bool GetPlay() const { return _isPlay; }
 	void SetLoop(bool loop) { _isLoop = loop; }
 	bool GetLoop() const { return _isLoop; }
+	bool GetAnimationend() const{ return _isAnimationEnd; }
 public:
 	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
+	TweenDesc& GetTweenDesc() { return _tweenDesc; }
 public:
 	virtual void Start() override;
 	virtual void Update() override;

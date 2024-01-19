@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimState.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Demo.h" />
     <ClInclude Include="main.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="UiObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimState.cpp" />
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="main.cpp" />
@@ -176,6 +178,7 @@
     <FxCompile Include="..\..\Resources\Shader\GameObject.fx" />
     <FxCompile Include="..\..\Resources\Shader\Global.fx" />
     <FxCompile Include="..\..\Resources\Shader\Light.fx" />
+    <FxCompile Include="..\..\Resources\Shader\TweenAnimation.fx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineLib\EngineLib.vcxproj">

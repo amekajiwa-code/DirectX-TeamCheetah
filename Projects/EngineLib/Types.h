@@ -79,20 +79,21 @@ enum class PlayerUnitState
 	End
 };
 
-enum class PlayerAnimState
+enum class PlayerAnimType
 {
 	None,
 	Idle,
-	FrontWalk,
-	BackWalk,
 	Run,
 	BackRun,
-	Stun,
-	Loot,
-	Death,
 	JumpStart,
 	JumpFall,
 	JumpEnd,
+	JumpEndRun,
+	FrontWalk,
+	BackWalk,
+	Stun,
+	Loot,
+	Death,
 	Battle,
 	Attack1,
 	Attack2,

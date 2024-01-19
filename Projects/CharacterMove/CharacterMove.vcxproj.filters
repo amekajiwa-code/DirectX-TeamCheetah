@@ -34,6 +34,9 @@
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="UiObject.cpp" />
+    <ClCompile Include="AnimState.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -52,6 +55,9 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="UiObject.h" />
+    <ClInclude Include="AnimState.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\Global.fx">
@@ -61,6 +67,9 @@
       <Filter>Shader\Common</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shader\GameObject.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\TweenAnimation.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

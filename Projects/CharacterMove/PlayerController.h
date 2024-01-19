@@ -1,5 +1,24 @@
 #pragma once
 
+#pragma region Declaration
+class AnimState;
+class PlayerAnimIdle;
+class PlayerAnimRun;
+class PlayerAnimBackRun;
+class PlayerAnimJumpStart;
+class PlayerAnimJumpFall;
+class PlayerAnimJumpEnd;
+class PlayerAnimJumpEndRun;
+class PlayerAnimFrontWalk;
+class PlayerAnimBackWalk;
+class PlayerAnimStun;
+class PlayerAnimLoot;
+class PlayerAnimDeath;
+class PlayerAnimBattle;
+class PlayerAnimAttack1;
+class PlayerAnimAttack2;
+#pragma endregion
+
 class PlayerController : public MonoBehaviour
 {
 public:
@@ -7,29 +26,31 @@ public:
 	~PlayerController();
 private:
 	weak_ptr<Transform> _transform;
-	Vec3 _movePos;
-	Vec3 _moveForward;
-	Vec3 _moveRight;
-	Vec3 _scale;
-	Vec3 _rotation;
-	Vec3 _target;
-	float _camSpeed = 2000.f;
-	Vec3 _jumpStartPos;
-	Vec3 _jumpUpMaxPos;
+	Vec3 _movePos = { 0,0,0 };
+	Vec3 _moveForward = { 0,0,0 };
+	Vec3 _moveRight = { 0,0,0 };
+	Vec3 _scale = { 1,1,1 };
+	Vec3 _rotation = { 0,0,0 };
+	Vec3 _target = { 0,0,0 };
+	Vec3 _jumpStartPos = { 0,0,0 };
+	Vec3 _jumpUpMaxPos = { 0,0,0 };
 	Vec3 _jumpUpDir = { 0,1,0 };
 	Vec3 _jumpDownDir = { 0,-1,0 };
-	float _jumpPower = 25.f;
+	float _jumpPower = 20.f;
 	bool _isJumpUP = false;
 	bool _isJumpFall = false;
+	bool _isJumEnd = false;
 	bool _isJump = false;
 private:
-	weak_ptr<ModelAnimator> _animator;
-	PlayerAnimState _currentAnimState = PlayerAnimState::Idle;
-	PlayerAnimState _prevAnimState = PlayerAnimState::Idle;
+	//Animation Controll
+	weak_ptr<ModelAnimator>				_animator;
+	shared_ptr<PlayerAnimState>			_animState;
+	vector<shared_ptr<PlayerAnimState>> _animStateList;
+	PlayerAnimType _currentAnimState = PlayerAnimType::Idle;
 	float _speed = 300.f;
 	float _dt = 0.f;
-	float _camDist = 0.f;
 private:
+	//Camera Controll
 	weak_ptr<GameObject> _camera;
 	Vec3 _prevMousePos;
 	Vec3 _currentMousePos;
@@ -38,6 +59,8 @@ private:
 	Vec3 _rCamPos;
 	Vec3 _playerRot;
 	Vec3 _playerPos;
+	float _camDist = 0.f;
+	float _camSpeed = 2000.f;
 private:
 	//Camera
 	void CameraMove();
@@ -45,11 +68,15 @@ private:
 	void PlayerInput();
 	void PlayerMove();
 	void PlayerJump();
-	void PlayerAnimControll();
+public:
+	const shared_ptr<PlayerAnimState>& GetCurrentAnimState() { return _animState; }
+	void SetAnimState(const PlayerAnimType& animType);
+	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();
 public:
+	virtual void Awake() override;
 	virtual void Start() override;
 	virtual void FixedUpdate() override;
 	virtual void Update() override;
