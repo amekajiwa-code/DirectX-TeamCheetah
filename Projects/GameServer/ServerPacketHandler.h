@@ -10,6 +10,29 @@ enum
 	HANDLE_DISCONNECT = 99,
 };
 
+enum class PlayerAnimState
+{
+	None,
+	Idle,
+	FrontWalk,
+	BackWalk,
+	Run,
+	BackRun,
+	Stun,
+	Loot,
+	Death,
+	JumpStart,
+	JumpFall,
+	JumpEnd,
+	Battle,
+	Attack1,
+	Attack2,
+	Casting,
+	Ability1,
+	Ability2,
+	End
+};
+
 struct CHARACTER_INFO
 {
 	uint64 _instanceId;
@@ -20,8 +43,10 @@ struct CHARACTER_INFO
 	//uint16 _attackSpeed;
 	//uint16 _attackRange;
 	uint16 _aggroLevel = 100;
-	DirectX::XMFLOAT3 _pos;
-	DirectX::XMFLOAT3 _nextPos;
+	DirectX::XMFLOAT3 _pos = { 0.f, 0.f, 0.f };
+	DirectX::XMFLOAT3 _nextPos = {0.f, 0.f, 0.f};
+	DirectX::XMFLOAT3 _Rotate = { 0.f, 0.f, 0.f };
+	PlayerAnimState _animState = PlayerAnimState::Idle;
 	bool _isAlive = true;
 };
 

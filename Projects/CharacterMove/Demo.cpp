@@ -205,7 +205,7 @@ void Demo::Update()
 	sendInfo._pos = _chr->GetTransform()->GetPosition();
 	sendInfo._isOnline = true;
 	sendInfo._animState = _chr->GetComponent<PlayerController>()->GetCurrentAnimState();
-	sendInfo._Lotate = _chr->GetTransform()->GetLocalRotation();
+	sendInfo._Rotate = _chr->GetTransform()->GetLocalRotation();
 	GsendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 
 #pragma region Client Thread
@@ -225,7 +225,7 @@ void Demo::Update()
 		service->Broadcast(sendBuffer);
 	}
 
-	if (ThreadTimer < 1.0f)
+	if (ThreadTimer < 0.03333f)
 	{
 		ThreadTimer += MANAGER_TIME()->GetDeltaTime();
 	}

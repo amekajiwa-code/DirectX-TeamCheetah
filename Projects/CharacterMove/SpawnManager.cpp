@@ -93,7 +93,7 @@ void SpawnManager::SpawnOtherPlayers()
 				// 선형 보간을 통해 부드럽게 현재 위치 업데이트
 				pos += dv * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
 				it->second->GetTransform()->SetPosition(pos);
-				it->second->GetTransform()->SetLocalRotation(pair.second._Lotate);
+				it->second->GetTransform()->SetLocalRotation(pair.second._Rotate);
 				it->second->GetComponent<AIController>()->SetAnimState(pair.second._animState);
 			}
 		}

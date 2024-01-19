@@ -20,7 +20,7 @@ void GameSessionManager::Add(GameSessionRef session)
 	_sessions.insert(session);
 	//몬스터 정보 보내주기
 	//임시 : 애초에 지금 몬스터 만들고 있는거 다 임시임
-	{
+	/*{
 		this_thread::sleep_for(100ms);
 
 		if (isUpdate)
@@ -34,14 +34,18 @@ void GameSessionManager::Add(GameSessionRef session)
 			SendBufferRef sendBuffer = ServerPacketHandler::Make_CHARACTER_INFO(_charaInfoList);
 			session->Send(sendBuffer);
 		}
-	}	
+	}	*/
 }
 
 void GameSessionManager::Remove(GameSessionRef session)
 {
 	WRITE_LOCK;
 	auto it = _userInfoList.find(session->GetSessionId());
-	_userInfoList.erase(it);
+	if (it != _userInfoList.end())
+	{
+		_userInfoList.erase(it);
+	}
+	
 	SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_DISCONNECT(session->GetSessionId());
 	Broadcast(sendBuffer);
 	_sessions.erase(session);
@@ -59,8 +63,10 @@ void GameSessionManager::Broadcast(SendBufferRef sendBuffer)
 void GameSessionManager::UpdateUserInfo(Player_INFO info)
 {
 	auto it = _userInfoList.find(info._uid);
-	it->second._pos = info._pos;
-	it->second._aggroLevel = info._aggroLevel;
+	if (it != _userInfoList.end())
+	{
+		it->second = info;
+	}
 }
 
 void GameSessionManager::GenerateCharaList()
@@ -124,7 +130,7 @@ DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(CHARACTER_INFO chara) {
 		}
 	}
 
-	if ((isFindTarget) && _userInfoList.find(closestUserId) != _userInfoList.end()) {
+	if ((isFindTarget) && (_userInfoList.find(closestUserId) != _userInfoList.end())) {
 		return _userInfoList[closestUserId]._pos;
 	}
 
