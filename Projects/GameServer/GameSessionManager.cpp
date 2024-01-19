@@ -20,7 +20,7 @@ void GameSessionManager::Add(GameSessionRef session)
 	_sessions.insert(session);
 	//몬스터 정보 보내주기
 	//임시 : 애초에 지금 몬스터 만들고 있는거 다 임시임
-	/*{
+	{
 		this_thread::sleep_for(100ms);
 
 		if (isUpdate)
@@ -34,7 +34,7 @@ void GameSessionManager::Add(GameSessionRef session)
 			SendBufferRef sendBuffer = ServerPacketHandler::Make_CHARACTER_INFO(_charaInfoList);
 			session->Send(sendBuffer);
 		}
-	}	*/
+	}	
 }
 
 void GameSessionManager::Remove(GameSessionRef session)
@@ -74,16 +74,15 @@ void GameSessionManager::GenerateCharaList()
 	// 랜덤 숫자 생성기 생성
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distributionX(-15.0f, 15.0f);
-	std::uniform_real_distribution<float> distributionZ(0.0f, 30.0f);
+	std::uniform_real_distribution<float> distribution(-50.0f, 50.0f);
 
-	for (int id = 0; id < 5; ++id)
+	for (int id = 0; id < 1; ++id)
 	{
 		CHARACTER_INFO c0;
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
 		c0._instanceId = id;
-		c0._pos = { distributionX(gen), 0.0f, distributionZ(gen) };
+		c0._pos = { distribution(gen), 0.0f, distribution(gen) };
 		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << endl;
 
 		_charaInfoList.insert(make_pair(id, c0));
@@ -112,7 +111,7 @@ float IsPlayerInRanger(const DirectX::XMFLOAT3& playerPos, const DirectX::XMFLOA
 
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
 DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(CHARACTER_INFO chara) {
-	float range = 10.0f;
+	float range = 50.0f;
 	float minDistance = FLT_MAX;
 	uint64 closestUserId = 0;
 	bool isFindTarget = false;

@@ -110,25 +110,66 @@ void SpawnManager::SpawnMonsters()
 {
 	for (const auto& pair : ClientPacketHandler::Instance().GetCharaInfoList())
 	{
-		shared_ptr<Character> mob = make_shared<Character>();
-		mob->Awake();
-		mob->AddComponent(make_shared<MeshRenderer>());
-		//Mesh Set
-		{
-			auto mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Cube");
-			mob->GetMeshRenderer()->SetMesh(mesh);
-		}
-		//Material Set
-		{
-			//특정 오브젝트의 머티리얼 변경시 Clone을 통해 인스턴싱을 해야함 (꼭)
-			//하지 않을 경우 원본이 오염된다.
-			auto material = MANAGER_RESOURCES()->GetResource<Material>(L"Veigar")->Clone();
-			MaterialDesc& desc = material->GetMaterialDesc();
-			desc.ambient = Vec4(0.33f);
-			desc.diffuse = Vec4(0.33f);
+		shared_ptr<Character> _chr = make_shared<Character>();
+		shared_ptr<Shader> _shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 
-			mob->GetMeshRenderer()->SetMaterial(material);
+		shared_ptr<Model> tempModel = make_shared<Model>();
+		{
+			wstring modelAdr = RESOURCES_ADDR_MESH_SKELETAL;
+			modelAdr += L"BlackCow/BlackCow.mesh";
+			tempModel->ReadModel(modelAdr);
+			wstring modelMatrial = RESOURCES_ADDR_TEXTURE_SKELETAL;
+			modelMatrial += L"BlackCow/BlackCow.xml";
+			tempModel->ReadMaterial(modelMatrial);
+
+			wstring stand = RESOURCES_ADDR_ANIMATION;
+			stand += L"BlackCow/Stand.anim";
+			tempModel->ReadAnimation(stand);
+			wstring run = RESOURCES_ADDR_ANIMATION;
+			run += L"BlackCow/Run.anim";
+			tempModel->ReadAnimation(run);
+			wstring backRun = RESOURCES_ADDR_ANIMATION;
+			backRun += L"BlackCow/BackRun.anim";
+			tempModel->ReadAnimation(backRun);
+			wstring jumpStart = RESOURCES_ADDR_ANIMATION;
+			jumpStart += L"BlackCow/JumpStart.anim";
+			tempModel->ReadAnimation(jumpStart);
+			wstring jumpFall = RESOURCES_ADDR_ANIMATION;
+			jumpFall += L"BlackCow/JumpFall.anim";
+			tempModel->ReadAnimation(jumpFall);
+			wstring jumpEnd = RESOURCES_ADDR_ANIMATION;
+			jumpEnd += L"BlackCow/JumpEnd.anim";
+			tempModel->ReadAnimation(jumpEnd);
 		}
+		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(_shader);
+		{
+			tempRenderer->SetModel(tempModel);
+			tempRenderer->SetPass(1);
+		}
+		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>();
+		{
+			tempAnimator->SetPlay(true);
+			tempAnimator->SetLoop(true);
+		}
+		shared_ptr<GameObject> cow = make_shared<GameObject>();
+		cow->AddComponent(tempRenderer);
+		cow->AddComponent(tempAnimator);
+		cow->Awake();
+		cow->Start();
+		cow->SetName(L"Model");
+
+		Vec3 rot = cow->GetTransform()->GetLocalRotation();
+		rot.x += ::XMConvertToRadians(90.f);
+		rot.y -= ::XMConvertToRadians(90.f);
+		cow->GetTransform()->SetLocalRotation(rot);
+
+		_chr = make_shared<Player>();
+		_chr->SetName(L"BlackCow");
+		_chr->AddComponent(make_shared<AIController>());
+		_chr->Awake();
+		_chr->AddChild(cow);
+		_chr->Start();
+		_chr->GetTransform()->SetScale(Vec3(0.1f));
 
 		auto it = _monsters.find(pair.first);
 		if (it != _monsters.end())
@@ -143,8 +184,8 @@ void SpawnManager::SpawnMonsters()
 		}
 		else
 		{
-			mob->GetTransform()->SetPosition(pair.second._pos);
-			_monsters.insert(make_pair(pair.first, mob));
+			_chr->GetTransform()->SetPosition(pair.second._pos);
+			_monsters.insert(make_pair(pair.first, _chr));
 		}
 	}
 }
@@ -152,7 +193,7 @@ void SpawnManager::SpawnMonsters()
 void SpawnManager::Update()
 {
 	SpawnOtherPlayers();
-	//SpawnMonsters();
+	SpawnMonsters();
 
 	if (_otherPlayers.empty() == false)
 	{
@@ -165,11 +206,13 @@ void SpawnManager::Update()
 		}
 	}
 
-	/*if (_monsters.empty() == false)
+	if (_monsters.empty() == false)
 	{
 		for (const auto& pair : _monsters)
 		{
+			pair.second->FixedUpdate();
 			pair.second->Update();
+			pair.second->LateUpdate();
 		}
-	}*/
+	}
 }
