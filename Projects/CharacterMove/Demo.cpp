@@ -219,13 +219,7 @@ void Demo::Update()
 		service->Broadcast(GsendBuffer);
 	}
 
-	for (const auto& pair : ClientPacketHandler::Instance().GetCharaInfoList())
-	{
-		SendBufferRef sendBuffer = ClientPacketHandler::Instance().Make_CHARACTER_INFO(pair.second);
-		service->Broadcast(sendBuffer);
-	}
-
-	if (ThreadTimer < 0.03333f)
+	if (ThreadTimer < 1.0f)
 	{
 		ThreadTimer += MANAGER_TIME()->GetDeltaTime();
 	}

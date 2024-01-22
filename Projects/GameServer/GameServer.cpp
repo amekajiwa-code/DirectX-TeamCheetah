@@ -32,19 +32,8 @@ int main()
 
 	while (true)
 	{
-		//cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-
-		for (const auto& pair : GSessionManager.GetCharaInfoList()) {
-			uint64 id = pair.first;
-			CHARACTER_INFO info = pair.second;
-
-			info._nextPos = GSessionManager.CalcNextPos(info);
-			GSessionManager.UpdateCharaInfo(info);
-		}
-
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_CHARACTER_INFO(GSessionManager.GetCharaInfoList());
-		GSessionManager.Broadcast(sendBuffer);
-		this_thread::sleep_for(100ms);
+		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
+		this_thread::sleep_for(1000ms);
 	}
 
 	GThreadManager->Join();

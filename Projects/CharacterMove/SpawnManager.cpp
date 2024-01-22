@@ -193,7 +193,7 @@ void SpawnManager::SpawnMonsters()
 void SpawnManager::Update()
 {
 	SpawnOtherPlayers();
-	SpawnMonsters();
+	//SpawnMonsters();
 
 	if (_otherPlayers.empty() == false)
 	{
@@ -206,7 +206,7 @@ void SpawnManager::Update()
 		}
 	}
 
-	if (_monsters.empty() == false)
+	/*if (_monsters.empty() == false)
 	{
 		for (const auto& pair : _monsters)
 		{
@@ -214,5 +214,5 @@ void SpawnManager::Update()
 			pair.second->Update();
 			pair.second->LateUpdate();
 		}
-	}
+	}*/
 }

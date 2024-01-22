@@ -18,23 +18,6 @@ void GameSessionManager::Add(GameSessionRef session)
 	//session 정보 저장후 배열 추가
 	session->SetSessionId(sessionIdCount++);
 	_sessions.insert(session);
-	//몬스터 정보 보내주기
-	//임시 : 애초에 지금 몬스터 만들고 있는거 다 임시임
-	{
-		this_thread::sleep_for(100ms);
-
-		if (isUpdate)
-		{
-			GenerateCharaList();
-			isUpdate = false;
-		}
-
-		if (_charaInfoList.empty() == false)
-		{
-			SendBufferRef sendBuffer = ServerPacketHandler::Make_CHARACTER_INFO(_charaInfoList);
-			session->Send(sendBuffer);
-		}
-	}	
 }
 
 void GameSessionManager::Remove(GameSessionRef session)
