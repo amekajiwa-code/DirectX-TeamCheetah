@@ -15,6 +15,7 @@ struct CHARACTER_INFO
 	Vec3 _Rotate = { 0.f, 0.f, 0.f };
 	PlayerAnimState _animState = PlayerAnimState::Idle;
 	bool _isAlive = false;
+	double _timeStamp = 0.0f;
 };
 
 class Character : public GameObject
@@ -24,6 +25,7 @@ public:
 	virtual ~Character() {};
 public:
 	//virtual void Update() override;
+	Vec3 _prePos;
 private:
 	float _dt = 0.0f;
 	float _interp = 1.0f;

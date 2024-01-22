@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <DirectXMath.h>
+#include "Timer.h"
 
 enum
 {
@@ -48,6 +49,7 @@ struct CHARACTER_INFO
 	DirectX::XMFLOAT3 _Rotate = { 0.f, 0.f, 0.f };
 	PlayerAnimState _animState = PlayerAnimState::Idle;
 	bool _isAlive = true;
+	double _timeStamp = 0.0f;
 };
 
 struct Player_INFO : public CHARACTER_INFO

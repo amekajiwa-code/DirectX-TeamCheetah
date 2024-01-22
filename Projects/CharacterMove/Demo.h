@@ -23,7 +23,6 @@ private:
 	shared_ptr<GameObject>	_camera;
 	//Character
 	shared_ptr<GameObject>	_chr;
-	Vec3 _prePlayerPos;
 	//client
 	ClientServiceRef service;
 	float ThreadTimer = 0.0f;

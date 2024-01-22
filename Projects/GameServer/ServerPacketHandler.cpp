@@ -5,8 +5,6 @@
 #include "GameSession.h"
 #include "GameSessionManager.h"
 
-
-
 void ServerPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 {
 	BufferReader br(buffer, len);
@@ -37,6 +35,7 @@ void ServerPacketHandler::Handle_USER_INFO(BYTE* buffer, int32 len)
 	Player_INFO userInfo;
 
 	br >> userInfo;
+	userInfo._timeStamp = TIMER().getCurrentTime();
 
 	cout << "uid : " << userInfo._uid << endl;
 	cout << "position : (" << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << ")" << endl;
@@ -62,7 +61,7 @@ void ServerPacketHandler::Handle_CHARACTER_INFO(BYTE* buffer, int32 len)
 SendBufferRef ServerPacketHandler::Make_USER_CONNECT()
 {
 	//TODO: 플레이어 정보, 초기정보
-	return SendBufferRef();
+	return nullptr;
 }
 
 SendBufferRef ServerPacketHandler::Make_USER_INFO(Player_INFO userInfo, bool otherPacket)
@@ -74,8 +73,9 @@ SendBufferRef ServerPacketHandler::Make_USER_INFO(Player_INFO userInfo, bool oth
 	bw << userInfo;
 
 	header->size = bw.WriteSize();
-	header->id = 2; // 2: User Info
+	header->id = HANDLE_INFO;
 	header->other = otherPacket;
+	//header->timeStamp = TIMER().getCurrentTime();
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
@@ -96,7 +96,8 @@ SendBufferRef ServerPacketHandler::Make_CHARACTER_INFO(map<uint64, CHARACTER_INF
 	}
 
 	header->size = bw.WriteSize();
-	header->id = 3; // 3: CHARACTER_INFO
+	header->id = HANDLE_CHARA_INFO;
+	//header->timeStamp = TIMER().getCurrentTime();
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
@@ -112,7 +113,7 @@ SendBufferRef ServerPacketHandler::Make_USER_DISCONNECT(uint64 uid)
 	bw << uid;
 
 	header->size = bw.WriteSize();
-	header->id = 99; // 99: User Disconnect
+	header->id = HANDLE_DISCONNECT;
 	header->other = true;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌

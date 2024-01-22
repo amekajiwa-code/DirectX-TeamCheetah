@@ -2,6 +2,17 @@
 #include "SpawnManager.h"
 #include "AIController.h"
 
+using namespace std::chrono;
+
+Vec3 interpolate(double alpha, Vec3 targetPos, Vec3 prePos) {
+	// 선형 보간을 통한 실제 위치 계산
+	float interpolatedX = (1.0 - alpha) * prePos.x + alpha * targetPos.x;
+	float interpolatedY = (1.0 - alpha) * prePos.y + alpha * targetPos.y;
+	float interpolatedZ = (1.0 - alpha) * prePos.z + alpha * targetPos.z;
+
+	return Vec3{ interpolatedX, interpolatedY, interpolatedZ };
+}
+
 void SpawnManager::SpawnOtherPlayer(uint64 uid, Vec3 spawnPos)
 {
 	shared_ptr<Character> _chr = make_shared<Character>();
@@ -86,12 +97,30 @@ void SpawnManager::SpawnOtherPlayers()
 			}
 			else
 			{
-				float interp = 1.0f;  // 보간 강도 조절
+				/*float interp = 1.0f;  // 보간 강도 조절
 				Vec3 pos = it->second->GetTransform()->GetPosition();
 				// 현재 위치와 목표 위치의 차이 계산
 				Vec3 dv = pair.second._pos - it->second->GetTransform()->GetPosition();
 				// 선형 보간을 통해 부드럽게 현재 위치 업데이트
 				pos += dv * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
+				it->second->GetTransform()->SetPosition(pos);
+				it->second->GetTransform()->SetLocalRotation(pair.second._Rotate);
+				it->second->GetComponent<AIController>()->SetAnimState(pair.second._animState);*/
+
+				// 보간을 위한 시간 계산 (0.0에서 1.0 사이의 값)
+				auto calcTime = high_resolution_clock::now() - seconds(static_cast<int>(pair.second._timeStamp));
+				auto durationSec = duration_cast<duration<double>>(calcTime.time_since_epoch()).count();
+				double alpha = fmin(1.0, durationSec / 1.0);
+				Vec3 target = pair.second._pos;
+				Vec3 pos = it->second->GetTransform()->GetPosition();
+				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
+
+				if (pair.second._animState != PlayerAnimState::Idle)
+				{
+					Vec3 direction = target - pos;
+					pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
+				}
+
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(pair.second._Rotate);
 				it->second->GetComponent<AIController>()->SetAnimState(pair.second._animState);
