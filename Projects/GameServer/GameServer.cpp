@@ -9,6 +9,8 @@
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
 
+#include "Timer.h"
+
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
@@ -30,10 +32,13 @@ int main()
 			});
 	}
 
+	Timer timer;
+	timer.start();
+
 	while (true)
 	{
-		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(1000ms);
+		//cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
+		//this_thread::sleep_for(1000ms);
 	}
 
 	GThreadManager->Join();

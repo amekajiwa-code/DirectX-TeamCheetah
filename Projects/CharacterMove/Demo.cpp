@@ -212,25 +212,38 @@ void Demo::Update()
 	//12분의1초 = 83.33ms
 	//30분의1초 = 33.33ms
 	//60분의1초 = 16.67ms
+
 	if (GsendBuffer != nullptr && HasDifference(sendInfo._pos, _prePlayerPos, 0.1f))
 	{
-		//움직였는지 확인하고 보내기
-		ThreadTimer = 0.0f;
-		service->Broadcast(GsendBuffer);
-	}
-
-	if (ThreadTimer < 1.0f)
-	{
-		ThreadTimer += MANAGER_TIME()->GetDeltaTime();
+		if (ThreadTimer < 0.08333f)
+		{
+			ThreadTimer += MANAGER_TIME()->GetDeltaTime();
+		}
+		else
+		{
+			if (GsendBuffer != nullptr)
+			{
+				service->Broadcast(GsendBuffer);
+			}
+			ThreadTimer = 0.0f;
+		}
 	}
 	else
 	{
-		ThreadTimer = 0.0f;
-		if (GsendBuffer != nullptr)
+		if (ThreadTimer < 1.0f)
 		{
-			service->Broadcast(GsendBuffer);
+			ThreadTimer += MANAGER_TIME()->GetDeltaTime();
+		}
+		else
+		{
+			if (GsendBuffer != nullptr)
+			{
+				service->Broadcast(GsendBuffer);
+			}
+			ThreadTimer = 0.0f;
 		}
 	}
+	
 #pragma endregion Client Thread
 	_prePlayerPos = sendInfo._pos;
 }
