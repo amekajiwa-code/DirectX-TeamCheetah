@@ -131,6 +131,34 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 	}
 }
 
+bool ModelAnimator::SetCurrentAnimation(wstring animName)
+{
+	for (const auto& anim : _anims)
+	{
+		if (anim->name == animName)
+		{
+			_currentAnim = anim;
+			return true;
+		}
+	}
+
+	return false;
+}
+bool ModelAnimator::SetNextAnimation(wstring animName)
+{
+	for (const auto& anim : _anims)
+	{
+		if (anim->name == animName)
+		{
+			_nextAnim = anim;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 void ModelAnimator::Start()
 {
 	_model = GetGameObject()->GetModelRenderer()->GetModel();
@@ -220,7 +248,6 @@ void ModelAnimator::Update()
 						_tweenDesc.current.sumTime = 0;
 						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
 						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-
 					}
 
 					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);

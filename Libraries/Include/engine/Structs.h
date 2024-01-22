@@ -96,7 +96,7 @@ struct TweenDesc
 {
 	TweenDesc()
 	{
-		current.animIndex = 0;
+		current.animIndex = -1;
 		next.animIndex = -1;
 	}
 	void ClearCurrentAnim()

@@ -7,7 +7,8 @@ class PlayerAnimState
 protected:
 	weak_ptr<PlayerController>	_contoller;
 	weak_ptr<ModelAnimator>		_animator;
-	PlayerAnimType				_animType = PlayerAnimType::None;
+	PlayerUnitState				_state = PlayerUnitState::None;
+	PlayerUnitState				_playerState = PlayerUnitState::None;
 public:
 	PlayerAnimState() {};
 	virtual ~PlayerAnimState() {};
@@ -22,6 +23,28 @@ class PlayerAnimIdle : public PlayerAnimState
 public:
 	PlayerAnimIdle() {};
 	virtual ~PlayerAnimIdle() {};
+public:
+	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimFrontWalk : public PlayerAnimState
+{
+public:
+	PlayerAnimFrontWalk() {};
+	virtual ~PlayerAnimFrontWalk() {};
+public:
+	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimBackWalk : public PlayerAnimState
+{
+public:
+	PlayerAnimBackWalk() {};
+	virtual ~PlayerAnimBackWalk() {};
 public:
 	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
 	virtual bool Update() override;
@@ -94,27 +117,7 @@ public:
 	virtual bool Out() override;
 };
 
-//class PlayerAnimFrontWalk : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimFrontWalk() {};
-//	virtual ~PlayerAnimFrontWalk() {};
-//public:
-//	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
-//	virtual bool Update(const shared_ptr<PlayerController>& playerController) override;
-//	virtual bool Out(const shared_ptr<PlayerController>& playerController) override;
-//};
-//
-//class PlayerAnimBackWalk : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimBackWalk() {};
-//	virtual ~PlayerAnimBackWalk() {};
-//public:
-//	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
-//	virtual bool Update(const shared_ptr<PlayerController>& playerController) override;
-//	virtual bool Out(const shared_ptr<PlayerController>& playerController) override;
-//};
+
 //
 //class PlayerAnimStun : public PlayerAnimState
 //{

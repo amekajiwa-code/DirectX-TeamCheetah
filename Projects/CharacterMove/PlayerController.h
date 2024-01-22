@@ -1,7 +1,7 @@
 #pragma once
 
 #pragma region Declaration
-class AnimState;
+class PlayerAnimState;
 class PlayerAnimIdle;
 class PlayerAnimRun;
 class PlayerAnimBackRun;
@@ -11,7 +11,7 @@ class PlayerAnimJumpEnd;
 class PlayerAnimJumpEndRun;
 #pragma endregion
 
-class PlayerController : public MonoBehaviour
+class PlayerController : public MonoBehaviour, public enable_shared_from_this<PlayerController>
 {
 public:
 	PlayerController();
@@ -38,8 +38,10 @@ private:
 	weak_ptr<ModelAnimator>				_animator;
 	shared_ptr<PlayerAnimState>			_animState;
 	vector<shared_ptr<PlayerAnimState>> _animStateList;
-	PlayerAnimType _currentAnimState = PlayerAnimType::Idle;
-	float _speed = 300.f;
+	PlayerUnitState						_currentState = PlayerUnitState::Stand;
+	float _runSpeed = 300.f;
+	float _walkSpeed = 150.f;
+
 	float _dt = 0.f;
 private:
 	//Camera Controll
@@ -54,15 +56,18 @@ private:
 	float _camDist = 0.f;
 	float _camSpeed = 2000.f;
 private:
+	void AnimStateInit();
 	//Camera
 	void CameraMove();
 	//Player
 	void PlayerInput();
 	void PlayerMove();
 	void PlayerJump();
+	void KeyStateCheck();
 public:
 	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
+	const PlayerUnitState& GetCurrentUnitState() { return _currentState; }
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();

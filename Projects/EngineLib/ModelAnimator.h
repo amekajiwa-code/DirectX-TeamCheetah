@@ -46,6 +46,8 @@ public:
 public:
 	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
 	TweenDesc& GetTweenDesc() { return _tweenDesc; }
+	bool SetCurrentAnimation(wstring animName);
+	bool SetNextAnimation(wstring animName);
 public:
 	virtual void Start() override;
 	virtual void Update() override;

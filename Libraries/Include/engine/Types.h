@@ -69,28 +69,35 @@ enum class PlayerUnitState
 {
 	None,
 	Stand,
-	Move,
+	FrontMove,
+	FrontRightMove,
+	FrontLeftMove,
+	BackMove,
+	BackRightMove,
+	BackLeftMove,
+	RightMove,
+	LeftMove,
+	Jump,
 	Stun,
 	Loot,
 	Death,
-	Jump,
 	Battle,
 	Attack,
+	Ability,
 	End
 };
 
 enum class PlayerAnimType
 {
-	None,
-	Idle,
-	Run,
+	Stand,
+	FrontWalk,
+	BackWalk,
+	FrontRun,
 	BackRun,
 	JumpStart,
 	JumpFall,
 	JumpEnd,
 	JumpEndRun,
-	FrontWalk,
-	BackWalk,
 	Stun,
 	Loot,
 	Death,
@@ -100,5 +107,5 @@ enum class PlayerAnimType
 	Casting,
 	Ability1,
 	Ability2,
-	End
+	None
 };

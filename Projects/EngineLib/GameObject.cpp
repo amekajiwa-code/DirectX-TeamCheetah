@@ -161,6 +161,14 @@ void GameObject::Start()
 {
 	if (_isActive)
 	{
+		if (_children.size() > 0)
+		{
+			for (auto& ch : _children)
+			{
+				ch->Start();
+			}
+		}
+
 		for (shared_ptr<Component>& com : _components)
 		{
 			if (com)
@@ -170,14 +178,6 @@ void GameObject::Start()
 		for (shared_ptr<MonoBehaviour>& com : _scripts)
 		{
 			com->Start();
-		}
-
-		if (_children.size() > 0)
-		{
-			for (auto& ch : _children)
-			{
-				ch->Start();
-			}
 		}
 	}
 }
