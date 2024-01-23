@@ -7,15 +7,22 @@ bool isUpdate = true;
 void GameSessionManager::Add(GameSessionRef session)
 {
 	WRITE_LOCK;
-	//session에 배정된 id send
+	//첫 접속시 다른 유저 전송
+	/*for (const auto& pair : _userInfoList)
+	{
+		uint64 id = pair.first;
+		Player_INFO info = pair.second;
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_INFO(pair.second, true);
+		session->Send(sendBuffer);
+	}*/
+	//새 유저 등록
 	Player_INFO userInfo;
-	userInfo._uid = sessionIdCount;
+	userInfo._uid = sessionIdCount; //session에 배정된 id send
 	userInfo._pos = { 0.f, 0.f, 0.f };
 	userInfo._isOnline = true;
 	_userInfoList.insert(make_pair(sessionIdCount, userInfo));
 	SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_INFO(userInfo, false);
 	session->Send(sendBuffer);
-	//session 정보 저장후 배열 추가
 	session->SetSessionId(sessionIdCount++);
 	_sessions.insert(session);
 }

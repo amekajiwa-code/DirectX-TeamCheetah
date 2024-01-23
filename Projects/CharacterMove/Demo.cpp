@@ -212,10 +212,14 @@ void Demo::Update()
 	//12분의1초 = 83.33ms
 	//30분의1초 = 33.33ms
 	//60분의1초 = 16.67ms
+	
+	if (_chr->GetComponent<PlayerController>()->GetCurrentAnimState() != PlayerAnimState::Idle) {
+		
+	}
 
-	if (ThreadTimer < 0.08333f)
+	if (_threadTimer < 0.08333f)
 	{
-		ThreadTimer += MANAGER_TIME()->GetDeltaTime();
+		_threadTimer += MANAGER_TIME()->GetDeltaTime();
 	}
 	else
 	{
@@ -223,11 +227,12 @@ void Demo::Update()
 		{
 			service->Broadcast(GsendBuffer);
 		}
-		ThreadTimer = 0.0f;
+		_threadTimer = 0.0f;
 	}
 #pragma endregion Client Thread
 }
 
 void Demo::Render()
 {
+
 }

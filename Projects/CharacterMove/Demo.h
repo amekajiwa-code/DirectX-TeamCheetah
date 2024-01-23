@@ -25,7 +25,7 @@ private:
 	shared_ptr<GameObject>	_chr;
 	//client
 	ClientServiceRef service;
-	float ThreadTimer = 0.0f;
+	float _threadTimer = 0.0f;
 	//Map
 	shared_ptr<GameObject>	_map;
 };
