@@ -6,17 +6,18 @@ public:
 	GameObject();
 	GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
 	virtual ~GameObject();
-private:
+protected:
 	ComPtr<ID3D11Device>		_device;
 	ComPtr<ID3D11DeviceContext>	_deviceContext;
-private:
+protected:
 	shared_ptr<GameObject>			_parent;
 	vector<shared_ptr<GameObject>>	_children;
 protected:
 	array<shared_ptr<Component>, FIXED_COMPONENT_COUNT> _components;
 	vector<shared_ptr<MonoBehaviour>>					_scripts;
-	wstring _name;
-	bool	_isActive = true;
+	ObjectType	_objType;
+	wstring		_name;
+	bool		_isActive = true;
 public:	
 	void						AddComponent(shared_ptr<Component> component);
 	template<class T>

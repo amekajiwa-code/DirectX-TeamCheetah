@@ -30,13 +30,7 @@
     <ClCompile Include="CameraMove.cpp">
       <Filter>Scripts\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="UiObject.cpp" />
-    <ClCompile Include="AnimState.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -51,13 +45,7 @@
     <ClInclude Include="CameraMove.h">
       <Filter>Scripts\Component</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="UiObject.h" />
-    <ClInclude Include="AnimState.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\Global.fx">

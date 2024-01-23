@@ -147,27 +147,12 @@ void GameObject::Awake()
 	{
 		com->Awake();
 	}
-
-	if (_children.size() > 0)
-	{
-		for (auto& ch : _children)
-		{
-			ch->Awake();
-		}
-	}
 }
 
 void GameObject::Start()
 {
 	if (_isActive)
 	{
-		if (_children.size() > 0)
-		{
-			for (auto& ch : _children)
-			{
-				ch->Start();
-			}
-		}
 
 		for (shared_ptr<Component>& com : _components)
 		{
@@ -179,6 +164,7 @@ void GameObject::Start()
 		{
 			com->Start();
 		}
+
 	}
 }
 

@@ -90,10 +90,9 @@ void Transform::RotateAround(const Vec3 axis)
 	Matrix rFinal = Matrix::CreateFromQuaternion(qt);
 
 	rFinal = _matLocal * rFinal;
-	
+
 	Quaternion qTemp;
 	rFinal.Decompose(_localScale, qTemp, _localPosition);
-	_rotation = QuatToEulerAngles(qTemp);
 
 	UpdateTransform();
 }

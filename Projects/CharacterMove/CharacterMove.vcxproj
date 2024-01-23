@@ -152,16 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimState.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Demo.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="UiObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimState.cpp" />
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="main.cpp" />
@@ -171,7 +168,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="UiObject.cpp" />
   </ItemGroup>
   <ItemGroup>
