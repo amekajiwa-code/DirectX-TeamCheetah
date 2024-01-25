@@ -40,6 +40,8 @@ bool PlayerAnimIdle::Update()
 		switch (_playerState)
 		{
 		case PlayerUnitState::FrontMove:
+		case PlayerUnitState::FrontRightMove:
+		case PlayerUnitState::FrontLeftMove:
 		{
 			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
 			{
@@ -50,22 +52,8 @@ bool PlayerAnimIdle::Update()
 				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 			}
 		}break;
-		case PlayerUnitState::FrontRightMove:
-		{
-
-		}break;
-		case PlayerUnitState::FrontLeftMove:
-		{
-
-		}break;
 		case PlayerUnitState::BackMove:
-		{
-
-		}break;
 		case PlayerUnitState::BackRightMove:
-		{
-
-		}break;
 		case PlayerUnitState::BackLeftMove:
 		{
 

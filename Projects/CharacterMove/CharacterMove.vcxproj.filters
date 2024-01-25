@@ -30,7 +30,6 @@
     <ClCompile Include="CameraMove.cpp">
       <Filter>Scripts\Component</Filter>
     </ClCompile>
-    <ClCompile Include="UiObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -45,7 +44,6 @@
     <ClInclude Include="CameraMove.h">
       <Filter>Scripts\Component</Filter>
     </ClInclude>
-    <ClInclude Include="UiObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\Global.fx">
