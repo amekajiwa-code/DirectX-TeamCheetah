@@ -133,26 +133,35 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 
 bool ModelAnimator::SetCurrentAnimation(wstring animName)
 {
+	int num = 0;
+
 	for (const auto& anim : _anims)
 	{
 		if (anim->name == animName)
 		{
 			_currentAnim = anim;
+			_tweenDesc.current.animIndex = num;
 			return true;
 		}
+
+		num++;
 	}
 
 	return false;
 }
 bool ModelAnimator::SetNextAnimation(wstring animName)
 {
+	int num = 0;
 	for (const auto& anim : _anims)
 	{
 		if (anim->name == animName)
 		{
 			_nextAnim = anim;
+			_tweenDesc.next.animIndex = num;
+			_tweenDesc.tweenDuration = 10 / _nextAnim->frameRate;
 			return true;
 		}
+		num++;
 	}
 
 	return false;
@@ -261,7 +270,10 @@ void ModelAnimator::Update()
 
 				if (_tweenDesc.tweenRatio >= 1.f)
 				{
+					_tweenDesc.ClearCurrentAnim();
 					_tweenDesc.current = _tweenDesc.next;
+					_currentAnim = _nextAnim;
+					_nextAnim = nullptr;
 					_tweenDesc.ClearNextAnim();
 				}
 				else

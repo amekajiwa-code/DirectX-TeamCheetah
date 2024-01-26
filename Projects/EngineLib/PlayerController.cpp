@@ -15,14 +15,14 @@ void PlayerController::AnimStateInit()
 {
 	//Idle
 	_animStateList.push_back(make_shared<PlayerAnimIdle>());
-	//FrontRun
-	_animStateList.push_back(make_shared<PlayerAnimRun>());
-	//BackRun
-	_animStateList.push_back(make_shared<PlayerAnimBackRun>());
 	//FrontWalk
 	_animStateList.push_back(make_shared<PlayerAnimFrontWalk>());
 	//BackWalk
 	_animStateList.push_back(make_shared<PlayerAnimBackWalk>());
+	//FrontRun
+	_animStateList.push_back(make_shared<PlayerAnimFrontRun>());
+	//BackRun
+	_animStateList.push_back(make_shared<PlayerAnimBackRun>());
 	//JumpStart
 	_animStateList.push_back(make_shared<PlayerAnimJumpStart>());
 	//JumpFall
@@ -138,7 +138,7 @@ void PlayerController::PlayerInput()
 	{
 		string outputString;
 
-		switch (_currentState)
+		switch (*_currentState)
 		{
 		case PlayerUnitState::Stand:
 		{
@@ -213,7 +213,7 @@ void PlayerController::PlayerMove()
 	//왼쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
-		_currentState = PlayerUnitState::LeftMove;
+		*_currentState = PlayerUnitState::LeftMove;
 
 		{
 			_moveRight = _transform.lock()->GetRightVector();
@@ -224,7 +224,7 @@ void PlayerController::PlayerMove()
 	//오른쪽
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
-		_currentState = PlayerUnitState::RightMove;
+		*_currentState = PlayerUnitState::RightMove;
 
 		{
 			_moveRight = _transform.lock()->GetRightVector();
@@ -236,7 +236,7 @@ void PlayerController::PlayerMove()
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
-		_currentState = PlayerUnitState::FrontMove;
+		*_currentState = PlayerUnitState::FrontMove;
 
 		_moveForward = _transform.lock()->GetLookVector();
 		_movePos += _moveForward * _currentSpeed * _dt;
@@ -246,7 +246,7 @@ void PlayerController::PlayerMove()
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
-		_currentState = PlayerUnitState::BackMove;
+		*_currentState = PlayerUnitState::BackMove;
 
 		_moveForward = _transform.lock()->GetLookVector();
 		_movePos -= _moveForward * _currentSpeed * _dt;
@@ -261,17 +261,18 @@ void PlayerController::PlayerJump()
 	//점프
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
 	{
-		if (!_isJump)
+		if (!_jumpState->isJump)
 		{
-			_isJump = true;
-			_isJumpUP = true;
+			_jumpState->isJump = true;
+			_jumpState->isJumpUP = true;
 			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
+			*_currentState = PlayerUnitState::Jump;
 		}
 	}
 
-	if (_isJump)
+	if (_jumpState->isJump)
 	{
-		if (_isJumpUP)
+		if (_jumpState->isJumpUP)
 		{
 			if (_movePos.y <= _jumpUpMaxPos.y + FLT_EPSILON)
 			{
@@ -280,17 +281,17 @@ void PlayerController::PlayerJump()
 			}
 			else
 			{
-				_isJumpUP = false;
-				_isJumpFall = true;
+				_jumpState->isJumpUP = false;
+				_jumpState->isJumpFall = true;
 			}
 		}
-		if (_isJumpFall)
+		if (_jumpState->isJumpFall)
 		{
 
 			if (_movePos.y <= _jumpPower / 2.0f + 1.0f)
 			{
-				_isJumpFall = false;
-				_isJumEnd = true;
+				_jumpState->isJumpFall = false;
+				_jumpState->isJumEnd = true;
 			}
 			else
 			{
@@ -298,14 +299,14 @@ void PlayerController::PlayerJump()
 				_transform.lock()->SetPosition(_movePos);
 			}
 		}
-		if (_isJumEnd)
+		if (_jumpState->isJumEnd)
 		{
 			if (_movePos.y <= 0.5f + FLT_EPSILON)
 			{
 				_movePos.y = 0.5f;
 				_transform.lock()->SetLocalPosition(_movePos);
-				_isJumEnd = false;
-				_isJump = false;
+				_jumpState->isJumEnd = false;
+				_jumpState->isJump = false;
 				return;
 			}
 			else
@@ -319,52 +320,58 @@ void PlayerController::PlayerJump()
 
 void PlayerController::KeyStateCheck()
 {
-	if (_currentState == PlayerUnitState::LeftMove ||
-		_currentState == PlayerUnitState::RightMove)
+	if (_jumpState->isJump == false)
 	{
-		_isSlow = false;
-	}
-	if (_currentState == PlayerUnitState::FrontMove)
-	{
-		_isSlow = false;
-	}
-	if (_currentState == PlayerUnitState::BackMove)
-	{
-		_isSlow = true;
+		if (*_currentState == PlayerUnitState::LeftMove ||
+			*_currentState == PlayerUnitState::RightMove ||
+			*_currentState == PlayerUnitState::FrontMove)
+		{
+			_isSlow = false;
+		}
+		else if (*_currentState == PlayerUnitState::BackMove)
+		{
+			_isSlow = true;
+		}
+
+		if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+			MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+		{
+			*_currentState = PlayerUnitState::FrontLeftMove;
+		}
+		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+			MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+		{
+			_isSlow = true;
+			*_currentState = PlayerUnitState::BackLeftMove;
+		}
+		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+		{
+			*_currentState = PlayerUnitState::FrontRightMove;
+		}
+		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+		{
+			_isSlow = true;
+			*_currentState = PlayerUnitState::BackRightMove;
+		}
+		else if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
+			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+		{
+			_currentSpeed = _defaultSpeed;
+			*_currentState = PlayerUnitState::Stand;
+		}
 	}
 
-	if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
-		!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-	{
-		_currentSpeed = _defaultSpeed;
-		_currentState = PlayerUnitState::Stand;
-	}
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-		MANAGER_INPUT()->GetButton(KEY_TYPE::A))
-	{
-		_currentState = PlayerUnitState::FrontLeftMove;
-	}
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-		MANAGER_INPUT()->GetButton(KEY_TYPE::A))
-	{
-		_isSlow = true;
-		_currentState = PlayerUnitState::BackLeftMove;
-	}
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-		MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-	{
-		_currentState = PlayerUnitState::FrontRightMove;
-	}
-	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-		MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-	{
-		_isSlow = true;
-		_currentState = PlayerUnitState::BackRightMove;
-	}
+	//else
+	//{
+	//	_currentSpeed = _defaultSpeed;
+	//	*_currentState = PlayerUnitState::Stand;
+	//}
 
-	_animState->Update();
+
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)
@@ -377,6 +384,9 @@ void PlayerController::DispatchEvent()
 
 void PlayerController::Awake()
 {
+	_currentState = make_shared<PlayerUnitState>();
+	*_currentState = PlayerUnitState::Stand;
+	_jumpState = make_shared<JumpFlag>();
 }
 
 void PlayerController::Start()
@@ -398,6 +408,7 @@ void PlayerController::FixedUpdate()
 
 void PlayerController::Update()
 {
+	_animState->Update();
 }
 
 void PlayerController::LateUpdate()

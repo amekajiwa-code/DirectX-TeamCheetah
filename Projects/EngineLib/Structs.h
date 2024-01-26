@@ -106,6 +106,8 @@ struct TweenDesc
 		current.nextFrame = 0;
 		current.sumTime = 0;
 		current.ratio = 0;
+		tweenRatio = 0;
+		tweenSumTime = 0;
 	}
 	void ClearNextAnim()
 	{

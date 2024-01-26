@@ -95,13 +95,14 @@ void Warrior::CharacterInit()
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	AddChild(_childCamera);
-	_controller = make_shared<PlayerController>();
-	AddComponent(_controller);
 	GetTransform()->SetScale(Vec3(0.1f));
 }
 
 void Warrior::Awake()
 {
+	_controller = make_shared<PlayerController>();
+	AddComponent(_controller);
+
 	Super::Awake();
 	CharacterInit();
 }

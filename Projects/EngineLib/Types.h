@@ -83,7 +83,8 @@ enum class PlayerUnitState
 	Death,
 	Battle,
 	Attack,
-	Ability,
+	Ability1,
+	Ability2,
 	End
 };
 

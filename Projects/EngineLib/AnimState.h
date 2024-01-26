@@ -1,14 +1,15 @@
 #pragma once
 
 class PlayerController;
+struct JumpFlag;
 
 class PlayerAnimState
 {
 protected:
 	weak_ptr<PlayerController>	_contoller;
 	weak_ptr<ModelAnimator>		_animator;
-	PlayerUnitState				_state = PlayerUnitState::None;
-	PlayerUnitState				_playerState = PlayerUnitState::None;
+	weak_ptr<PlayerUnitState>	_playerState;
+	PlayerAnimType				_stateAnim = PlayerAnimType::None;
 public:
 	PlayerAnimState() {};
 	virtual ~PlayerAnimState() {};
@@ -51,11 +52,11 @@ public:
 	virtual bool Out() override;
 };
 
-class PlayerAnimRun : public PlayerAnimState
+class PlayerAnimFrontRun : public PlayerAnimState
 {
 public:
-	PlayerAnimRun() {};
-	virtual ~PlayerAnimRun() {};
+	PlayerAnimFrontRun() {};
+	virtual ~PlayerAnimFrontRun() {};
 public:
 	virtual bool Enter(const shared_ptr<PlayerController>& playerController) override;
 	virtual bool Update() override;
@@ -75,6 +76,8 @@ public:
 
 class PlayerAnimJumpStart : public PlayerAnimState
 {
+private:
+	weak_ptr<JumpFlag> _jumpState;
 public:
 	PlayerAnimJumpStart() {};
 	virtual ~PlayerAnimJumpStart() {};
@@ -86,6 +89,8 @@ public:
 
 class PlayerAnimJumpFall : public PlayerAnimState
 {
+private:
+	weak_ptr<JumpFlag> _jumpState;
 public:
 	PlayerAnimJumpFall() {};
 	virtual ~PlayerAnimJumpFall() {};
@@ -97,6 +102,8 @@ public:
 
 class PlayerAnimJumpEnd : public PlayerAnimState
 {
+private:
+	weak_ptr<JumpFlag> _jumpState;
 public:
 	PlayerAnimJumpEnd() {};
 	virtual ~PlayerAnimJumpEnd() {};
@@ -108,6 +115,8 @@ public:
 
 class PlayerAnimJumpEndRun : public PlayerAnimState
 {
+private:
+	weak_ptr<JumpFlag> _jumpState;
 public:
 	PlayerAnimJumpEndRun() {};
 	virtual ~PlayerAnimJumpEndRun() {};

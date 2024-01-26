@@ -11,6 +11,14 @@ class PlayerAnimJumpEnd;
 class PlayerAnimJumpEndRun;
 #pragma endregion
 
+struct JumpFlag
+{
+	bool isJumpUP = false;
+	bool isJumpFall = false;
+	bool isJumEnd = false;
+	bool isJump = false;
+};
+
 class PlayerController : public MonoBehaviour, public enable_shared_from_this<PlayerController>
 {
 public:
@@ -28,17 +36,14 @@ private:
 	Vec3 _jumpUpMaxPos = { 0,0,0 };
 	Vec3 _jumpUpDir = { 0,1,0 };
 	Vec3 _jumpDownDir = { 0,-1,0 };
-	float _jumpPower = 20.f;
-	bool _isJumpUP = false;
-	bool _isJumpFall = false;
-	bool _isJumEnd = false;
-	bool _isJump = false;
+	float _jumpPower = 30.f;
+	shared_ptr<JumpFlag> _jumpState;
 private:
 	//Animation Controll
 	weak_ptr<ModelAnimator>				_animator;
 	shared_ptr<PlayerAnimState>			_animState;
 	vector<shared_ptr<PlayerAnimState>> _animStateList;
-	PlayerUnitState						_currentState = PlayerUnitState::Stand;
+	shared_ptr<PlayerUnitState>			_currentState;
 	float _defaultSpeed = 300.f;
 	float _currentSpeed = 300.f;
 	float _slowSpeed = 150.f;
@@ -68,7 +73,8 @@ private:
 public:
 	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
-	const PlayerUnitState& GetCurrentUnitState() { return _currentState; }
+	const shared_ptr<PlayerUnitState>& GetCurrentUnitState() { return _currentState; }
+	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 public:
