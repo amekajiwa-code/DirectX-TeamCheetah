@@ -210,6 +210,7 @@ void PlayerController::PlayerMove()
 		_currentSpeed = _defaultSpeed;
 	}
 
+
 	//¿ÞÂÊ
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
@@ -254,6 +255,7 @@ void PlayerController::PlayerMove()
 	}
 
 	PlayerJump();
+
 }
 
 void PlayerController::PlayerJump()

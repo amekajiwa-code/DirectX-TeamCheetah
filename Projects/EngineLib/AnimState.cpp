@@ -357,7 +357,7 @@ bool PlayerAnimBackWalk::Update()
 
 bool PlayerAnimBackWalk::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
+	//_animator.lock()->GetTweenDesc().c();
 
 	return false;
 }
@@ -372,6 +372,12 @@ bool PlayerAnimFrontRun::Enter(const shared_ptr<PlayerController>& playerControl
 		_stateAnim = PlayerAnimType::FrontRun;
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 
+		//if (_animator.lock()->GetTweenDesc().current.animIndex < 0 &&
+		//	_animator.lock()->GetTweenDesc().next.animIndex < 0)
+		//{
+		//	_animator.lock()->SetCurrentAnimation(L"FrontRun");
+		//	_animator.lock()->SetNextAnimation(L"FrontRun");
+		//}
 		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
 		{
 			_animator.lock()->GetTweenDesc().ClearNextAnim();
@@ -465,7 +471,7 @@ bool PlayerAnimFrontRun::Update()
 
 bool PlayerAnimFrontRun::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
+	//_animator.lock()->GetTweenDesc().ClearNextAnim();
 
 	return false;
 }
@@ -566,7 +572,6 @@ bool PlayerAnimBackRun::Update()
 
 bool PlayerAnimBackRun::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
 
 	return false;
 }
@@ -613,8 +618,6 @@ bool PlayerAnimJumpStart::Update()
 
 bool PlayerAnimJumpStart::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 
@@ -649,15 +652,17 @@ bool PlayerAnimJumpFall::Update()
 		{
 			if (_jumpState.lock()->isJumEnd)
 			{
-				if (*_playerState.lock() != PlayerUnitState::FrontMove ||
-					*_playerState.lock() != PlayerUnitState::FrontLeftMove ||
-					*_playerState.lock() != PlayerUnitState::FrontRightMove)
+				if (*_playerState.lock() == PlayerUnitState::FrontMove ||
+					*_playerState.lock() == PlayerUnitState::FrontLeftMove ||
+					*_playerState.lock() == PlayerUnitState::FrontRightMove)
 				{
-					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEnd);
+					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEndRun);
+
 				}
 				else
 				{
-					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEndRun);
+					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEnd);
+
 				}
 				return true;
 			}
@@ -669,8 +674,6 @@ bool PlayerAnimJumpFall::Update()
 
 bool PlayerAnimJumpFall::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 
@@ -792,8 +795,6 @@ bool PlayerAnimJumpEnd::Update()
 
 bool PlayerAnimJumpEnd::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 
@@ -914,7 +915,7 @@ bool PlayerAnimJumpEndRun::Update()
 
 bool PlayerAnimJumpEndRun::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
+	//_animator.lock()->GetTweenDesc().ClearNextAnim();
 
 	return false;
 }

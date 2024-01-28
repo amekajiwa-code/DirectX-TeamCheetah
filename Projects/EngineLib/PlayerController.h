@@ -36,7 +36,7 @@ private:
 	Vec3 _jumpUpMaxPos = { 0,0,0 };
 	Vec3 _jumpUpDir = { 0,1,0 };
 	Vec3 _jumpDownDir = { 0,-1,0 };
-	float _jumpPower = 30.f;
+	float _jumpPower = 20.f;
 	shared_ptr<JumpFlag> _jumpState;
 private:
 	//Animation Controll
