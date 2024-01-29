@@ -110,7 +110,6 @@ void ClientPacketHandler::Handle_USER_DISCONNECT(BYTE* buffer, int32 len)
 		it->second._isOnline = false;
 	}
 }
-
 SendBufferRef ClientPacketHandler::Make_USER_INFO(Player_INFO userInfo)
 {
 	std::lock_guard<std::mutex> lock(_mutex);
