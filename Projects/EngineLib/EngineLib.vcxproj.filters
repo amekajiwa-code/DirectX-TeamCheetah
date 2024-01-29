@@ -40,10 +40,13 @@
     <Filter Include="04. Component\Controller">
       <UniqueIdentifier>{97341dca-84e0-44b6-832d-684113424cbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\PlayableUnit">
+    <Filter Include="03. GameObject\Unit">
+      <UniqueIdentifier>{5874a3fc-72a4-4c89-b124-7413c64e4cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Unit\PlayableUnit">
       <UniqueIdentifier>{8d010ad0-d0be-489f-b771-5d2554540710}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\EnemyUnit">
+    <Filter Include="03. GameObject\Unit\EnemyUnit">
       <UniqueIdentifier>{9968aebb-d016-4d42-825e-a4bcdae6b7f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -172,15 +175,27 @@
       <Filter>06. Utils</Filter>
     </ClInclude>
     <ClInclude Include="Warrior.h">
-      <Filter>03. GameObject\PlayableUnit</Filter>
+      <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClInclude>
-    <ClInclude Include="PlayableCharacter.h">
-      <Filter>03. GameObject\PlayableUnit</Filter>
+    <ClInclude Include="PlayableUnit.h">
+      <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClInclude>
     <ClInclude Include="AnimState.h">
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.h">
+      <Filter>04. Component\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>03. GameObject\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyUnit.h">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreHound.h">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="AIController.h">
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
   </ItemGroup>
@@ -303,15 +318,27 @@
       <Filter>06. Utils</Filter>
     </ClCompile>
     <ClCompile Include="Warrior.cpp">
-      <Filter>03. GameObject\PlayableUnit</Filter>
+      <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClCompile>
-    <ClCompile Include="PlayableCharacter.cpp">
-      <Filter>03. GameObject\PlayableUnit</Filter>
+    <ClCompile Include="PlayableUnit.cpp">
+      <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClCompile>
     <ClCompile Include="AnimState.cpp">
       <Filter>04. Component\Controller</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp">
+      <Filter>04. Component\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>03. GameObject\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyUnit.cpp">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreHound.cpp">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="AIController.cpp">
       <Filter>04. Component\Controller</Filter>
     </ClCompile>
   </ItemGroup>

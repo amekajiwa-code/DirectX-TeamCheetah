@@ -386,13 +386,14 @@ void PlayerController::DispatchEvent()
 
 void PlayerController::Awake()
 {
-	_currentState = make_shared<PlayerUnitState>();
-	*_currentState = PlayerUnitState::Stand;
-	_jumpState = make_shared<JumpFlag>();
 }
 
 void PlayerController::Start()
 {
+	_currentState = make_shared<PlayerUnitState>();
+	*_currentState = PlayerUnitState::Stand;
+	_jumpState = make_shared<JumpFlag>();
+
 	_transform = GetGameObject()->GetTransform();
 	_camera = GetGameObject()->GetChildByName(L"Camera");
 	_animator = GetGameObject()->GetChildByName(L"Model")->GetModelAnimator();

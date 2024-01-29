@@ -88,6 +88,21 @@ enum class PlayerUnitState
 	End
 };
 
+enum class EnemyUnitState
+{
+	None,
+	Stand,
+	Walk,
+	Run,
+	Damaged,
+	Death,
+	Battle,
+	Attack,
+	Ability1,
+	Ability2,
+	End
+};
+
 enum class PlayerAnimType
 {
 	Stand,
@@ -101,6 +116,22 @@ enum class PlayerAnimType
 	JumpEndRun,
 	Stun,
 	Loot,
+	Death,
+	Battle,
+	Attack1,
+	Attack2,
+	Casting,
+	Ability1,
+	Ability2,
+	None
+};
+
+enum class EnemyAnimType
+{
+	Stand,
+	Walk,
+	Run,
+	Damaged,
 	Death,
 	Battle,
 	Attack1,

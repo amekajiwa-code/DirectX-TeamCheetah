@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "Unit.h"
 
-class PlayableCharacter : public GameObject
+class PlayableCharacter : public Unit
 {
 	using Super = GameObject;
 public:

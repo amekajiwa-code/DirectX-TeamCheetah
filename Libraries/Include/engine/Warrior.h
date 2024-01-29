@@ -1,17 +1,15 @@
 #pragma once
-#include "PlayableCharacter.h"
+#include "PlayableUnit.h"
 
 #pragma region Declaration
-class PlayableCharacter;
 class PlayerController;
 #pragma endregion
 
-class Warrior : public PlayableCharacter
+class Warrior : public PlayableUnit
 {
-	using Super = PlayableCharacter;
+	using Super = PlayableUnit;
 private:
 	shared_ptr<GameObject>	_childCamera;
-	shared_ptr<GameObject>	_childModel;
 	shared_ptr<PlayerController> _controller;
 public:
 	Warrior();

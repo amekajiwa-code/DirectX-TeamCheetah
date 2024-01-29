@@ -1,8 +1,8 @@
 #pragma once
 #include "engine/IExecute.h"
 
-class PlayableCharacter;
-class Warrior;
+class Unit;
+
 
 class Demo : public IExecute
 {
@@ -14,7 +14,8 @@ private:
 	//Shader
 	shared_ptr<Shader>		_shader;
 	//Character
-	shared_ptr<PlayableCharacter> _warrior;
+	shared_ptr<Unit> _warrior;
+	shared_ptr<Unit> _coreHound;
 	//Map
 	shared_ptr<GameObject>	_map;
 };

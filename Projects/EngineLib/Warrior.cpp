@@ -29,50 +29,23 @@ void Warrior::CharacterInit()
 	}
 	//Character
 	{
-		shared_ptr<Model> temp_model = make_shared<Model>();
+		shared_ptr<Model> model = make_shared<Model>();
 		{
-			wstring _modelAdr = RESOURCES_ADDR_MESH_SKELETAL;
-			_modelAdr += L"BlackCow/BlackCow.mesh";
-			temp_model->ReadModel(_modelAdr);
-			wstring _modelMatrial = RESOURCES_ADDR_TEXTURE_SKELETAL;
-			_modelMatrial += L"BlackCow/BlackCow.xml";
-			temp_model->ReadMaterial(_modelMatrial);
-
-			{
-				wstring stand = RESOURCES_ADDR_ANIMATION;
-				stand += L"BlackCow/Stand.anim";
-				temp_model->ReadAnimation(stand);
-				wstring forntWalk = RESOURCES_ADDR_ANIMATION;
-				forntWalk += L"BlackCow/FrontWalk.anim";
-				temp_model->ReadAnimation(forntWalk);
-				wstring backWalk = RESOURCES_ADDR_ANIMATION;
-				backWalk += L"BlackCow/BackWalk.anim";
-				temp_model->ReadAnimation(backWalk);
-				wstring frontRun = RESOURCES_ADDR_ANIMATION;
-				frontRun += L"BlackCow/FrontRun.anim";
-				temp_model->ReadAnimation(frontRun);
-				wstring backRun = RESOURCES_ADDR_ANIMATION;
-				backRun += L"BlackCow/BackRun.anim";
-				temp_model->ReadAnimation(backRun);
-				wstring jumpStart = RESOURCES_ADDR_ANIMATION;
-				jumpStart += L"BlackCow/JumpStart.anim";
-				temp_model->ReadAnimation(jumpStart);
-				wstring jumpFall = RESOURCES_ADDR_ANIMATION;
-				jumpFall += L"BlackCow/JumpFall.anim";
-				temp_model->ReadAnimation(jumpFall);
-				wstring jumpEnd = RESOURCES_ADDR_ANIMATION;
-				jumpEnd += L"BlackCow/JumpEnd.anim";
-				temp_model->ReadAnimation(jumpEnd);
-				wstring jumpEndRun = RESOURCES_ADDR_ANIMATION;
-				jumpEndRun += L"BlackCow/JumpEndRun.anim";
-				temp_model->ReadAnimation(jumpEndRun);
-			}
-
+			AddModelAndMaterial(model, L"BlackCow");
+			AddAnimation(model, L"BlackCow", L"Stand");
+			AddAnimation(model, L"BlackCow", L"FrontWalk");
+			AddAnimation(model, L"BlackCow", L"BackWalk");
+			AddAnimation(model, L"BlackCow", L"FrontRun");
+			AddAnimation(model, L"BlackCow", L"BackRun");
+			AddAnimation(model, L"BlackCow", L"JumpStart");
+			AddAnimation(model, L"BlackCow", L"JumpFall");
+			AddAnimation(model, L"BlackCow", L"JumpEnd");
+			AddAnimation(model, L"BlackCow", L"JumpEndRun");
 		}
 		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(shader);
 		{
-			tempRenderer->SetModel(temp_model);
+			tempRenderer->SetModel(model);
 			tempRenderer->SetPass(1);
 		}
 		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>();
@@ -95,15 +68,15 @@ void Warrior::CharacterInit()
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	AddChild(_childCamera);
+	_controller = make_shared<PlayerController>();
+	AddComponent(_controller);
 	GetTransform()->SetScale(Vec3(0.1f));
 }
 
 void Warrior::Awake()
 {
-	_controller = make_shared<PlayerController>();
-	AddComponent(_controller);
-
 	Super::Awake();
+
 	CharacterInit();
 }
 

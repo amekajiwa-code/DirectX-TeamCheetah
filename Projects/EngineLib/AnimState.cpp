@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AnimState.h"
 #include "PlayerController.h"
+#include "AIController.h"
 
 bool PlayerAnimIdle::Enter(const shared_ptr<PlayerController>& playerController)
 {

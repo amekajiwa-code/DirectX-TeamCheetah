@@ -3,6 +3,7 @@
 #include "CameraMove.h"
 #include "engine\Utils.h"
 #include "engine/Warrior.h"
+#include "engine/CoreHound.h"
 
 void Demo::Init()
 {
@@ -73,12 +74,24 @@ void Demo::Init()
 		_warrior->Awake();
 		_warrior->Start();
 	}
-
+	//Enemy
+	{
+		_coreHound = make_shared<CoreHound>();
+		_coreHound->Awake();
+		_coreHound->Start();
+		_coreHound->GetTransform()->SetLocalPosition(Vec3(0,0,0));
+	}
 }
 
 void Demo::Update()
 {
 	MANAGER_RENDERER()->Update();
+
+	{
+		_coreHound->FixedUpdate();
+		_coreHound->Update();
+		_coreHound->LateUpdate();
+	}
 
 	{
 		_warrior->FixedUpdate();
