@@ -55,6 +55,9 @@
     <ClCompile Include="AIController.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -88,6 +91,9 @@
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="AIController.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

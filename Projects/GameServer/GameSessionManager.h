@@ -21,18 +21,18 @@ public:
 	map<uint64, Player_INFO> GetUserInfoList() { return _userInfoList; }
 	void UpdateUserInfo(Player_INFO info);
 	//∏ÛΩ∫≈Õ
-	void GenerateCharaList();
-	map<uint64, CHARACTER_INFO> GetCharaInfoList() { return _charaInfoList; }
-	void UpdateCharaInfo(CHARACTER_INFO info);
+	void GenerateMobList();
+	map<uint64, MONSTER_INFO> GetMobInfoList() { return _mobInfoList; }
+	void UpdateMobInfo(MONSTER_INFO info);
 	//AI
-	DirectX::XMFLOAT3 CalcNextPos(CHARACTER_INFO chara);
+	DirectX::XMFLOAT3 CalcNextPos(MONSTER_INFO chara);
 private:
 	USE_LOCK;
 	Set<GameSessionRef> _sessions;
 private:
 	uint64 sessionIdCount = 0;
 private:
-	map<uint64, CHARACTER_INFO> _charaInfoList;
+	map<uint64, MONSTER_INFO> _mobInfoList;
 	map<uint64, Player_INFO> _userInfoList;
 };
 

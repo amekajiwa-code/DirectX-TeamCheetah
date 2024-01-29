@@ -6,21 +6,6 @@
 
 SendBufferRef GsendBuffer;
 
-bool HasDifference(const Vec3& v1, const Vec3& v2, float tolerance = 0.0001f) {
-	// 부동 소수점 비교를 위해 허용 가능한 오차 범위를 지정
-	auto floatEquals = [tolerance](float a, float b) {
-		return std::fabs(a - b) < tolerance;
-		};
-
-	// x, y, z 중에서 1.0f 이라도 차이가 나면 true를 반환
-	if (!floatEquals(v1.x, v2.x) || !floatEquals(v1.y, v2.y) || !floatEquals(v1.z, v2.z)) {
-		return true;
-	}
-
-	// 모든 차이가 허용 가능한 오차 범위 내에 있으면 false 반환
-	return false;
-}
-
 void Demo::Init()
 {
 	//리소스 매니저 초기화
@@ -217,7 +202,7 @@ void Demo::Update()
 		
 	}
 
-	if (_threadTimer < 0.08333f)
+	if (_threadTimer < 0.01667f)
 	{
 		_threadTimer += MANAGER_TIME()->GetDeltaTime();
 	}

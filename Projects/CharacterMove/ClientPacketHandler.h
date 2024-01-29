@@ -1,13 +1,14 @@
 #pragma once
 #include "Character.h"
 #include "Player.h"
+#include "Monster.h"
 
 enum
 {
-	HANDLE_CONNECT = 1,
-	HANDLE_INFO = 2,
-	HANDLE_CHARA_INFO = 3,
-	HANDLE_DISCONNECT = 99
+	PACKET_CONNECT = 1,
+	PACKET_USER_INFO = 2,
+	PACKET_MONSTER_INFO = 3,
+	PACKET_DISCONNECT = 99,
 };
 
 class ClientPacketHandler
@@ -20,14 +21,14 @@ public:
 
 	void HandlePacket(BYTE* buffer, int32 len);
 	void Handle_USER_INFO(BYTE* buffer, int32 len);
-	void Handle_CHARACTER_INFO(BYTE* buffer, int32 len);
+	void Handle_MONSTER_INFO(BYTE* buffer, int32 len);
 	void Handle_USER_DISCONNECT(BYTE* buffer, int32 len);
 
 	SendBufferRef Make_USER_INFO(Player_INFO userInfo);
-	SendBufferRef Make_CHARACTER_INFO(CHARACTER_INFO info);
+	SendBufferRef Make_MONSTER_INFO(MONSTER_INFO info);
 
 	Player_INFO GetUserInfo() { return _userInfo; }
-	map<uint64, CHARACTER_INFO> GetCharaInfoList() { return _charaInfoList; }
+	map<uint64, MONSTER_INFO> GetMobInfoList() { return _mobInfoList; }
 	map<uint64, Player_INFO> GetOtherUserInfoMap()
 	{
 		std::lock_guard<std::mutex> lock(_mutex);
@@ -54,5 +55,5 @@ private:
 	Player_INFO _userInfo;
 	map<uint64, Player_INFO> otherUserInfoMap;
 	std::mutex _mutex;
-	map<uint64, CHARACTER_INFO> _charaInfoList;
+	map<uint64, MONSTER_INFO> _mobInfoList;
 };

@@ -14,11 +14,11 @@ void ServerPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 
 	switch (header.id)
 	{
-	case HANDLE_INFO:
+	case PACKET_USER_INFO:
 		Handle_USER_INFO(buffer, len);
 		break;
-	case HANDLE_CHARA_INFO:
-		Handle_CHARACTER_INFO(buffer, len);
+	case PACKET_MONSTER_INFO:
+		Handle_MONSTER_INFO(buffer, len);
 		break;
 	default:
 		break;
@@ -33,29 +33,29 @@ void ServerPacketHandler::Handle_USER_INFO(BYTE* buffer, int32 len)
 	br >> header;
 
 	Player_INFO userInfo;
-
 	br >> userInfo;
 	userInfo._timeStamp = TIMER().getCurrentTime();
 
-	cout << "uid : " << userInfo._uid << endl;
-	cout << "position : (" << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << ")" << endl;
+	//cout << "uid : " << userInfo._uid << endl;
+	//cout << "position : (" << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << ")" << endl;
 
 	SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_INFO(userInfo, true);
 	GSessionManager.UpdateUserInfo(userInfo);
 	GSessionManager.Broadcast(sendBuffer);
 }
 
-void ServerPacketHandler::Handle_CHARACTER_INFO(BYTE* buffer, int32 len)
+void ServerPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 {
 	BufferReader br(buffer, len);
 
 	PacketHeader header;
 	br >> header;
 
-	CHARACTER_INFO info;
+	MONSTER_INFO info;
 	br >> info;
+	info._timeStamp = TIMER().getCurrentTime();
 
-	GSessionManager.UpdateCharaInfo(info);
+	GSessionManager.UpdateMobInfo(info);
 }
 
 SendBufferRef ServerPacketHandler::Make_USER_CONNECT()
@@ -73,16 +73,15 @@ SendBufferRef ServerPacketHandler::Make_USER_INFO(Player_INFO userInfo, bool oth
 	bw << userInfo;
 
 	header->size = bw.WriteSize();
-	header->id = HANDLE_INFO;
+	header->id = PACKET_USER_INFO;
 	header->other = otherPacket;
-	//header->timeStamp = TIMER().getCurrentTime();
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_CHARACTER_INFO(map<uint64, CHARACTER_INFO> charaInfo)
+SendBufferRef ServerPacketHandler::Make_MONSTER_INFO(map<uint64, MONSTER_INFO> charaInfo)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096); //4kb
 	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
@@ -96,8 +95,7 @@ SendBufferRef ServerPacketHandler::Make_CHARACTER_INFO(map<uint64, CHARACTER_INF
 	}
 
 	header->size = bw.WriteSize();
-	header->id = HANDLE_CHARA_INFO;
-	//header->timeStamp = TIMER().getCurrentTime();
+	header->id = PACKET_MONSTER_INFO;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
@@ -113,7 +111,7 @@ SendBufferRef ServerPacketHandler::Make_USER_DISCONNECT(uint64 uid)
 	bw << uid;
 
 	header->size = bw.WriteSize();
-	header->id = HANDLE_DISCONNECT;
+	header->id = PACKET_DISCONNECT;
 	header->other = true;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌

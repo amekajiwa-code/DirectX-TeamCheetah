@@ -7,14 +7,6 @@ bool isUpdate = true;
 void GameSessionManager::Add(GameSessionRef session)
 {
 	WRITE_LOCK;
-	//첫 접속시 다른 유저 전송
-	/*for (const auto& pair : _userInfoList)
-	{
-		uint64 id = pair.first;
-		Player_INFO info = pair.second;
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_INFO(pair.second, true);
-		session->Send(sendBuffer);
-	}*/
 	//새 유저 등록
 	Player_INFO userInfo;
 	userInfo._uid = sessionIdCount; //session에 배정된 id send
@@ -59,7 +51,7 @@ void GameSessionManager::UpdateUserInfo(Player_INFO info)
 	}
 }
 
-void GameSessionManager::GenerateCharaList()
+void GameSessionManager::GenerateMobList()
 {
 	// 랜덤 숫자 생성기 생성
 	std::random_device rd;
@@ -68,21 +60,21 @@ void GameSessionManager::GenerateCharaList()
 
 	for (int id = 0; id < 1; ++id)
 	{
-		CHARACTER_INFO c0;
+		MONSTER_INFO c0;
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
 		c0._instanceId = id;
 		c0._pos = { distribution(gen), 0.0f, distribution(gen) };
 		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << endl;
 
-		_charaInfoList.insert(make_pair(id, c0));
+		_mobInfoList.insert(make_pair(id, c0));
 	}
 }
 
-void GameSessionManager::UpdateCharaInfo(CHARACTER_INFO info)
+void GameSessionManager::UpdateMobInfo(MONSTER_INFO info)
 {
-	auto it = _charaInfoList.find(info._instanceId);
-	if (it != _charaInfoList.end())
+	auto it = _mobInfoList.find(info._instanceId);
+	if (it != _mobInfoList.end())
 	{
 		it->second = info;
 	}
@@ -100,7 +92,7 @@ float IsPlayerInRanger(const DirectX::XMFLOAT3& playerPos, const DirectX::XMFLOA
 }
 
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
-DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(CHARACTER_INFO chara) {
+DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(MONSTER_INFO chara) {
 	float range = 50.0f;
 	float minDistance = FLT_MAX;
 	uint64 closestUserId = 0;

@@ -118,18 +118,15 @@ void SpawnManager::SpawnOtherPlayers()
 				Vec3 pos = it->second->GetTransform()->GetPosition();
 				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
-				if (pair.second._animState != PlayerAnimState::Idle)
-				{
-					Vec3 direction = target - pos;
-					pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
-				}
+				Vec3 direction = target - pos;
+				pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
 
 				//회전 보간 계산
 				Vec3 targetRot = pair.second._Rotate;
-				/*Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
+				Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
 				Quaternion endRotation = Quaternion::CreateFromYawPitchRoll(targetRot.y, 0.0f, 0.0f);
-				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, 0.2);
-				rot.y = QuatToEulerAngleY(calcRot);*/
+				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
+				rot.y = QuatToEulerAngleY(calcRot);
 
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
@@ -147,7 +144,7 @@ void SpawnManager::SpawnOtherPlayers()
 
 void SpawnManager::SpawnMonsters()
 {
-	for (const auto& pair : ClientPacketHandler::Instance().GetCharaInfoList())
+	for (const auto& pair : ClientPacketHandler::Instance().GetMobInfoList())
 	{
 		shared_ptr<Character> _chr = make_shared<Character>();
 		shared_ptr<Shader> _shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
@@ -194,7 +191,6 @@ void SpawnManager::SpawnMonsters()
 		cow->AddComponent(tempRenderer);
 		cow->AddComponent(tempAnimator);
 		cow->Awake();
-		cow->Start();
 		cow->SetName(L"Model");
 
 		Vec3 rot = cow->GetTransform()->GetLocalRotation();
@@ -213,13 +209,7 @@ void SpawnManager::SpawnMonsters()
 		auto it = _monsters.find(pair.first);
 		if (it != _monsters.end())
 		{
-			Vec3 pos = it->second->GetTransform()->GetPosition();
-			// 현재 위치와 목표 위치의 차이 계산
-			Vec3 dv = pair.second._nextPos - pos;
-			// 선형 보간을 통해 부드럽게 현재 위치 업데이트
-			float speed = 1.0f;
-			pos += dv * speed * MANAGER_TIME()->GetDeltaTime();
-			it->second->GetTransform()->SetPosition(pos);
+			it->second->GetTransform()->SetPosition(pair.second._pos);
 		}
 		else
 		{
@@ -232,7 +222,7 @@ void SpawnManager::SpawnMonsters()
 void SpawnManager::Update()
 {
 	SpawnOtherPlayers();
-	//SpawnMonsters();
+	SpawnMonsters();
 
 	if (_otherPlayers.empty() == false)
 	{
@@ -245,7 +235,7 @@ void SpawnManager::Update()
 		}
 	}
 
-	/*if (_monsters.empty() == false)
+	if (_monsters.empty() == false)
 	{
 		for (const auto& pair : _monsters)
 		{
@@ -253,5 +243,5 @@ void SpawnManager::Update()
 			pair.second->Update();
 			pair.second->LateUpdate();
 		}
-	}*/
+	}
 }

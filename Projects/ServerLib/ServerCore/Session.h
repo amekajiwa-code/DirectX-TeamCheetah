@@ -108,7 +108,6 @@ struct PacketHeader
 	uint16 size;
 	uint16 id; // 프로토콜ID ( ex 1=로그인, 2=이동요청)
 	bool other; // 다른 패킷이면 참 아니면 거짓
-	//double timeStamp; // 패킷 보낸 시간
 };
 
 class PacketSession : public Session

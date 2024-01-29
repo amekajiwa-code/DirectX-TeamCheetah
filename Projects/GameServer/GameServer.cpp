@@ -30,8 +30,19 @@ int main()
 			});
 	} 
 
+	GSessionManager.GenerateMobList();
+
 	while (true)
 	{
+		for (auto pair : GSessionManager.GetMobInfoList()) {
+			pair.second._pos = GSessionManager.CalcNextPos(pair.second);
+			GSessionManager.UpdateMobInfo(pair.second);
+			cout << "pos: " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << endl;
+		}
+
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());
+		GSessionManager.Broadcast(sendBuffer);
+
 		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
 		this_thread::sleep_for(1000ms);
 	}

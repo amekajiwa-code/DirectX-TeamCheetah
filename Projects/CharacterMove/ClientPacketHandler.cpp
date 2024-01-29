@@ -13,13 +13,13 @@ void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 
 	switch (header.id)
 	{
-	case HANDLE_INFO:
+	case PACKET_USER_INFO:
 		Handle_USER_INFO(buffer, len);
 		break;
-	case HANDLE_CHARA_INFO:
-		Handle_CHARACTER_INFO(buffer, len);
+	case PACKET_MONSTER_INFO:
+		Handle_MONSTER_INFO(buffer, len);
 		break;
-	case HANDLE_DISCONNECT:
+	case PACKET_DISCONNECT:
 		Handle_USER_DISCONNECT(buffer, len);
 		break;
 	default:
@@ -65,27 +65,27 @@ void ClientPacketHandler::Handle_USER_INFO(BYTE* buffer, int32 len)
 	}
 }
 
-void ClientPacketHandler::Handle_CHARACTER_INFO(BYTE* buffer, int32 len)
+void ClientPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 {
 	BufferReader br(buffer, len);
 
 	PacketHeader header;
 	br >> header;
 
-	CHARACTER_INFO charaInfo;
+	MONSTER_INFO mobInfo;
 	//br의 커서가 끝에 도달할때까지 계속 뽑아냄
 	while (br.ReadSize() < br.Size())
 	{
-		br >> charaInfo;
+		br >> mobInfo;
 
-		auto it = _charaInfoList.find(charaInfo._instanceId);
-		if (it != _charaInfoList.end())
+		auto it = _mobInfoList.find(mobInfo._instanceId);
+		if (it != _mobInfoList.end())
 		{
-			it->second = charaInfo;
+			it->second = mobInfo;
 		}
 		else
 		{
-			_charaInfoList.insert(make_pair(charaInfo._instanceId, charaInfo));
+			_mobInfoList.insert(make_pair(mobInfo._instanceId, mobInfo));
 		}
 	}
 }
@@ -122,14 +122,14 @@ SendBufferRef ClientPacketHandler::Make_USER_INFO(Player_INFO userInfo)
 	bw << userInfo;
 
 	header->size = bw.WriteSize();
-	header->id = HANDLE_INFO;
+	header->id = PACKET_USER_INFO;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
 	return sendBuffer;
 }
 
-SendBufferRef ClientPacketHandler::Make_CHARACTER_INFO(CHARACTER_INFO info)
+SendBufferRef ClientPacketHandler::Make_MONSTER_INFO(MONSTER_INFO info)
 {
 	std::lock_guard<std::mutex> lock(_mutex);
 
@@ -140,7 +140,7 @@ SendBufferRef ClientPacketHandler::Make_CHARACTER_INFO(CHARACTER_INFO info)
 	bw << info;
 
 	header->size = bw.WriteSize();
-	header->id = HANDLE_CHARA_INFO;
+	header->id = PACKET_MONSTER_INFO;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 
