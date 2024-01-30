@@ -3,7 +3,7 @@
 
 struct MONSTER_INFO : public CHARACTER_INFO
 {
-	uint64 _instanceId;
+	uint64 _instanceId = 0;
 };
 
 class Monster : Character

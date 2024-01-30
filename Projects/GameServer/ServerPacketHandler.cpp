@@ -89,7 +89,7 @@ SendBufferRef ServerPacketHandler::Make_MONSTER_INFO(map<uint64, MONSTER_INFO> c
 
 	for (const auto& pair : charaInfo) {
 		uint64 id = pair.first;
-		CHARACTER_INFO info = pair.second;
+		MONSTER_INFO info = pair.second;
 
 		bw << info;
 	}

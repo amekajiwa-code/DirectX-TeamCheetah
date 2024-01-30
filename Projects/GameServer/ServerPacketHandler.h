@@ -52,13 +52,13 @@ struct CHARACTER_INFO
 
 struct Player_INFO : public CHARACTER_INFO
 {
-	uint64 _uid;
+	uint64 _uid = 0;
 	bool _isOnline;
 };
 
 struct MONSTER_INFO : public CHARACTER_INFO
 {
-	uint64 _instanceId;
+	uint64 _instanceId = 0;
 };
 
 class ServerPacketHandler

@@ -197,11 +197,11 @@ void Demo::Update()
 	//12분의1초 = 83.33ms
 	//30분의1초 = 33.33ms
 	//60분의1초 = 16.67ms
-	
+
 	if (_chr->GetComponent<PlayerController>()->GetCurrentAnimState() != PlayerAnimState::Idle) {
 		
 	}
-
+	
 	if (_threadTimer < 0.01667f)
 	{
 		_threadTimer += MANAGER_TIME()->GetDeltaTime();
