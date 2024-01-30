@@ -56,9 +56,9 @@ void GameSessionManager::GenerateMobList()
 	// 랜덤 숫자 생성기 생성
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distribution(-50.0f, 50.0f);
+	std::uniform_real_distribution<float> distribution(-100.0f, 100.0f);
 
-	for (int id = 0; id < 1; ++id)
+	for (int id = 0; id < 2; ++id)
 	{
 		MONSTER_INFO c0;
 
@@ -91,6 +91,10 @@ float IsPlayerInRanger(const DirectX::XMFLOAT3& playerPos, const DirectX::XMFLOA
 	return distance;
 }
 
+float CalculateAngle(const DirectX::XMVECTOR& v1, const DirectX::XMVECTOR& v2) {
+	return DirectX::XMConvertToDegrees(DirectX::XMVectorGetX(DirectX::XMVector3AngleBetweenNormals(v1, v2)));
+}
+
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
 void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	float range = 25.0f;
@@ -112,6 +116,26 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	}
 
 	if ((isFindTarget) && (_userInfoList.find(closestUserId) != _userInfoList.end())) {
+		DirectX::XMVECTOR playerPos = DirectX::XMLoadFloat3(&_userInfoList[closestUserId]._pos);
+		DirectX::XMVECTOR monsterPos = DirectX::XMLoadFloat3(&chara->_pos);
+
+		// 플레이어를 향하는 방향 벡터 계산
+		DirectX::XMVECTOR direction = DirectX::XMVectorSubtract(playerPos, monsterPos);
+		direction = DirectX::XMVector3Normalize(direction);
+
+		// 전방 벡터와 방향 벡터 사이의 각도 계산
+		DirectX::XMVECTOR forwardVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f); // 몬스터가 양의 z축 방향을 향한다고 가정
+		float angle = CalculateAngle(forwardVector, direction);
+
+		// 플레이어가 몬스터의 왼쪽에 있는지 오른쪽에 있는지 결정
+		float crossProduct = DirectX::XMVectorGetY(DirectX::XMVector2Cross(forwardVector, direction));
+		if (crossProduct < 0.0f) {
+			angle = -angle; // 플레이어가 몬스터의 왼쪽에 있으므로 시계 방향으로 회전
+		}
+
+		// 회전을 나타내는 XMFLOAT3 설정 (여기서는 각도를 X, Y, Z 모두에 적용)
+		chara->_Rotate = DirectX::XMFLOAT3(0.0f, angle, 0.0f);
+
 		chara->_pos = _userInfoList[closestUserId]._pos;
 		chara->_animState = PlayerAnimState::Run;
 	}
