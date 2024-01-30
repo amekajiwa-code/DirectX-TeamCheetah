@@ -202,7 +202,7 @@ void Demo::Update()
 		
 	}
 	
-	if (_threadTimer < 0.01667f)
+	if (_threadTimer < 0.08333f)
 	{
 		_threadTimer += MANAGER_TIME()->GetDeltaTime();
 	}

@@ -92,8 +92,8 @@ float IsPlayerInRanger(const DirectX::XMFLOAT3& playerPos, const DirectX::XMFLOA
 }
 
 //TODO: ¹üÀ§¾È¿¡ ÀÖ´Â³ðÁß °¡Àå °¡±î¿î³ð Å¸°ÙÀ¸·Î »ï±â
-DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(MONSTER_INFO chara) {
-	float range = 50.0f;
+void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
+	float range = 25.0f;
 	float minDistance = FLT_MAX;
 	uint64 closestUserId = 0;
 	bool isFindTarget = false;
@@ -102,7 +102,7 @@ DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(MONSTER_INFO chara) {
 	if (_userInfoList.empty() == false)
 	{
 		for (const auto& entry : _userInfoList) {
-			float distance = IsPlayerInRanger(entry.second._pos, chara._pos);
+			float distance = IsPlayerInRanger(entry.second._pos, chara->_pos);
 			if (distance <= range && distance < minDistance) {
 				minDistance = distance;
 				closestUserId = entry.first;
@@ -112,8 +112,11 @@ DirectX::XMFLOAT3 GameSessionManager::CalcNextPos(MONSTER_INFO chara) {
 	}
 
 	if ((isFindTarget) && (_userInfoList.find(closestUserId) != _userInfoList.end())) {
-		return _userInfoList[closestUserId]._pos;
+		chara->_pos = _userInfoList[closestUserId]._pos;
+		chara->_animState = PlayerAnimState::Run;
 	}
-
-	return chara._pos;
+	else
+	{
+		chara->_animState = PlayerAnimState::Idle;
+	}
 }

@@ -16,6 +16,7 @@ public:
 	void SpawnOtherPlayer(uint64 uid, Vec3 spawnPos);
 	void SpawnOtherPlayers();
 	//∏ÛΩ∫≈Õ
+	void SpawnMonster(uint64 uid, Vec3 spawnPos);
 	void SpawnMonsters();
 	int GetOtherPlayersSize() { return _otherPlayers.size(); }
 public:

@@ -35,7 +35,7 @@ int main()
 	while (true)
 	{
 		for (auto pair : GSessionManager.GetMobInfoList()) {
-			pair.second._pos = GSessionManager.CalcNextPos(pair.second);
+			GSessionManager.CalcNextPos(&pair.second);
 			GSessionManager.UpdateMobInfo(pair.second);
 			cout << "pos: " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << endl;
 		}
@@ -44,7 +44,7 @@ int main()
 		GSessionManager.Broadcast(sendBuffer);
 
 		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(1000ms);
+		this_thread::sleep_for(83.33ms);
 	}
 
 	GThreadManager->Join();

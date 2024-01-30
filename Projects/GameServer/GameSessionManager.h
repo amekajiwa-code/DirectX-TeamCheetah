@@ -25,7 +25,7 @@ public:
 	map<uint64, MONSTER_INFO> GetMobInfoList() { return _mobInfoList; }
 	void UpdateMobInfo(MONSTER_INFO info);
 	//AI
-	DirectX::XMFLOAT3 CalcNextPos(MONSTER_INFO chara);
+	void CalcNextPos(MONSTER_INFO* chara);
 private:
 	USE_LOCK;
 	Set<GameSessionRef> _sessions;

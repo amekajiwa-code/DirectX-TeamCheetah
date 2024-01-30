@@ -42,9 +42,14 @@ public:
 		if (it != otherUserInfoMap.end()) {
 			otherUserInfoMap.erase(it);
 		}
-		else
-		{
-			//¾ø´Ù
+	}
+
+	void EraseMonster(uint64 uid)
+	{
+		auto it = _mobInfoList.find(uid);
+
+		if (it != _mobInfoList.end()) {
+			_mobInfoList.erase(it);
 		}
 	}
 

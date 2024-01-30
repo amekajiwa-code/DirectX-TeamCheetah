@@ -53,7 +53,6 @@ void ServerPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 
 	MONSTER_INFO info;
 	br >> info;
-	info._timeStamp = TIMER().getCurrentTime();
 
 	GSessionManager.UpdateMobInfo(info);
 }
@@ -90,6 +89,7 @@ SendBufferRef ServerPacketHandler::Make_MONSTER_INFO(map<uint64, MONSTER_INFO> c
 	for (const auto& pair : charaInfo) {
 		uint64 id = pair.first;
 		MONSTER_INFO info = pair.second;
+		info._timeStamp = TIMER().getCurrentTime();
 
 		bw << info;
 	}
