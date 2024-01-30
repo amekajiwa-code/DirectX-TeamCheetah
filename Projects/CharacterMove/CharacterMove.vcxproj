@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\GameObject.fx" />
+    <FxCompile Include="..\..\Resources\Shader\GameTerrain.fx" />
     <FxCompile Include="..\..\Resources\Shader\Global.fx" />
     <FxCompile Include="..\..\Resources\Shader\Light.fx" />
     <FxCompile Include="..\..\Resources\Shader\TweenAnimation.fx" />

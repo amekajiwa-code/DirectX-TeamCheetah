@@ -158,7 +158,7 @@ bool ModelAnimator::SetNextAnimation(wstring animName)
 		{
 			_nextAnim = anim;
 			_tweenDesc.next.animIndex = num;
-			_tweenDesc.tweenDuration = 10 / _nextAnim->frameRate;
+			_tweenDesc.tweenDuration = 10.0f / _nextAnim->frameRate;
 			return true;
 		}
 		num++;
@@ -302,7 +302,7 @@ void ModelAnimator::Update()
 		}
 
 		// 애니메이션 현재 프레임 정보
-		MANAGER_RENDERER()->PushTweenData(_tweenDesc);
+		_shader->PushTweenData(_tweenDesc);
 
 		// SRV를 통해 정보 전달
 		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());

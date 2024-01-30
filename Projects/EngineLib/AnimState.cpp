@@ -13,11 +13,8 @@ bool PlayerAnimIdle::Enter(const shared_ptr<PlayerController>& playerController)
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 		_stateAnim = PlayerAnimType::Stand;
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"Stand");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"Stand");
 
 		return true;
 	}
@@ -127,11 +124,8 @@ bool PlayerAnimFrontWalk::Enter(const shared_ptr<PlayerController>& playerContro
 		_stateAnim = PlayerAnimType::FrontWalk;
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"Stand");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"Walk");
 
 		return true;
 	}
@@ -231,8 +225,6 @@ bool PlayerAnimFrontWalk::Update()
 
 bool PlayerAnimFrontWalk::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 
@@ -246,11 +238,8 @@ bool PlayerAnimBackWalk::Enter(const shared_ptr<PlayerController>& playerControl
 		_stateAnim = PlayerAnimType::BackWalk;
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"BackWalk");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"BackWalk");
 
 		return true;
 	}
@@ -358,8 +347,6 @@ bool PlayerAnimBackWalk::Update()
 
 bool PlayerAnimBackWalk::Out()
 {
-	//_animator.lock()->GetTweenDesc().c();
-
 	return false;
 }
 
@@ -373,17 +360,8 @@ bool PlayerAnimFrontRun::Enter(const shared_ptr<PlayerController>& playerControl
 		_stateAnim = PlayerAnimType::FrontRun;
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 
-		//if (_animator.lock()->GetTweenDesc().current.animIndex < 0 &&
-		//	_animator.lock()->GetTweenDesc().next.animIndex < 0)
-		//{
-		//	_animator.lock()->SetCurrentAnimation(L"FrontRun");
-		//	_animator.lock()->SetNextAnimation(L"FrontRun");
-		//}
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"FrontRun");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"FrontRun");
 
 		return true;
 	}
@@ -472,8 +450,6 @@ bool PlayerAnimFrontRun::Update()
 
 bool PlayerAnimFrontRun::Out()
 {
-	//_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 
@@ -487,11 +463,8 @@ bool PlayerAnimBackRun::Enter(const shared_ptr<PlayerController>& playerControll
 		_stateAnim = PlayerAnimType::BackRun;
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex >= 0)
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"BackRun");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"BackRun");
 
 		return true;
 	}
@@ -573,7 +546,6 @@ bool PlayerAnimBackRun::Update()
 
 bool PlayerAnimBackRun::Out()
 {
-
 	return false;
 }
 
@@ -588,11 +560,8 @@ bool PlayerAnimJumpStart::Enter(const shared_ptr<PlayerController>& playerContro
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 		_jumpState = _contoller.lock()->GetJumpState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"JumpStart");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"JumpStart");
 
 		return true;
 	}
@@ -633,11 +602,8 @@ bool PlayerAnimJumpFall::Enter(const shared_ptr<PlayerController>& playerControl
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 		_jumpState = _contoller.lock()->GetJumpState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"JumpFall");
-		}
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"JumpFall");
 
 		return true;
 	}
@@ -657,7 +623,7 @@ bool PlayerAnimJumpFall::Update()
 					*_playerState.lock() == PlayerUnitState::FrontLeftMove ||
 					*_playerState.lock() == PlayerUnitState::FrontRightMove)
 				{
-					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEndRun);
+					_contoller.lock()->SetAnimState(PlayerAnimType::JumpEnd);
 
 				}
 				else
@@ -689,13 +655,10 @@ bool PlayerAnimJumpEnd::Enter(const shared_ptr<PlayerController>& playerControll
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 		_jumpState = _contoller.lock()->GetJumpState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearCurrentAnim();
-			_animator.lock()->SetCurrentAnimation(L"JumpEnd");
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"JumpEnd");
-		}
+		_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+		_animator.lock()->SetCurrentAnimation(L"JumpEnd");
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"JumpEnd");
 
 		return true;
 	}
@@ -810,13 +773,10 @@ bool PlayerAnimJumpEndRun::Enter(const shared_ptr<PlayerController>& playerContr
 		_playerState = _contoller.lock()->GetCurrentUnitState();
 		_jumpState = _contoller.lock()->GetJumpState();
 
-		if (_animator.lock()->GetTweenDesc().current.animIndex != static_cast<int>(_stateAnim))
-		{
-			_animator.lock()->GetTweenDesc().ClearCurrentAnim();
-			_animator.lock()->SetCurrentAnimation(L"JumpEndRun");
-			_animator.lock()->GetTweenDesc().ClearNextAnim();
-			_animator.lock()->SetNextAnimation(L"JumpEndRun");
-		}
+		_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+		_animator.lock()->SetCurrentAnimation(L"JumpEndRun");
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"JumpEndRun");
 
 		return true;
 	}
@@ -916,8 +876,6 @@ bool PlayerAnimJumpEndRun::Update()
 
 bool PlayerAnimJumpEndRun::Out()
 {
-	//_animator.lock()->GetTweenDesc().ClearNextAnim();
-
 	return false;
 }
 

@@ -32,7 +32,7 @@ void CoreHound::CharacterInit()
 		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(shader);
 		{
 			tempRenderer->SetModel(model);
-			tempRenderer->SetPass(1);
+			tempRenderer->SetPass(4);
 		}
 		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>();
 		{

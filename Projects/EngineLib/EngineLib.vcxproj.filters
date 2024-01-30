@@ -49,6 +49,9 @@
     <Filter Include="03. GameObject\Unit\EnemyUnit">
       <UniqueIdentifier>{9968aebb-d016-4d42-825e-a4bcdae6b7f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\Scripts">
+      <UniqueIdentifier>{03c24022-4f35-4037-9ced-1eb5ea1706c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -198,6 +201,7 @@
     <ClInclude Include="AIController.h">
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -341,6 +345,7 @@
     <ClCompile Include="AIController.cpp">
       <Filter>04. Component\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

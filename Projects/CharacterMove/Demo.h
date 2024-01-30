@@ -13,10 +13,14 @@ public:
 private:
 	//Shader
 	shared_ptr<Shader>		_shader;
+	shared_ptr<Shader> _terShader;
 	//Character
 	shared_ptr<Unit> _warrior;
 	shared_ptr<Unit> _coreHound;
 	//Map
 	shared_ptr<GameObject>	_map;
+	//test
+	shared_ptr<Texture> _dissolve;
+	bool _isdisv = false;
 };
 

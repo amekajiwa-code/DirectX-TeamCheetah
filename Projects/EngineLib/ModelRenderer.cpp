@@ -40,10 +40,10 @@ void ModelRenderer::LateUpdate()
 		shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
 		boneDesc.transforms[i] = bone->transform;
 	}
-	MANAGER_RENDERER()->PushBoneData(boneDesc);
+	_shader->PushBoneData(boneDesc);
 
 	auto world = GetTransform()->GetWorldMatrix();
-	MANAGER_RENDERER()->PushTransformData(TransformDesc{ world });
+	_shader->PushTransformData(TransformDesc{ world });
 
 	const auto& meshes = _model->GetMeshes();
 	for (auto& mesh : meshes)

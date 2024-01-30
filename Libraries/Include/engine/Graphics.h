@@ -33,6 +33,8 @@ private:
 	//DSV
 	vector<ComPtr<ID3D11Texture2D>>			_depthStancilTextures;
 	vector<ComPtr<ID3D11DepthStencilView>>	_depthStancilViews;
+	//Blend
+	ComPtr<ID3D11BlendState> _blendState;
 	//Misc
 	D3D11_VIEWPORT				_viewPort = { 0, };
 	float						_clearColor[4] = { 0.f,0.f,0.f,0.f };
@@ -70,6 +72,7 @@ private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
 	void CreateDepthStencilView();
+	void CreateBlendState();
 	void SetViewPort();
 	void CreateRenderTexture(UINT width, UINT height, ComPtr<ID3D11Texture2D>& texture);
 public:

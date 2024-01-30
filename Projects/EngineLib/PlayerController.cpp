@@ -290,7 +290,7 @@ void PlayerController::PlayerJump()
 		if (_jumpState->isJumpFall)
 		{
 
-			if (_movePos.y <= _jumpPower / 2.0f + 1.0f)
+			if (_movePos.y <= _jumpPower / 2.0f)
 			{
 				_jumpState->isJumpFall = false;
 				_jumpState->isJumEnd = true;

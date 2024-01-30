@@ -36,6 +36,8 @@ cbuffer BoneBuffer
 
 uint BoneIndex;
 Texture2DArray TransformMap;
+Texture2D dissolve;
+float time;
 
 matrix GetAnimationMatrix(VertexTextureNormalTangentBlend input)
 {
@@ -140,8 +142,21 @@ float4 PS(MeshOutput input) : SV_TARGET
 {
     ComputeNormalMapping(input.normal, input.tangent, input.uv);
     float4 color = ComputeLight(input.normal, input.uv, input.worldPosition);
-	
-    //float4 color = DiffuseMap.Sample(LinearSampler, input.uv);
+
+    return color;
+}
+
+float4 DissolvePS(MeshOutput input) : SV_TARGET
+{
+    ComputeNormalMapping(input.normal, input.tangent, input.uv);
+    float4 color = ComputeLight(input.normal, input.uv, input.worldPosition);
+ 
+    float dissolveValue = dissolve.Sample(PointSampler, input.uv).r;
+    dissolveValue = saturate(dissolveValue);
+    
+    float isVisible = dissolveValue - time;
+    clip(isVisible);
+
     return color;
 }
 
@@ -160,4 +175,6 @@ technique11 T0
 	PASS_RS_VP(P2, FillModeWireFrame, StaticMesh, PS_RED)
     //WireFrame SkeletalMesh
 	PASS_RS_VP(P3, FillModeWireFrame, SkeletalMesh, PS_RED)
+    //Dissolve
+    PASS_VP(P4, SkeletalMesh, DissolvePS)
 };

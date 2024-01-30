@@ -25,7 +25,7 @@ void Material::Update()
 	if (_shader == nullptr)
 		return;
 
-	MANAGER_RENDERER()->PushMaterialData(_desc);
+	_shader->PushMaterialData(_desc);
 
 	if (_diffuseMap)
 		_diffuseEffectBuffer->SetResource(_diffuseMap->GetTexture().Get());

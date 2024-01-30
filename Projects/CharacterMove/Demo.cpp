@@ -12,6 +12,9 @@ void Demo::Init()
 	{
 		_shader = make_shared<Shader>(L"TweenAnimation.fx");
 		MANAGER_RESOURCES()->AddResource<Shader>(L"Default", _shader);
+		wstring dTex = RESOURCES_ADDR_TEXTURE;
+		dTex += L"Effect/noise.png";
+		_dissolve = MANAGER_RESOURCES()->GetOrAddTexture(L"Dissolve", dTex);
 	}
 
 	//랜더 매니저 초기화
@@ -44,23 +47,33 @@ void Demo::Init()
 	{
 		_map = make_shared<GameObject>();
 		_map->Awake();
-
 		{
 			shared_ptr<Mesh> plane = make_shared<Mesh>();
 			plane->CreateQuad();
 			shared_ptr<Material> mtrl = make_shared<Material>();
-			mtrl->SetShader(_shader);
+			_terShader = make_shared<Shader>(L"GameTerrain.fx");
+			mtrl->SetShader(_terShader);
+
 			wstring tex = RESOURCES_ADDR_TEXTURE;
 			tex += L"grass.jpg";
 			shared_ptr<Texture> grass = make_shared<Texture>();
 			grass->Load(tex);
+
+			{
+				MaterialDesc desc;
+				desc.ambient = Color(1.0f,1.0f,1.0f,1.0f);
+				mtrl->SetMaterialDesc(desc);
+			}
+
 			mtrl->SetDiffuseMap(grass);
+			mtrl->SetNormalMap(nullptr);
 
 			shared_ptr<MeshRenderer> _renderer = make_shared<MeshRenderer>();
 			_renderer->SetMesh(plane);
 			_renderer->SetMaterial(mtrl);
 			_map->AddComponent(_renderer);
 		}
+		_map->Start();
 		_map->GetTransform()->SetScale(Vec3(100, 100, 1));
 
 		Vec3 rot = _map->GetTransform()->GetLocalRotation();
@@ -79,33 +92,63 @@ void Demo::Init()
 		_coreHound = make_shared<CoreHound>();
 		_coreHound->Awake();
 		_coreHound->Start();
-		_coreHound->GetTransform()->SetLocalPosition(Vec3(0,0,0));
+		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 0));
 	}
 }
 
 void Demo::Update()
 {
 	MANAGER_RENDERER()->Update();
+	static float dt = 0.f;
 
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
+	{
+		if (_isdisv)
+		{
+			_isdisv = false;
+		}
+		else
+		{
+			_isdisv = true;
+		}
+	}
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_2))
+	{
+		if (dt >= 1.0f)
+		{
+			dt = 0.f;
+		}
+
+		_isdisv = false;
+	}
+
+	if (_isdisv)
+	{
+		dt += MANAGER_TIME()->GetDeltaTime() * 0.35f;
+	}
+
+	_shader->GetSRV("dissolve")->SetResource(_dissolve->GetTexture().Get());
+	_shader->GetScalar("time")->SetFloat(dt);
+
+	{
+		_map->Update();
+	}
+	{
+		_warrior->FixedUpdate();
+		_warrior->Update();
+		_warrior->LateUpdate();
+	}
 	{
 		_coreHound->FixedUpdate();
 		_coreHound->Update();
 		_coreHound->LateUpdate();
 	}
 
-	{
-		_warrior->FixedUpdate();
-		_warrior->Update();
-		_warrior->LateUpdate();
-	}
 
-	{
-		_map->Update();
-	}
 
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
 	{
-		Utils::ScreenShot(DC(),L"");
+		Utils::ScreenShot(DC(), L"");
 	}
 }
 
