@@ -230,7 +230,7 @@ void SpawnManager::SpawnMonsters()
 				auto calcTime = high_resolution_clock::now() - seconds(static_cast<int>(pair.second._timeStamp));
 				auto durationSec = duration_cast<duration<double>>(calcTime.time_since_epoch()).count();
 				double alpha = fmin(1.0, durationSec / 1.0);
-				Vec3 target = pair.second._pos;
+				Vec3 target = pair.second._targetPos;
 				Vec3 pos = it->second->GetTransform()->GetPosition();
 				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
@@ -244,7 +244,10 @@ void SpawnManager::SpawnMonsters()
 				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
 				rot.y = QuatToEulerAngleY(calcRot);
 
-				it->second->GetTransform()->SetPosition(pos);
+				if (pair.second._isMove)
+				{
+					it->second->GetTransform()->SetPosition(pos);
+				}
 				it->second->GetTransform()->SetLocalRotation(targetRot);
 				it->second->GetComponent<AIController>()->SetAnimState(pair.second._animState);
 			}

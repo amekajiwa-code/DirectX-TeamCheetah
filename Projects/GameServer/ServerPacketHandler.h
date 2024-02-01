@@ -60,6 +60,7 @@ struct MONSTER_INFO : public CHARACTER_INFO
 {
 	uint64 _instanceId = 0;
 	DirectX::XMFLOAT3 _targetPos = { 0.f, 0.f, 0.f };
+	bool _isMove = false;
 };
 
 class ServerPacketHandler

@@ -95,6 +95,21 @@ float CalculateAngle(const DirectX::XMVECTOR& v1, const DirectX::XMVECTOR& v2) {
 	return DirectX::XMConvertToDegrees(DirectX::XMVectorGetX(DirectX::XMVector3AngleBetweenNormals(v1, v2)));
 }
 
+bool HasDifference(const DirectX::XMVECTOR& v1, const  DirectX::XMVECTOR& v2, float tolerance = 0.0001f) {
+	// 부동 소수점 비교를 위해 허용 가능한 오차 범위를 지정
+	auto floatEquals = [tolerance](float a, float b) {
+		return std::fabs(a - b) < tolerance;
+		};
+
+	// x, y, z 중에서 tolerance 이라도 차이가 나면 true를 반환
+	if (!floatEquals(v1.m128_f32[0], v2.m128_f32[0]) || !floatEquals(v1.m128_f32[1], v2.m128_f32[1]) || !floatEquals(v1.m128_f32[2], v2.m128_f32[2])) {
+		return true;
+	}
+
+	// 모든 차이가 허용 가능한 오차 범위 내에 있으면 false 반환
+	return false;
+}
+
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
 void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	float range = 50.0f;
@@ -107,13 +122,22 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	{
 		for (const auto& entry : _userInfoList) {
 			float distance = IsPlayerInRanger(entry.second._pos, chara->_pos);
-			if (distance <= range && distance < minDistance) {
+			if (distance == 0.0f)
+			{
+				chara->_animState = PlayerAnimState::Idle;
+				chara->_isMove = false;
+				//원래는 어택
+			}
+			else if (distance <= range && distance < minDistance) {
 				minDistance = distance;
 				closestUserId = entry.first;
 				isFindTarget = true;
+				chara->_isMove = true;
 			}
 		}
 	}
+
+	chara->_targetPos = chara->_pos;
 
 	if ((isFindTarget) && (_userInfoList.find(closestUserId) != _userInfoList.end())) {
 		DirectX::XMVECTOR playerPos = DirectX::XMLoadFloat3(&_userInfoList[closestUserId]._pos);
@@ -135,10 +159,15 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 			angle = -angle; // 플레이어가 몬스터의 왼쪽에 있으므로 시계 방향으로 회전
 		}
 
-		// 회전을 나타내는 XMFLOAT3 설정 (여기서는 각도를 X, Y, Z 모두에 적용)
+		if (chara->_isMove)
+		{
+
+			chara->_targetPos = _userInfoList[closestUserId]._pos;
+			chara->_pos = chara->_targetPos;
+		}
+		
 		chara->_Rotate = DirectX::XMFLOAT3(0.0f, angle, 0.0f);
 
-		chara->_pos = _userInfoList[closestUserId]._pos;
 		chara->_animState = PlayerAnimState::Run;
 	}
 	else
