@@ -122,7 +122,7 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	{
 		for (const auto& entry : _userInfoList) {
 			float distance = IsPlayerInRanger(entry.second._pos, chara->_pos);
-			if (distance == 0.0f)
+			if (distance <= 1.0f)
 			{
 				chara->_animState = PlayerAnimState::Idle;
 				chara->_isMove = false;
@@ -161,12 +161,10 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 
 		if (chara->_isMove)
 		{
-
 			chara->_targetPos = _userInfoList[closestUserId]._pos;
 			chara->_pos = chara->_targetPos;
+			chara->_Rotate = DirectX::XMFLOAT3(0.0f, angle, 0.0f);
 		}
-		
-		chara->_Rotate = DirectX::XMFLOAT3(0.0f, angle, 0.0f);
 
 		chara->_animState = PlayerAnimState::Run;
 	}
