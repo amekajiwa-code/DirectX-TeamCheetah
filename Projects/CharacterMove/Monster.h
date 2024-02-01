@@ -4,6 +4,7 @@
 struct MONSTER_INFO : public CHARACTER_INFO
 {
 	uint64 _instanceId = 0;
+	Vec3 _targetPos;
 };
 
 class Monster : Character

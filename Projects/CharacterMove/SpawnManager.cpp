@@ -235,7 +235,7 @@ void SpawnManager::SpawnMonsters()
 				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
 				Vec3 direction = target - pos;
-				pos += interpolate(alpha, Vec3{ direction.x, 0.0f, direction.z }, Vec3(0.0f, 0.0f, 0.0f)) * (pair.second._moveSpeed / 2) * MANAGER_TIME()->GetDeltaTime();
+				pos += interpolate(alpha, Vec3{ direction.x, 0.0f, direction.z }, Vec3(0.0f, 0.0f, 0.0f)) * MANAGER_TIME()->GetDeltaTime();
 
 				//회전 보간 계산
 				Vec3 targetRot = pair.second._Rotate;
