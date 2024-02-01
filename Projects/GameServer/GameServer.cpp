@@ -44,7 +44,7 @@ int main()
 		GSessionManager.Broadcast(sendBuffer);
 
 		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(83.33ms);
+		this_thread::sleep_for(500ms);
 	}
 
 	GThreadManager->Join();

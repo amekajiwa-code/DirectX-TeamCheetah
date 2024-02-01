@@ -97,7 +97,7 @@ float CalculateAngle(const DirectX::XMVECTOR& v1, const DirectX::XMVECTOR& v2) {
 
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
 void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
-	float range = 25.0f;
+	float range = 50.0f;
 	float minDistance = FLT_MAX;
 	uint64 closestUserId = 0;
 	bool isFindTarget = false;
@@ -125,7 +125,9 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 
 		// 전방 벡터와 방향 벡터 사이의 각도 계산
 		DirectX::XMVECTOR forwardVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f); // 몬스터가 양의 z축 방향을 향한다고 가정
-		float angle = CalculateAngle(forwardVector, direction);
+
+		// 플레이어가 몬스터의 위치를 기준으로 어느 방향에 있는지 각도 계산
+		float angle = atan2(DirectX::XMVectorGetX(direction), DirectX::XMVectorGetZ(direction));
 
 		// 플레이어가 몬스터의 왼쪽에 있는지 오른쪽에 있는지 결정
 		float crossProduct = DirectX::XMVectorGetY(DirectX::XMVector2Cross(forwardVector, direction));
