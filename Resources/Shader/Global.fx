@@ -56,6 +56,8 @@ struct VertexTextureNormalTangentBlend
     float3 tangent : TANGENT;
     float4 blendIndices : BLEND_INDICES;
     float4 blendWeights : BLEND_WEIGHTS;
+    uint instanceID : SV_INSTANCEID;
+    matrix world : INST;
 };
 
 //VertexOutput//

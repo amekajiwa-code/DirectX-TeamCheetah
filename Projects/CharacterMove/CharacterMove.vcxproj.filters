@@ -52,13 +52,13 @@
     <FxCompile Include="..\..\Resources\Shader\Light.fx">
       <Filter>Shader\Common</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Resources\Shader\GameObject.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Resources\Shader\TweenAnimation.fx">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shader\GameTerrain.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Instancing.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

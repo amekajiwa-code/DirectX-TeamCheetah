@@ -149,6 +149,82 @@ bool ModelAnimator::SetCurrentAnimation(wstring animName)
 
 	return false;
 }
+
+void ModelAnimator::UpdateTweenData()
+{
+	if (_isPlay)
+	{
+		if (_model == nullptr || _shader == nullptr)
+			return;
+
+		if (_texture == nullptr)
+			CreateTexture();
+
+		//루프 애니메이션
+		if (_isLoop)
+		{
+			_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
+
+			//현재 애니메이션
+			{
+				if (_currentAnim)
+				{
+					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
+
+					if (_tweenDesc.current.sumTime >= _timePerFrame)
+					{
+						_tweenDesc.current.sumTime = 0;
+						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+					}
+
+					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
+				}
+			}
+			//다음 애니메이션 예약 시
+			if (_tweenDesc.next.animIndex >= 0)
+			{
+				_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
+				_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
+
+				if (_tweenDesc.tweenRatio >= 1.f)
+				{
+					_tweenDesc.ClearCurrentAnim();
+					_tweenDesc.current = _tweenDesc.next;
+					_currentAnim = _nextAnim;
+					_nextAnim = nullptr;
+					_tweenDesc.ClearNextAnim();
+				}
+				else
+				{
+					if (_nextAnim)
+					{
+						_tweenDesc.next.sumTime += MANAGER_TIME()->GetDeltaTime();
+
+						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
+
+						if (_tweenDesc.next.ratio >= 1.f)
+						{
+							_tweenDesc.next.sumTime = 0;
+							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
+							_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
+						}
+						_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
+					}
+				}
+			}
+		}
+		//논 루프 애니메이션
+		else
+		{
+
+		}
+
+		// SRV를 통해 정보 전달
+		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+	}
+}
+
 bool ModelAnimator::SetNextAnimation(wstring animName)
 {
 	int num = 0;
@@ -167,6 +243,57 @@ bool ModelAnimator::SetNextAnimation(wstring animName)
 	return false;
 }
 
+void ModelAnimator::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
+{
+	if (_model == nullptr)
+		return;
+	if (_texture == nullptr)
+		CreateTexture();
+
+	// GlobalData
+	_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
+
+	// Light
+	//auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+	//if (lightObj)
+	//	_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
+
+	// SRV를 통해 정보 전달
+	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+
+	// Bones
+	BoneDesc boneDesc;
+
+	const uint32 boneCount = _model->GetBoneCount();
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+		boneDesc.transforms[i] = bone->transform;
+	}
+	_shader->PushBoneData(boneDesc);
+
+	const auto& meshes = _model->GetMeshes();
+	for (auto& mesh : meshes)
+	{
+		if (mesh->material)
+			mesh->material->Update();
+
+		// BoneIndex
+		_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+
+		mesh->vertexBuffer->PushData();
+		mesh->indexBuffer->PushData();
+
+		buffer->PushData();
+
+		_shader->DrawIndexedInstanced(0, _pass, mesh->indexBuffer->GetCount(), buffer->GetCount());
+	}
+}
+
+InstanceID ModelAnimator::GetInstanceID()
+{
+	return make_pair((uint64)_model.get(), (uint64)_shader.get());
+}
 
 void ModelAnimator::Start()
 {

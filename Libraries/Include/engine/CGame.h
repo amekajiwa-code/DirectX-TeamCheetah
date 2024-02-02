@@ -10,6 +10,7 @@ protected:
 	DWORD _dwStyle;
 protected:
 	virtual void Update();
+	void ShowFps();
 protected:
 	BOOL InitInstance(int cmdShow);
 	virtual ATOM MyRegisterClass();

@@ -413,3 +413,17 @@ void Shader::PushTweenData(const TweenDesc& desc)
 	_tweenBuffer->CopyData(_tweenDesc);
 	_tweenEffectBuffer->SetConstantBuffer(_tweenBuffer->GetBuffer().Get());
 }
+
+void Shader::PushTweenData(const InstancedTweenDesc& desc)
+{
+	if (_transformEffectBuffer == nullptr)
+	{
+		_tweenInstanceBuffer = make_shared<ConstantBuffer<InstancedTweenDesc>>();
+		_tweenInstanceBuffer->CreateConstantBuffer();
+		_tweenInstanceEffectBuffer = GetConstantBuffer("TweenBuffer");
+	}
+
+	_tweenInstanceDesc = desc;
+	_tweenInstanceBuffer->CopyData(_tweenInstanceDesc);
+	_tweenInstanceEffectBuffer->SetConstantBuffer(_tweenBuffer->GetBuffer().Get());
+}

@@ -162,12 +162,14 @@ extern CGameDesc g_gameDesc;
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "RenderManager.h"
+#include "InstancingManager.h"
 
 //Global Macro
 #define MANAGER_INPUT() InputManager::GetInstance()
-#define MANAGER_TIME()	TimeManager::GetInstance()
+#define MANAGER_TIME() TimeManager::GetInstance()
 #define MANAGER_RESOURCES() ResourceManager::GetInstance()
 #define MANAGER_RENDERER() RenderManager::GetInstance()
+#define MANAGER_INSTANCING() InstancingManager::GetInstance()
 
 //Components
 #include "Component.h"

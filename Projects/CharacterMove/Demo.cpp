@@ -92,7 +92,7 @@ void Demo::Init()
 		_coreHound = make_shared<CoreHound>();
 		_coreHound->Awake();
 		_coreHound->Start();
-		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 0));
+		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 20));
 	}
 }
 

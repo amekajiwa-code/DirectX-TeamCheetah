@@ -18,15 +18,16 @@ private:
 private:
 	uint32 _stride = 0;
 	uint32 _offset = 0;
+	uint8 _pass = 0;
 public:
 	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
 	void SetMaterial(shared_ptr<Material> material) { _material = material; }
-	//legacy
-	void SetTexture(shared_ptr<Texture> texture) {}
-	void SetShader(shared_ptr<Shader> shader) {}
+	void SetPass(uint8 pass) { _pass = pass; }
 	const shared_ptr<Shader>& GetShader() const { return _shader; }
+	InstanceID GetInstanceID();
 public:
 	virtual void Start() override;
 	virtual void Update() override;
+	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
 };
 

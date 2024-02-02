@@ -202,6 +202,12 @@
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Light.h" />
+    <ClInclude Include="InstancingManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingBuffer.h">
+      <Filter>01. Graphics\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -346,6 +352,12 @@
       <Filter>04. Component\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="InstancingManager.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingBuffer.cpp">
+      <Filter>01. Graphics\Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

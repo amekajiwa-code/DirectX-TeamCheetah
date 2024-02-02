@@ -66,6 +66,39 @@ void ModelRenderer::LateUpdate()
 	}
 }
 
+void ModelRenderer::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
+{
+	if (_model == nullptr)
+		return;
+
+	//Bone
+	BoneDesc boneDesc;
+
+	const uint32 boneCount = _model->GetBoneCount();
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+		boneDesc.transforms[i] = bone->transform;
+	}
+	_shader->PushBoneData(boneDesc);
+
+	const auto& meshes = _model->GetMeshes();
+	for (auto& mesh : meshes)
+	{
+		if (mesh->material)
+			mesh->material->Update();
+
+		//Bone Index
+		_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+
+		mesh->vertexBuffer->PushData();
+		mesh->indexBuffer->PushData();
+		buffer->PushData();
+
+		_shader->DrawIndexedInstanced(0, _pass, mesh->indexBuffer->GetCount(), buffer->GetCount());
+	}
+}
+
 MetaData& ModelRenderer::GetMetaData()
 {
 	if (_model)
@@ -77,4 +110,9 @@ MetaData& ModelRenderer::GetMetaData()
 	}
 
 	return _metaData;
+}
+
+InstanceID ModelRenderer::GetInstanceID()
+{
+	return make_pair((uint64)_model.get(), (uint64)_shader.get());
 }

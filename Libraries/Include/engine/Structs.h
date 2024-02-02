@@ -66,6 +66,7 @@ struct MaterialDesc
 //Bone
 #define MAX_MODEL_TRANSFORMS 250	
 #define MAX_MODEL_KEYFRAMES 250
+#define MAX_MODEL_INSTANCE 500
 
 struct BoneDesc
 {
@@ -125,6 +126,11 @@ struct TweenDesc
 	float padding = 0.f;
 	KeyframeDesc current;
 	KeyframeDesc next;
+};
+
+struct InstancedTweenDesc
+{
+	TweenDesc tweens[MAX_MODEL_INSTANCE];
 };
 
 //Event Protocol

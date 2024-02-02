@@ -19,5 +19,9 @@ public:
 	uint32 GetCount() const { return _count; }
 public:
 	void CreateIndexBuffer(const vector<uint32>& indices);
+	void PushData()
+	{
+		DC()->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	}
 };
 

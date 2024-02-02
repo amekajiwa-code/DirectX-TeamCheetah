@@ -23,8 +23,11 @@ public:
 	void SetPass(uint8 pass) { _pass = pass; }
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 public:
+	virtual MetaData& GetMetaData() override;
+	InstanceID GetInstanceID();
+public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
-	virtual MetaData& GetMetaData() override;
+	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
 };
 

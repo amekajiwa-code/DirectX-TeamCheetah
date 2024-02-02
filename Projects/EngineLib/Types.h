@@ -22,6 +22,8 @@ using Color = DirectX::XMFLOAT4;
 using Matrix = DirectX::SimpleMath::Matrix;
 using Quaternion = DirectX::SimpleMath::Quaternion;
 
+using InstanceID = std::pair<uint64, uint64>;
+
 //Cameratype
 enum class CameraType
 {

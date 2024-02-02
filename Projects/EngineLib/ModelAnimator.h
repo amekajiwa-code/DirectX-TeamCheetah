@@ -39,6 +39,9 @@ public:
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	const shared_ptr<Shader>& GetShader() const { return _shader; }
 	void SetPass(uint8 pass) { _pass = pass; }
+
+	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
+	InstanceID GetInstanceID();
 public:
 	void SetPlay(bool play) { _isPlay = play; }
 	bool GetPlay() const { return _isPlay; }
@@ -52,5 +55,6 @@ public:
 public:
 	virtual void Start() override;
 	virtual void Update() override;
+	void UpdateTweenData();
 };
 
