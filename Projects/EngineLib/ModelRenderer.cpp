@@ -23,11 +23,6 @@ void ModelRenderer::SetModel(shared_ptr<Model> model)
 
 void ModelRenderer::Update()
 {
-
-}
-
-void ModelRenderer::LateUpdate()
-{
 	if (_model == nullptr)
 		return;
 
@@ -64,6 +59,11 @@ void ModelRenderer::LateUpdate()
 
 		_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
 	}
+}
+
+void ModelRenderer::LateUpdate()
+{
+
 }
 
 void ModelRenderer::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)

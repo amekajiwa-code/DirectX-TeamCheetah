@@ -43,19 +43,16 @@ void Warrior::CharacterInit()
 			AddAnimation(model, L"BlackCow", L"JumpEndRun");
 		}
 		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
-		shared_ptr<ModelRenderer> tempRenderer = make_shared<ModelRenderer>(shader);
+
+		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>(shader);
 		{
-			tempRenderer->SetModel(model);
-			tempRenderer->SetPass(1);
-		}
-		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>();
-		{
+			tempAnimator->SetModel(model);
 			tempAnimator->SetPlay(true);
 			tempAnimator->SetLoop(true);
+			tempAnimator->SetPass(1);
 		}
-		_childModel->Awake();
-		_childModel->AddComponent(tempRenderer);
 		_childModel->AddComponent(tempAnimator);
+		_childModel->Awake();
 		_childModel->Start();
 		_childModel->SetName(L"Model");
 

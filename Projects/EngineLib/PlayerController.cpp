@@ -384,10 +384,6 @@ void PlayerController::DispatchEvent()
 {
 }
 
-void PlayerController::Awake()
-{
-}
-
 void PlayerController::Start()
 {
 	_currentState = make_shared<PlayerUnitState>();

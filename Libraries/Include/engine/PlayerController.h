@@ -37,13 +37,13 @@ private:
 	Vec3 _jumpUpDir = { 0,1,0 };
 	Vec3 _jumpDownDir = { 0,-1,0 };
 	float _jumpPower = 20.f;
-	shared_ptr<JumpFlag> _jumpState;
+	shared_ptr<JumpFlag>		_jumpState;
+	shared_ptr<PlayerUnitState>	_currentState;
 private:
 	//Animation Controll
 	weak_ptr<ModelAnimator>				_animator;
 	shared_ptr<PlayerAnimState>			_animState;
 	vector<shared_ptr<PlayerAnimState>> _animStateList;
-	shared_ptr<PlayerUnitState>			_currentState;
 	float _defaultSpeed = 300.f;
 	float _currentSpeed = 300.f;
 	float _slowSpeed = 150.f;
@@ -81,7 +81,6 @@ public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();
 public:
-	virtual void Awake() override;
 	virtual void Start() override;
 	virtual void FixedUpdate() override;
 	virtual void Update() override;

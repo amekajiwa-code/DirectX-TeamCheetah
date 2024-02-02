@@ -163,12 +163,12 @@ void ModelAnimator::UpdateTweenData()
 		//루프 애니메이션
 		if (_isLoop)
 		{
-			_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 
 			//현재 애니메이션
 			{
 				if (_currentAnim)
 				{
+					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
 					if (_tweenDesc.current.sumTime >= _timePerFrame)
@@ -189,7 +189,7 @@ void ModelAnimator::UpdateTweenData()
 
 				if (_tweenDesc.tweenRatio >= 1.f)
 				{
-					_tweenDesc.ClearCurrentAnim();
+					//_tweenDesc.ClearCurrentAnim();
 					_tweenDesc.current = _tweenDesc.next;
 					_currentAnim = _nextAnim;
 					_nextAnim = nullptr;
@@ -242,6 +242,16 @@ bool ModelAnimator::SetNextAnimation(wstring animName)
 
 	return false;
 }
+void ModelAnimator::SetModel(shared_ptr<Model> model)
+{
+	_model = model;
+
+	const auto& materials = _model->GetMaterials();
+	for (auto& material : materials)
+	{
+		material->SetShader(_shader);
+	}
+}
 
 void ModelAnimator::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
 {
@@ -285,7 +295,6 @@ void ModelAnimator::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
 		mesh->indexBuffer->PushData();
 
 		buffer->PushData();
-
 		_shader->DrawIndexedInstanced(0, _pass, mesh->indexBuffer->GetCount(), buffer->GetCount());
 	}
 }
@@ -297,8 +306,8 @@ InstanceID ModelAnimator::GetInstanceID()
 
 void ModelAnimator::Start()
 {
-	_model = GetGameObject()->GetModelRenderer()->GetModel();
 	assert(_model != nullptr);
+	assert(_shader != nullptr);
 
 	if (_model)
 	{
@@ -316,9 +325,6 @@ void ModelAnimator::Start()
 			}
 		}
 	}
-
-	_shader = GetGameObject()->GetModelRenderer()->GetShader();
-	assert(_shader != nullptr);
 }
 
 //트윈 이전
@@ -427,11 +433,49 @@ void ModelAnimator::Update()
 		{
 
 		}
-
 		// 애니메이션 현재 프레임 정보
 		_shader->PushTweenData(_tweenDesc);
 
 		// SRV를 통해 정보 전달
 		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+
+		//Render
+		{
+			//Bone
+			BoneDesc boneDesc;
+
+			const uint32 boneCount = _model->GetBoneCount();
+			for (uint32 i = 0; i < boneCount; i++)
+			{
+				shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+				boneDesc.transforms[i] = bone->transform;
+			}
+
+			_shader->PushBoneData(boneDesc);
+
+			auto world = GetTransform()->GetWorldMatrix();
+			_shader->PushTransformData(TransformDesc{ world });
+
+			const auto& meshes = _model->GetMeshes();
+			for (auto& mesh : meshes)
+			{
+				if (mesh->material)
+					mesh->material->Update();
+
+				//Bone Index
+				_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+
+				uint32 stride = mesh->vertexBuffer->GetStride();
+				uint32 offset = mesh->vertexBuffer->GetOffset();
+
+				DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
+					&stride, &offset);
+				DC()->IASetIndexBuffer(mesh->indexBuffer->GetBuffer().Get(),
+					DXGI_FORMAT_R32_UINT, 0);
+				DC()->OMSetBlendState(nullptr, 0, -1);
+
+				_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
+			}
+		}
 	}
 }

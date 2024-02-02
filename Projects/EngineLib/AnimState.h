@@ -130,7 +130,6 @@ public:
 	virtual bool Out() override;
 };
 
-
 //
 //class PlayerAnimStun : public PlayerAnimState
 //{
@@ -242,10 +241,11 @@ protected:
 	weak_ptr<AIController>		_controller;
 	weak_ptr<ModelAnimator>		_animator;
 	weak_ptr<EnemyUnitState>	_state;
+	EnemyAnimType				_animType;
 public:
-	virtual bool Enter(const shared_ptr<AIController>& enemyController) {}
-	virtual bool Update() {}
-	virtual bool Out(const EnemyAnimType& animType) {}
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) { return false; }
+	virtual bool Update() { return false; }
+	virtual bool Out() { return false; }
 };
 
 class EnemyAnimStand : public EnemyAnimState
@@ -256,7 +256,7 @@ public:
 public:
 	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
 	virtual bool Update() override;
-	virtual bool Out(const EnemyAnimType& animType) override;
+	virtual bool Out() override;
 };
 
 class EnemyAnimWalk : public EnemyAnimState
@@ -267,7 +267,7 @@ public:
 public:
 	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
 	virtual bool Update() override;
-	virtual bool Out(const EnemyAnimType& animType) override;
+	virtual bool Out() override;
 };
 
 class EnemyAnimRun : public EnemyAnimState
@@ -278,6 +278,94 @@ public:
 public:
 	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
 	virtual bool Update() override;
-	virtual bool Out(const EnemyAnimType& animType) override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimDamaged : public EnemyAnimState
+{
+public:
+	EnemyAnimDamaged() {}
+	virtual ~EnemyAnimDamaged() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimDeath : public EnemyAnimState
+{
+public:
+	EnemyAnimDeath() {}
+	virtual ~EnemyAnimDeath() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimBattle : public EnemyAnimState
+{
+public:
+	EnemyAnimBattle() {}
+	virtual ~EnemyAnimBattle() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimAttack1 : public EnemyAnimState
+{
+public:
+	EnemyAnimAttack1() {}
+	virtual ~EnemyAnimAttack1() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimAttack2 : public EnemyAnimState
+{
+public:
+	EnemyAnimAttack2() {}
+	virtual ~EnemyAnimAttack2() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimCasting : public EnemyAnimState
+{
+public:
+	EnemyAnimCasting() {}
+	virtual ~EnemyAnimCasting() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimAbility1 : public EnemyAnimState
+{
+public:
+	EnemyAnimAbility1() {}
+	virtual ~EnemyAnimAbility1() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class EnemyAnimAbility2 : public EnemyAnimState
+{
+public:
+	EnemyAnimAbility2() {}
+	virtual ~EnemyAnimAbility2() {}
+public:
+	virtual bool Enter(const shared_ptr<AIController>& enemyController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
 };
 #pragma endregion

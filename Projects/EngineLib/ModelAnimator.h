@@ -35,7 +35,7 @@ private:
 	void CreateTexture();
 	void CreateAnimationTransform(uint32 index);
 public:
-	void SetModel(shared_ptr<Model> model) { _model = model; }
+	void SetModel(shared_ptr<Model> model);
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	const shared_ptr<Shader>& GetShader() const { return _shader; }
 	void SetPass(uint8 pass) { _pass = pass; }

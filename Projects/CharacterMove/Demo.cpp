@@ -131,9 +131,6 @@ void Demo::Update()
 	_shader->GetScalar("time")->SetFloat(dt);
 
 	{
-		_map->Update();
-	}
-	{
 		_warrior->FixedUpdate();
 		_warrior->Update();
 		_warrior->LateUpdate();
@@ -143,7 +140,9 @@ void Demo::Update()
 		_coreHound->Update();
 		_coreHound->LateUpdate();
 	}
-
+	{
+		_map->Update();
+	}
 
 
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
