@@ -61,5 +61,8 @@
     <FxCompile Include="..\..\Resources\Shader\Instancing.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Render.fx">
+      <Filter>Shader\Common</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -46,6 +46,8 @@ struct VertexTextureNormalTangent
     float2 uv : TEXCOORD;
     float3 normal : NORMAL;
     float3 tangent : TANGENT;
+    uint instanceID : SV_INSTANCEID;
+    matrix world : INST;
 };
 
 struct VertexTextureNormalTangentBlend
