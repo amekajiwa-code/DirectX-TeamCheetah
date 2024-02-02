@@ -8,7 +8,7 @@ void GameSessionManager::Add(GameSessionRef session)
 {
 	WRITE_LOCK;
 	//새 유저 등록
-	Player_INFO userInfo;
+	Player_INFO userInfo; 
 	userInfo._uid = sessionIdCount; //session에 배정된 id send
 	userInfo._pos = { 0.f, 0.f, 0.f };
 	userInfo._isOnline = true;
