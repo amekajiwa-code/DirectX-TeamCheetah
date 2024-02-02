@@ -42,7 +42,7 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
     float4 ambientColor = 0;
     float4 diffuseColor = 0;
     float4 specularColor = 0;
-    //float4 emissiveColor = 0;
+    float4 emissiveColor = 0;
     
     //Ambient
     {
@@ -71,20 +71,20 @@ float4 ComputeLight(float3 normal, float2 uv, float3 worldPosition)
     }
     
     ////Emissive
-    //{
-    //    float3 cameraPosition = CameraPosition();
-    //    float3 E = normalize(cameraPosition - worldPosition);
+    {
+        float3 cameraPosition = CameraPosition();
+        float3 E = normalize(cameraPosition - worldPosition);
 	
-    //    float value = saturate(dot(E, normal));
-    //    float emissive = 1.0f - value;
+        float value = saturate(dot(E, normal));
+        float emissive = 1.0f - value;
 
-    //    emissive = smoothstep(0.0f, 1.0f, emissive);
-    //    emissive = pow(emissive, 5);
+        emissive = smoothstep(0.0f, 1.0f, emissive);
+        emissive = pow(emissive, 5);
         
-    //    emissiveColor = GlobalLight.emissive * Material.emissive * emissive;
-    //}
+        emissiveColor = GlobalLight.emissive * Material.emissive * emissive;
+    }
     
-    return ambientColor + diffuseColor + specularColor;
+    return ambientColor + diffuseColor + specularColor + emissiveColor;
 };
 
 void ComputeNormalMapping(inout float3 normal, float3 tangent, float2 uv)
