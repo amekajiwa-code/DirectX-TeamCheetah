@@ -176,6 +176,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="AIController.h" />
     <ClInclude Include="AnimState.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CharacterController.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CGame.h" />
@@ -230,6 +231,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="AIController.cpp" />
     <ClCompile Include="AnimState.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CGame.cpp" />

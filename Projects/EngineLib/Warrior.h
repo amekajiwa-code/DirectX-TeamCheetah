@@ -9,13 +9,15 @@ class Warrior : public PlayableUnit
 {
 	using Super = PlayableUnit;
 private:
-	shared_ptr<GameObject>	_childCamera;
 	shared_ptr<PlayerController> _controller;
+	bool _isOtherPlayer = false;
 public:
 	Warrior();
 	virtual ~Warrior();
 protected:
 	virtual void CharacterInit() override;
+public:
+	void SetisOtherPlayer(bool isOther) { _isOtherPlayer = isOther; }
 public:
 	virtual void Awake() override;
 	virtual void Start() override;

@@ -1,4 +1,5 @@
 #pragma once
+#include "CharacterController.h"
 
 #pragma region Declaration
 class PlayerAnimState;
@@ -11,15 +12,9 @@ class PlayerAnimJumpEnd;
 class PlayerAnimJumpEndRun;
 #pragma endregion
 
-struct JumpFlag
-{
-	bool isJumpUP = false;
-	bool isJumpFall = false;
-	bool isJumEnd = false;
-	bool isJump = false;
-};
 
-class PlayerController : public MonoBehaviour, public enable_shared_from_this<PlayerController>
+
+class PlayerController : public CharacterController, public enable_shared_from_this<PlayerController>
 {
 public:
 	PlayerController();
@@ -74,6 +69,7 @@ public:
 	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const shared_ptr<PlayerUnitState>& GetCurrentUnitState() { return _currentState; }
+	const PlayerAnimType& GetCurrentAnimType();
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }

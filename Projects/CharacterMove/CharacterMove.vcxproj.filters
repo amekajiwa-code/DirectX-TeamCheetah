@@ -16,6 +16,9 @@
     <Filter Include="Scripts\Component">
       <UniqueIdentifier>{a9bcc220-f2c3-429f-ab45-248cc26ddb81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{69604ea8-069e-4b22-82db-f69b1a90b75d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -30,6 +33,13 @@
     <ClCompile Include="CameraMove.cpp">
       <Filter>Scripts\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -43,6 +53,16 @@
     </ClInclude>
     <ClInclude Include="CameraMove.h">
       <Filter>Scripts\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="SpawnManager.h" />
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

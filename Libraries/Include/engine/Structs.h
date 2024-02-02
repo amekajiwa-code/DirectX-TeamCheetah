@@ -133,6 +133,14 @@ struct InstancedTweenDesc
 	TweenDesc tweens[MAX_MODEL_INSTANCE];
 };
 
+struct JumpFlag
+{
+	bool isJumpUP = false;
+	bool isJumpFall = false;
+	bool isJumEnd = false;
+	bool isJump = false;
+};
+
 //Event Protocol
 struct EventArgs
 {

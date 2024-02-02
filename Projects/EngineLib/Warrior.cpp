@@ -15,17 +15,16 @@ Warrior::~Warrior()
 
 void Warrior::CharacterInit()
 {
-	_childCamera = make_shared<GameObject>();
 	_childModel = make_shared<GameObject>();
 
 	//Camera
 	{
-		_childCamera->Awake();
-		_childCamera->GetTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
-		_childCamera->AddComponent(make_shared<Camera>());
-		_childCamera->GetCamera()->SetCameraType(CameraType::Target);
-		_childCamera->Start();
-		_childCamera->SetName(L"Camera");
+		//_childCamera->Awake();
+		//_childCamera->GetTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
+		//_childCamera->AddComponent(make_shared<Camera>());
+		//_childCamera->GetCamera()->SetCameraType(CameraType::Target);
+		//_childCamera->Start();
+		//_childCamera->SetName(L"Camera");
 	}
 	//Character
 	{
@@ -64,9 +63,6 @@ void Warrior::CharacterInit()
 
 	SetName(L"Warrior");
 	AddChild(_childModel);
-	AddChild(_childCamera);
-	_controller = make_shared<PlayerController>();
-	AddComponent(_controller);
 	GetTransform()->SetScale(Vec3(0.1f));
 }
 

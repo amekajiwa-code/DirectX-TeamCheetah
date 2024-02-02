@@ -21,6 +21,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	 
 	delete game;
 	game = nullptr;
-
+	std::quick_exit(0);
 	return 0;
 }

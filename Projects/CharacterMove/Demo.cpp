@@ -81,19 +81,55 @@ void Demo::Init()
 		_map->GetTransform()->SetRotation(rot);
 	}
 
+	//Camera
+	{
+		_childCamera = make_shared<GameObject>();
+		_childCamera->Awake();
+		_childCamera->GetTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
+		_childCamera->AddComponent(make_shared<Camera>());
+		_childCamera->GetCamera()->SetCameraType(CameraType::Target);
+		_childCamera->Start();
+		_childCamera->SetName(L"Camera");
+	}
+
 	//Character
 	{
 		_warrior = make_shared<Warrior>();
 		_warrior->Awake();
+		_warrior->AddChild(_childCamera);
+		_warrior->AddComponent(make_shared<PlayerController>());
 		_warrior->Start();
 	}
 	//Enemy
 	{
-		_coreHound = make_shared<CoreHound>();
+		/*_coreHound = make_shared<CoreHound>();
 		_coreHound->Awake();
 		_coreHound->Start();
-		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 20));
+		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 20));*/
 	}
+#pragma region Client Thread
+	this_thread::sleep_for(250ms);
+
+	_service = MakeShared<ClientService>(
+		NetAddress(L"127.0.0.1", 7777),
+		MakeShared<IocpCore>(),
+		MakeShared<ServerSession>,
+		1);
+
+	ASSERT_CRASH(_service->Start());
+
+	for (int32 i = 0; i < 3; i++)
+	{
+		GThreadManager->Launch([=]()
+			{
+				while (true)
+				{
+					_service->GetIocpCore()->Dispatch();
+				}
+			}
+		);
+	}
+#pragma endregion Client Thread
 }
 
 void Demo::Update()
@@ -136,19 +172,48 @@ void Demo::Update()
 		_warrior->LateUpdate();
 	}
 	{
-		_coreHound->FixedUpdate();
+		/*_coreHound->FixedUpdate();
 		_coreHound->Update();
-		_coreHound->LateUpdate();
+		_coreHound->LateUpdate();*/
 	}
 	{
 		_map->Update();
 	}
 
-
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
 	{
 		Utils::ScreenShot(DC(), L"");
 	}
+
+	//SpawnManager
+	SpawnManager::GetInstance().Update();
+	//SendBuffer
+	Player_INFO sendInfo;
+	sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
+	sendInfo._pos = _warrior->GetTransform()->GetPosition();
+	sendInfo._isOnline = true;
+	sendInfo._animType = _warrior->GetComponent<PlayerController>()->GetCurrentAnimType();
+	sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
+	_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
+
+#pragma region Client Thread
+	//12분의1초 = 83.33ms
+	//30분의1초 = 33.33ms
+	//60분의1초 = 16.67ms
+
+	if (_threadTimer < 0.08333f)
+	{
+		_threadTimer += MANAGER_TIME()->GetDeltaTime();
+	}
+	else
+	{
+		if (_sendBuffer != nullptr)
+		{
+			_service->Broadcast(_sendBuffer);
+		}
+		_threadTimer = 0.0f;
+	}
+#pragma endregion Client Thread
 }
 
 void Demo::Render()

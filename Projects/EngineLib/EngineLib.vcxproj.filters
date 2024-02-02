@@ -208,6 +208,9 @@
     <ClInclude Include="InstancingBuffer.h">
       <Filter>01. Graphics\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterController.h">
+      <Filter>04. Component\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -357,6 +360,9 @@
     </ClCompile>
     <ClCompile Include="InstancingBuffer.cpp">
       <Filter>01. Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterController.cpp">
+      <Filter>04. Component\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

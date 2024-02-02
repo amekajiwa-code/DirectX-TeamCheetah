@@ -66,6 +66,14 @@ enum class ObjectType
 	End
 };
 
+enum class AIType
+{
+	None,
+	PlayableUnit,
+	EnemyUnit,
+	End
+};
+
 //Unit State
 enum class PlayerUnitState
 {

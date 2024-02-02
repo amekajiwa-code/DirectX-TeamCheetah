@@ -51,8 +51,8 @@ void PlayerController::CameraMove()
 			float deltaX = _currentMousePos.x - _prevMousePos.x;
 			float deltaY = _currentMousePos.y - _prevMousePos.y;
 
-			_camRot.x = ::XMConvertToRadians(deltaY) *10 * _dt;
-			_camRot.y = ::XMConvertToRadians(deltaX) *10 * _dt;
+			_camRot.x = ::XMConvertToRadians(deltaY) * 10 * _dt;
+			_camRot.y = ::XMConvertToRadians(deltaX) * 10 * _dt;
 
 			_camera.lock()->GetTransform()->RotateAround(_camRot);
 		}
@@ -128,6 +128,11 @@ bool PlayerController::SetAnimState(const PlayerAnimType& animType)
 	}
 
 	return false;
+}
+
+const PlayerAnimType& PlayerController::GetCurrentAnimType()
+{
+	return _animState->GetStateAnimtype();
 }
 
 void PlayerController::PlayerInput()
