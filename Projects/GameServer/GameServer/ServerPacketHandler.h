@@ -57,14 +57,21 @@ enum class PlayerUnitState
 	End
 };
 
+struct JumpFlag
+{
+	bool isJumpUP = false;
+	bool isJumpFall = false;
+	bool isJumEnd = false;
+	bool isJump = false;
+};
+
 struct CHARACTER_INFO
 {
 	//wstring _name;
 	//uint32 _hp;
 	//uint16 _atk;
 	uint16 _moveSpeed = 10.0f;
-	//uint16 _attackSpeed;
-	//uint16 _attackRange;
+	//float _attackRange;
 	uint16 _aggroLevel = 100;
 	DirectX::XMFLOAT3 _pos = { 0.f, 0.f, 0.f };
 	DirectX::XMFLOAT3 _Rotate = { 0.f, 0.f, 0.f };
@@ -78,6 +85,7 @@ struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid = 0;
 	bool _isOnline;
+	JumpFlag _jumpFlag;
 };
 
 struct MONSTER_INFO : public CHARACTER_INFO

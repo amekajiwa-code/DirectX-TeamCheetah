@@ -167,15 +167,11 @@ void Demo::Update()
 	_shader->GetScalar("time")->SetFloat(dt);
 
 	{
-		_warrior->FixedUpdate();
-		_warrior->Update();
-		_warrior->LateUpdate();
-	}
-	{
 		/*_coreHound->FixedUpdate();
 		_coreHound->Update();
 		_coreHound->LateUpdate();*/
 	}
+
 	{
 		_map->Update();
 	}
@@ -185,16 +181,23 @@ void Demo::Update()
 		Utils::ScreenShot(DC(), L"");
 	}
 
-	//SpawnManager
+	{
+		_warrior->FixedUpdate();
+		_warrior->Update();
+		_warrior->LateUpdate();
+		Player_INFO sendInfo;
+		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
+		sendInfo._pos = _warrior->GetTransform()->GetPosition();
+		sendInfo._isOnline = true;
+		sendInfo._animType = _warrior->GetComponent<PlayerController>()->GetCurrentAnimType();
+		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
+		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
+		//SendBuffer
+		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
+	}
+
 	SpawnManager::GetInstance().Update();
-	//SendBuffer
-	Player_INFO sendInfo;
-	sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
-	sendInfo._pos = _warrior->GetTransform()->GetPosition();
-	sendInfo._isOnline = true;
-	sendInfo._animType = _warrior->GetComponent<PlayerController>()->GetCurrentAnimType();
-	sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
-	_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms

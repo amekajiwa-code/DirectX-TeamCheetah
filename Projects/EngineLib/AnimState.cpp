@@ -107,7 +107,7 @@ bool PlayerAnimIdle::Update()
 		}break;
 		}
 	}
-	else if (_aiContoller.lock())
+	else if (_aiContoller.lock()) 
 	{
 		switch (*_playerState.lock())
 		{

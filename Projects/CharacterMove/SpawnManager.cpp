@@ -79,7 +79,12 @@ void SpawnManager::SpawnOtherPlayers()
 
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
-				it->second->GetComponent<AIController>()->SetAnimState(pair.second._animType);
+				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);
+				if (pair.second._jumpFlag.isJump)
+				{
+					cout << "sdgfd" << endl;
+				}
+				it->second->GetComponent<AIController>()->SetJumpState(pair.second._jumpFlag);
 			}
 		}
 		else

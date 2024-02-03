@@ -34,12 +34,14 @@ private:
 public:
 	bool SetAnimState(const PlayerAnimType& type);
 	bool SetAnimState(const EnemyAnimType& type);
+	void SetUnitState(const PlayerUnitState& state) { *_currentPlayerState = state; }
 	void SetAIType(AIType type) { _type = type; }
 public:
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
+	void SetJumpState(const JumpFlag& jumpFlag) { *_jumpState = jumpFlag; }
 public:
 	const shared_ptr<PlayerUnitState>& GetCurrentPlayerUnitState() { return _currentPlayerState; }
 	const shared_ptr<EnemyUnitState>& GetCurrentEnemyUnitState() { return _currentEnemyState; }

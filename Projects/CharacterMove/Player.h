@@ -5,6 +5,7 @@ struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid;
 	bool _isOnline = false;
+	JumpFlag _jumpFlag;
 };
 
 class Player : public Character

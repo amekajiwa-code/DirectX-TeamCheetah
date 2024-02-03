@@ -110,13 +110,14 @@ void AIController::Start()
 	{
 		_transform = GetGameObject()->GetTransform();
 		_animator = GetGameObject()->GetChildByName(L"Model")->GetModelAnimator();
+		_jumpState = make_shared<JumpFlag>();
 	}
 	switch (_type)
 	{
 	case AIType::PlayableUnit:
 	{
 		_currentPlayerState = make_shared<PlayerUnitState>();
-		*_currentPlayerState = PlayerUnitState::Stand;
+		*_currentPlayerState = PlayerUnitState::FrontMove;
 	}break;
 	case AIType::EnemyUnit:
 	{
@@ -137,10 +138,14 @@ void AIController::Update()
 	switch (_type)
 	{
 	case AIType::PlayableUnit:
+	{
 		_currentPlayerAnimState->Update();
+	}
 		break;
 	case AIType::EnemyUnit:
+	{
 		_currentEnemyAnimState->Update();
+	}
 		break;
 	}
 }

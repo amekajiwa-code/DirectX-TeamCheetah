@@ -9,8 +9,7 @@ struct CHARACTER_INFO
 	//uint32 _hp;
 	//uint16 _atk;
 	uint16 _moveSpeed = 10.0f;
-	//uint16 _attackSpeed;
-	//uint16 _attackRange;
+	//float _attackRange;
 	uint16 _aggroLevel = 100;
 	Vec3 _pos;
 	Vec3 _Rotate = { 0.f, 0.f, 0.f };
