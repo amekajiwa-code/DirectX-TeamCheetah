@@ -58,7 +58,7 @@ void GameSessionManager::GenerateMobList()
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> distribution(-100.0f, 100.0f);
 
-	for (int id = 0; id < 2; ++id)
+	for (int id = 0; id < 1; ++id)
 	{
 		MONSTER_INFO c0;
 
@@ -112,7 +112,7 @@ bool HasDifference(const DirectX::XMVECTOR& v1, const  DirectX::XMVECTOR& v2, fl
 
 //TODO: 범위안에 있는놈중 가장 가까운놈 타겟으로 삼기
 void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
-	float range = 50.0f;
+	float range = 30.0f;
 	float minDistance = FLT_MAX;
 	uint64 closestUserId = 0;
 	bool isFindTarget = false;
@@ -122,22 +122,25 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 	{
 		for (const auto& entry : _userInfoList) {
 			float distance = IsPlayerInRanger(entry.second._pos, chara->_pos);
-			if (distance <= 1.0f)
+			if (distance <= 10.0f)
 			{
-				//chara->_animState = PlayerAnimType::Stand;
 				chara->_isMove = false;
+				chara->_animState = EnemyUnitState::Attack;
 				//원래는 어택
 			}
-			else if (distance <= range && distance < minDistance) {
+			else if (10.0f <= distance <= range ) {
 				minDistance = distance;
 				closestUserId = entry.first;
 				isFindTarget = true;
 				chara->_isMove = true;
 			}
+			else
+			{
+				
+			}
 		}
 	}
 
-	chara->_targetPos = chara->_pos;
 
 	if ((isFindTarget) && (_userInfoList.find(closestUserId) != _userInfoList.end())) {
 		DirectX::XMVECTOR playerPos = DirectX::XMLoadFloat3(&_userInfoList[closestUserId]._pos);
@@ -164,10 +167,12 @@ void GameSessionManager::CalcNextPos(MONSTER_INFO* chara) {
 			chara->_targetPos = _userInfoList[closestUserId]._pos;
 			chara->_pos = chara->_targetPos;
 			chara->_Rotate = DirectX::XMFLOAT3(0.0f, angle, 0.0f);
+			//chara->_animState = EnemyUnitState::Run;
+		}
+		else
+		{
+			chara->_animState = EnemyUnitState::Stand;
 		}
 	}
-	else
-	{
-		//chara->_animState = PlayerAnimType::Stand;
-	}
+
 }

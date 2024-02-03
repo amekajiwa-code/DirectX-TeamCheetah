@@ -16,8 +16,6 @@ private:
 	float _defaultSpeed = 300.f;
 	float _currentSpeed = 300.f;
 	float _slowSpeed = 150.f;
-	bool _isBattle = false;
-	bool _isDamaged = false;
 	bool _isSlow = false;
 private:
 	//Player
@@ -35,6 +33,8 @@ public:
 	bool SetAnimState(const PlayerAnimType& type);
 	bool SetAnimState(const EnemyAnimType& type);
 	void SetUnitState(const PlayerUnitState& state) { *_currentPlayerState = state; }
+	void SetUnitState(const EnemyUnitState& state) { *_currentEnemyState = state; }
+
 	void SetAIType(AIType type) { _type = type; }
 public:
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }

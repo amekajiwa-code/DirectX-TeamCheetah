@@ -5,6 +5,7 @@ struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid;
 	bool _isOnline = false;
+	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
 };
 

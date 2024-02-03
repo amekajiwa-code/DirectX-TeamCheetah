@@ -13,8 +13,6 @@ struct CHARACTER_INFO
 	uint16 _aggroLevel = 100;
 	Vec3 _pos;
 	Vec3 _Rotate = { 0.f, 0.f, 0.f };
-	PlayerAnimType _animType = PlayerAnimType::Stand;
-	PlayerUnitState _animState = PlayerUnitState::Stand;
 	bool _isAlive = false;
 	double _timeStamp = 0.0f;
 };

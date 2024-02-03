@@ -2,6 +2,7 @@
 #include "SpawnManager.h"
 #include "engine\AIController.h"
 #include "engine/Warrior.h"
+#include "engine/CoreHound.h"
 
 using namespace std::chrono;
 
@@ -100,65 +101,70 @@ void SpawnManager::SpawnMonster(uint64 uid, Vec3 spawnPos)
 {
 #pragma region Initialize
 	shared_ptr<Shader> _shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
+
+	shared_ptr<CoreHound> _chr = make_shared<CoreHound>();
+	_chr->Awake();
+	_aiCon = make_shared<AIController>();
+	_aiCon->SetAIType(AIType::EnemyUnit);
+	_chr->AddComponent(_aiCon);
+	_chr->Start();
+	_chr->GetTransform()->SetLocalPosition(spawnPos);
+
+	_monsters.insert(std::make_pair(uid, _chr)); //map에 모델과 식별id 추가
 #pragma endregion
 }
 
 void SpawnManager::SpawnMonsters()
 {
-	//for (const auto& pair : ClientPacketHandler::Instance().GetMobInfoList()) {
-	//	//다른플레이어 위치 동기화
-	//	auto it = _monsters.find(pair.first);
-	//	// it : first : uint64 / second : shared_ptr<LSkinningModel>
-	//	if (it != _monsters.end())
-	//	{
-	//		// 다른플레이어가 이미 있다.
-	//		if (pair.second._isAlive == false)
-	//		{
-	//			_monsters.erase(it);
-	//			ClientPacketHandler::Instance().EraseMonster(pair.first);
-	//			//주의 : 이거 삭제한 이후로 얘 건들면 nullptr 뜰걸로 예상됨
-	//		}
-	//		else
-	//		{
-	//			// 보간을 위한 시간 계산 (0.0에서 1.0 사이의 값)
-	//			auto calcTime = high_resolution_clock::now() - seconds(static_cast<int>(pair.second._timeStamp));
-	//			auto durationSec = duration_cast<duration<double>>(calcTime.time_since_epoch()).count();
-	//			double alpha = fmin(1.0, durationSec / 1.0);
-	//			Vec3 target = pair.second._targetPos;
-	//			Vec3 pos = it->second->GetTransform()->GetPosition();
-	//			Vec3 rot = it->second->GetTransform()->GetLocalRotation();
+	for (const auto& pair : ClientPacketHandler::Instance().GetMobInfoList()) {
+		auto it = _monsters.find(pair.first);
 
-	//			Vec3 direction = target - pos;
-	//			pos += interpolate(alpha, Vec3{ direction.x, 0.0f, direction.z }, Vec3(0.0f, 0.0f, 0.0f)) * MANAGER_TIME()->GetDeltaTime();
+		if (it != _monsters.end())
+		{
+			if (pair.second._isAlive == false)
+			{
+				_monsters.erase(it);
+				ClientPacketHandler::Instance().EraseMonster(pair.first);
+				//주의 : 이거 삭제한 이후로 얘 건들면 nullptr 뜰걸로 예상됨
+			}
+			else
+			{
+				// 보간을 위한 시간 계산 (0.0에서 1.0 사이의 값)
+				auto calcTime = high_resolution_clock::now() - seconds(static_cast<int>(pair.second._timeStamp));
+				auto durationSec = duration_cast<duration<double>>(calcTime.time_since_epoch()).count();
+				double alpha = fmin(1.0, durationSec / 1.0);
+				Vec3 target = pair.second._pos;
+				Vec3 pos = it->second->GetTransform()->GetPosition();
+				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
-	//			//회전 보간 계산
-	//			Vec3 targetRot = pair.second._Rotate;
-	//			Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
-	//			Quaternion endRotation = Quaternion::CreateFromYawPitchRoll(targetRot.y, 0.0f, 0.0f);
-	//			Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
-	//			rot.y = QuatToEulerAngleY(calcRot);
+				Vec3 direction = target - pos;
+				pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * MANAGER_TIME()->GetDeltaTime();
 
-	//			if (pair.second._isMove)
-	//			{
-	//				it->second->GetTransform()->SetPosition(pos);
-	//			}
-	//			it->second->GetTransform()->SetLocalRotation(targetRot);
-	//			it->second->GetComponent<AIController>()->SetAnimState(pair.second._animState);
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//다른플레이어 처음 등장시 스폰
-	//		SpawnMonster(pair.first, pair.second._pos);
-	//		cout << "find not key, new monster spawn" << endl;
-	//	}
-	//}
+				//회전 보간 계산
+				Vec3 targetRot = pair.second._Rotate;
+				Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
+				Quaternion endRotation = Quaternion::CreateFromYawPitchRoll(targetRot.y, 0.0f, 0.0f);
+				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
+				rot.y = QuatToEulerAngleY(calcRot);
+
+				it->second->GetTransform()->SetPosition(pos);
+				it->second->GetTransform()->SetLocalRotation(targetRot);
+				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);
+			}
+		}
+		else
+		{
+			//다른플레이어 처음 등장시 스폰
+			SpawnMonster(pair.first, pair.second._pos);
+			cout << "find not key, new player spawn" << endl;
+		}
+	}
 }
 
 void SpawnManager::Update()
 {
 	SpawnOtherPlayers();
-	//SpawnMonsters();
+	SpawnMonsters();
 
 	if (_otherPlayers.empty() == false)
 	{
@@ -171,7 +177,7 @@ void SpawnManager::Update()
 		}
 	}
 
-	/*if (_monsters.empty() == false)
+	if (_monsters.empty() == false)
 	{
 		for (const auto& pair : _monsters)
 		{
@@ -179,5 +185,5 @@ void SpawnManager::Update()
 			pair.second->Update();
 			pair.second->LateUpdate();
 		}
-	}*/
+	}
 }

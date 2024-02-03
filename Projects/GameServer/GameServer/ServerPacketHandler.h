@@ -11,29 +11,6 @@ enum
 	PACKET_DISCONNECT = 99,
 };
 
-enum class PlayerAnimType
-{
-	Stand,
-	FrontWalk,
-	BackWalk,
-	FrontRun,
-	BackRun,
-	JumpStart,
-	JumpFall,
-	JumpEnd,
-	JumpEndRun,
-	Stun,
-	Loot,
-	Death,
-	Battle,
-	Attack1,
-	Attack2,
-	Casting,
-	Ability1,
-	Ability2,
-	None
-};
-
 enum class PlayerUnitState
 {
 	None,
@@ -49,6 +26,21 @@ enum class PlayerUnitState
 	Jump,
 	Stun,
 	Loot,
+	Death,
+	Battle,
+	Attack,
+	Ability1,
+	Ability2,
+	End
+};
+
+enum class EnemyUnitState
+{
+	None,
+	Stand,
+	Walk,
+	Run,
+	Damaged,
 	Death,
 	Battle,
 	Attack,
@@ -75,8 +67,6 @@ struct CHARACTER_INFO
 	uint16 _aggroLevel = 100;
 	DirectX::XMFLOAT3 _pos = { 0.f, 0.f, 0.f };
 	DirectX::XMFLOAT3 _Rotate = { 0.f, 0.f, 0.f };
-	PlayerAnimType _animType = PlayerAnimType::Stand;
-	PlayerUnitState _animState = PlayerUnitState::Stand;
 	bool _isAlive = true;
 	double _timeStamp = 0.0f;
 };
@@ -85,6 +75,7 @@ struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid = 0;
 	bool _isOnline;
+	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
 };
 
@@ -93,6 +84,7 @@ struct MONSTER_INFO : public CHARACTER_INFO
 	uint64 _instanceId = 0;
 	DirectX::XMFLOAT3 _targetPos = { 0.f, 0.f, 0.f };
 	bool _isMove = false;
+	EnemyUnitState _animState = EnemyUnitState::Stand;
 };
 
 class ServerPacketHandler

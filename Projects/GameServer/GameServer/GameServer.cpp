@@ -37,7 +37,7 @@ int main()
 		for (auto pair : GSessionManager.GetMobInfoList()) {
 			GSessionManager.CalcNextPos(&pair.second);
 			GSessionManager.UpdateMobInfo(pair.second);
-			//cout << "pos: " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << endl;
+			cout << "pos: " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << endl;
 		}
 
 		SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());

@@ -1031,7 +1031,6 @@ bool PlayerAnimJumpFall::Enter(const shared_ptr<CharacterController>& playerCont
 		_animator = _aiContoller.lock()->GetAnimator();
 		_playerState = _aiContoller.lock()->GetCurrentPlayerUnitState();
 		_jumpState = _aiContoller.lock()->GetJumpState();
-
 	}
 
 	_stateAnim = PlayerAnimType::JumpFall;
@@ -1559,6 +1558,11 @@ bool EnemyAnimStand::Update()
 			_controller.lock()->SetAnimState(EnemyAnimType::Battle);
 			return true;
 		}break;
+		case EnemyUnitState::Attack:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Attack1);
+			return true;
+		}break;
 		}
 	}
 
@@ -1798,6 +1802,20 @@ bool EnemyAnimDeath::Out()
 
 bool EnemyAnimBattle::Enter(const shared_ptr<CharacterController>& enemyController)
 {
+	_controller = dynamic_pointer_cast<AIController>(enemyController);
+
+	if (_controller.lock())
+	{
+		_animator = _controller.lock()->GetAnimator();
+		_state = _controller.lock()->GetCurrentEnemyUnitState();
+		_animType = EnemyAnimType::Battle;
+
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"Battle");
+
+		return true;
+	}
+
 	return false;
 }
 
@@ -1829,6 +1847,7 @@ bool EnemyAnimBattle::Update()
 		}break;
 		case EnemyUnitState::Attack:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Attack1);
 			return true;
 		}break;
 		case EnemyUnitState::Ability1:
@@ -1852,11 +1871,61 @@ bool EnemyAnimBattle::Out()
 
 bool EnemyAnimAttack1::Enter(const shared_ptr<CharacterController>& enemyController)
 {
+	_controller = dynamic_pointer_cast<AIController>(enemyController);
+
+	if (_controller.lock())
+	{
+		_animator = _controller.lock()->GetAnimator();
+		_state = _controller.lock()->GetCurrentEnemyUnitState();
+		_animType = EnemyAnimType::Attack1;
+
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"Attack1");
+		return true;
+	}
+
 	return false;
 }
 
 bool EnemyAnimAttack1::Update()
 {
+	if (_controller.lock())
+	{
+		switch (*_state.lock())
+		{
+		case EnemyUnitState::Stand:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Stand);
+			return true;
+		}break;
+		case EnemyUnitState::Walk:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Walk);
+			return true;
+		}break;
+		case EnemyUnitState::Run:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Run);
+			return true;
+		}break;
+		case EnemyUnitState::Damaged:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Damaged);
+			return true;
+		}break;
+		case EnemyUnitState::Death:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Death);
+			return true;
+		}break;
+		case EnemyUnitState::Battle:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Battle);
+			return true;
+		}break;
+		}
+	}
+
 	return false;
 }
 

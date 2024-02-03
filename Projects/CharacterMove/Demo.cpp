@@ -100,13 +100,6 @@ void Demo::Init()
 		_warrior->AddComponent(make_shared<PlayerController>());
 		_warrior->Start();
 	}
-	//Enemy
-	{
-		/*_coreHound = make_shared<CoreHound>();
-		_coreHound->Awake();
-		_coreHound->Start();
-		_coreHound->GetTransform()->SetLocalPosition(Vec3(0, 0, 20));*/
-	}
 #pragma region Client Thread
 	this_thread::sleep_for(250ms);
 
@@ -167,12 +160,6 @@ void Demo::Update()
 	_shader->GetScalar("time")->SetFloat(dt);
 
 	{
-		/*_coreHound->FixedUpdate();
-		_coreHound->Update();
-		_coreHound->LateUpdate();*/
-	}
-
-	{
 		_map->Update();
 	}
 
@@ -189,7 +176,6 @@ void Demo::Update()
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
-		sendInfo._animType = _warrior->GetComponent<PlayerController>()->GetCurrentAnimType();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
