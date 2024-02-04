@@ -147,3 +147,7 @@ struct EventArgs
 	std::weak_ptr<GameObject> _sender;
 	DWORD _protocol;
 };
+
+struct ShadowDesc {
+	Matrix mat;
+};

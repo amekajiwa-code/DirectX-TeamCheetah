@@ -13,8 +13,10 @@ void CGame::Update()
 	ShowFps();
 
 	GRAPHICS()->RenderBegin();
-	_desc.App->Update();
-	_desc.App->Render();
+
+	MANAGER_SCENE()->Update();
+	//_desc.App->Update();
+	//_desc.App->Render();
 	GRAPHICS()->RenderEnd();
 }
 

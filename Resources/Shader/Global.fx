@@ -15,6 +15,10 @@ cbuffer TransformBuffer
     matrix W;
 };
 
+cbuffer ShadowBuffer
+{
+    matrix matShadow;
+};
 //VertexData//
 struct Vertex
 {
@@ -79,6 +83,20 @@ struct MeshOutput
     float3 tangent : TANGENT;
 };
 
+struct ShadowOutput
+{
+    float4 position : SV_POSITION;
+    float3 worldPosition : POSITION1;
+    float2 uv : TEXCOORD0;
+    float3 normal : NORMAL;
+    float3 tangent : TANGENT;
+    float4 texShadow : TEXCOORD1;
+};
+struct ShadowDepthOutPut
+{
+    float4 position : SV_POSITION;
+    float2 d : TEXCOORD0;
+};
 //SamplerState//
 SamplerState LinearSampler
 {
@@ -94,12 +112,71 @@ SamplerState PointSampler
     AddressV = Wrap;
 };
 
+SamplerState ClampLinearSampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
+    AddressW = Clamp;
+};
+
+SamplerState ShadowSampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Border;
+    AddressV = Border;
+    AddressW = Border;
+    ComparisonFunc = LESS;
+};
+//Ra
 //RasterizerState//
 RasterizerState FillModeWireFrame
 {
     FillMode = WireFrame;
 };
+RasterizerState ShadowRaster
+{
+    DepthClipEnable = true;
+    ScissorEnable = false;
+    FillMode = Solid;
+    CullMode = Back;
+    FillMode = SOLID;
+    CullMode = BACK;
+    DepthBias = 30000;
+    DepthBiasClamp = 3.0f;
+    SlopeScaledDepthBias = 1.0f;
+};
+RasterizerState MollaRaster
+{
+    DepthClipEnable = true;
+    ScissorEnable = false;
+    FillMode = Solid;
+    CullMode = Back;
+};
+RasterizerState FrontCounterClockwiseTrue
+{
+    FrontCounterClockwise = true;
+}; 
+//DepthStencilState//
+DepthStencilState ShadowDepth
+{
+    DepthEnable = true;
+    DepthWriteMask = ALL;
+    DepthFunc = LESS_EQUAL;
+    StencilEnable = false;
+    StencilReadMask = 1;
+    StencilWriteMask = 1;
+    FrontFaceStencilFunc = ALWAYS;
+    FrontFaceStencilFail = INCR;
+    FrontFaceStencilDepthFail = KEEP;
+    FrontFaceStencilPass = KEEP;
 
+    BackFaceStencilFail = KEEP;
+    BackFaceStencilDepthFail = KEEP;
+    BackFaceStencilPass = KEEP;
+    BackFaceStencilFunc = ALWAYS;
+
+};
 //Macro//
 
 #define PASS_VP(name, vs, ps)						\
@@ -116,7 +193,22 @@ pass name											\
     SetVertexShader(CompileShader(vs_5_0, vs()));	\
     SetPixelShader(CompileShader(ps_5_0, ps()));	\
 }                                                  
+#define PASS_RS_SP(name, rs, vs, ps)				\
+pass name											\
+{													\
+    SetRasterizerState(rs);							\
+    SetDepthStencilState(ShadowDepth,false);        \
+    SetVertexShader(CompileShader(vs_5_0, vs()));	\
+    SetPixelShader(CompileShader(ps_5_0, ps()));	\
+}                                                   \
 
+#define PASS_RS_DS_VP(name, rs, vs,ps)				\
+pass name											\
+{													\
+    SetRasterizerState(rs);							\
+    SetVertexShader(CompileShader(vs_5_0, vs()));	\
+    SetPixelShader(CompileShader(ps_5_0, ps()));	\
+}                                                   \
 //Function//
 float3 CameraPosition()
 {

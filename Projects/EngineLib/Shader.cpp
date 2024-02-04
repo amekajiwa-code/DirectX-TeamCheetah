@@ -427,3 +427,17 @@ void Shader::PushTweenData(const InstancedTweenDesc& desc)
 	_tweenInstanceBuffer->CopyData(_tweenInstanceDesc);
 	_tweenInstanceEffectBuffer->SetConstantBuffer(_tweenBuffer->GetBuffer().Get());
 }
+
+void Shader::PushShadowData(const ShadowDesc& desc)
+{
+	if (_shadowEffectBuffer == nullptr)
+	{
+		_shadowBuffer = make_shared<ConstantBuffer<ShadowDesc>>();
+		_shadowBuffer->CreateConstantBuffer();
+		_shadowEffectBuffer = GetConstantBuffer("ShadowBuffer");
+	}
+
+	_shadowDesc = desc;
+	_shadowBuffer->CopyData(_shadowDesc);
+	_shadowEffectBuffer->SetConstantBuffer(_shadowBuffer->GetBuffer().Get());
+}

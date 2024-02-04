@@ -88,6 +88,11 @@ private:
 	InstancedTweenDesc _tweenInstanceDesc;
 	shared_ptr<ConstantBuffer<InstancedTweenDesc>> _tweenInstanceBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> _tweenInstanceEffectBuffer;
+private:
+	ShadowDesc _shadowDesc;
+	shared_ptr<ConstantBuffer<ShadowDesc>> _shadowBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> _shadowEffectBuffer;
+
 public:
 	void PushGlobalData(const Matrix& view, const Matrix& projection);
 	void PushTransformData(const TransformDesc& desc);
@@ -97,6 +102,7 @@ public:
 	void PushKeyframeData(const KeyframeDesc& desc);
 	void PushTweenData(const TweenDesc& desc);
 	void PushTweenData(const InstancedTweenDesc& desc);
+	void PushShadowData(const ShadowDesc& desc);
 };
 
 class ShaderManager

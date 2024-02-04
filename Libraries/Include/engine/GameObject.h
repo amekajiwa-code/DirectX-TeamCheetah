@@ -29,6 +29,8 @@ public:
 	shared_ptr<MeshRenderer>	GetMeshRenderer();
 	shared_ptr<ModelRenderer>	GetModelRenderer();
 	shared_ptr<ModelAnimator>	GetModelAnimator();
+	shared_ptr<Transform>		GetOrAddTransform();
+	shared_ptr<Light> GetLight();
 public:
 	void SetActive(bool active);
 	bool GetActive() { return _isActive; }

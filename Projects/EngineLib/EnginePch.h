@@ -197,3 +197,5 @@ extern CGameDesc g_gameDesc;
 //GameObject
 #include "GameObject.h"
 
+//Terrain
+#include "Terrain.h"

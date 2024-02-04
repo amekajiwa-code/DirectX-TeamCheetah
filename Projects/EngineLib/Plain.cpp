@@ -62,14 +62,14 @@ float Plain::GetHeightofVertex(UINT vertexIndex)
 	return 0.0f;
 }
 
-Vector3 Plain::GetNormalofVertex(UINT vertexIndex)
+Vec3 Plain::GetNormalofVertex(UINT vertexIndex)
 {
-	return Vector3(0,1,0);
+	return Vec3(0,1,0);
 }
 
-Vector4 Plain::GetColorOfVertex(UINT vertexindex)
+Vec4 Plain::GetColorOfVertex(UINT vertexindex)
 {
-	return Vector4(1,1,1,1);
+	return Vec4(1,1,1,1);
 }
 
 

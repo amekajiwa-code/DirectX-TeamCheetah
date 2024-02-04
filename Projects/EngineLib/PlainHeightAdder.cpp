@@ -69,7 +69,7 @@ shared_ptr<Plain> PlainHeightAdder::Set(HeightPlainInfo plainInfo)
 				{
 					UINT colStart = col * 4;
 					UINT uRed = pTexels[rowStart + colStart + 0];
-					//const_cast<std::vector<VertexTextureNormalTangentData>&>(geoVertices)[row * heightDesc.Width + col].position.y = (float)uRed;	/// DWORD이므로 pitch/4	
+					//const_cast<std::Vec<VertexTextureNormalTangentData>&>(geoVertices)[row * heightDesc.Width + col].position.y = (float)uRed;	/// DWORD이므로 pitch/4	
 					heightList[row * heightDesc.Width + col] =uRed;	/// DWORD이므로 pitch/4	
 				}
 			}
@@ -89,13 +89,13 @@ shared_ptr<Plain> PlainHeightAdder::Set(HeightPlainInfo plainInfo)
 	}
 	auto refIndexList = _geo->GetIndices();
 	for (int j = 0; j < refIndexList.size(); j += 3) {
-		Vector3 p1 = geoVertices[refIndexList[j + 0]].position;
-		Vector3 p2 = geoVertices[refIndexList[j + 1]].position;
-		Vector3 p0 = geoVertices[refIndexList[j + 2]].position;
+		Vec3 p1 = geoVertices[refIndexList[j + 0]].position;
+		Vec3 p2 = geoVertices[refIndexList[j + 1]].position;
+		Vec3 p0 = geoVertices[refIndexList[j + 2]].position;
 
-		Vector3 e1 = p1 - p0;
-		Vector3 e2 = p2 - p0;
-		Vector3 normal =e1.Cross(e2);
+		Vec3 e1 = p1 - p0;
+		Vec3 e2 = p2 - p0;
+		Vec3 normal =e1.Cross(e2);
 		normal.Normalize();
 		const_cast<PlainVector&>(geoVertices)[refIndexList[j + 0]].normal += normal;
 		const_cast<PlainVector&>(geoVertices)[refIndexList[j + 1]].normal += normal;

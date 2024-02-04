@@ -13,6 +13,7 @@ public:
 	void CreateQuad();
 	void CreateCube();
 	void CreateGrid(int32 sizeX, int32 sizeZ);
+	void CreateGridWithDistance(int32 sizeX, int32 sizeZ, float distance);
 	void CreateSphere();
 
 	shared_ptr<VertexBuffer> GetVertexBuffer() { return _vertexBuffer; }
@@ -27,5 +28,17 @@ private:
 
 	shared_ptr<VertexBuffer> _vertexBuffer;
 	shared_ptr<IndexBuffer> _indexBuffer;
+
+public:
+	inline shared_ptr<Geometry<VertexTextureNormalTangentData>> GetGeo() {
+		return _geometry;
+	}
+	inline void SetGeoMetry(shared_ptr<Geometry<VertexTextureNormalTangentData>> _geo) {
+		_geometry = _geo;
+	};
+	void SetGeoMetryAndCreateBuffer(shared_ptr<Geometry<VertexTextureNormalTangentData>> _geo) {
+		_geometry = _geo;
+		CreateBuffers();
+	}
 };
 
