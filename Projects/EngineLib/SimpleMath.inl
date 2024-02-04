@@ -813,11 +813,7 @@ inline Vector3 Vector3::operator- () const noexcept
 // Binary operators
 //------------------------------------------------------------------------------
 
-inline Vector3 operator+ (const 
-    
-    
-    
-    & V1, const Vector3& V2) noexcept
+inline Vector3 operator+ (const Vector3& V1, const Vector3& V2) noexcept
 {
     using namespace DirectX;
     XMVECTOR v1 = XMLoadFloat3(&V1);
