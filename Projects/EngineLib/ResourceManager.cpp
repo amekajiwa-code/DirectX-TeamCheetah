@@ -33,6 +33,18 @@ shared_ptr<Texture> ResourceManager::GetOrAddTexture(const wstring& key, const w
 
 void ResourceManager::CreateDefaultTexture()
 {
+	{
+		shared_ptr<Texture> texture = make_shared<Texture>();
+		texture->CreateTexture(L"..\\..\\Resources\\Texture\\NormalAlpha.png");
+		AddResource(L"DefaultNormal", texture);
+
+	}
+	{
+		shared_ptr<Texture> texture = make_shared<Texture>();
+		texture->CreateTexture(L"..\\..\\Resources\\Texture\\SpecularNormal.png");
+		AddResource(L"DefaultSpecular", texture);
+
+	}
 }
 
 void ResourceManager::CreateDefaultMesh()
@@ -68,7 +80,7 @@ void ResourceManager::CreateDefaultAnimation()
 
 void ResourceManager::Init()
 {
-	//CreateDefaultTexture();
+	CreateDefaultTexture();
 	CreateDefaultMesh();
 	//CreateDefaultShader();
 	//CreateDefaultMaterial();

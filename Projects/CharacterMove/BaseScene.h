@@ -21,7 +21,6 @@ class Unit;
 
 class BaseScene : public Scene
 {
-public:
 	//Map
 	shared_ptr<FrustomCamera> frustom;
 	//obj

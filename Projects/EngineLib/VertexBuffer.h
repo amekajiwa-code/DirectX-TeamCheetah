@@ -31,9 +31,23 @@ public:
 		_stride = sizeof(T);
 		_count = static_cast<uint32>(vertices.size());
 
+		//D3D11_BUFFER_DESC desc;
+		//ZeroMemory(&desc, sizeof(desc));
+		//desc.Usage = D3D11_USAGE_IMMUTABLE;
+		//desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		//desc.ByteWidth = (uint32)(_stride * _count);
+
+		//D3D11_SUBRESOURCE_DATA data;
+		//ZeroMemory(&data, sizeof(data));
+		//data.pSysMem = vertices.data();
+
+		//HRESULT hr = _device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
+		//CHECK(hr);
+
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(desc));
-		desc.Usage = D3D11_USAGE_IMMUTABLE;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		desc.ByteWidth = (uint32)(_stride * _count);
 

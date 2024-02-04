@@ -51,6 +51,5 @@ float4 PS(SkyOutput input) : SV_TARGET
 
 technique11 T0
 {
-	
 	PASS_RS_VP(P0,FrontCounterClockwiseTrue, VS, PS)
 };

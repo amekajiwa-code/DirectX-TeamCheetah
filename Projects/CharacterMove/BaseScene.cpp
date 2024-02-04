@@ -6,28 +6,12 @@
 #include "LayerSplatter.h"
 #include "HeightGetter.h"
 #include "engine\Utils.h"
-#include "..\EngineLib\PlainHeightAdder.h"
 #include "CameraMove.h"
 #include "engine\Utils.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
 
 SendBufferRef GsendBuffer;
-
-bool HasDifference(const Vec3& v1, const Vec3& v2, float tolerance = 0.0001f) {
-	// 부동 소수점 비교를 위해 허용 가능한 오차 범위를 지정
-	auto floatEquals = [tolerance](float a, float b) {
-		return std::fabs(a - b) < tolerance;
-		};
-
-	// x, y, z 중에서 1.0f 이라도 차이가 나면 true를 반환
-	if (!floatEquals(v1.x, v2.x) || !floatEquals(v1.y, v2.y) || !floatEquals(v1.z, v2.z)) {
-		return true;
-	}
-
-	// 모든 차이가 허용 가능한 오차 범위 내에 있으면 false 반환
-	return false;
-}
 
 void BaseScene::Init()
 {
@@ -143,7 +127,7 @@ void BaseScene::Init()
 		_childCamera->AddComponent(frustom);
 		_childCamera->Start();
 		_childCamera->SetName(L"Camera");
-		MANAGER_SCENE()->GetCurrentScene()->Add(_camera);
+		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
 
 	//Character
@@ -156,13 +140,13 @@ void BaseScene::Init()
 	}
 
 
-	MANAGER_RESOURCES()->Init();
-	_shader = make_shared<Shader>( L"NormalMapping.fx");
-	MANAGER_RESOURCES()->AddResource<Shader>(L"Default", _shader);
-	_shader = make_shared<Shader>(L"23. RenderDemo.fx");
+	//MANAGER_RESOURCES()->Init();
+	//_shader = make_shared<Shader>( L"NormalMapping.fx");
+	//MANAGER_RESOURCES()->AddResource<Shader>(L"Default", _shader);
+	//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
 
-	_shader = make_shared<Shader>(L"GameObject.fx");
-	MANAGER_RESOURCES()->AddResource<Shader>(L"GameObj", _shader);
+	//_shader = make_shared<Shader>(L"GameObject.fx");
+	//MANAGER_RESOURCES()->AddResource<Shader>(L"GameObj", _shader);
 
 	{
 		

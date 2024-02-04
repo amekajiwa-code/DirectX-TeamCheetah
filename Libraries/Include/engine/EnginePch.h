@@ -199,4 +199,3 @@ extern CGameDesc g_gameDesc;
 
 //Terrain
 #include "Terrain.h"
-#include "SimpleMath.h"

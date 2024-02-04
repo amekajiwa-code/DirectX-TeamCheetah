@@ -1,6 +1,8 @@
 #ifndef _GLOBAL_FX
 #define _GLOBAL_FX
 
+#define SMAP_SIZE 4096
+#define SHADOW_EPSILON 0.005f
 //ConstantBuffer//
 cbuffer GlobalBuffer
 {
