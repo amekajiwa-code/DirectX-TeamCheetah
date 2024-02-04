@@ -39,6 +39,15 @@ void Mesh::CreateGrid(int32 sizeX, int32 sizeZ)
 	CreateBuffers();
 }
 
+void Mesh::CreateGridWithDistance(int32 sizeX, int32 sizeZ, float distance)
+{
+	//_geometry = make_shared<Geometry<VertexTextureNormalData>>();
+	_geometry = make_shared<Geometry<VertexTextureNormalTangentData>>();
+
+	GeometryHelper::CreateGridWithDistance(_geometry, sizeX, sizeZ, distance);
+	CreateBuffers();
+}
+
 void Mesh::CreateSphere()
 {
 	//_geometry = make_shared<Geometry<VertexTextureNormalData>>();

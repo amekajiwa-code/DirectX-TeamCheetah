@@ -60,6 +60,23 @@ shared_ptr<ModelAnimator> GameObject::GetModelAnimator()
 	return dynamic_pointer_cast<ModelAnimator>(com);
 }
 
+std::shared_ptr<Transform> GameObject::GetOrAddTransform()
+{
+	if (GetTransform() == nullptr)
+	{
+		shared_ptr<Transform> transform = make_shared<Transform>();
+		AddComponent(transform);
+	}
+
+	return GetTransform();
+}
+
+std::shared_ptr<Light> GameObject::GetLight()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::Light);
+	return static_pointer_cast<Light>(component);
+}
+
 void GameObject::SetActive(bool active)
 {
 	if (_isActive == false )

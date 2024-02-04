@@ -59,6 +59,7 @@
 //Default
 #include "Types.h"
 #include "Structs.h"
+#include "CollisionData.h"
 
 //STL
 #include <iostream>
@@ -71,6 +72,7 @@
 #include <algorithm>
 #include <type_traits>
 #include <typeinfo>
+#include <unordered_set>
 
 using namespace std;
 
@@ -162,6 +164,7 @@ extern CGameDesc g_gameDesc;
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
 #include "InstancingManager.h"
 
 //Global Macro
@@ -170,6 +173,7 @@ extern CGameDesc g_gameDesc;
 #define MANAGER_RESOURCES() ResourceManager::GetInstance()
 #define MANAGER_RENDERER() RenderManager::GetInstance()
 #define MANAGER_INSTANCING() InstancingManager::GetInstance()
+#define MANAGER_SCENE()		SceneManager::GetInstance()
 
 //Components
 #include "Component.h"
@@ -188,6 +192,7 @@ extern CGameDesc g_gameDesc;
 #include "Mesh.h"
 #include "Material.h"
 #include "Model.h"
+#include "Light.h"
 
 //GameObject
 #include "GameObject.h"

@@ -177,6 +177,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="AnimState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CharacterController.h" />
+    <ClInclude Include="CollisionData.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CGame.h" />
@@ -184,6 +185,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="EnemyUnit.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="FrustomCamera.h" />
     <ClInclude Include="GameFactory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geometry.h" />
@@ -207,15 +209,21 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="MonoBehaviour.h" />
     <ClInclude Include="Pass.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Plain.h" />
+    <ClInclude Include="PlainHeightAdder.h" />
     <ClInclude Include="PlayableUnit.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Technique.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="tinyxml2.h" />
@@ -238,6 +246,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="CoreHound.cpp" />
     <ClCompile Include="EnemyUnit.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="FrustomCamera.cpp" />
     <ClCompile Include="GameFactory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -266,15 +275,21 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Plain.cpp" />
+    <ClCompile Include="PlainHeightAdder.cpp" />
     <ClCompile Include="PlayableUnit.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Structs.cpp" />
     <ClCompile Include="Technique.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="tinyxml2.cpp">

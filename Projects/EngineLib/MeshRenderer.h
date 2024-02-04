@@ -29,5 +29,8 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
+public:
+	Matrix ShadowUpdate();
+	void LegacyUpdate();
 };
 

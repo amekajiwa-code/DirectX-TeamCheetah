@@ -211,6 +211,30 @@
     <ClInclude Include="CharacterController.h">
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Plain.h">
+      <Filter>04. Component\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PlainHeightAdder.h">
+      <Filter>04. Component\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="FrustomCamera.h">
+      <Filter>04. Component\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionData.h">
+      <Filter>05. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>00. Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>01. Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -363,6 +387,27 @@
     </ClCompile>
     <ClCompile Include="CharacterController.cpp">
       <Filter>04. Component\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Plain.cpp">
+      <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PlainHeightAdder.cpp">
+      <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="FrustomCamera.cpp">
+      <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>00. Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>01. Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

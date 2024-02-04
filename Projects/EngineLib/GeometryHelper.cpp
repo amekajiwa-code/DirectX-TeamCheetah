@@ -625,6 +625,69 @@ void GeometryHelper::CreateGrid(shared_ptr<Geometry<VertexTextureNormalTangentDa
 	geometry->SetIndices(idx);
 }
 
+void GeometryHelper::CreateGridWithDistance(shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry, int32 sizeX, int32 sizeZ, float distance)
+{
+	vector<VertexTextureNormalTangentData> vtx;
+
+	int32 halfx = (sizeX - 1) / 2;
+	int32 halfz = (sizeZ - 1) / 2;
+	vtx.reserve((sizeX - 1) * (sizeZ - 1));
+
+	for (int32 z = 0; z < sizeZ; z++)
+	{
+		for (int32 x = 0; x < sizeX; x++)
+		{
+			VertexTextureNormalTangentData v;
+			v.position = Vec3(static_cast<float>((x - halfx) * distance), 0, static_cast<float>((z - halfz) * distance));
+			v.uv = Vec2(static_cast<float>((float)x / (sizeX - 1)), static_cast<float>(float(z) / (sizeZ - 1)));
+			v.normal = Vec3(0.f, 1.f, 0.f);
+			v.tangent = Vec3(1.f, 0.f, 0.f);
+
+			vtx.push_back(v);
+		}
+	}
+
+	geometry->SetVertices(vtx);
+
+	vector<uint32> idx;
+
+	//idx.resize((sizeX - 1) * (sizeZ - 1) * 6);
+	idx.reserve((sizeX - 1) * (sizeZ - 1) * 6);
+	//int currentIndex = 0;
+	for (int32 z = 0; z < sizeZ - 1; z++)
+	{
+		for (int32 x = 0; x < sizeX - 1; x++)
+		{
+
+			//int nextRow = z + 1;
+			//int nextCol = x + 1;
+
+			//idx[currentIndex + 0] = z * sizeZ + x;
+			//idx[currentIndex + 1] = z * sizeX + nextCol;
+			//idx[currentIndex + 2] = nextRow * sizeX + x;
+			//idx[currentIndex + 3] = idx[currentIndex + 2];
+			//idx[currentIndex + 4] = idx[currentIndex + 1];
+			//idx[currentIndex + 5] = nextRow * sizeX + nextCol;
+
+			//currentIndex += 6;
+			//  [0]
+			//   |	\
+			//  [2] - [1]
+			idx.push_back((sizeX) * (z + 1) + (x));
+			idx.push_back((sizeX) * (z)+(x + 1));
+			idx.push_back((sizeX) * (z)+(x));
+			//  [1] - [2]
+			//   	\  |
+			//		  [0]
+			idx.push_back((sizeX) * (z)+(x + 1));
+			idx.push_back((sizeX) * (z + 1) + (x));
+			idx.push_back((sizeX) * (z + 1) + (x + 1));
+		}
+	}
+
+	geometry->SetIndices(idx);
+}
+
 void GeometryHelper::CreateSphere(shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry)
 {
 	float radius = 0.5f; // 구의 반지름
