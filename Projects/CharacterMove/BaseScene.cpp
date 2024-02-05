@@ -20,6 +20,7 @@ void BaseScene::Init()
 	MANAGER_RESOURCES()->Init();
 	{
 		_shader = make_shared<Shader>(L"TweenAnimation.fx");
+		//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
 		MANAGER_RESOURCES()->AddResource(L"Default", _shader);
 		wstring dTex = RESOURCES_ADDR_TEXTURE;
 		dTex += L"Effect/noise.png";
@@ -27,7 +28,7 @@ void BaseScene::Init()
 	}
 
 	//랜더 매니저 초기화
-//	MANAGER_RENDERER()->Init(_shader);
+	MANAGER_RENDERER()->Init(_shader);
 
 	//light
 	{
@@ -60,7 +61,7 @@ void BaseScene::Init()
 		//	lightDesc.direction = sundir;
 		//}
 		//
-		////MANAGER_RENDERER()->PushLightData(lightDesc);
+		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	////Plane
@@ -138,7 +139,7 @@ void BaseScene::Init()
 		_warrior->AddComponent(make_shared<PlayerController>());
 		_warrior->Start();
 	}
-
+	Add(_warrior);
 
 	//MANAGER_RESOURCES()->Init();
 	//_shader = make_shared<Shader>( L"NormalMapping.fx");
@@ -222,13 +223,13 @@ void BaseScene::Init()
 
 	quadTreeTerrain->AddSplatter(splatter);
 
-	//{
-	//	shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
-	//	getter->Set(_terrain.get());
-	//	_chr->AddComponent(getter);
-	//	
-	//}
-	//Add(_chr);
+	{
+		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
+		getter->Set(_terrain.get());
+		_warrior->AddComponent(getter);
+		
+	}
+//	Add(_chr);
 
 #pragma region Client Thread
 	this_thread::sleep_for(250ms);
@@ -261,6 +262,8 @@ void BaseScene::Start()
 
 void BaseScene::Update()
 {
+MANAGER_RENDERER()->Update();
+
 
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
 	
@@ -301,9 +304,9 @@ void BaseScene::Update()
 	}
 
 	{
-		_warrior->FixedUpdate();
-		_warrior->Update();
-		_warrior->LateUpdate();
+		//_warrior->FixedUpdate();
+		//_warrior->Update();
+		//_warrior->LateUpdate();
 		Player_INFO sendInfo;
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();

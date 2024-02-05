@@ -467,6 +467,7 @@ void ModelAnimator::Update()
 
 				uint32 stride = mesh->vertexBuffer->GetStride();
 				uint32 offset = mesh->vertexBuffer->GetOffset();
+				//_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
 
 				DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
 					&stride, &offset);
