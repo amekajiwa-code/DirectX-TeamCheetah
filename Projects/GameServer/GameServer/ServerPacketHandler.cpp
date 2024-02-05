@@ -115,6 +115,5 @@ SendBufferRef ServerPacketHandler::Make_USER_DISCONNECT(uint64 uid)
 	header->other = true;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
-
 	return sendBuffer;
 }

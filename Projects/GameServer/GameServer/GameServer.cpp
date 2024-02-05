@@ -8,6 +8,8 @@
 #include "GameSessionManager.h"
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
+//AI
+#include "GameServerAI.h"
 
 int main()
 {
@@ -28,23 +30,27 @@ int main()
 					service->GetIocpCore()->Dispatch();
 				}
 			});
-	} 
+	}
 
 	GSessionManager.GenerateMobList();
 
+	GThreadManager->Launch([=]()
+		{
+			while (true)
+			{
+				GameServerAI gameAI;
+				gameAI.Start();
+
+				SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());
+				GSessionManager.Broadcast(sendBuffer);
+				this_thread::sleep_for(100ms);
+			}
+		});
+
 	while (true)
 	{
-		for (auto pair : GSessionManager.GetMobInfoList()) {
-			GSessionManager.CalcNextPos(&pair.second);
-			GSessionManager.UpdateMobInfo(pair.second);
-			cout << "pos: " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << endl;
-		}
-
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());
-		GSessionManager.Broadcast(sendBuffer);
-
 		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(500ms);
+		this_thread::sleep_for(1000ms);
 	}
 
 	GThreadManager->Join();

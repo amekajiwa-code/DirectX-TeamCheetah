@@ -1,9 +1,14 @@
 #pragma once
 
-#include "GameSessionManager.h"
+#include "ServerPacketHandler.h"
 
 class GameServerAI
 {
-	DirectX::XMFLOAT3 nextPos(CHARACTER_INFO chara, map<uint64, Player_INFO> _userInfoList);
+public:
+	void Start();
+private:
+	bool MoveAI(DirectX::XMFLOAT3 targetPos);
+	bool RotateAI(DirectX::XMFLOAT3 targetPos);
+	bool CalcNextBehavior();
 };
 

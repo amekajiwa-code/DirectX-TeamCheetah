@@ -22,10 +22,8 @@ public:
 	void UpdateUserInfo(Player_INFO info);
 	//∏ÛΩ∫≈Õ
 	void GenerateMobList();
-	map<uint64, MONSTER_INFO> GetMobInfoList() { return _mobInfoList; }
+	map<uint64, MONSTER_INFO>& GetMobInfoList() { return _mobInfoList; }
 	void UpdateMobInfo(MONSTER_INFO info);
-	//AI
-	void CalcNextPos(MONSTER_INFO* chara);
 private:
 	USE_LOCK;
 	Set<GameSessionRef> _sessions;
