@@ -23,8 +23,8 @@ Matrix MeshRenderer::ShadowUpdate() {
 	if (shader == nullptr)
 		return Matrix::Identity;
 
-	float fWidthLength = 513 * 513;
-	float fHeightLength = 513 * 513;
+	float fWidthLength = 2049 * 2049;
+	float fHeightLength = 2049 * 2049;
 	float viewdis = sqrt(fWidthLength + fHeightLength);
 	//Global
 	auto light = MANAGER_SCENE()->GetCurrentScene()->GetLight()->GetLight()->GetLightDesc();
@@ -128,8 +128,8 @@ void MeshRenderer::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
 	//shader->PushTransformData(t);
 
 	// Light
-	//auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
-	//if (lightObj)
+	auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+	if (lightObj)
 		//shader->PushLightData(lightObj->GetLight()->GetLightDesc());
 
 	// Light
@@ -142,4 +142,23 @@ void MeshRenderer::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
 
 	shader->DrawIndexedInstanced(0, _pass, _mesh->GetIndexBuffer()->GetCount(), buffer->GetCount());
 }
- 
+
+void MeshRenderer::RenderInstancingShadow(shared_ptr<class InstancingBuffer>& buffer,ShadowViewDesc& desc)
+{
+	if (_mesh == nullptr || _material == nullptr)
+		return;
+
+	auto shader = _material->GetShader();
+	if (shader == nullptr)
+		return;
+
+	// GlobalData
+	shader->PushGlobalData(desc.shadowView,desc.shadowProj);
+
+	// IA
+	_mesh->GetVertexBuffer()->PushData();
+	_mesh->GetIndexBuffer()->PushData();
+	buffer->PushData();
+
+	shader->DrawIndexedInstanced(0, 99, _mesh->GetIndexBuffer()->GetCount(), buffer->GetCount());
+}

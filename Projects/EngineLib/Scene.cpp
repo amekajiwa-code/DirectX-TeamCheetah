@@ -46,7 +46,14 @@ void Scene::LateUpdate()
 	temp.insert(temp.end(), objects.begin(), objects.end());
 	MANAGER_INSTANCING()->Render(temp);
 }
+void Scene::ShadowUpdate()
+{
+	unordered_set<shared_ptr<GameObject>> objects = _shadowobjects;
 
+	vector<shared_ptr<GameObject>> temp;
+	temp.insert(temp.end(), objects.begin(), objects.end());
+	MANAGER_INSTANCING()->Render(temp);
+}
 void Scene::Add(shared_ptr<GameObject> object)
 {
 	_objects.insert(object);
@@ -61,7 +68,11 @@ void Scene::Add(shared_ptr<GameObject> object)
 		_lights.insert(object);
 	}
 }
+void Scene::AddShadow(shared_ptr<GameObject> object)
+{
+	_shadowobjects.insert(object);
 
+}
 void Scene::Remove(shared_ptr<GameObject> object)
 {
 	_objects.erase(object);

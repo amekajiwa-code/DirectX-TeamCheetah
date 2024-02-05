@@ -39,6 +39,11 @@ void ModelRenderer::Update()
 
 	auto world = GetTransform()->GetWorldMatrix();
 	_shader->PushTransformData(TransformDesc{ world });
+	_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
+
+	auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+	if (lightObj)
+		_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
 
 	const auto& meshes = _model->GetMeshes();
 	for (auto& mesh : meshes)
@@ -81,6 +86,10 @@ void ModelRenderer::RenderInstancing(shared_ptr<class InstancingBuffer>& buffer)
 		boneDesc.transforms[i] = bone->transform;
 	}
 	_shader->PushBoneData(boneDesc);
+	_shader->PushGlobalData(Camera::S_MatView,Camera::S_MatProjection);
+	auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+	if (lightObj)
+		_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
 
 	const auto& meshes = _model->GetMeshes();
 	for (auto& mesh : meshes)
@@ -115,4 +124,36 @@ MetaData& ModelRenderer::GetMetaData()
 InstanceID ModelRenderer::GetInstanceID()
 {
 	return make_pair((uint64)_model.get(), (uint64)_shader.get());
+}
+
+void ModelRenderer::RenderInstancingShadow(shared_ptr<class InstancingBuffer>& buffer, ShadowViewDesc& desc)
+{
+	_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
+	if (_model == nullptr)
+		return;
+
+	//Bone
+	BoneDesc boneDesc;
+
+	const uint32 boneCount = _model->GetBoneCount();
+	for (uint32 i = 0; i < boneCount; i++)
+	{
+		shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+		boneDesc.transforms[i] = bone->transform;
+	}
+	_shader->PushBoneData(boneDesc);
+	_shader->PushGlobalData(desc.shadowView, desc.shadowProj);
+	const auto& meshes = _model->GetMeshes();
+	for (auto& mesh : meshes)
+	{
+
+		//Bone Index
+		_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+
+		mesh->vertexBuffer->PushData();
+		mesh->indexBuffer->PushData();
+		buffer->PushData();
+
+		_shader->DrawIndexedInstanced(0, 99, mesh->indexBuffer->GetCount(), buffer->GetCount());
+	}
 }

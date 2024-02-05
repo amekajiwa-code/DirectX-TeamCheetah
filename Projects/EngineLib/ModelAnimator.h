@@ -41,6 +41,7 @@ public:
 	void SetPass(uint8 pass) { _pass = pass; }
 
 	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
+	void RenderInstancingShadow(shared_ptr<class InstancingBuffer>& buffer,ShadowViewDesc& desc);
 	InstanceID GetInstanceID();
 public:
 	void SetPlay(bool play) { _isPlay = play; }

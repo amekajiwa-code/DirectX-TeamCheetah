@@ -11,17 +11,21 @@ public:
 	virtual void FixedUpdate();
 	virtual void Update();
 	virtual void LateUpdate();
+	virtual void ShadowUpdate();
 
 	virtual void Add(shared_ptr<GameObject> object);
+	virtual void AddShadow(shared_ptr<GameObject> object);
 	virtual void Remove(shared_ptr<GameObject> object);
 
 	unordered_set<shared_ptr<GameObject>> GetObjects() { return _objects; }
+	unordered_set<shared_ptr<GameObject>> GetShadowObjects() { return _shadowobjects; }
 	shared_ptr<GameObject> GetCamera() { return _cameras.empty() ? nullptr : *_cameras.begin(); }
 	shared_ptr<GameObject> GetLight() { return _lights.empty() ? nullptr : *_lights.begin(); }
 	shared_ptr<Terrain> GetCurrentTerrain() { return _terrain==nullptr ? nullptr:_terrain; };
 	void SetTerrain(shared_ptr<Terrain> terrain) { _terrain = terrain; };
 private:
 	unordered_set<shared_ptr<GameObject>> _objects;
+	unordered_set<shared_ptr<GameObject>> _shadowobjects;
 	// Cache Camera
 	unordered_set<shared_ptr<GameObject>> _cameras;
 	// Cache Light

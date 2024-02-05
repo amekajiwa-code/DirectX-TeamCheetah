@@ -29,5 +29,6 @@ public:
 	virtual void Update() override;
 	virtual void LateUpdate() override;
 	void RenderInstancing(shared_ptr<class InstancingBuffer>& buffer);
+	void RenderInstancingShadow(shared_ptr<class InstancingBuffer>& buffer, ShadowViewDesc& desc);
 };
 

@@ -151,3 +151,8 @@ struct EventArgs
 struct ShadowDesc {
 	Matrix mat;
 };
+
+struct ShadowViewDesc {
+	Matrix shadowView;
+	Matrix shadowProj;
+};

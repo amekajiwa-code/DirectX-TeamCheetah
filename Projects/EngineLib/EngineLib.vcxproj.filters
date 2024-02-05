@@ -235,6 +235,9 @@
     <ClInclude Include="RenderTarget.h">
       <Filter>01. Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ShadowManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -408,6 +411,9 @@
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>01. Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowManager.cpp">
+      <Filter>02. Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -237,9 +237,6 @@ bool QuadTreeTerrain::Start()
 		c->Start();
 	}
 
-	rt.render_DSFormat = DXGI_FORMAT_R32_TYPELESS;
-	rt.Create(GRAPHICS()->GetDevice(), 8192, 8192);
-
 	return true;
 }
 
@@ -276,21 +273,21 @@ bool QuadTreeTerrain::PreUpdate(int index)
 
 void QuadTreeTerrain::Update()
 {
-	ComPtr<ID3DX11EffectShaderResourceVariable> shadow;
-	//(MANAGER_RESOURCES()->GetResource<Shader>(root_Block->BlockShaderKey))->;
-	Vec4 vClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//vector<Matrix> ShadowMatList;
-	Matrix shadowMat;
-//	ShadowMatList.resize(renderBlocks.size());
-	if (rt.Begin(GRAPHICS()->GetDeviceContext().Get(), vClearColor))
-	{
-		
-			auto renderer = terrain->GetMeshRenderer();
-			renderer->SetPass(1);
-			shadowMat = renderer->ShadowUpdate();
-		
-		rt.End(GRAPHICS()->GetDeviceContext().Get());
-	}
+//	ComPtr<ID3DX11EffectShaderResourceVariable> shadow;
+//	//(MANAGER_RESOURCES()->GetResource<Shader>(root_Block->BlockShaderKey))->;
+//	Vec4 vClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//	//vector<Matrix> ShadowMatList;
+//	Matrix shadowMat;
+////	ShadowMatList.resize(renderBlocks.size());
+//	if (rt.Begin(GRAPHICS()->GetDeviceContext().Get(), vClearColor))
+//	{
+//		
+//			auto renderer = terrain->GetMeshRenderer();
+//			renderer->SetPass(1);
+//			shadowMat = renderer->ShadowUpdate();
+//		
+//		rt.End(GRAPHICS()->GetDeviceContext().Get());
+//	}
 	for (int i = 0; i < renderBlocks.size(); i++) {
 
 		auto renderer= renderBlocks[i]->GetMeshRenderer();
@@ -300,11 +297,12 @@ void QuadTreeTerrain::Update()
 		auto _mat = MANAGER_RESOURCES()->GetResource<Material>(renderBlocks[i]->GetTextureKey());
 //		_mat->GetDiffuseMap()->SetDubugTexture(rt.GetDsvSRV());
 		auto _shader = _mat->GetShader();
-		ShadowDesc shadowdesc;
-		shadowdesc.mat = shadowMat;
-		_shader->PushShadowData(shadowdesc);
-		shadow = _shader->GetSRV("DepthMap");
-		shadow->SetResource(rt.GetDsvSRV());
+//		ShadowDesc shadowdesc;
+		MANAGER_SHADOW()::GetInstance();
+		//shadowdesc.mat = shadowMat;
+		//_shader->PushShadowData(shadowdesc);
+		//shadow = _shader->GetSRV("DepthMap");
+		//shadow->SetResource(rt.GetDsvSRV());
 
 		renderer->LegacyUpdate();
 	}
