@@ -13,6 +13,8 @@
 
 int main()
 {
+	Timer::getInstance().start();
+
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
@@ -49,9 +51,11 @@ int main()
 
 	while (true)
 	{
-		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(1000ms);
+		/*cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
+		this_thread::sleep_for(1000ms);*/
+		Timer::getInstance().update();
 	}
 
+	Timer::getInstance().stop();
 	GThreadManager->Join();
 }

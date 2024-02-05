@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameServerAI.h"
-
 #include "GameSessionManager.h"
+#include "Timer.h"
 
 float IsPlayerInRanger(const DirectX::XMFLOAT3& playerPos, const DirectX::XMFLOAT3& monsterPos)
 {
@@ -33,17 +33,42 @@ bool HasDifference(const DirectX::XMVECTOR& v1, const  DirectX::XMVECTOR& v2, fl
 	return false;
 }
 
+DirectX::XMVECTOR interpolate(double alpha, DirectX::XMVECTOR targetPos, DirectX::XMVECTOR prePos = DirectX::XMVECTOR{ 0.0f, 0.0f, 0.0f }) {
+	// 선형 보간을 통한 실제 위치 계산
+	float interpolatedX = (1.0 - alpha) * prePos.m128_f32[0] + alpha * targetPos.m128_f32[0];
+	float interpolatedY = (1.0 - alpha) * prePos.m128_f32[1] + alpha * targetPos.m128_f32[1];
+	float interpolatedZ = (1.0 - alpha) * prePos.m128_f32[2] + alpha * targetPos.m128_f32[2];
+
+	return DirectX::XMVECTOR{ interpolatedX, interpolatedY, interpolatedZ };
+}
+
 void GameServerAI::Start()
 {
 	CalcNextBehavior();
+}
+
+bool GameServerAI::CalcNextBehavior()
+{
+	for (const auto& pair : GSessionManager.GetUserInfoList())
+	{
+		RotateAI(pair.second._pos);
+		MoveAI(pair.second._pos);
+	}
+
+	return true;
 }
 
 bool GameServerAI::MoveAI(DirectX::XMFLOAT3 targetPos)
 {
 	for (auto& pair : GSessionManager.GetMobInfoList())
 	{
-		pair.second._pos = targetPos;
+		auto calcTime = std::chrono::high_resolution_clock::now() - std::chrono::seconds(static_cast<int>(pair.second._timeStamp));
+		auto durationSec = std::chrono::duration_cast<std::chrono::duration<double>>(calcTime.time_since_epoch()).count();
+		double alpha = fmin(1.0, durationSec / 1.0);
+
 		pair.second._targetPos = targetPos;
+		DirectX::XMVECTOR direction = XMLoadFloat3(&pair.second._targetPos) - XMLoadFloat3(&pair.second._pos);
+		pair.second._pos += interpolate(alpha, direction) * pair.second._moveSpeed* Timer::getInstance().getDeltaTime();
 		pair.second._animState = EnemyUnitState::Run;
 	}
 
@@ -56,8 +81,14 @@ bool GameServerAI::RotateAI(DirectX::XMFLOAT3 targetPos)
 
 	for (auto& pair : GSessionManager.GetMobInfoList())
 	{
+		float distance = IsPlayerInRanger(pair.second._pos, targetPos);
+		if (distance <= 10.0f)
+		{
+			break;
+		}
+
 		// 플레이어를 향하는 방향 벡터 계산
-		DirectX::XMVECTOR direction = DirectX::XMVectorSubtract(playerPos, DirectX::XMLoadFloat3(&pair.second._targetPos));
+		DirectX::XMVECTOR direction = DirectX::XMVectorSubtract(playerPos, DirectX::XMLoadFloat3(&pair.second._pos));
 		direction = DirectX::XMVector3Normalize(direction);
 
 		// 전방 벡터와 방향 벡터 사이의 각도 계산
@@ -76,15 +107,4 @@ bool GameServerAI::RotateAI(DirectX::XMFLOAT3 targetPos)
 	}
 
 	return false;
-}
-
-bool GameServerAI::CalcNextBehavior()
-{
-	for (const auto& pair : GSessionManager.GetUserInfoList())
-	{
-		MoveAI(pair.second._pos);
-		RotateAI(pair.second._pos);
-	}
-
-	return true;
 }

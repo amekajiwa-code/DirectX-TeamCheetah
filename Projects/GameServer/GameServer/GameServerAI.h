@@ -7,8 +7,8 @@ class GameServerAI
 public:
 	void Start();
 private:
+	bool CalcNextBehavior();
 	bool MoveAI(DirectX::XMFLOAT3 targetPos);
 	bool RotateAI(DirectX::XMFLOAT3 targetPos);
-	bool CalcNextBehavior();
 };
 
