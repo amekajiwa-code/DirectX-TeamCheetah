@@ -298,7 +298,7 @@ void QuadTreeTerrain::Update()
 //		_mat->GetDiffuseMap()->SetDubugTexture(rt.GetDsvSRV());
 		auto _shader = _mat->GetShader();
 //		ShadowDesc shadowdesc;
-		MANAGER_SHADOW()::GetInstance();
+		MANAGER_SHADOW()->SetShadow(_shader);
 		//shadowdesc.mat = shadowMat;
 		//_shader->PushShadowData(shadowdesc);
 		//shadow = _shader->GetSRV("DepthMap");

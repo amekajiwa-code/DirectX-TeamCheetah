@@ -154,6 +154,6 @@ void ModelRenderer::RenderInstancingShadow(shared_ptr<class InstancingBuffer>& b
 		mesh->indexBuffer->PushData();
 		buffer->PushData();
 
-		_shader->DrawIndexedInstanced(0, 99, mesh->indexBuffer->GetCount(), buffer->GetCount());
+		_shader->DrawIndexedInstanced(0, _pass, mesh->indexBuffer->GetCount(), buffer->GetCount());
 	}
 }

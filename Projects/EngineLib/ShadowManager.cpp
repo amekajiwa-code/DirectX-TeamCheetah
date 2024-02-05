@@ -183,9 +183,8 @@ void ShadowManager::ClearData()
 
 void ShadowManager::CreateShadowData()
 {
-
-	float fWidthLength = 1027 * 1027;
-	float fHeightLength = 1027 * 1027;
+	float fWidthLength = 513 * 513;
+	float fHeightLength = 513 * 513;
 	float viewdis = sqrt(fWidthLength + fHeightLength);
 	//Global
 	auto light = MANAGER_SCENE()->GetCurrentScene()->GetLight()->GetLight()->GetLightDesc();

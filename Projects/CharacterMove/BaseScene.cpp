@@ -139,7 +139,7 @@ void BaseScene::Init()
 		_warrior->AddComponent(make_shared<PlayerController>());
 		_warrior->Start();
 	}
-	Add(_warrior);
+	//Add(_warrior);
 
 	//MANAGER_RESOURCES()->Init();
 	//_shader = make_shared<Shader>( L"NormalMapping.fx");
@@ -266,9 +266,18 @@ MANAGER_RENDERER()->Update();
 
 
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
-	
-	static float dt = 0.f;
+	MANAGER_SHADOW()->StartShadow();
+	_terrain->GetMeshRenderer()->SetPass(1);
+	_terrain->GetMeshRenderer()->ShadowUpdate();
+	_terrain->GetMeshRenderer()->SetPass(0);
+	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
+	_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
+	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(8);
 
+	Scene::ShadowUpdate();
+	MANAGER_SHADOW()->EndShadow();
+	static float dt = 0.f;
+	
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
 	{
 		if (_isdisv)
@@ -304,9 +313,9 @@ MANAGER_RENDERER()->Update();
 	}
 
 	{
-		//_warrior->FixedUpdate();
-		//_warrior->Update();
-		//_warrior->LateUpdate();
+		_warrior->FixedUpdate();
+		_warrior->Update();
+		_warrior->LateUpdate();
 		Player_INFO sendInfo;
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();

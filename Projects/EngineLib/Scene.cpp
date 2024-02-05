@@ -52,7 +52,7 @@ void Scene::ShadowUpdate()
 
 	vector<shared_ptr<GameObject>> temp;
 	temp.insert(temp.end(), objects.begin(), objects.end());
-	MANAGER_INSTANCING()->Render(temp);
+	MANAGER_SHADOW()->Render(temp);
 }
 void Scene::Add(shared_ptr<GameObject> object)
 {

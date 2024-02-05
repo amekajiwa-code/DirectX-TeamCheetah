@@ -26,6 +26,7 @@ public:
 	void EndShadow();
 	ID3D11ShaderResourceView* GetShadowRTV();
 	void SetShadow(shared_ptr<Shader> shader);
+	const ShadowViewDesc& GetShadowDesc() { return _desc; };
 private:
 	void RenderMeshRenderer(vector<shared_ptr<GameObject>>& gameObjects);
 	void RenderModelRenderer(vector<shared_ptr<GameObject>>& gameObjects);
