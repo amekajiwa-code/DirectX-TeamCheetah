@@ -65,7 +65,7 @@ bool GameServerAI::CalcNextBehavior()
 			//Move
 			mob.second._targetPos = it->second._pos;
 
-			if (distance <= 20.0f)
+			if (distance <= 15.0f)
 			{
 				mob.second._animState = EnemyUnitState::Attack;
 			}
