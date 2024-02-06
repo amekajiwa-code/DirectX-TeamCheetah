@@ -65,16 +65,17 @@ struct CHARACTER_INFO
 	uint16 _moveSpeed = 10.0f;
 	//float _attackRange;
 	uint16 _aggroLevel = 100;
-	DirectX::XMFLOAT3 _pos = { 0.f, 0.f, 0.f };
-	DirectX::XMFLOAT3 _Rotate = { 0.f, 0.f, 0.f };
+	Vec3 _pos = {0.0f, 0.0f, 0.0f};
+	Vec3 _Rotate = { 0.0f, 0.0f, 0.0f };
 	bool _isAlive = true;
 	double _timeStamp = 0.0f;
+	
 };
 
 struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid = 0;
-	bool _isOnline;
+	bool _isOnline = false;
 	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
 };
@@ -82,7 +83,7 @@ struct Player_INFO : public CHARACTER_INFO
 struct MONSTER_INFO : public CHARACTER_INFO
 {
 	uint64 _instanceId = 0;
-	DirectX::XMFLOAT3 _targetPos = { 0.f, 0.f, 0.f };
+	Vec3 _targetPos = { 0.f, 0.f, 0.f };
 	bool _isMove = false;
 	EnemyUnitState _animState = EnemyUnitState::Stand;
 };

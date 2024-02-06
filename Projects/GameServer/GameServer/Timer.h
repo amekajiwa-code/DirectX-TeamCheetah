@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <chrono>
 
@@ -20,7 +21,7 @@ public:
     void update() {
         if (isRunning) {
             auto currentTime = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> frameDuration = currentTime - previousTime;
+            std::chrono::duration<float> frameDuration = currentTime - previousTime;
             deltaTime = frameDuration.count();
             accumulatedTime += deltaTime;
             previousTime = currentTime;
@@ -34,24 +35,24 @@ public:
         }
     }
 
-    double getDeltaTime() const {
+    float getDeltaTime() const {
         return deltaTime;
     }
 
-    double getAccumulatedTime() const {
+    float getAccumulatedTime() const {
         return accumulatedTime;
     }
 
-    double getCurrentTime() {
+    float getCurrentTime() {
         auto currentTime = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime.time_since_epoch());
+        auto duration = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime.time_since_epoch());
         return duration.count();
     }
 
 private:
     bool isRunning = false;
-    double accumulatedTime = 0.0;
-    double deltaTime;
+    float accumulatedTime = 0.0;
+    float deltaTime;
     std::chrono::high_resolution_clock::time_point previousTime;
 
     // 생성자와 소멸자는 private으로 선언하여 외부에서 객체의 생성 및 소멸을 막음

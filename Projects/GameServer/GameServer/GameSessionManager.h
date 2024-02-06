@@ -18,7 +18,7 @@ public:
 	void Broadcast(SendBufferRef sendBuffer);
 	Set<GameSessionRef> GetSessionsRef() { return _sessions; }
 	//플레이어
-	map<uint64, Player_INFO> GetUserInfoList() { return _userInfoList; }
+	map<uint64, Player_INFO>& GetUserInfoList() { return _userInfoList; }
 	void UpdateUserInfo(Player_INFO info);
 	//몬스터
 	void GenerateMobList();

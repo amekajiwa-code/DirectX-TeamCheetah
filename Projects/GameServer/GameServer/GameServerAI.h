@@ -5,10 +5,9 @@
 class GameServerAI
 {
 public:
-	void Start();
+	void Update();
 private:
 	bool CalcNextBehavior();
-	bool MoveAI(DirectX::XMFLOAT3 targetPos);
-	bool RotateAI(DirectX::XMFLOAT3 targetPos);
-};
 
+	float range = 60.0f;
+};

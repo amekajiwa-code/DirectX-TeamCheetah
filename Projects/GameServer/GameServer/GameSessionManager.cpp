@@ -64,7 +64,7 @@ void GameSessionManager::GenerateMobList()
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
 		c0._instanceId = id;
-		c0._pos = { distribution(gen), 20.0f, distribution(gen) };
+		c0._pos = { distribution(gen), 50.0f, distribution(gen) };
 		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << endl;
 
 		_mobInfoList.insert(make_pair(id, c0));

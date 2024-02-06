@@ -27,6 +27,14 @@ float QuatToEulerAngleY(Quaternion q)
 	return angle.y;
 }
 
+float IsPlayerInRanger(const Vec3& playerPos, const Vec3& monsterPos)
+{
+	Vec3 diff = DirectX::XMVectorSubtract(playerPos, monsterPos);
+	float distance = DirectX::XMVectorGetX(DirectX::XMVector3Length(diff));
+
+	return distance;
+}
+
 void SpawnManager::SpawnOtherPlayer(uint64 uid, Vec3 spawnPos)
 {
 	shared_ptr<Shader> _shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
@@ -133,20 +141,27 @@ void SpawnManager::SpawnMonsters()
 				auto calcTime = high_resolution_clock::now() - seconds(static_cast<int>(pair.second._timeStamp));
 				auto durationSec = duration_cast<duration<double>>(calcTime.time_since_epoch()).count();
 				double alpha = fmin(1.0, durationSec / 1.0);
-				Vec3 target = pair.second._pos;
+				
 				Vec3 pos = it->second->GetTransform()->GetPosition();
 				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
+				Vec3 target = pair.second._targetPos;
 				Vec3 direction = target - pos;
-				pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * 5.0f * MANAGER_TIME()->GetDeltaTime();
+
+				float distance = IsPlayerInRanger(target, pos);
+
+				if (pair.second._animState == EnemyUnitState::Run)
+				{
+					pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * MANAGER_TIME()->GetDeltaTime();
+				}
 
 				//회전 보간 계산
 				Vec3 targetRot = pair.second._Rotate;
-				Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
+				/*Quaternion startRotation = Quaternion::CreateFromYawPitchRoll(rot.y, rot.x, rot.z);
 				Quaternion endRotation = Quaternion::CreateFromYawPitchRoll(targetRot.y, 0.0f, 0.0f);
 				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
-				rot.y = QuatToEulerAngleY(calcRot);
-
+				rot.y = QuatToEulerAngleY(calcRot);*/
+				 
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
 				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);

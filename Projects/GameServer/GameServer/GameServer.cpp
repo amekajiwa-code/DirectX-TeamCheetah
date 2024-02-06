@@ -13,7 +13,7 @@
 
 int main()
 {
-	Timer::getInstance().start();
+	TIMER().start();
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777),
@@ -36,26 +36,27 @@ int main()
 
 	GSessionManager.GenerateMobList();
 
+	//SendBuffer
 	GThreadManager->Launch([=]()
 		{
 			while (true)
 			{
+				TIMER().update();
 				GameServerAI gameAI;
-				gameAI.Start();
+				gameAI.Update();
 
 				SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());
 				GSessionManager.Broadcast(sendBuffer);
-				this_thread::sleep_for(100ms);
+				this_thread::sleep_for(83.33ms);
 			}
 		});
 
 	while (true)
 	{
-		/*cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
-		this_thread::sleep_for(1000ms);*/
-		Timer::getInstance().update();
+		cout << "SessionCount : " << service->GetCurrentSessionCount() << endl;
+		this_thread::sleep_for(1000ms);
 	}
 
-	Timer::getInstance().stop();
+	TIMER().stop();
 	GThreadManager->Join();
 }

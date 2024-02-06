@@ -1685,6 +1685,11 @@ bool EnemyAnimRun::Update()
 			_controller.lock()->SetAnimState(EnemyAnimType::Battle);
 			return true;
 		}break;
+		case EnemyUnitState::Attack:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Attack1);
+			return true;
+		}
 		}
 	}
 
