@@ -11,6 +11,8 @@
 #include "imgui_impl_dx11.h"
 #include <d3d11.h>
 #include <tchar.h>
+#include <vector>
+#include <string>
 
 // Data
 static ID3D11Device*            g_pd3dDevice = nullptr;
@@ -50,9 +52,16 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    ImGuiIO& io = ImGui::GetIO(); //(void)io;
+
+    //한글 폰트 추가 - add kor font
+    io.Fonts->AddFontFromFileTTF("../../../../Resources/Font/Warhaven_Bold.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -81,8 +90,14 @@ int main(int, char**)
     // Our state
     bool show_demo_window = false;
     bool show_another_window = false;
-    bool show_my_window = true;
+    bool show_hp_window = true;
+    bool show_chat_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    //채팅 멤버
+    char buffer[256] = "";
+    std::vector<std::string> chatMessages; // 채팅 메시지를 저장할 벡터
+    bool isScrollBottom = false;
 
     // Main loop
     bool done = false;
@@ -129,7 +144,8 @@ int main(int, char**)
             ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-            ImGui::Checkbox("My Window", &show_my_window);
+            ImGui::Checkbox("My Window", &show_hp_window);
+            ImGui::Checkbox("Chat Window", &show_chat_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
@@ -154,14 +170,19 @@ int main(int, char**)
         }
 
         // 4. show_my_window
-        if (show_my_window)
+        if (show_hp_window)
         {
-            ImGui::Begin("My Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            // Set the window size to a fixed value
+            ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
+            // Set the window position to the top-left corner
+            ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+
+            ImGui::Begin("My Window", &show_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             ImGui::Text("Warrior");
 
             //Progress Bar
              // Push a custom color for ProgressBar
-            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));  // Green color (RGBA values)
+            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
 
             // Use the ProgressBar function without specifying a custom color
             ImGui::ProgressBar(0.7f);
@@ -169,8 +190,54 @@ int main(int, char**)
             // Pop the custom color after using it
             ImGui::PopStyleColor();
 
-            if (ImGui::Button("Close Me"))
-                show_my_window = false;
+            /*if (ImGui::Button("Close Me"))
+                show_hp_window = false;*/
+            ImGui::End();
+        }
+
+        // 5. show_chat_window
+        if (show_chat_window)
+        {
+            float windowSizeX = 400;
+            float windowSizeY = 200;
+            // Set the window size to a fixed value
+            ImGui::SetNextWindowSize(ImVec2(windowSizeX, windowSizeY), ImGuiCond_Always);
+            // Get the main display size to calculate the position
+            ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+            // Set the window position to the bottom-left corner
+            ImGui::SetNextWindowPos(ImVec2(0, displaySize.y - ImGui::GetFrameHeightWithSpacing() - windowSizeY), ImGuiCond_Always);
+
+            ImGui::Begin("Chat window", &show_chat_window);
+
+            // 채팅 메시지 출력 리스트
+            ImGui::BeginChild("ChatMessages", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
+            for (const auto& message : chatMessages)
+            {
+                ImGui::TextWrapped("%s", message.c_str());
+            }
+            ImGui::EndChild();
+
+            // 채팅 입력박스
+            if (ImGui::InputText("##ChatInput", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+            {
+                // Enter 키를 누르면 "Send" 버튼과 동일한 동작 수행
+                chatMessages.push_back(buffer);
+                buffer[0] = '\0'; // 입력박스 초기화
+                
+                isScrollBottom = true;
+            }
+
+            //채팅 입력버튼
+            ImGui::SameLine();
+            if (ImGui::Button("Send") && buffer[0] != '\0') // 버튼을 클릭하면 메시지를 보냄 (비어있지 않은 경우)
+            {
+                chatMessages.push_back(buffer);
+                buffer[0] = '\0'; // 입력박스 초기화
+
+                isScrollBottom = true;
+            }
+
+            ImGui::SetScrollHereY(1.0f); // 스크롤을 가장 아래로 내리기
             ImGui::End();
         }
 
