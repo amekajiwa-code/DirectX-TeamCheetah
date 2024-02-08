@@ -66,6 +66,7 @@ int main(int, char**)
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
+    //ImGui::StyleColorsClassic();
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -173,13 +174,20 @@ int main(int, char**)
         if (show_hp_window)
         {
             // Set the window size to a fixed value
-            ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
+            ImGui::SetNextWindowSize(ImVec2(300, 75), ImGuiCond_Always);
             // Set the window position to the top-left corner
             ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 
-            ImGui::Begin("My Window", &show_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Warrior");
+            // 윈도우의 배경색을 투명도(alpha)에 따라 설정
+            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+            ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+            ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
+            ImGui::Begin("My Window", &show_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+
+            ImGui::PopStyleColor(3); // Push한 스타일을 복원
+
+            ImGui::Text("Warrior");
             //Progress Bar
              // Push a custom color for ProgressBar
             ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
