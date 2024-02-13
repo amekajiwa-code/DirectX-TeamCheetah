@@ -169,6 +169,7 @@
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="StruectedLavaSprite.h" />
+    <ClInclude Include="UI_MANAGER.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseScene.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="StruectedLavaSprite.cpp" />
+    <ClCompile Include="UI_MANAGER.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shader\GameTerrain.fx" />

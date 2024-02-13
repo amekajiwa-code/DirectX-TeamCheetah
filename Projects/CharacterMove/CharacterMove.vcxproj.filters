@@ -19,6 +19,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{69604ea8-069e-4b22-82db-f69b1a90b75d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{b2d166a2-69ac-4c4b-b576-e1888bc0a27a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -39,6 +42,16 @@
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="HeightGetter.cpp" />
+    <ClCompile Include="LavaFlow.cpp" />
+    <ClCompile Include="LayerSplatter.cpp" />
+    <ClCompile Include="QuadTreeBlock.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="StruectedLavaSprite.cpp" />
+    <ClCompile Include="UI_MANAGER.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +76,16 @@
     </ClInclude>
     <ClInclude Include="ServerSession.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="HeightGetter.h" />
+    <ClInclude Include="LavaFlow.h" />
+    <ClInclude Include="LayerSplatter.h" />
+    <ClInclude Include="QuadTreeBlock.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="StruectedLavaSprite.h" />
+    <ClInclude Include="UI_MANAGER.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -231,9 +231,10 @@ void BaseScene::Init()
 	}
 //	Add(_chr);
 
-#pragma region Client Thread
-	this_thread::sleep_for(250ms);
+//UI
+	UI_MANAGER::GetInstance()->Init();
 
+#pragma region Client Thread
 	_service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
@@ -328,6 +329,9 @@ MANAGER_RENDERER()->Update();
 	}
 
 	SpawnManager::GetInstance().Update();
+
+	//UI
+	UI_MANAGER::GetInstance()->Update();
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms

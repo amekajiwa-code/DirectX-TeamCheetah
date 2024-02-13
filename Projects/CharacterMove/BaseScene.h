@@ -16,6 +16,8 @@
 #include "ServerSession.h"
 #include "ThreadManager.h"
 #include "Service.h"
+//UI
+#include "UI_MANAGER.h"
 
 class Unit;
 
