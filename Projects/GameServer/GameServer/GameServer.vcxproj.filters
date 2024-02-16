@@ -7,6 +7,12 @@
     <ClCompile Include="GameServer.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerAI.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
     <ClCompile Include="GameSession.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -16,16 +22,16 @@
     <ClCompile Include="ServerPacketHandler.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GameServerAI.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerAI.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="GameSession.h">
       <Filter>Network</Filter>
@@ -36,12 +42,6 @@
     <ClInclude Include="ServerPacketHandler.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="GameServerAI.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -50,11 +50,11 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{35ef884d-7a11-488b-bb1c-3d0f93fa37fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network">
-      <UniqueIdentifier>{ec99ed39-e2f1-40eb-b212-d7aa7614e423}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{f639010e-7be5-46c6-bc87-20de87fe38a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{edbbc572-b804-4261-92c7-36179b50800b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

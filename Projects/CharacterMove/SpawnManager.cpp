@@ -89,10 +89,6 @@ void SpawnManager::SpawnOtherPlayers()
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
 				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);
-				if (pair.second._jumpFlag.isJump)
-				{
-					cout << "sdgfd" << endl;
-				}
 				it->second->GetComponent<AIController>()->SetJumpState(pair.second._jumpFlag);
 			}
 		}
@@ -161,7 +157,7 @@ void SpawnManager::SpawnMonsters()
 				Quaternion endRotation = Quaternion::CreateFromYawPitchRoll(targetRot.y, 0.0f, 0.0f);
 				Quaternion calcRot = Quaternion::Slerp(startRotation, endRotation, alpha);
 				rot.y = QuatToEulerAngleY(calcRot);*/
-				 
+
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
 				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);

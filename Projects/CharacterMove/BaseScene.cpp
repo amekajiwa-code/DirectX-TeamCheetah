@@ -231,9 +231,6 @@ void BaseScene::Init()
 	}
 //	Add(_chr);
 
-//UI
-	UI_MANAGER::GetInstance()->Init();
-
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
@@ -313,6 +310,25 @@ MANAGER_RENDERER()->Update();
 		Utils::ScreenShot(DC(), L"");
 	}
 
+	//임시공격
+	{
+		if (!_isAttack && MANAGER_INPUT()->GetButtonDown(KEY_TYPE::Q))
+		{
+			_isAttack = true;
+		}
+
+
+		if (_isAttack && _attackTimer < 1.0f)
+		{
+			_attackTimer += MANAGER_TIME()->GetDeltaTime();
+		}
+		else
+		{
+			_attackTimer = 0.0f;
+			_isAttack = false;
+		}
+	}
+
 	{
 		_warrior->FixedUpdate();
 		_warrior->Update();
@@ -324,21 +340,19 @@ MANAGER_RENDERER()->Update();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
+		sendInfo._isAttack = _isAttack;
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
 
 	SpawnManager::GetInstance().Update();
 
-	//UI
-	UI_MANAGER::GetInstance()->Update();
-
 #pragma region Client Thread
 	//12분의1초 = 83.33ms
 	//30분의1초 = 33.33ms
 	//60분의1초 = 16.67ms
 
-	if (_threadTimer < 0.08333f)
+	if (_threadTimer < 0.1f)
 	{
 		_threadTimer += MANAGER_TIME()->GetDeltaTime();
 	}

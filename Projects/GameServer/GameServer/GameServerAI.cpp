@@ -41,6 +41,7 @@ bool GameServerAI::CalcNextBehavior()
 		if (it != GSessionManager.GetUserInfoList().end())
 		{
 			float distance = IsPlayerInRanger(mob.second._pos, it->second._pos);
+
 			//Rotate
 			if (distance <= range)
 			{
@@ -62,12 +63,20 @@ bool GameServerAI::CalcNextBehavior()
 
 				mob.second._Rotate = Vec3(0.0f, angle, 0.0f);
 			}
-			//Move
+			//State
 			mob.second._targetPos = it->second._pos;
 
 			if (distance <= 15.0f)
 			{
-				mob.second._animState = EnemyUnitState::Attack;
+				if (it->second._isAttack)
+				{
+					mob.second._animState = EnemyUnitState::Damaged;
+					isDamaged = true;
+				}
+				else
+				{
+					mob.second._animState = EnemyUnitState::Attack;
+				}
 			}
 			else if (distance <= range)
 			{
@@ -82,7 +91,7 @@ bool GameServerAI::CalcNextBehavior()
 		}
 	}
 
-	for (auto mob : GSessionManager.GetMobInfoList())
+	for (auto& mob : GSessionManager.GetMobInfoList())
 	{
 		switch (mob.second._animState)
 		{

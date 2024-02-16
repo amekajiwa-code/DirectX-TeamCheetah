@@ -22,6 +22,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{b2d166a2-69ac-4c4b-b576-e1888bc0a27a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\GameObject">
+      <UniqueIdentifier>{45e30557-44d4-4c20-aed9-e53ffd6c3370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -36,10 +39,6 @@
     <ClCompile Include="CameraMove.cpp">
       <Filter>Scripts\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -52,6 +51,18 @@
     <ClCompile Include="StruectedLavaSprite.cpp" />
     <ClCompile Include="UI_MANAGER.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Scripts\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Scripts\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Scripts\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
+      <Filter>Scripts\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,10 +78,6 @@
     <ClInclude Include="CameraMove.h">
       <Filter>Scripts\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="ClientPacketHandler.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -86,6 +93,18 @@
     <ClInclude Include="StruectedLavaSprite.h" />
     <ClInclude Include="UI_MANAGER.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Scripts\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Scripts\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Scripts\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>Scripts\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

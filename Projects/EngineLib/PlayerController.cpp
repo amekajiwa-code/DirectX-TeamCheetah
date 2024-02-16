@@ -194,7 +194,7 @@ void PlayerController::PlayerInput()
 		{
 			outputString = "Jump";
 		}
-		break;
+		break; 
 		}
 		outputString += "\n";
 		::OutputDebugStringA(outputString.c_str());

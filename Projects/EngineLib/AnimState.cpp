@@ -1728,24 +1728,34 @@ bool EnemyAnimDamaged::Update()
 		{
 		case EnemyUnitState::Stand:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Stand);
 			return true;
 		}break;
 		case EnemyUnitState::Walk:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Walk);
 			return true;
 		}break;
 		case EnemyUnitState::Run:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Run);
 			return true;
 		}break;
 		case EnemyUnitState::Death:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Death);
 			return true;
 		}break;
 		case EnemyUnitState::Battle:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Battle);
 			return true;
 
+		}break;
+		case EnemyUnitState::Attack:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Attack1);
+			return true;
 		}break;
 		}
 	}

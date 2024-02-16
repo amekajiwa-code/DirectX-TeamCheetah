@@ -10,4 +10,6 @@ private:
 	bool CalcNextBehavior();
 
 	float range = 60.0f;
+	bool isDamaged = false;
+	float damageTimer = 0.0f;
 };
