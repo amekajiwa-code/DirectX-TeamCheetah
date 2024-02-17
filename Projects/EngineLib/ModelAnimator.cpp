@@ -168,11 +168,14 @@ void ModelAnimator::UpdateTweenData()
 			{
 				if (_currentAnim)
 				{
+
+
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
 					if (_tweenDesc.current.sumTime >= _timePerFrame)
 					{
+
 						_tweenDesc.current.sumTime = 0;
 						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
 						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
@@ -508,6 +511,11 @@ void ModelAnimator::Update()
 			{
 				if (_currentAnim)
 				{
+					if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
+					{
+						_isFrameEnd = true;
+					}
+
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 

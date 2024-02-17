@@ -31,6 +31,14 @@ void PlayerController::AnimStateInit()
 	_animStateList.push_back(make_shared<PlayerAnimJumpEnd>());
 	//JumpEndRun
 	_animStateList.push_back(make_shared<PlayerAnimJumpEndRun>());
+	//attack
+	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
+	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
+	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
+	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
+
+	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
+
 
 	_animState = _animStateList[0];
 	_animState->Enter(shared_from_this());
@@ -137,8 +145,13 @@ const PlayerAnimType& PlayerController::GetCurrentAnimType()
 
 void PlayerController::PlayerInput()
 {
-	PlayerMove();
-	KeyStateCheck();
+	if (_isAttack == false)
+	{
+		PlayerMove();
+		KeyStateCheck();
+	}
+	PlayerAttack();
+
 	//Debug
 	{
 		string outputString;
@@ -260,7 +273,6 @@ void PlayerController::PlayerMove()
 	}
 
 	PlayerJump();
-
 }
 
 void PlayerController::PlayerJump()
@@ -323,6 +335,34 @@ void PlayerController::PlayerJump()
 			}
 		}
 	}
+}
+
+void PlayerController::PlayerAttack()
+{
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q))
+	{
+		_isAttack = true;
+		*_currentState = PlayerUnitState::Attack;
+	}
+
+	bool isend = _animator.lock()->GetFrameEnd();
+
+	if (isend)
+	{
+		*_currentState = PlayerUnitState::Stand;
+		_isAttack = false;
+		_animator.lock()->SetFrameEnd(false);
+	}
+
+	//if (_isAttack && _attackTimer < 1.0f)
+	//{
+	//	_attackTimer += MANAGER_TIME()->GetDeltaTime();
+	//}
+	//else
+	//{
+	//	_attackTimer = 0.0f;
+	//	_isAttack = false;
+	//}
 }
 
 void PlayerController::KeyStateCheck()

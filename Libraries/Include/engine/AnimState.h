@@ -156,82 +156,82 @@ public:
 //	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
 //};
 //
-//class PlayerAnimDeath : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimDeath() {};
-//	virtual ~PlayerAnimDeath() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimBattle : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimBattle() {};
-//	virtual ~PlayerAnimBattle() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimAttack1 : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimAttack1() {};
-//	virtual ~PlayerAnimAttack1() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimAttack2 : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimAttack2() {};
-//	virtual ~PlayerAnimAttack2() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimCasting : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimCasting() {};
-//	virtual ~PlayerAnimCasting() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimAbility1 : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimAbility1() {};
-//	virtual ~PlayerAnimAbility1() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
-//
-//class PlayerAnimAbility2 : public PlayerAnimState
-//{
-//public:
-//	PlayerAnimAbility2() {};
-//	virtual ~PlayerAnimAbility2() {};
-//public:
-//	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Update(const shared_ptr<CharacterController>& playerController) override;
-//	virtual bool Out(const shared_ptr<CharacterController>& playerController) override;
-//};
+class PlayerAnimDeath : public PlayerAnimState
+{
+public:
+	PlayerAnimDeath() {};
+	virtual ~PlayerAnimDeath() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimBattle : public PlayerAnimState
+{
+public:
+	PlayerAnimBattle() {};
+	virtual ~PlayerAnimBattle() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimAttack1 : public PlayerAnimState
+{
+public:
+	PlayerAnimAttack1() {};
+	virtual ~PlayerAnimAttack1() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimAttack2 : public PlayerAnimState
+{
+public:
+	PlayerAnimAttack2() {};
+	virtual ~PlayerAnimAttack2() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimCasting : public PlayerAnimState
+{
+public:
+	PlayerAnimCasting() {};
+	virtual ~PlayerAnimCasting() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimAbility1 : public PlayerAnimState
+{
+public:
+	PlayerAnimAbility1() {};
+	virtual ~PlayerAnimAbility1() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
+
+class PlayerAnimAbility2 : public PlayerAnimState
+{
+public:
+	PlayerAnimAbility2() {};
+	virtual ~PlayerAnimAbility2() {};
+public:
+	virtual bool Enter(const shared_ptr<CharacterController>& playerController) override;
+	virtual bool Update() override;
+	virtual bool Out() override;
+};
 #pragma endregion
 
 #pragma region EnemyAnimationStateMachine

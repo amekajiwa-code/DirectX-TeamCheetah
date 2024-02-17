@@ -20,7 +20,6 @@ void HeightGetter::Update()
 		position.y = _height;
 	}
 	transforms->SetLocalPosition(position);
-
 }
 
 void HeightGetter::LateUpdate()

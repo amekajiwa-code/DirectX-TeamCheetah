@@ -34,6 +34,9 @@ private:
 	float _jumpPower = 20.f;
 	shared_ptr<JumpFlag>		_jumpState;
 	shared_ptr<PlayerUnitState>	_currentState;
+	bool _isAttack = false;
+	float _attackTimer = 0.0f;
+	shared_ptr<Terrain> _terrain;
 private:
 	//Animation Controll
 	weak_ptr<ModelAnimator>				_animator;
@@ -62,6 +65,7 @@ private:
 	void PlayerInput();
 	void PlayerMove();
 	void PlayerJump();
+	void PlayerAttack();
 	void KeyStateCheck();
 	//Camera
 	void CameraMove();

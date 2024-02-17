@@ -40,6 +40,8 @@ void Warrior::CharacterInit()
 			AddAnimation(model, L"BlackCow", L"JumpFall");
 			AddAnimation(model, L"BlackCow", L"JumpEnd");
 			AddAnimation(model, L"BlackCow", L"JumpEndRun");
+			AddAnimation(model, L"BlackCow", L"Attack1");
+			AddAnimation(model, L"BlackCow", L"Attack2");
 		}
 		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 

@@ -41,6 +41,7 @@ class BaseScene : public Scene
 	ClientServiceRef _service;
 	float _threadTimer = 0.0f;
 	SendBufferRef _sendBuffer;
+	Player_INFO sendInfo; //플레이어 인포
 	//test
 	shared_ptr<Texture> _dissolve;
 	bool _isdisv = false;

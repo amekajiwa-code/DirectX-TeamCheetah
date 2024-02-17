@@ -24,13 +24,14 @@ public:
 	shared_ptr<Terrain> GetCurrentTerrain() { return _terrain==nullptr ? nullptr:_terrain; };
 	void SetTerrain(shared_ptr<Terrain> terrain) { _terrain = terrain; };
 private:
+	wstring _sceneName;
 	unordered_set<shared_ptr<GameObject>> _objects;
 	unordered_set<shared_ptr<GameObject>> _shadowobjects;
 	// Cache Camera
 	unordered_set<shared_ptr<GameObject>> _cameras;
 	// Cache Light
 	unordered_set<shared_ptr<GameObject>> _lights;
-
+	
 	shared_ptr<Terrain> _terrain;
 };
 

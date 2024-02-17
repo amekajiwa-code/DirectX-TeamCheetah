@@ -30,6 +30,7 @@ private:
 	uint16			_animCount = 0;
 	bool			_isPlay = false;
 	bool			_isLoop = false;
+	bool			_isFrameEnd = false;
 	float			_timePerFrame = 0.f;
 private:
 	void CreateTexture();
@@ -48,6 +49,8 @@ public:
 	bool GetPlay() const { return _isPlay; }
 	void SetLoop(bool loop) { _isLoop = loop; }
 	bool GetLoop() const { return _isLoop; }
+	bool GetFrameEnd() const { return _isFrameEnd; }
+	void SetFrameEnd(bool fr) { _isFrameEnd = fr; }
 public:
 	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
 	TweenDesc& GetTweenDesc() { return _tweenDesc; }

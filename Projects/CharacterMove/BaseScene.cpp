@@ -131,14 +131,7 @@ void BaseScene::Init()
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
 
-	//Character
-	{
-		_warrior = make_shared<Warrior>();
-		_warrior->Awake();
-		_warrior->AddChild(_childCamera);
-		_warrior->AddComponent(make_shared<PlayerController>());
-		_warrior->Start();
-	}
+
 	//Add(_warrior);
 
 	//MANAGER_RESOURCES()->Init();
@@ -224,12 +217,25 @@ void BaseScene::Init()
 	quadTreeTerrain->AddSplatter(splatter);
 
 	{
+		{
+			_warrior = make_shared<Warrior>();
+			_warrior->Awake();
+			_warrior->AddChild(_childCamera);
+			_warrior->AddComponent(make_shared<PlayerController>());
+			_warrior->Start();
+
+			Add(_warrior);
+		}
 		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
 		getter->Set(_terrain.get());
 		_warrior->AddComponent(getter);
 		
 	}
+
+	SetTerrain(_terrain);
 //	Add(_chr);
+		//Character
+
 
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
@@ -269,7 +275,7 @@ MANAGER_RENDERER()->Update();
 	_terrain->GetMeshRenderer()->ShadowUpdate();
 	_terrain->GetMeshRenderer()->SetPass(0);
 	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
-	_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
+	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
 	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(8);
 
 	Scene::ShadowUpdate();
@@ -310,30 +316,12 @@ MANAGER_RENDERER()->Update();
 		Utils::ScreenShot(DC(), L"");
 	}
 
-	//임시공격
 	{
-		if (!_isAttack && MANAGER_INPUT()->GetButtonDown(KEY_TYPE::Q))
-		{
-			_isAttack = true;
-		}
+		//_warrior->FixedUpdate();
+		//_warrior->Update();
+		//_warrior->LateUpdate();
 
-
-		if (_isAttack && _attackTimer < 1.0f)
-		{
-			_attackTimer += MANAGER_TIME()->GetDeltaTime();
-		}
-		else
-		{
-			_attackTimer = 0.0f;
-			_isAttack = false;
-		}
-	}
-
-	{
-		_warrior->FixedUpdate();
-		_warrior->Update();
-		_warrior->LateUpdate();
-		Player_INFO sendInfo;
+		//
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
