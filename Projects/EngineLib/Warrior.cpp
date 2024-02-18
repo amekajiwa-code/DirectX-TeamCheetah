@@ -17,34 +17,27 @@ void Warrior::CharacterInit()
 {
 	_childModel = make_shared<GameObject>();
 
-	//Camera
-	{
-		//_childCamera->Awake();
-		//_childCamera->GetTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
-		//_childCamera->AddComponent(make_shared<Camera>());
-		//_childCamera->GetCamera()->SetCameraType(CameraType::Target);
-		//_childCamera->Start();
-		//_childCamera->SetName(L"Camera");
-	}
 	//Character
 	{
 		shared_ptr<Model> model = make_shared<Model>();
 		{
-			AddModelAndMaterial(model, L"BlackCow");
-			AddAnimation(model, L"BlackCow", L"Stand");
-			AddAnimation(model, L"BlackCow", L"FrontWalk");
-			AddAnimation(model, L"BlackCow", L"BackWalk");
-			AddAnimation(model, L"BlackCow", L"FrontRun");
-			AddAnimation(model, L"BlackCow", L"BackRun");
-			AddAnimation(model, L"BlackCow", L"JumpStart");
-			AddAnimation(model, L"BlackCow", L"JumpFall");
-			AddAnimation(model, L"BlackCow", L"JumpEnd");
-			AddAnimation(model, L"BlackCow", L"JumpEndRun");
-			AddAnimation(model, L"BlackCow", L"Attack1");
-			AddAnimation(model, L"BlackCow", L"Attack2");
+			AddModelAndMaterial(model, L"Warrior");
+			AddAnimation(model, L"Warrior", L"Stand");
+			AddAnimation(model, L"Warrior", L"FrontWalk");
+			AddAnimation(model, L"Warrior", L"BackWalk");
+			AddAnimation(model, L"Warrior", L"FrontRun");
+			AddAnimation(model, L"Warrior", L"BackRun");
+			AddAnimation(model, L"Warrior", L"JumpStart");
+			AddAnimation(model, L"Warrior", L"JumpFall");
+			AddAnimation(model, L"Warrior", L"JumpEnd");
+			AddAnimation(model, L"Warrior", L"Battle");
+			AddAnimation(model, L"Warrior", L"Attack1");
+			AddAnimation(model, L"Warrior", L"Attack2");
+			AddAnimation(model, L"Warrior", L"Ability1");
+			AddAnimation(model, L"Warrior", L"Ability2");
 		}
-		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 
+		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 		shared_ptr<ModelAnimator> tempAnimator = make_shared<ModelAnimator>(shader);
 		{
 			tempAnimator->SetModel(model);

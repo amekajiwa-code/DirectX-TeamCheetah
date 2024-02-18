@@ -1,5 +1,6 @@
 #pragma once
 #define MAX_SIZE_RTV_DSV 2;
+#include "Viewport.h"
 
 class Graphics
 {
@@ -36,9 +37,9 @@ private:
 	//Blend
 	ComPtr<ID3D11BlendState> _blendState;
 	//Misc
-	D3D11_VIEWPORT				_viewPort = { 0, };
-	float						_clearColor[4] = { 0.f,0.f,0.f,0.f };
-	float						_clearColor2[4] = { 0.5f,0.5f,0.5f,1.f };
+	Viewport	_viewPort;
+	float		_clearColor[4] = { 0.f,0.f,0.f,0.f };
+	float		_clearColor2[4] = { 0.5f,0.5f,0.5f,1.f };
 public:
 	ComPtr<ID3D11Device>		GetDevice() { return _device; }
 	ComPtr<ID3D11DeviceContext> GetDeviceContext() { return _deviceContext; }
@@ -67,14 +68,15 @@ public:
 		}
 		return nullptr;
 	}
-	D3D11_VIEWPORT& GetViewport() { return _viewPort; }
+	Viewport& GetViewport() { return _viewPort; }
 private:
 	void CreateDeviceAndSwapChain();
 	void CreateRenderTargetView();
 	void CreateDepthStencilView();
 	void CreateBlendState();
-	void SetViewPort();
 	void CreateRenderTexture(UINT width, UINT height, ComPtr<ID3D11Texture2D>& texture);
+public:
+	void SetViewPort(float width, float height, float x, float y, float minDepth, float maxDepth);
 public:
 	void Init();
 	void RenderBegin();

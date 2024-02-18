@@ -67,7 +67,7 @@ void Graphics::CreateRenderTargetView()
 
 	for (int i = 1; i < _backBuffers.size(); i++)
 	{
-		CreateRenderTexture(1600, 900, _backBuffers[i]);
+		CreateRenderTexture(g_gameDesc.width, g_gameDesc.height, _backBuffers[i]);
 	}
 
 	for (int i = 0; i < _renderTargetViews.size(); i++)
@@ -78,14 +78,9 @@ void Graphics::CreateRenderTargetView()
 	}
 }
 
-void Graphics::SetViewPort()
+void Graphics::SetViewPort(float width, float height, float x = 0, float y = 0, float minDepth = 0, float maxDepth = 1)
 {
-	_viewPort.TopLeftX = 0.f;
-	_viewPort.TopLeftY = 0.f;
-	_viewPort.Width = static_cast<float>(_width);
-	_viewPort.Height = static_cast<float>(_height);
-	_viewPort.MinDepth = 0.f;
-	_viewPort.MaxDepth = 1.f;
+	_viewPort.SetViewport(width, height);
 }
 
 void Graphics::CreateRenderTexture(UINT width, UINT height, ComPtr<ID3D11Texture2D>& texture)
@@ -194,7 +189,7 @@ void Graphics::Init()
 	CreateRenderTargetView();
 	CreateDepthStencilView();
 	CreateBlendState();
-	SetViewPort();
+	SetViewPort(g_gameDesc.width, g_gameDesc.height);
 }
 
 void Graphics::RenderBegin()
@@ -203,7 +198,7 @@ void Graphics::RenderBegin()
 	_deviceContext->ClearRenderTargetView(_renderTargetViews[0].Get(), _clearColor);
 	_deviceContext->ClearDepthStencilView(_depthStancilViews[0].Get(),
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-	_deviceContext->RSSetViewports(1, &_viewPort);
+	_viewPort.RSSetViewport();
 	_deviceContext->OMSetBlendState(_blendState.Get(), 0, -1);
 }
 

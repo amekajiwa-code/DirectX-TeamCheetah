@@ -168,8 +168,6 @@ void ModelAnimator::UpdateTweenData()
 			{
 				if (_currentAnim)
 				{
-
-
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
@@ -331,42 +329,6 @@ void ModelAnimator::Start()
 	}
 }
 
-//트윈 이전
-//void ModelAnimator::Update()
-//{
-//	if (_isPlay)
-//	{
-//		if (_model == nullptr || _shader == nullptr)
-//			return;
-//
-//		if (_texture == nullptr)
-//			CreateTexture();
-//
-//		if (_isLoop)
-//		{
-//			
-//			_keyFrameDesc.sumTime += MANAGER_TIME()->GetDeltaTime();
-//			if (_currentAnim)
-//			{
-//				_timePerFrame = 1 / (_currentAnim->frameRate * _keyFrameDesc.speed);
-//
-//				if (_keyFrameDesc.sumTime >= _timePerFrame)
-//				{
-//					_keyFrameDesc.currentFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-//					_keyFrameDesc.nextFrame = (_keyFrameDesc.currentFrame + 1) % _currentAnim->frameCount;
-//					_keyFrameDesc.sumTime = 0.f;
-//				}
-//
-//				_keyFrameDesc.ratio = (_keyFrameDesc.sumTime / _timePerFrame);
-//			}
-//			// 애니메이션 현재 프레임 정보
-//			MANAGER_RENDERER()->PushKeyframeData(_keyFrameDesc);
-//
-//			// SRV를 통해 정보 전달
-//			_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
-//		}
-//	}
-//}
 void ModelAnimator::ShadowUpdate() {
 
 	if (_isPlay)

@@ -1,6 +1,7 @@
 #pragma once
 #include "CharacterController.h"
-#include "AnimState.h"
+#include "PlayerAnimState.h"
+#include "EnemyAnimState.h"
 
 class AIController : public CharacterController, public enable_shared_from_this<AIController>
 {
@@ -17,6 +18,8 @@ private:
 	float _currentSpeed = 300.f;
 	float _slowSpeed = 150.f;
 	bool _isSlow = false;
+	bool _isAttack = false;
+	bool _isMove = false;
 private:
 	//Player
 	shared_ptr<PlayerUnitState> _currentPlayerState;
@@ -34,13 +37,14 @@ public:
 	bool SetAnimState(const EnemyAnimType& type);
 	void SetUnitState(const PlayerUnitState& state) { *_currentPlayerState = state; }
 	void SetUnitState(const EnemyUnitState& state) { *_currentEnemyState = state; }
-
 	void SetAIType(AIType type) { _type = type; }
 public:
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
+	bool GetMoveState() const { return _isMove; }
+	bool GetAttackState() const { return _isAttack; }
 	void SetJumpState(const JumpFlag& jumpFlag) { *_jumpState = jumpFlag; }
 public:
 	const shared_ptr<PlayerUnitState>& GetCurrentPlayerUnitState() { return _currentPlayerState; }

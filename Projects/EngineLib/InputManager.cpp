@@ -58,38 +58,53 @@ void InputManager::Update()
 	::GetCursorPos(&_mousePos);
 	::ScreenToClient(_hwnd, &_mousePos);
 
-	//Screen pos
-	{
-		CalculateScreenPos();
-	}
-	//World Pos
-	{
-		CalculateWorldPos();
-	}
+	//{
+	//	Vec3 scmPos = GetWorldMousePos(Camera::S_MatView, Camera::S_MatProjection);
+
+	//	wstring tPos = L"X:";
+	//	tPos += ::to_wstring(scmPos.x);
+	//	tPos += L"  Y:";
+	//	tPos += ::to_wstring(scmPos.y);
+	//	tPos += L" Z:";
+	//	tPos += ::to_wstring(scmPos.z);
+	//	tPos += L"\n";
+	//	OutputDebugString(tPos.c_str());
+	//}
+
 }
 
-void InputManager::CalculateWorldPos()
+Vec3& InputManager::GetScreenMousePos()
 {
-	float ndcX = 2.0f * _mousePos.x / g_gameDesc.width - 1.0f;
-	float ndcY = -2.0f * _mousePos.y / g_gameDesc.height + 1.0f;
+	_screenMousePos.x = _mousePos.x;
+	_screenMousePos.y = _mousePos.y;
+	_screenMousePos.z = 0.f;
 
-	Vec3 nVec(ndcX, ndcY, 1.0f);
-	Matrix mat = (Camera::S_MatView).Invert();
-	Vec3 last = Vec3::Transform(nVec, mat);
-
-	_worldMousePos.x = last.x;
-	_worldMousePos.y = last.y;
-	_worldMousePos.z = last.z;
+	return _screenMousePos;
 }
 
-void InputManager::CalculateScreenPos()
+Vec3& InputManager::GetWorldMousePos(const Matrix& view, const Matrix& projcetion)
 {
-	float ndcX = 2.0f * _mousePos.x / g_gameDesc.width - 1.0f;
-	float ndcY = -2.0f * _mousePos.y / g_gameDesc.height + 1.0f;
+	Viewport& vPort = GRAPHICS()->GetViewport();
+	Vec3 mPos;
+	mPos.x = _mousePos.x;
+	mPos.y = _mousePos.y;
+	mPos.z = 0.f;
 
-	float scaleX = -g_gameDesc.width / 2 + (ndcX + 1.0f) * g_gameDesc.width / 2;
-	float scaleY = -g_gameDesc.height / 2 + (ndcY + 1.0f) * g_gameDesc.height / 2;
+	Vec3 rVector = vPort.UnProjcetion(mPos, Matrix::Identity, view, projcetion);
+	_worldMousePos = rVector;
 
-	_screenMousePos.x = scaleX;
-	_screenMousePos.y = scaleY;
+
+	//XMFLOAT3 scPos;
+	//scPos.x = _mousePos.x;
+	//scPos.y = _mousePos.y;
+	//scPos.z = 0.f;
+
+	//XMVECTOR worldPos = XMVector3Unproject(XMLoadFloat3(&scPos), 0, 0, vPort.GetWidth(), vPort.GetHeight(), 0.1f, 1000.f, Camera::S_MatProjection, Camera::S_MatView, Matrix::Identity);
+
+	//_worldMousePos.x = worldPos.m128_f32[0];
+	//_worldMousePos.y = worldPos.m128_f32[1];
+	//_worldMousePos.z = worldPos.m128_f32[2];
+
+
+	return _worldMousePos;
 }

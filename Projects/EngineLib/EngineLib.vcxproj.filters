@@ -183,7 +183,7 @@
     <ClInclude Include="PlayableUnit.h">
       <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClInclude>
-    <ClInclude Include="AnimState.h">
+    <ClInclude Include="PlayerAnimState.h">
       <Filter>04. Component\Controller</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.h">
@@ -237,6 +237,12 @@
     </ClInclude>
     <ClInclude Include="ShadowManager.h">
       <Filter>02. Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAnimState.h">
+      <Filter>04. Component\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>01. Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,7 +369,7 @@
     <ClCompile Include="PlayableUnit.cpp">
       <Filter>03. GameObject\Unit\PlayableUnit</Filter>
     </ClCompile>
-    <ClCompile Include="AnimState.cpp">
+    <ClCompile Include="PlayerAnimState.cpp">
       <Filter>04. Component\Controller</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp">
@@ -414,6 +420,12 @@
     </ClCompile>
     <ClCompile Include="ShadowManager.cpp">
       <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAnimState.cpp">
+      <Filter>04. Component\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>01. Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

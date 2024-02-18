@@ -25,6 +25,9 @@
     <Filter Include="Scripts\GameObject">
       <UniqueIdentifier>{45e30557-44d4-4c20-aed9-e53ffd6c3370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{f75b717a-d2ea-4643-b65f-3bdc98c976d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -42,7 +45,6 @@
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
@@ -64,6 +66,9 @@
     <ClCompile Include="SpawnManager.cpp">
       <Filter>Scripts\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="BaseScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -84,7 +89,6 @@
     <ClInclude Include="ServerSession.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
@@ -105,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="SpawnManager.h">
       <Filter>Scripts\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

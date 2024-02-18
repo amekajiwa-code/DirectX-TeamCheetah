@@ -23,8 +23,7 @@ void AIController::InitAnimState()
 		_playerAnimStateList.push_back(make_shared<PlayerAnimJumpFall>());
 		//JumpEnd
 		_playerAnimStateList.push_back(make_shared<PlayerAnimJumpEnd>());
-		//JumpEndRun
-		_playerAnimStateList.push_back(make_shared<PlayerAnimJumpEndRun>());
+
 
 		_currentPlayerAnimState = _playerAnimStateList[0];
 		_currentPlayerAnimState->Enter(shared_from_this());

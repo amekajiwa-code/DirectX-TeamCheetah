@@ -72,13 +72,11 @@ public:
 	bool GetButtonDown(KEY_TYPE key) { return GetState(key) == KEY_STATE::DOWN; }
 	// ∏« √≥¿Ω ¥≠∑∂¥Ÿ ∂√¿ª ∂ß
 	bool GetButtonUp(KEY_TYPE key) { return GetState(key) == KEY_STATE::UP; }
-public:
-	const Vec3& GetScreenMousePos() { return _screenMousePos; }
-	const Vec3& GetWorldMousePos() { return _worldMousePos; }
 private:
 	inline KEY_STATE GetState(KEY_TYPE key) { return _states[static_cast<uint8>(key)]; }
-	void CalculateWorldPos();
-	void CalculateScreenPos();
+public:
+	Vec3& GetScreenMousePos();
+	Vec3& GetWorldMousePos(const Matrix& view, const Matrix& projcetion);
 private:
 	HWND _hwnd;
 	vector<KEY_STATE> _states;

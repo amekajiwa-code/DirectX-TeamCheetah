@@ -42,80 +42,8 @@ void BaseScene::Init()
 		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
-
-		//LightDesc lightDesc;
-		//lightDesc.ambient = Vec4(1.f, 1.f, 1.f, 1.0f);
-		//lightDesc.diffuse = Vec4(1.f, 1.f, 1.f, 0.5f);
-		//lightDesc.specular = Vec4(1.0, 1.0f, 1.0f, 1.0f);
-
-		//{
-		//	Transform tf;
-		//	Vec3 rv(0.f);
-		//	rv.x += ::XMConvertToRadians(45.f);
-		//	rv.y += ::XMConvertToRadians(90.f);
-		//	rv.z = 0;
-		//	tf.SetRotation(rv);
-		//	tf.UpdateTransform();
-		//	Vec3 sundir = tf.GetLookVector();
-		//	sundir.Normalize();
-		//	lightDesc.direction = sundir;
-		//}
-		//
 		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
-
-	////Plane
-	//{
-	//	_map = make_shared<GameObject>();
-	//	_map->Awake();
-	//	{
-	//		shared_ptr<Mesh> plane = make_shared<Mesh>();
-	//		plane->CreateQuad();
-	//		shared_ptr<Material> mtrl = make_shared<Material>();
-	//		_terShader = make_shared<Shader>(L"GameTerrain.fx");
-	//		mtrl->SetShader(_terShader);
-
-	//		wstring tex = RESOURCES_ADDR_TEXTURE;
-	//		tex += L"grass.jpg";
-	//		shared_ptr<Texture> grass = make_shared<Texture>();
-	//		grass->Load(tex);
-
-	//		{
-	//			MaterialDesc desc;
-	//			desc.ambient = Color(1.0f,1.0f,1.0f,1.0f);
-	//			mtrl->SetMaterialDesc(desc);
-	//		}
-
-	//		mtrl->SetDiffuseMap(grass);
-	//		mtrl->SetNormalMap(nullptr);
-
-	//		shared_ptr<MeshRenderer> _renderer = make_shared<MeshRenderer>();
-	//		_renderer->SetMesh(plane);
-	//		_renderer->SetMaterial(mtrl);
-	//		_map->AddComponent(_renderer);
-	//	}
-	//	_map->Start();
-	//	_map->GetTransform()->SetScale(Vec3(100, 100, 1));
-
-	//	Vec3 rot = _map->GetTransform()->GetLocalRotation();
-	//	rot.x += ::XMConvertToRadians(90.f);
-	//	_map->GetTransform()->SetRotation(rot);
-	//}
-
-	//// Camera
-	//{
-	//	_camera = make_shared<GameObject>();
-	//	_camera->GetOrAddTransform()->SetLocalPosition(Vec3(0.f, 500.f, -1000.f));
-	//	_camera->AddComponent(make_shared<Camera>());
-	//	_camera->GetCamera()->SetCameraType(CameraType::Target);
-	//	_camera->SetName(L"Camera");
-	//	//camera->GetOrAddTransform()->SetPosition(Vec3{ 0.f, 55.f, 0.f });
-	//	//camera->AddComponent(make_shared<Camera>());
-	//	//_camera->AddComponent(make_shared<CameraMove>());
-	//	_camera->AddComponent(frustom);
-	//	MANAGER_SCENE()->GetCurrentScene()->Add(_camera);
-	//	_camera->Awake();
-	//}
 
 	//Camera
 	{
@@ -130,17 +58,16 @@ void BaseScene::Init()
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
+	//Character
+	{
+		_warrior = make_shared<Warrior>();
+		_warrior->Awake();
+		_warrior->AddChild(_childCamera);
+		_warrior->AddComponent(make_shared<PlayerController>());
+		_warrior->Start();
 
-
-	//Add(_warrior);
-
-	//MANAGER_RESOURCES()->Init();
-	//_shader = make_shared<Shader>( L"NormalMapping.fx");
-	//MANAGER_RESOURCES()->AddResource<Shader>(L"Default", _shader);
-	//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
-
-	//_shader = make_shared<Shader>(L"GameObject.fx");
-	//MANAGER_RESOURCES()->AddResource<Shader>(L"GameObj", _shader);
+		Add(_warrior);
+	}
 
 	{
 		
@@ -217,21 +144,10 @@ void BaseScene::Init()
 	quadTreeTerrain->AddSplatter(splatter);
 
 	{
-		{
-			_warrior = make_shared<Warrior>();
-			_warrior->Awake();
-			_warrior->AddChild(_childCamera);
-			_warrior->AddComponent(make_shared<PlayerController>());
-			_warrior->Start();
-
-			Add(_warrior);
-		}
 		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
 		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);
-		
+		_warrior->AddComponent(getter);	
 	}
-
 	SetTerrain(_terrain);
 //	Add(_chr);
 		//Character
@@ -274,9 +190,9 @@ MANAGER_RENDERER()->Update();
 	_terrain->GetMeshRenderer()->SetPass(1);
 	_terrain->GetMeshRenderer()->ShadowUpdate();
 	_terrain->GetMeshRenderer()->SetPass(0);
-	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
-	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
-	_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(8);
+	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
+	////_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
+	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(8);
 
 	Scene::ShadowUpdate();
 	MANAGER_SHADOW()->EndShadow();

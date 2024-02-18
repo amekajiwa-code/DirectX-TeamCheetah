@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PlayerController.h"
+#include "PlayerAnimState.h"
 #include <float.h>
-#include "AnimState.h"
 
 PlayerController::PlayerController()
 {
@@ -29,16 +29,26 @@ void PlayerController::AnimStateInit()
 	_animStateList.push_back(make_shared<PlayerAnimJumpFall>());
 	//JumpEnd
 	_animStateList.push_back(make_shared<PlayerAnimJumpEnd>());
-	//JumpEndRun
-	_animStateList.push_back(make_shared<PlayerAnimJumpEndRun>());
-	//attack
+	//Stun
+	_animStateList.push_back(make_shared<PlayerAnimStun>());
+	//Loot
+	_animStateList.push_back(make_shared<PlayerAnimLoot>());
+	//Damaged
+	_animStateList.push_back(make_shared<PlayerAnimDamaged>());
+	//Death
+	_animStateList.push_back(make_shared<PlayerAnimDeath>());
+	//Battle
+	_animStateList.push_back(make_shared<PlayerAnimBattle>());
+	//Attack1
 	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
-	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
-	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
-	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
-
-	_animStateList.push_back(make_shared<PlayerAnimAttack1>());
-
+	//Attack2
+	_animStateList.push_back(make_shared<PlayerAnimAttack2>());
+	//Casting
+	_animStateList.push_back(make_shared<PlayerAnimCasting>());
+	//Ability1
+	_animStateList.push_back(make_shared<PlayerAnimAbility1>());
+	//Ability2
+	_animStateList.push_back(make_shared<PlayerAnimAbility2>());
 
 	_animState = _animStateList[0];
 	_animState->Enter(shared_from_this());
@@ -149,8 +159,20 @@ void PlayerController::PlayerInput()
 	{
 		PlayerMove();
 		KeyStateCheck();
+
 	}
 	PlayerAttack();
+
+	//if (_isBattle)
+	//{
+	//	_battleTime += MANAGER_TIME()->GetDeltaTime();
+
+	//	if (_battleTime >= 5.0f)
+	//	{
+	//		_isBattle = false;
+	//		_battleTime = 0.f;
+	//	}
+	//}
 
 	//Debug
 	{
@@ -207,7 +229,7 @@ void PlayerController::PlayerInput()
 		{
 			outputString = "Jump";
 		}
-		break; 
+		break;
 		}
 		outputString += "\n";
 		::OutputDebugStringA(outputString.c_str());
@@ -232,6 +254,8 @@ void PlayerController::PlayerMove()
 	//왼쪽
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 	{
+		_isMove = true;
+
 		*_currentState = PlayerUnitState::LeftMove;
 
 		{
@@ -243,6 +267,7 @@ void PlayerController::PlayerMove()
 	//오른쪽
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 	{
+		_isMove = true;
 		*_currentState = PlayerUnitState::RightMove;
 
 		{
@@ -255,6 +280,7 @@ void PlayerController::PlayerMove()
 	//앞
 	if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
 	{
+		_isMove = true;
 		*_currentState = PlayerUnitState::FrontMove;
 
 		_moveForward = _transform.lock()->GetLookVector();
@@ -265,6 +291,7 @@ void PlayerController::PlayerMove()
 	//뒤
 	else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
 	{
+		_isMove = true;
 		*_currentState = PlayerUnitState::BackMove;
 
 		_moveForward = _transform.lock()->GetLookVector();
@@ -273,100 +300,7 @@ void PlayerController::PlayerMove()
 	}
 
 	PlayerJump();
-}
 
-void PlayerController::PlayerJump()
-{
-	//점프
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
-	{
-		if (!_jumpState->isJump)
-		{
-			_jumpState->isJump = true;
-			_jumpState->isJumpUP = true;
-			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
-			*_currentState = PlayerUnitState::Jump;
-		}
-	}
-
-	if (_jumpState->isJump)
-	{
-		if (_jumpState->isJumpUP)
-		{
-			if (_movePos.y <= _jumpUpMaxPos.y + FLT_EPSILON)
-			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.0f * _dt);
-				_transform.lock()->SetPosition(_movePos);
-			}
-			else
-			{
-				_jumpState->isJumpUP = false;
-				_jumpState->isJumpFall = true;
-			}
-		}
-		if (_jumpState->isJumpFall)
-		{
-
-			if (_movePos.y <= _jumpPower / 2.0f)
-			{
-				_jumpState->isJumpFall = false;
-				_jumpState->isJumEnd = true;
-			}
-			else
-			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
-				_transform.lock()->SetPosition(_movePos);
-			}
-		}
-		if (_jumpState->isJumEnd)
-		{
-			if (_movePos.y <= 0.5f + FLT_EPSILON)
-			{
-				_movePos.y = 0.5f;
-				_transform.lock()->SetLocalPosition(_movePos);
-				_jumpState->isJumEnd = false;
-				_jumpState->isJump = false;
-				return;
-			}
-			else
-			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
-				_transform.lock()->SetPosition(_movePos);
-			}
-		}
-	}
-}
-
-void PlayerController::PlayerAttack()
-{
-	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q))
-	{
-		_isAttack = true;
-		*_currentState = PlayerUnitState::Attack;
-	}
-
-	bool isend = _animator.lock()->GetFrameEnd();
-
-	if (isend)
-	{
-		*_currentState = PlayerUnitState::Stand;
-		_isAttack = false;
-		_animator.lock()->SetFrameEnd(false);
-	}
-
-	//if (_isAttack && _attackTimer < 1.0f)
-	//{
-	//	_attackTimer += MANAGER_TIME()->GetDeltaTime();
-	//}
-	//else
-	//{
-	//	_attackTimer = 0.0f;
-	//	_isAttack = false;
-	//}
-}
-
-void PlayerController::KeyStateCheck()
-{
 	if (_jumpState->isJump == false)
 	{
 		if (*_currentState == PlayerUnitState::LeftMove ||
@@ -407,15 +341,107 @@ void PlayerController::KeyStateCheck()
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
-			_currentSpeed = _defaultSpeed;
-			*_currentState = PlayerUnitState::Stand;
+			_isMove = false;
 		}
 	}
 
+	if (_isMove == false && _jumpState->isJump == false)
+	{
+		_currentSpeed = _defaultSpeed;
+		*_currentState = PlayerUnitState::Stand;
+	}
+}
+
+void PlayerController::PlayerJump()
+{
+	//점프
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
+	{
+		if (!_jumpState->isJump)
+		{
+			_isMove = false;
+			_jumpState->isJump = true;
+			_jumpState->isJumpUP = true;
+			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
+			*_currentState = PlayerUnitState::Jump;
+		}
+	}
+
+	if (_jumpState->isJump)
+	{
+		if (_jumpState->isJumpUP)
+		{
+			if (_movePos.y <= _jumpUpMaxPos.y + FLT_EPSILON)
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.0f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+			else
+			{
+				_jumpState->isJumpUP = false;
+				_jumpState->isJumpFall = true;
+			}
+		}
+		if (_jumpState->isJumpFall)
+		{
+
+			if (_movePos.y <= _jumpPower / 2.0f)
+			{
+				_jumpState->isJumpFall = false;
+				_jumpState->isJumEnd = true;
+			}
+			else
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+		}
+		if (_jumpState->isJumEnd)
+		{
+			if (_movePos.y <= 0.5f + FLT_EPSILON)
+			{
+				_isMove = true;
+				_movePos.y = 0.5f;
+				_transform.lock()->SetLocalPosition(_movePos);
+				_jumpState->isJumEnd = false;
+				_jumpState->isJump = false;
+				return;
+			}
+			else
+			{
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
+				_transform.lock()->SetPosition(_movePos);
+			}
+		}
+	}
+}
+
+void PlayerController::PlayerAttack()
+{
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::Q) &&
+		_isAttack == false)
+	{
+		_isMove = false;
+		_isAttack = true;
+		*_currentState = PlayerUnitState::Attack;
+	}
+
+	bool isend = _animator.lock()->GetFrameEnd();
+
+	if (isend)
+	{
+		_isBattle = true;
+		_isAttack = false;
+		_animator.lock()->SetFrameEnd(false);
+	}
+}
+
+void PlayerController::KeyStateCheck()
+{
+
 	//else
 	//{
-	//	_currentSpeed = _defaultSpeed;
-	//	*_currentState = PlayerUnitState::Stand;
+
 	//}
 
 

@@ -174,7 +174,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AIController.h" />
-    <ClInclude Include="AnimState.h" />
+    <ClInclude Include="PlayerAnimState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="CollisionData.h" />
@@ -182,6 +182,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CGame.h" />
     <ClInclude Include="CoreHound.h" />
+    <ClInclude Include="EnemyAnimState.h" />
     <ClInclude Include="EnemyUnit.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="FileUtils.h" />
@@ -234,17 +235,19 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexData.h" />
+    <ClInclude Include="Viewport.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIController.cpp" />
-    <ClCompile Include="AnimState.cpp" />
+    <ClCompile Include="PlayerAnimState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CGame.cpp" />
     <ClCompile Include="CoreHound.cpp" />
+    <ClCompile Include="EnemyAnimState.cpp" />
     <ClCompile Include="EnemyUnit.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="FrustomCamera.cpp" />
@@ -303,6 +306,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
+    <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
