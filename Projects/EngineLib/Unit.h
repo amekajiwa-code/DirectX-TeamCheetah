@@ -1,6 +1,10 @@
 #pragma once
 #include "GameObject.h"
 
+class BaseCollider;
+class BoxCollider;
+class SphereCollider;
+
 class Unit : public GameObject
 {
 	using Super = GameObject;
@@ -9,6 +13,7 @@ public:
 	virtual ~Unit() {};
 protected:
 	shared_ptr<GameObject>	_childModel;
+	shared_ptr<BoxCollider> _collider;
 protected:
 	virtual void CharacterInit() {};
 	void AddAnimation(const shared_ptr<Model>& com, wstring animOwner, wstring animName);

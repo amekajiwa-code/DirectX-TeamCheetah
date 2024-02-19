@@ -152,6 +152,41 @@ void BaseScene::Init()
 //	Add(_chr);
 		//Character
 
+	//collision Test
+	{
+		testBox = make_shared<GameObject>();
+		shared_ptr<Mesh> box = make_shared<Mesh>();
+		{
+			box->CreateCube();
+		}
+		shared_ptr<Material> mt = make_shared<Material>();
+		{
+			MaterialDesc desc;
+			desc.ambient = Color(1.f,1.f,1.f,1.f);
+			desc.diffuse = Color(1.f, 1.f, 1.f, 1.f);
+			desc.specular = Color(1.f, 1.f, 1.f, 1.f);
+			mt->SetMaterialDesc(desc);
+			shared_ptr<Shader> tShader = make_shared<Shader>(L"23. RenderDemo.fx");
+			mt->SetShader(tShader);
+			shared_ptr<Texture> tTex = make_shared<Texture>();
+			wstring texAdr = RESOURCES_ADDR_TEXTURE;
+			texAdr += L"grass.jpg";
+			tTex->CreateTexture(texAdr);
+			mt->SetDiffuseMap(tTex);
+		}
+
+		testBox->AddComponent(make_shared<MeshRenderer>());
+		{
+			testBox->GetMeshRenderer()->SetMesh(box);
+			testBox->GetMeshRenderer()->SetMaterial(mt);
+			testBox->GetMeshRenderer()->SetPass(0);
+		}
+		testBox->Awake();
+		testBox->GetTransform()->SetLocalPosition(Vec3(0, 0, 0));
+		testBox->GetTransform()->SetLocalScale(Vec3(0.5f));
+
+		Add(testBox);
+	}
 
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
@@ -248,7 +283,9 @@ MANAGER_RENDERER()->Update();
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
 
+
 	SpawnManager::GetInstance().Update();
+	testBox->GetMeshRenderer()->LegacyUpdate();
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms

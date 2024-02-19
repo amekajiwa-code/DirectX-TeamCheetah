@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Unit.h"
+#include "BaseCollider.h"
+#include "SphereCollider.h"
+#include "BoxCollider.h"
 
 void Unit::AddAnimation(const shared_ptr<Model>& com, wstring animOwner, wstring animName)
 {

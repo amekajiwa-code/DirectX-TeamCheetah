@@ -55,6 +55,9 @@
     <Filter Include="02. Managers\GUI">
       <UniqueIdentifier>{368b69bf-9bae-4514-8cd0-eb5e74f8b014}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\Colision">
+      <UniqueIdentifier>{fa4b7f4d-a8f7-44b8-afca-ccfc8a9e6278}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -253,6 +256,15 @@
     <ClInclude Include="ImGuiManager.h">
       <Filter>02. Managers\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="BaseCollider.h">
+      <Filter>04. Component\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>04. Component\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>04. Component\Colision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -441,6 +453,15 @@
     </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>02. Managers\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCollider.cpp">
+      <Filter>04. Component\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>04. Component\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>04. Component\Colision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

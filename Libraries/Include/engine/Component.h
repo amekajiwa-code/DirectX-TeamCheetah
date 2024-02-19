@@ -13,6 +13,7 @@ enum class ComponentType : uint8
 	Animator,
 	Light,
 	ModelAnimator,
+	Collider,
 	Script,
 	End
 };

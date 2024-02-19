@@ -51,6 +51,8 @@ class BaseScene : public Scene
 	//임시공격
 	bool _isAttack = false;
 	float _attackTimer = 0.0f;
+
+	shared_ptr<GameObject> testBox;
 public:
 	virtual void Init();
 	virtual void Start();

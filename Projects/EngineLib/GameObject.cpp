@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "BaseCollider.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
 
 GameObject::GameObject()
 {
@@ -75,6 +78,13 @@ std::shared_ptr<Light> GameObject::GetLight()
 {
 	shared_ptr<Component> component = GetFixedComponent(ComponentType::Light);
 	return static_pointer_cast<Light>(component);
+}
+
+shared_ptr<BaseCollider> GameObject::GetCollider()
+{
+	shared_ptr<Component> component = GetFixedComponent(ComponentType::Collider);
+
+	return static_pointer_cast<BaseCollider>(component);
 }
 
 void GameObject::SetActive(bool active)

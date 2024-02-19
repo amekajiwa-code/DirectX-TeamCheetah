@@ -1,5 +1,10 @@
 #pragma once
 
+class BaseCollider;
+class BoxCollider;
+class SphereCollider;
+
+
 class GameObject : public enable_shared_from_this<GameObject>
 {
 public:
@@ -31,6 +36,7 @@ public:
 	shared_ptr<ModelAnimator>	GetModelAnimator();
 	shared_ptr<Transform>		GetOrAddTransform();
 	shared_ptr<Light> GetLight();
+	shared_ptr<BaseCollider> GetCollider();
 public:
 	void SetActive(bool active);
 	bool GetActive() { return _isActive; }
