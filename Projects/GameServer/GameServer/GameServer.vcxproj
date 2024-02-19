@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../../Output/Debug/</OutDir>
-    <IntDir>../../Output/Debug/GameServer/</IntDir>
+    <OutDir>../../../Output/Debug/</OutDir>
+    <IntDir>../../../Output/Debug/GameServer/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

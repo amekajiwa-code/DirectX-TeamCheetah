@@ -236,8 +236,7 @@ MANAGER_RENDERER()->Update();
 		//_warrior->FixedUpdate();
 		//_warrior->Update();
 		//_warrior->LateUpdate();
-
-		//
+		
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;

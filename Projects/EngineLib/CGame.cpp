@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CGame.h"
 #include "IExecute.h"
+#include "ImGuiManager.h"
 
 HWND g_hWnd = 0;
 CGameDesc g_gameDesc;
@@ -13,10 +14,11 @@ void CGame::Update()
 	ShowFps();
 
 	GRAPHICS()->RenderBegin();
-
+	MANAGER_IMGUI()->Update(); //IMGUI
 	MANAGER_SCENE()->Update();
 	//_desc.App->Update();
 	//_desc.App->Render();
+	MANAGER_IMGUI()->Render(); //IMGUI
 	GRAPHICS()->RenderEnd();
 }
 
@@ -61,8 +63,13 @@ ATOM CGame::MyRegisterClass()
 	return RegisterClassExW(&wcex);
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CGame::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(handle, message, wParam, lParam))
+		return true;
+
 	switch (message)
 	{
 	case WM_SIZE:
@@ -108,6 +115,7 @@ WPARAM CGame::Run(CGameDesc& desc)
 	GRAPHICS()->Init();
 	MANAGER_TIME()->Init();
 	MANAGER_INPUT()->Init();
+	MANAGER_IMGUI()->Init(); //IMGUI
 	//Scene Init
 	_desc.App->Init();
 

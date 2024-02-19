@@ -52,6 +52,9 @@
     <Filter Include="04. Component\Scripts">
       <UniqueIdentifier>{03c24022-4f35-4037-9ced-1eb5ea1706c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Managers\GUI">
+      <UniqueIdentifier>{368b69bf-9bae-4514-8cd0-eb5e74f8b014}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -244,6 +247,12 @@
     <ClInclude Include="Viewport.h">
       <Filter>01. Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="GUIInterface.h">
+      <Filter>02. Managers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>02. Managers\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -426,6 +435,12 @@
     </ClCompile>
     <ClCompile Include="Viewport.cpp">
       <Filter>01. Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIInterface.cpp">
+      <Filter>02. Managers\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>02. Managers\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

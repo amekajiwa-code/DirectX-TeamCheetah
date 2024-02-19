@@ -19,9 +19,6 @@
     <Filter Include="Network">
       <UniqueIdentifier>{69604ea8-069e-4b22-82db-f69b1a90b75d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{b2d166a2-69ac-4c4b-b576-e1888bc0a27a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\GameObject">
       <UniqueIdentifier>{45e30557-44d4-4c20-aed9-e53ffd6c3370}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     <ClCompile Include="QuadTreeBlock.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="StruectedLavaSprite.cpp" />
-    <ClCompile Include="UI_MANAGER.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Scripts\GameObject</Filter>
     </ClCompile>
@@ -95,9 +89,6 @@
     <ClInclude Include="QuadTreeBlock.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="StruectedLavaSprite.h" />
-    <ClInclude Include="UI_MANAGER.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Scripts\GameObject</Filter>
     </ClInclude>
