@@ -10,6 +10,7 @@
 #include "engine\Utils.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
+#include "engine/SphereCollider.h"
 
 SendBufferRef GsendBuffer;
 
@@ -181,9 +182,13 @@ void BaseScene::Init()
 			testBox->GetMeshRenderer()->SetMaterial(mt);
 			testBox->GetMeshRenderer()->SetPass(0);
 		}
+
+		testBox->AddComponent(make_shared<SphereCollider>());
+
 		testBox->Awake();
-		testBox->GetTransform()->SetLocalPosition(Vec3(0, 0, 0));
-		testBox->GetTransform()->SetLocalScale(Vec3(0.5f));
+		testBox->GetTransform()->SetLocalPosition(Vec3(0, 60, 0));
+		testBox->GetTransform()->SetLocalScale(Vec3(15.f));
+	
 
 		Add(testBox);
 	}
@@ -285,7 +290,22 @@ MANAGER_RENDERER()->Update();
 
 
 	SpawnManager::GetInstance().Update();
-	testBox->GetMeshRenderer()->LegacyUpdate();
+
+	//collision
+	{
+		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::LBUTTON))
+		{
+			int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
+			int32 my = MANAGER_INPUT()->GetScreenMousePos().y;
+
+			auto pickObj = Pick(mx, my);
+
+			if (pickObj)
+			{
+				Remove(pickObj);
+			}
+		}
+	}
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms
