@@ -47,7 +47,7 @@ void ImGuiManager::Update()
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
     {
-        static float f = 0.0f;
+        /*static float f = 0.0f;
         static int counter = 0;
 
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
@@ -64,7 +64,7 @@ void ImGuiManager::Update()
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
-        ImGui::End();
+        ImGui::End();*/
     }
 
 
@@ -72,7 +72,7 @@ void ImGuiManager::Update()
     if (show_hp_window)
     {
         // Set the window size to a fixed value
-        ImGui::SetNextWindowSize(ImVec2(300, 75), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(300, 150), ImGuiCond_Always);
         // Set the window position to the top-left corner
         ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 
@@ -81,39 +81,53 @@ void ImGuiManager::Update()
         ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
         ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-        ImGui::Begin("My Window", &show_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+        ImGui::Begin("Hp Window", &show_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 
         ImGui::PopStyleColor(3); // Push한 스타일을 복원
 
         ImGui::Text("Warrior");
-        //Progress Bar
-         // Push a custom color for ProgressBar
-        ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(0.8f, 0.2f, 0.2f, 1.0f));
+        //Hp Bar
+        {
+            ImGui::Text("HP");
+            float r = 187.0f / 255.0f;
+            float g = 0.0f / 255.0f;
+            float b = 2.0f / 255.0f;
+            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(r, g, b, 1.0f));
+            ImGui::SameLine();
+            ImGui::ProgressBar(hp);
+            ImGui::PopStyleColor(1);
+        }
+        //Mp Bar
+        {
+            ImGui::Text("MP");
+            float r = 2.0f / 255.0f;
+            float g = 30.0f / 255.0f;
+            float b = 200.0f / 255.0f;
+            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(r, g, b, 1.0f));
+            ImGui::SameLine();
+            ImGui::ProgressBar(mp);
+            ImGui::PopStyleColor(1);
+        }
+        
 
-        // Use the ProgressBar function without specifying a custom color
-        ImGui::ProgressBar(0.7f);
-
-        // Pop the custom color after using it
-        ImGui::PopStyleColor();
-
-        /*if (ImGui::Button("Close Me"))
-            show_hp_window = false;*/
         ImGui::End();
     }
 
     // show_chat_window
     if (show_chat_window)
     {
-        float windowSizeX = 400;
-        float windowSizeY = 200;
+        float windowSizeX = 400.0f;
+        float windowSizeY = 180.0f;
         // Set the window size to a fixed value
         ImGui::SetNextWindowSize(ImVec2(windowSizeX, windowSizeY), ImGuiCond_Always);
-        // Get the main display size to calculate the position
         ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-        // Set the window position to the bottom-left corner
-        ImGui::SetNextWindowPos(ImVec2(0, displaySize.y - ImGui::GetFrameHeightWithSpacing() - windowSizeY), ImGuiCond_Always);
-
-        ImGui::Begin("Chat window", &show_chat_window);
+        ImGui::SetNextWindowPos(ImVec2(5.0f, displaySize.y - ImGui::GetFrameHeightWithSpacing() - windowSizeY + (windowSizeY/8.0f)), ImGuiCond_Always);
+        float r = 25.0f / 255.0f;
+        float g = 25.0f / 255.0f;
+        float b = 25.0f / 255.0f;
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(r, g, b, 0.5f));
+        ImGui::Begin("Chat", &show_chat_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+        ImGui::PopStyleColor(1); // Push한 스타일을 복원
 
         // 채팅 메시지 출력 리스트
         ImGui::BeginChild("ChatMessages", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
@@ -124,14 +138,15 @@ void ImGuiManager::Update()
         ImGui::EndChild();
 
         // 채팅 입력박스
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.3f, 0.3f, 0.3f, 0.5f));
         if (ImGui::InputText("##ChatInput", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
         {
             // Enter 키를 누르면 "Send" 버튼과 동일한 동작 수행
             chatMessages.push_back(buffer);
             buffer[0] = '\0'; // 입력박스 초기화
-
             isScrollBottom = true;
         }
+        ImGui::PopStyleColor(1);
 
         //채팅 입력버튼
         ImGui::SameLine();
@@ -139,7 +154,6 @@ void ImGuiManager::Update()
         {
             chatMessages.push_back(buffer);
             buffer[0] = '\0'; // 입력박스 초기화
-
             isScrollBottom = true;
         }
 

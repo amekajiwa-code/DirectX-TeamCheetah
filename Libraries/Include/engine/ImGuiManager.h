@@ -22,6 +22,10 @@ public:
 	void Update();
 	void Render();
 private:
+	//
+	float hp = 0.68f;
+	float mp = 0.81f;
+	//윈도우 활성화 여부
 	bool show_hp_window = true;
 	bool show_chat_window = true;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
