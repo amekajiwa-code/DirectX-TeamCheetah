@@ -5,6 +5,7 @@
 #include "AIController.h"
 #include "stdlib.h"
 #include "time.h"
+#include <float.h>
 
 bool PlayerAnimIdle::Enter(const shared_ptr<CharacterController>& playerController)
 {
@@ -1828,6 +1829,7 @@ bool PlayerAnimAttack1::Enter(const shared_ptr<CharacterController>& playerContr
 
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
 	_animator.lock()->SetNextAnimation(L"Attack1");
+	_animator.lock()->SetFrameEnd(false);
 
 	return false;
 }
@@ -1841,13 +1843,15 @@ bool PlayerAnimAttack1::Update()
 		case PlayerUnitState::FrontMove:
 		case PlayerUnitState::FrontRightMove:
 		case PlayerUnitState::FrontLeftMove:
+		case PlayerUnitState::RightMove:
+		case PlayerUnitState::LeftMove:
 		{
 			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
 			{
 				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
-			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed())
+			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed() - FLT_EPSILON)
 			{
 				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 				return true;
@@ -1859,22 +1863,6 @@ bool PlayerAnimAttack1::Update()
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::BackRun);
 			return true;
-		}break;
-		case PlayerUnitState::RightMove:
-		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
-			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
-		}break;
-		case PlayerUnitState::LeftMove:
-		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
-			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
 		}break;
 		case PlayerUnitState::Stun:
 		{
@@ -1917,14 +1905,10 @@ bool PlayerAnimAttack1::Update()
 	{
 		switch (*_playerState.lock())
 		{
+		case PlayerUnitState::FrontMove:
+		case PlayerUnitState::FrontRightMove:
+		case PlayerUnitState::FrontLeftMove:
 		case PlayerUnitState::RightMove:
-		{
-			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
-			{
-				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
-		}break;
 		case PlayerUnitState::LeftMove:
 		{
 			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
@@ -1932,6 +1916,18 @@ bool PlayerAnimAttack1::Update()
 				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
+			else if (_aiContoller.lock()->GetCurrentSpeed() > _aiContoller.lock()->GetDefaultSpeed() - FLT_EPSILON)
+			{
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
+				return true;
+			}
+		}break;
+		case PlayerUnitState::BackMove:
+		case PlayerUnitState::BackRightMove:
+		case PlayerUnitState::BackLeftMove:
+		{
+			_aiContoller.lock()->SetAnimState(PlayerAnimType::BackRun);
+			return true;
 		}break;
 		case PlayerUnitState::Stun:
 		{
@@ -1995,12 +1991,9 @@ bool PlayerAnimAttack2::Enter(const shared_ptr<CharacterController>& playerContr
 	}
 
 	_stateAnim = PlayerAnimType::Attack2;
-	//_animator.lock()->GetTweenDesc().ClearCurrentAnim();
-	//_animator.lock()->SetCurrentAnimation(L"Attack2");
-	//_animator.lock()->GetTweenDesc().current.speed = 1.5f;
-
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
 	_animator.lock()->SetNextAnimation(L"Attack2");
+	_animator.lock()->SetFrameEnd(false);
 
 	return false;
 }
@@ -2014,13 +2007,15 @@ bool PlayerAnimAttack2::Update()
 		case PlayerUnitState::FrontMove:
 		case PlayerUnitState::FrontRightMove:
 		case PlayerUnitState::FrontLeftMove:
+		case PlayerUnitState::RightMove:
+		case PlayerUnitState::LeftMove:
 		{
 			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
 			{
 				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
-			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed())
+			else if (_contoller.lock()->GetCurrentSpeed() > _contoller.lock()->GetDefaultSpeed() - FLT_EPSILON)
 			{
 				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 				return true;
@@ -2032,22 +2027,6 @@ bool PlayerAnimAttack2::Update()
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::BackRun);
 			return true;
-		}break;
-		case PlayerUnitState::RightMove:
-		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
-			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
-		}break;
-		case PlayerUnitState::LeftMove:
-		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
-			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
 		}break;
 		case PlayerUnitState::Stun:
 		{
@@ -2090,14 +2069,10 @@ bool PlayerAnimAttack2::Update()
 	{
 		switch (*_playerState.lock())
 		{
+		case PlayerUnitState::FrontMove:
+		case PlayerUnitState::FrontRightMove:
+		case PlayerUnitState::FrontLeftMove:
 		case PlayerUnitState::RightMove:
-		{
-			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
-			{
-				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
-				return true;
-			}
-		}break;
 		case PlayerUnitState::LeftMove:
 		{
 			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
@@ -2105,6 +2080,18 @@ bool PlayerAnimAttack2::Update()
 				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
+			else if (_aiContoller.lock()->GetCurrentSpeed() >= _aiContoller.lock()->GetDefaultSpeed())
+			{
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
+				return true;
+			}
+		}break;
+		case PlayerUnitState::BackMove:
+		case PlayerUnitState::BackRightMove:
+		case PlayerUnitState::BackLeftMove:
+		{
+			_aiContoller.lock()->SetAnimState(PlayerAnimType::BackRun);
+			return true;
 		}break;
 		case PlayerUnitState::Stun:
 		{
@@ -2140,7 +2127,7 @@ bool PlayerAnimAttack2::Update()
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
-		}break;
+		}
 		}
 	}
 

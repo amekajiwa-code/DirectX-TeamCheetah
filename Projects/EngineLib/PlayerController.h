@@ -33,7 +33,8 @@ private:
 	shared_ptr<PlayerUnitState>	_currentState;
 	bool _isAttack = false;
 	bool _isBattle = false;
-	float _battleTime = 0.f;
+	float _battleTime = 15.f;
+	float _battleTimer = 0.f;
 	float _attackTimer = 0.0f;
 	bool isend = false;
 	shared_ptr<Terrain> _terrain;
