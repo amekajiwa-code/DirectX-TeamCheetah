@@ -19,7 +19,6 @@ private:
 	float _slowSpeed = 150.f;
 	bool _isSlow = false;
 	bool _isAttack = false;
-	bool _isMove = false;
 private:
 	//Player
 	shared_ptr<PlayerUnitState> _currentPlayerState;
@@ -43,8 +42,8 @@ public:
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
-	bool GetMoveState() const { return _isMove; }
-	bool GetAttackState() const { return _isAttack; }
+	const bool& isAttack() const { return _isAttack; }
+	void SetIsAttack(bool attack) { _isAttack = attack; }
 	void SetJumpState(const JumpFlag& jumpFlag) { *_jumpState = jumpFlag; }
 public:
 	const shared_ptr<PlayerUnitState>& GetCurrentPlayerUnitState() { return _currentPlayerState; }

@@ -11,8 +11,6 @@ class PlayerAnimJumpFall;
 class PlayerAnimJumpEnd;
 #pragma endregion
 
-
-
 class PlayerController : public CharacterController, public enable_shared_from_this<PlayerController>
 {
 public:
@@ -34,11 +32,10 @@ private:
 	shared_ptr<JumpFlag>		_jumpState;
 	shared_ptr<PlayerUnitState>	_currentState;
 	bool _isAttack = false;
-	bool _isMove = false;
 	bool _isBattle = false;
 	float _battleTime = 0.f;
-
 	float _attackTimer = 0.0f;
+	bool isend = false;
 	shared_ptr<Terrain> _terrain;
 private:
 	//Animation Controll
@@ -80,10 +77,9 @@ public:
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
-	bool GetMoveState() const { return _isMove; }
-	bool GetAttackState() const { return _isAttack; }
-	bool GetBattleState() const { return _isBattle; }
-
+	const bool& IsAttack() const { return _isAttack; }
+	void SetIsAttack(bool setting) { _isAttack = setting; }
+	const bool& IsBattle() const { return _isBattle; }
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();

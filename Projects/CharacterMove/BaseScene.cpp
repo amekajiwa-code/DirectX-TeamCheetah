@@ -270,10 +270,6 @@ void BaseScene::Update()
 	}
 
 	{
-		//_warrior->FixedUpdate();
-		//_warrior->Update();
-		//_warrior->LateUpdate();
-
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
@@ -284,7 +280,6 @@ void BaseScene::Update()
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
-
 
 	SpawnManager::GetInstance().Update();
 

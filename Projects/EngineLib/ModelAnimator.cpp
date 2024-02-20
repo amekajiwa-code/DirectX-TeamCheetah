@@ -171,6 +171,7 @@ void ModelAnimator::UpdateTweenData()
 					{
 						_isFrameEnd = true;
 					}
+
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 

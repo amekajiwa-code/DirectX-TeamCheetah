@@ -228,7 +228,7 @@ bool PlayerAnimIdle::Update()
 
 bool PlayerAnimIdle::Out()
 {
-	_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+	//_animator.lock()->GetTweenDesc().ClearCurrentAnim();
 
 	return true;
 }
@@ -1032,40 +1032,40 @@ bool PlayerAnimBackRun::Update()
 		case PlayerUnitState::FrontRightMove:
 		case PlayerUnitState::FrontLeftMove:
 		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
+			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
-			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed())
+			else if (_aiContoller.lock()->GetCurrentSpeed() >= _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 				return true;
 			}
 		}break;
 		case PlayerUnitState::RightMove:
 		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
+			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
-			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed())
+			else if (_aiContoller.lock()->GetCurrentSpeed() >= _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 				return true;
 			}
 		}break;
 		case PlayerUnitState::LeftMove:
 		{
-			if (_contoller.lock()->GetCurrentSpeed() < _contoller.lock()->GetDefaultSpeed())
+			if (_aiContoller.lock()->GetCurrentSpeed() < _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontWalk);
 				return true;
 			}
-			else if (_contoller.lock()->GetCurrentSpeed() >= _contoller.lock()->GetDefaultSpeed())
+			else if (_aiContoller.lock()->GetCurrentSpeed() >= _aiContoller.lock()->GetDefaultSpeed())
 			{
-				_contoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
+				_aiContoller.lock()->SetAnimState(PlayerAnimType::FrontRun);
 				return true;
 			}
 		}break;
@@ -1822,12 +1822,11 @@ bool PlayerAnimAttack1::Enter(const shared_ptr<CharacterController>& playerContr
 	}
 
 	_stateAnim = PlayerAnimType::Attack1;
-	_animator.lock()->GetTweenDesc().ClearCurrentAnim();
-	_animator.lock()->SetCurrentAnimation(L"Attack1");
-	_animator.lock()->GetTweenDesc().current.speed = 1.5f;
+	//_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+	//_animator.lock()->SetCurrentAnimation(L"Attack1");
+	//_animator.lock()->GetTweenDesc().current.speed = 1.5f;
 
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
-	_animator.lock()->GetTweenDesc().next.speed = 1.5f;
 	_animator.lock()->SetNextAnimation(L"Attack1");
 
 	return false;
@@ -1907,11 +1906,11 @@ bool PlayerAnimAttack1::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetAttackState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}
 		}
 	}
 	else if (_aiContoller.lock())
@@ -1964,12 +1963,11 @@ bool PlayerAnimAttack1::Update()
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetMoveState() == false &&
-			_contoller.lock()->GetAttackState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}
 		}
 	}
 
@@ -1978,7 +1976,7 @@ bool PlayerAnimAttack1::Update()
 
 bool PlayerAnimAttack1::Out()
 {
-	return false;
+	return true;
 }
 
 bool PlayerAnimAttack2::Enter(const shared_ptr<CharacterController>& playerController)
@@ -1997,12 +1995,11 @@ bool PlayerAnimAttack2::Enter(const shared_ptr<CharacterController>& playerContr
 	}
 
 	_stateAnim = PlayerAnimType::Attack2;
-	_animator.lock()->GetTweenDesc().ClearCurrentAnim();
-	_animator.lock()->SetCurrentAnimation(L"Attack2");
-	_animator.lock()->GetTweenDesc().current.speed = 1.5f;
+	//_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+	//_animator.lock()->SetCurrentAnimation(L"Attack2");
+	//_animator.lock()->GetTweenDesc().current.speed = 1.5f;
 
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
-	_animator.lock()->GetTweenDesc().next.speed = 1.5f;
 	_animator.lock()->SetNextAnimation(L"Attack2");
 
 	return false;
@@ -2082,12 +2079,11 @@ bool PlayerAnimAttack2::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetMoveState() == false &&
-			_contoller.lock()->GetAttackState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}
 		}
 	}
 	else if (_aiContoller.lock())
@@ -2140,12 +2136,11 @@ bool PlayerAnimAttack2::Update()
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_aiContoller.lock()->GetMoveState() == false &&
-			_aiContoller.lock()->GetAttackState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}break;
 		}
 	}
 
@@ -2154,7 +2149,7 @@ bool PlayerAnimAttack2::Update()
 
 bool PlayerAnimAttack2::Out()
 {
-	return false;
+	return true;
 }
 
 bool PlayerAnimCasting::Enter(const shared_ptr<CharacterController>& playerController)
