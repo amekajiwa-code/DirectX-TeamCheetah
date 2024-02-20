@@ -63,6 +63,12 @@
     <ClCompile Include="BaseScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectExporter.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="StructList.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -103,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="BaseScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="StructList.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectExporter.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -162,12 +162,14 @@
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="ObjectExporter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="QuadTreeBlock.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpawnManager.h" />
+    <ClInclude Include="StructList.h" />
     <ClInclude Include="StruectedLavaSprite.h" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +183,7 @@
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="ObjectExporter.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -191,6 +194,7 @@
     <ClCompile Include="QuadTreeBlock.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
+    <ClCompile Include="StructList.cpp" />
     <ClCompile Include="StruectedLavaSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
