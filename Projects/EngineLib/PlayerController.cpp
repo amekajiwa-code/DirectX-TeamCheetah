@@ -341,9 +341,9 @@ void PlayerController::PlayerMove()
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
-			if()
-			_currentSpeed = _defaultSpeed;
-			*_currentState = PlayerUnitState::Stand;
+//			if()
+//			_currentSpeed = _defaultSpeed;
+//			*_currentState = PlayerUnitState::Stand;
 		}
 	}
 
