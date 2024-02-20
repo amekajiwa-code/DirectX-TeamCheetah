@@ -163,11 +163,14 @@ void ModelAnimator::UpdateTweenData()
 		//루프 애니메이션
 		if (_isLoop)
 		{
-
 			//현재 애니메이션
 			{
 				if (_currentAnim)
 				{
+					if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
+					{
+						_isFrameEnd = true;
+					}
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
@@ -331,124 +334,58 @@ void ModelAnimator::Start()
 
 void ModelAnimator::ShadowUpdate() {
 
-	if (_isPlay)
+
+	// 애니메이션 현재 프레임 정보
+	_shader->PushTweenData(_tweenDesc);
+
+	// SRV를 통해 정보 전달
+	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+
+	//Render
 	{
-		if (_model == nullptr || _shader == nullptr)
-			return;
+		//Bone
+		BoneDesc boneDesc;
 
-		if (_texture == nullptr)
-			CreateTexture();
-
-		//루프 애니메이션
-		if (_isLoop)
+		const uint32 boneCount = _model->GetBoneCount();
+		for (uint32 i = 0; i < boneCount; i++)
 		{
-			//현재 애니메이션
-			if (_tweenDesc.current.animIndex >= 0)
-			{
-				if (_currentAnim)
-				{
-					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
-					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
-
-					if (_tweenDesc.current.sumTime >= _timePerFrame)
-					{
-						_tweenDesc.current.sumTime = 0;
-						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-					}
-
-					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
-				}
-			}
-			//다음 애니메이션 예약 시
-			if (_tweenDesc.next.animIndex >= 0)
-			{
-				_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
-				_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
-
-				if (_tweenDesc.tweenRatio >= 1.f)
-				{
-					_tweenDesc.ClearCurrentAnim();
-					_tweenDesc.current = _tweenDesc.next;
-					_currentAnim = _nextAnim;
-					_nextAnim = nullptr;
-					_tweenDesc.ClearNextAnim();
-				}
-				else
-				{
-					if (_nextAnim)
-					{
-						_tweenDesc.next.sumTime += MANAGER_TIME()->GetDeltaTime();
-
-						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
-
-						if (_tweenDesc.next.ratio >= 1.f)
-						{
-							_tweenDesc.next.sumTime = 0;
-							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
-							_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
-						}
-						_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
-					}
-				}
-			}
+			shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+			boneDesc.transforms[i] = bone->transform;
 		}
-		//논 루프 애니메이션
-		else
+
+		_shader->PushBoneData(boneDesc);
+		_shader->PushGlobalData(MANAGER_SHADOW()->GetShadowDesc().shadowView, MANAGER_SHADOW()->GetShadowDesc().shadowProj);
+
+		auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+		if (lightObj)
+			_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
+
+		auto world = GetTransform()->GetWorldMatrix();
+		_shader->PushTransformData(TransformDesc{ world });
+
+		const auto& meshes = _model->GetMeshes();
+		for (auto& mesh : meshes)
 		{
+			if (mesh->material)
+				mesh->material->Update();
 
-		}
-		// 애니메이션 현재 프레임 정보
-		_shader->PushTweenData(_tweenDesc);
+			//Bone Index
+			_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
 
-		// SRV를 통해 정보 전달
-		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+			uint32 stride = mesh->vertexBuffer->GetStride();
+			uint32 offset = mesh->vertexBuffer->GetOffset();
+			//_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
 
-		//Render
-		{
-			//Bone
-			BoneDesc boneDesc;
+			DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
+				&stride, &offset);
+			DC()->IASetIndexBuffer(mesh->indexBuffer->GetBuffer().Get(),
+				DXGI_FORMAT_R32_UINT, 0);
+			DC()->OMSetBlendState(nullptr, 0, -1);
 
-			const uint32 boneCount = _model->GetBoneCount();
-			for (uint32 i = 0; i < boneCount; i++)
-			{
-				shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
-				boneDesc.transforms[i] = bone->transform;
-			}
-
-			_shader->PushBoneData(boneDesc);
-			_shader->PushGlobalData(MANAGER_SHADOW()->GetShadowDesc().shadowView, MANAGER_SHADOW()->GetShadowDesc().shadowProj);
-
-			auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
-			if (lightObj)
-				_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
-
-			auto world = GetTransform()->GetWorldMatrix();
-			_shader->PushTransformData(TransformDesc{ world });
-
-			const auto& meshes = _model->GetMeshes();
-			for (auto& mesh : meshes)
-			{
-				if (mesh->material)
-					mesh->material->Update();
-
-				//Bone Index
-				_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
-
-				uint32 stride = mesh->vertexBuffer->GetStride();
-				uint32 offset = mesh->vertexBuffer->GetOffset();
-				//_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
-
-				DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
-					&stride, &offset);
-				DC()->IASetIndexBuffer(mesh->indexBuffer->GetBuffer().Get(),
-					DXGI_FORMAT_R32_UINT, 0);
-				DC()->OMSetBlendState(nullptr, 0, -1);
-
-				_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
-			}
+			_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
 		}
 	}
+
 	float fWidthLength = 513 * 513;
 	float fHeightLength = 513 * 513;
 	float viewdis = sqrt(fWidthLength + fHeightLength);
@@ -457,129 +394,129 @@ void ModelAnimator::ShadowUpdate() {
 }
 void ModelAnimator::Update()
 {
-	if (_isPlay)
-	{
-		if (_model == nullptr || _shader == nullptr)
-			return;
+	//if (_isPlay)
+	//{
+	//	if (_model == nullptr || _shader == nullptr)
+	//		return;
 
-		if (_texture == nullptr)
-			CreateTexture();
+	//	if (_texture == nullptr)
+	//		CreateTexture();
 
-		//루프 애니메이션
-		if (_isLoop)
-		{
-			//현재 애니메이션
-			if (_tweenDesc.current.animIndex >= 0)
-			{
-				if (_currentAnim)
-				{
-					if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
-					{
-						_isFrameEnd = true;
-					}
+	//	//루프 애니메이션
+	//	if (_isLoop)
+	//	{
+	//		//현재 애니메이션
+	//		if (_tweenDesc.current.animIndex >= 0)
+	//		{
+	//			if (_currentAnim)
+	//			{
+	//				if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
+	//				{
+	//					_isFrameEnd = true;
+	//				}
 
-					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
-					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
+	//				_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
+	//				_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
-					if (_tweenDesc.current.sumTime >= _timePerFrame)
-					{
-						_tweenDesc.current.sumTime = 0;
-						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-					}
+	//				if (_tweenDesc.current.sumTime >= _timePerFrame)
+	//				{
+	//					_tweenDesc.current.sumTime = 0;
+	//					_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+	//					_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+	//				}
 
-					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
-				}
-			}
-			//다음 애니메이션 예약 시
-			if (_tweenDesc.next.animIndex >= 0)
-			{
-				_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
-				_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
+	//				_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
+	//			}
+	//		}
+	//		//다음 애니메이션 예약 시
+	//		if (_tweenDesc.next.animIndex >= 0)
+	//		{
+	//			_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
+	//			_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
 
-				if (_tweenDesc.tweenRatio >= 1.f)
-				{
-					_tweenDesc.ClearCurrentAnim();
-					_tweenDesc.current = _tweenDesc.next;
-					_currentAnim = _nextAnim;
-					_nextAnim = nullptr;
-					_tweenDesc.ClearNextAnim();
-				}
-				else
-				{
-					if (_nextAnim)
-					{
-						_tweenDesc.next.sumTime += MANAGER_TIME()->GetDeltaTime();
+	//			if (_tweenDesc.tweenRatio >= 1.f)
+	//			{
+	//				_tweenDesc.ClearCurrentAnim();
+	//				_tweenDesc.current = _tweenDesc.next;
+	//				_currentAnim = _nextAnim;
+	//				_nextAnim = nullptr;
+	//				_tweenDesc.ClearNextAnim();
+	//			}
+	//			else
+	//			{
+	//				if (_nextAnim)
+	//				{
+	//					_tweenDesc.next.sumTime += MANAGER_TIME()->GetDeltaTime();
 
-						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
+	//					float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
 
-						if (_tweenDesc.next.ratio >= 1.f)
-						{
-							_tweenDesc.next.sumTime = 0;
-							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
-							_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
-						}
-						_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
-					}
-				}
-			}
-		}
-		//논 루프 애니메이션
-		else
-		{
+	//					if (_tweenDesc.next.ratio >= 1.f)
+	//					{
+	//						_tweenDesc.next.sumTime = 0;
+	//						_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
+	//						_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
+	//					}
+	//					_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	//논 루프 애니메이션
+	//	else
+	//	{
 
-		}
-		// 애니메이션 현재 프레임 정보
-		_shader->PushTweenData(_tweenDesc);
+	//	}
+	//	// 애니메이션 현재 프레임 정보
+	//	_shader->PushTweenData(_tweenDesc);
 
-		// SRV를 통해 정보 전달
-		_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+	//	// SRV를 통해 정보 전달
+	//	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
+	//}
+	//	//Render
+	//	{
+	//		//Bone
+	//		BoneDesc boneDesc;
 
-		//Render
-		{
-			//Bone
-			BoneDesc boneDesc;
+	//		const uint32 boneCount = _model->GetBoneCount();
+	//		for (uint32 i = 0; i < boneCount; i++)
+	//		{
+	//			shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
+	//			boneDesc.transforms[i] = bone->transform;
+	//		}
 
-			const uint32 boneCount = _model->GetBoneCount();
-			for (uint32 i = 0; i < boneCount; i++)
-			{
-				shared_ptr<ModelBone> bone = _model->GetBoneByIndex(i);
-				boneDesc.transforms[i] = bone->transform;
-			}
+	//		_shader->PushBoneData(boneDesc);
+	//		_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
 
-			_shader->PushBoneData(boneDesc);
-			_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
+	//		auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
+	//		if (lightObj)
+	//			_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
 
-			auto lightObj = MANAGER_SCENE()->GetCurrentScene()->GetLight();
-			if (lightObj)
-				_shader->PushLightData(lightObj->GetLight()->GetLightDesc());
+	//		auto world = GetTransform()->GetWorldMatrix();
+	//		_shader->PushTransformData(TransformDesc{ world });
 
-			auto world = GetTransform()->GetWorldMatrix();
-			_shader->PushTransformData(TransformDesc{ world });
+	//		const auto& meshes = _model->GetMeshes();
+	//		for (auto& mesh : meshes)
+	//		{
+	//			if (mesh->material)
+	//				mesh->material->Update();
 
-			const auto& meshes = _model->GetMeshes();
-			for (auto& mesh : meshes)
-			{
-				if (mesh->material)
-					mesh->material->Update();
+	//			//Bone Index
+	//			_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
 
-				//Bone Index
-				_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+	//			uint32 stride = mesh->vertexBuffer->GetStride();
+	//			uint32 offset = mesh->vertexBuffer->GetOffset();
+	//			//_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
 
-				uint32 stride = mesh->vertexBuffer->GetStride();
-				uint32 offset = mesh->vertexBuffer->GetOffset();
-				//_shader->PushGlobalData(Camera::S_MatView, Camera::S_MatProjection);
+	//			DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
+	//				&stride, &offset);
+	//			DC()->IASetIndexBuffer(mesh->indexBuffer->GetBuffer().Get(),
+	//				DXGI_FORMAT_R32_UINT, 0);
+	//			DC()->OMSetBlendState(nullptr, 0, -1);
 
-				DC()->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetBuffer().GetAddressOf(),
-					&stride, &offset);
-				DC()->IASetIndexBuffer(mesh->indexBuffer->GetBuffer().Get(),
-					DXGI_FORMAT_R32_UINT, 0);
-				DC()->OMSetBlendState(nullptr, 0, -1);
-
-				_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
-			}
-		}
-	}
+	//			_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
+	//		}
+	//	}
+	//}
 }
 
 

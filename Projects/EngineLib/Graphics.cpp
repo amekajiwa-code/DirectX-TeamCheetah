@@ -117,7 +117,6 @@ void Graphics::CreateDepthStencilView()
 	//Create DepthStencilTexture
 	{
 		D3D11_TEXTURE2D_DESC desc = { 0 };
-		ZeroMemory(&desc, sizeof(desc));
 		desc.Width = static_cast<uint32>(g_gameDesc.width);
 		desc.Height = static_cast<uint32>(g_gameDesc.height);
 		desc.MipLevels = 1;
@@ -156,22 +155,18 @@ void Graphics::CreateDepthStencilView()
 void Graphics::CreateBlendState()
 {
 	HRESULT hr;
-	D3D11_BLEND_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	{
-		desc.RenderTarget[0].BlendEnable = true;
-		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-		desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-		desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-		desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-		hr = _device->CreateBlendState(&desc, _blendState.GetAddressOf());
+	D3D11_BLEND_DESC desc = { 0 };
+	desc.RenderTarget[0].BlendEnable = true;
+	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-		CHECK(hr);
-	}
-
+	hr = _device->CreateBlendState(&desc, _blendState.GetAddressOf());
+	CHECK(hr);
 }
 
 void Graphics::Init()
@@ -199,7 +194,7 @@ void Graphics::RenderBegin()
 	_deviceContext->ClearDepthStencilView(_depthStancilViews[0].Get(),
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	_viewPort.RSSetViewport();
-	_deviceContext->OMSetBlendState(_blendState.Get(), 0, -1);
+	//_deviceContext->OMSetBlendState(_blendState.Get(), 0, -1);
 }
 
 void Graphics::RenderEnd()

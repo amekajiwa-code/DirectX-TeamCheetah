@@ -341,15 +341,12 @@ void PlayerController::PlayerMove()
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
 			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
 		{
-			_isMove = false;
+			if()
+			_currentSpeed = _defaultSpeed;
+			*_currentState = PlayerUnitState::Stand;
 		}
 	}
 
-	if (_isMove == false && _jumpState->isJump == false)
-	{
-		_currentSpeed = _defaultSpeed;
-		*_currentState = PlayerUnitState::Stand;
-	}
 }
 
 void PlayerController::PlayerJump()

@@ -27,6 +27,7 @@ private:
 private:
 	KeyframeDesc	_keyFrameDesc;
 	TweenDesc		_tweenDesc;
+	InstancedTweenDesc _tweenDescInstance;
 	uint16			_animCount = 0;
 	bool			_isPlay = false;
 	bool			_isLoop = false;
@@ -54,6 +55,7 @@ public:
 public:
 	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
 	TweenDesc& GetTweenDesc() { return _tweenDesc; }
+	InstancedTweenDesc& GetInstancingTweenDesc() { return _tweenDescInstance; }
 	bool SetCurrentAnimation(wstring animName);
 	bool SetNextAnimation(wstring animName);
 public:

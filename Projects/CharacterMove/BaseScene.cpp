@@ -16,11 +16,10 @@ SendBufferRef GsendBuffer;
 
 void BaseScene::Init()
 {
-	
-		//리소스 매니저 초기화
+	//리소스 매니저 초기화
 	MANAGER_RESOURCES()->Init();
 	{
-		_shader = make_shared<Shader>(L"TweenAnimation.fx");
+		_shader = make_shared<Shader>(L"Instancing.fx");
 		//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
 		MANAGER_RESOURCES()->AddResource(L"Default", _shader);
 		wstring dTex = RESOURCES_ADDR_TEXTURE;
@@ -68,21 +67,21 @@ void BaseScene::Init()
 		_warrior->Start();
 
 		Add(_warrior);
+		AddShadow(_warrior);
 	}
 
 	{
-		
 		auto obj = make_shared<GameObject>();
 		LavaSpriteDesc descs{};
 		descs.duration = 10;
 		descs.ShaderName = L"Lavashader";
 		descs.ShaderPath = L"lava.fx";
 		for (int i = 1; i < 31; i++) {
-			descs.spritePathList.push_back(wstring(RESOURCES_ADDR_TEXTURE) + L"lava/lava." + to_wstring(i)+L".png");
+			descs.spritePathList.push_back(wstring(RESOURCES_ADDR_TEXTURE) + L"lava/lava." + to_wstring(i) + L".png");
 		}
-		obj->GetOrAddTransform()->SetLocalPosition(Vec3(0,0.5f,0));
+		obj->GetOrAddTransform()->SetLocalPosition(Vec3(0, 0.5f, 0));
 		obj->AddComponent(make_shared<MeshRenderer>());
-		shared_ptr<StruectedLavaSprite> sprite= make_shared<StruectedLavaSprite>(descs);
+		shared_ptr<StruectedLavaSprite> sprite = make_shared<StruectedLavaSprite>(descs);
 		shared_ptr<Mesh> mesh = make_shared<Mesh>();
 		mesh->CreateGridWithDistance(3, 3, 4096);
 		MANAGER_RESOURCES()->AddResource(L"lava", mesh);
@@ -90,31 +89,31 @@ void BaseScene::Init()
 		obj->GetMeshRenderer()->SetMaterial(MANAGER_RESOURCES()->GetResource<Material>(L"Veigar"));
 		obj->GetMeshRenderer()->SetPass(0);
 		obj->AddComponent(sprite);
-		obj->AddComponent(make_shared<Lava>(100,3,false));
+		obj->AddComponent(make_shared<Lava>(100, 3, false));
 		MANAGER_SCENE()->GetCurrentScene()->Add(obj);
 	}
 
 	{
 		SkyBoxDesc descs{};
-		descs.resourceFilePath[SkyBoxDesc::SKY_Front] = wstring(RESOURCES_ADDR_TEXTURE)+ L"burningsteppsrock01.png";
+		descs.resourceFilePath[SkyBoxDesc::SKY_Front] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
 		descs.resourceFilePath[SkyBoxDesc::SKY_Back] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
 		descs.resourceFilePath[SkyBoxDesc::SKY_Right] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
 		descs.resourceFilePath[SkyBoxDesc::SKY_Left] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
 		descs.resourceFilePath[SkyBoxDesc::SKY_UP] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
 		descs.resourceFilePath[SkyBoxDesc::SKY_DOWN] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.shaderPath= L"skyBox.fx";
+		descs.shaderPath = L"skyBox.fx";
 		skyBox = make_shared < Skybox>();
-		skyBox->Set(&descs);	   	
+		skyBox->Set(&descs);
 		skyBox->Start();
-		
+
 	}
 
 	HeightPlainInfo heightMapDesc;
 	heightMapDesc.heightFilename = L"HeightMap";
 	heightMapDesc.heightFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"test.bmp";
-		heightMapDesc.shaderFilePath = L"ShadowSplattingMapping.fx";
-		//heightMapDesc.shaderFilePath = L"TerrainMapping.fx";
-		heightMapDesc.shaderFilename = L"HeightMapShader";
+	heightMapDesc.shaderFilePath = L"ShadowSplattingMapping.fx";
+	//heightMapDesc.shaderFilePath = L"TerrainMapping.fx";
+	heightMapDesc.shaderFilename = L"HeightMapShader";
 	heightMapDesc.textureFilename = L"HeightMapTexture";
 	heightMapDesc.textureFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"020.bmp";
 	heightMapDesc.meshKey = L"TerrainMesh";
@@ -140,20 +139,20 @@ void BaseScene::Init()
 	spDesc.alphaPath = wstring(RESOURCES_ADDR_TEXTURE) + L"testalpha.bmp";
 	spDesc.alphaName = L"SplatAlpha";
 	splatter = make_shared<LayerSplatter>();
-	splatter->Set(spDesc,MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShader"));
+	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShader"));
 
 	quadTreeTerrain->AddSplatter(splatter);
 
 	{
 		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
 		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);	
+		_warrior->AddComponent(getter);
 	}
 	SetTerrain(_terrain);
-//	Add(_chr);
-		//Character
+	//	Add(_chr);
+			//Character
 
-	//collision Test
+		//collision Test
 	{
 		testBox = make_shared<GameObject>();
 		shared_ptr<Mesh> box = make_shared<Mesh>();
@@ -163,7 +162,7 @@ void BaseScene::Init()
 		shared_ptr<Material> mt = make_shared<Material>();
 		{
 			MaterialDesc desc;
-			desc.ambient = Color(1.f,1.f,1.f,1.f);
+			desc.ambient = Color(1.f, 1.f, 1.f, 1.f);
 			desc.diffuse = Color(1.f, 1.f, 1.f, 1.f);
 			desc.specular = Color(1.f, 1.f, 1.f, 1.f);
 			mt->SetMaterialDesc(desc);
@@ -188,7 +187,7 @@ void BaseScene::Init()
 		testBox->Awake();
 		testBox->GetTransform()->SetLocalPosition(Vec3(0, 60, 0));
 		testBox->GetTransform()->SetLocalScale(Vec3(15.f));
-	
+
 
 		Add(testBox);
 	}
@@ -222,7 +221,7 @@ void BaseScene::Start()
 
 void BaseScene::Update()
 {
-MANAGER_RENDERER()->Update();
+	MANAGER_RENDERER()->Update();
 
 
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
@@ -230,14 +229,12 @@ MANAGER_RENDERER()->Update();
 	_terrain->GetMeshRenderer()->SetPass(1);
 	_terrain->GetMeshRenderer()->ShadowUpdate();
 	_terrain->GetMeshRenderer()->SetPass(0);
-	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
-	////_warrior->GetChildByName(L"Model")->GetModelAnimator()->ShadowUpdate();
-	//_warrior->GetChildByName(L"Model")->GetModelAnimator()->SetPass(8);
 
 	Scene::ShadowUpdate();
 	MANAGER_SHADOW()->EndShadow();
+
 	static float dt = 0.f;
-	
+
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
 	{
 		if (_isdisv)
@@ -276,7 +273,7 @@ MANAGER_RENDERER()->Update();
 		//_warrior->FixedUpdate();
 		//_warrior->Update();
 		//_warrior->LateUpdate();
-		
+
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
@@ -325,11 +322,11 @@ MANAGER_RENDERER()->Update();
 		_threadTimer = 0.0f;
 	}
 #pragma endregion Client Thread
-		
 
-	Scene::Update();
+
 	quadTreeTerrain->Update();
 	skyBox->Update();
+	Scene::Update();
 }
 
 void BaseScene::LateUpdate()

@@ -43,7 +43,7 @@ void Warrior::CharacterInit()
 			tempAnimator->SetModel(model);
 			tempAnimator->SetPlay(true);
 			tempAnimator->SetLoop(true);
-			tempAnimator->SetPass(1);
+			tempAnimator->SetPass(2);
 		}
 		_childModel->AddComponent(tempAnimator);
 		_childModel->Awake();
@@ -59,6 +59,10 @@ void Warrior::CharacterInit()
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));
+	//Vec3 rot = GetTransform()->GetLocalRotation();
+	//rot.x += ::XMConvertToRadians(90.f);
+	//rot.y -= ::XMConvertToRadians(90.f);
+	//_cGetTransform()->SetLocalRotation(rot);
 }
 
 void Warrior::Awake()

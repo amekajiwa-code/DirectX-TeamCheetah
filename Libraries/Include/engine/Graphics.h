@@ -60,7 +60,7 @@ public:
 		}
 		return nullptr;
 	}
-	ComPtr<ID3D11DepthStencilView> GetDepthStencilView(uint16 num) 
+	ComPtr<ID3D11DepthStencilView> GetDepthStencilView(uint16 num = 0) 
 	{ 
 		if (num < _depthStancilViews.size())
 		{

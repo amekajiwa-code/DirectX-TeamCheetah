@@ -125,6 +125,16 @@ void InstancingManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameO
 		cache[instanceId].push_back(gameObject);
 	}
 
+	for (shared_ptr<GameObject>& gameObject : gameObjects)
+	{
+		const auto& temp =  gameObject->GetChildByName(L"Model");
+		if (temp)
+		{
+			const InstanceID instanceId = temp->GetModelAnimator()->GetInstanceID();
+			cache[instanceId].push_back(gameObject);
+		}
+	}
+
 	for (auto& pair : cache)
 	{
 		shared_ptr<InstancedTweenDesc> tweenDesc = make_shared<InstancedTweenDesc>();
@@ -145,17 +155,38 @@ void InstancingManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameO
 				InstancingData data;
 				data.world = gameObject->GetTransform()->GetWorldMatrix();
 
-				AddData(instanceId, data);
 
 				// INSTANCING
-				gameObject->GetModelAnimator()->UpdateTweenData();
-				tweenDesc->tweens[i] = gameObject->GetModelAnimator()->GetTweenDesc();
+				if (gameObject->GetModelAnimator() == nullptr)
+				{
+					gameObject->GetChildByName(L"Model")->GetModelAnimator()->UpdateTweenData();
+					tweenDesc->tweens[i] = gameObject->GetChildByName(L"Model")->GetModelAnimator()->GetTweenDesc();
+					data.world = gameObject->GetChildByName(L"Model")->GetTransform()->GetWorldMatrix();
+
+				}
+				else
+				{
+					gameObject->GetModelAnimator()->UpdateTweenData();
+					tweenDesc->tweens[i] = gameObject->GetModelAnimator()->GetTweenDesc();
+
+				}
+				AddData(instanceId, data);
+
 			}
 
-			vec[0]->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
+			if (vec[0]->GetModelAnimator() == nullptr)
+			{
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->RenderInstancing(buffer);
+			}
+			else
+			{
+				vec[0]->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetModelAnimator()->RenderInstancing(buffer);
+			}
 
-			shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
-			vec[0]->GetModelAnimator()->RenderInstancing(buffer);
 		}
 	}
 }

@@ -339,6 +339,11 @@ bool PlayerAnimFrontWalk::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
+		case PlayerUnitState::Stand:
+		{
+			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
+			return true;
+		}break;
 		}
 	}
 	else if (_aiContoller.lock())
@@ -422,6 +427,11 @@ bool PlayerAnimFrontWalk::Update()
 		case PlayerUnitState::Ability2:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
+			return true;
+		}break;
+		case PlayerUnitState::Stand:
+		{
+			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
 		}break;
 		}
@@ -782,21 +792,17 @@ bool PlayerAnimFrontRun::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetMoveState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}
 		}
 	}
 	else if (_aiContoller.lock())
 	{
 		switch (*_playerState.lock())
 		{
-		case PlayerUnitState::Stand:
-		{
-			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
-		}break;
 		case PlayerUnitState::BackMove:
 		case PlayerUnitState::BackRightMove:
 		case PlayerUnitState::BackLeftMove:
@@ -873,11 +879,12 @@ bool PlayerAnimFrontRun::Update()
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_aiContoller.lock()->GetMoveState() == false)
+		
+		case PlayerUnitState::Stand:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}
 		}
 	}
 
@@ -1828,6 +1835,10 @@ bool PlayerAnimAttack1::Enter(const shared_ptr<CharacterController>& playerContr
 	}
 
 	_stateAnim = PlayerAnimType::Attack1;
+	_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+	_animator.lock()->SetCurrentAnimation(L"Attack1");
+	_animator.lock()->GetTweenDesc().current.speed = 1.5f;
+
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
 	_animator.lock()->GetTweenDesc().next.speed = 1.5f;
 	_animator.lock()->SetNextAnimation(L"Attack1");
@@ -1910,14 +1921,7 @@ bool PlayerAnimAttack1::Update()
 			return true;
 		}break;
 		}
-		//if (_contoller.lock()->GetBattleState())
-		//{
-		//	_contoller.lock()->SetAnimState(PlayerAnimType::Battle);
-		//	return true;
-		//}
-
-		if (_contoller.lock()->GetMoveState() == false &&
-			_contoller.lock()->GetAttackState() == false)
+		if (_contoller.lock()->GetAttackState() == false)
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
@@ -2006,6 +2010,10 @@ bool PlayerAnimAttack2::Enter(const shared_ptr<CharacterController>& playerContr
 	}
 
 	_stateAnim = PlayerAnimType::Attack2;
+	_animator.lock()->GetTweenDesc().ClearCurrentAnim();
+	_animator.lock()->SetCurrentAnimation(L"Attack2");
+	_animator.lock()->GetTweenDesc().current.speed = 1.5f;
+
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
 	_animator.lock()->GetTweenDesc().next.speed = 1.5f;
 	_animator.lock()->SetNextAnimation(L"Attack2");

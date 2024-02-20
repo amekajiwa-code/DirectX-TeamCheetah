@@ -425,7 +425,7 @@ void Shader::PushTweenData(const InstancedTweenDesc& desc)
 
 	_tweenInstanceDesc = desc;
 	_tweenInstanceBuffer->CopyData(_tweenInstanceDesc);
-	_tweenInstanceEffectBuffer->SetConstantBuffer(_tweenBuffer->GetBuffer().Get());
+	_tweenInstanceEffectBuffer->SetConstantBuffer(_tweenInstanceBuffer->GetBuffer().Get());
 }
 
 void Shader::PushShadowData(const ShadowDesc& desc)
