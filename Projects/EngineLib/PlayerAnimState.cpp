@@ -473,11 +473,6 @@ bool PlayerAnimBackWalk::Update()
 	{
 		switch (*_playerState.lock())
 		{
-		case PlayerUnitState::Stand:
-		{
-			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
-			return true;
-		}break;
 		case PlayerUnitState::FrontMove:
 		case PlayerUnitState::FrontRightMove:
 		case PlayerUnitState::FrontLeftMove:
@@ -553,7 +548,6 @@ bool PlayerAnimBackWalk::Update()
 			if (selectAttack == 0)
 			{
 				_contoller.lock()->SetAnimState(PlayerAnimType::Attack1);
-
 			}
 			else
 			{
@@ -572,17 +566,17 @@ bool PlayerAnimBackWalk::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
+		case PlayerUnitState::Stand:
+		{
+			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
+			return true;
+		}break;
 		}
 	}
 	else if (_aiContoller.lock())
 	{
 		switch (*_playerState.lock())
 		{
-		case PlayerUnitState::Stand:
-		{
-			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
-			return true;
-		}break;
 		case PlayerUnitState::FrontMove:
 		case PlayerUnitState::FrontRightMove:
 		case PlayerUnitState::FrontLeftMove:
@@ -675,6 +669,11 @@ bool PlayerAnimBackWalk::Update()
 		case PlayerUnitState::Ability2:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
+			return true;
+		}break;
+		case PlayerUnitState::Stand:
+		{
+			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
 		}break;
 		}
@@ -1018,17 +1017,11 @@ bool PlayerAnimBackRun::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetMoveState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
-		}
-
-		if (_contoller.lock()->GetMoveState() == false)
-		{
-			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
-			return true;
+		}break;
 		}
 	}
 	else if (_aiContoller.lock())
@@ -1129,17 +1122,11 @@ bool PlayerAnimBackRun::Update()
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_aiContoller.lock()->GetMoveState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
-		}
-
-		if (_aiContoller.lock()->GetMoveState() == false)
-		{
-			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
-			return true;
+		}break;
 		}
 	}
 
@@ -1696,11 +1683,11 @@ bool PlayerAnimBattle::Update()
 			_contoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_contoller.lock()->GetMoveState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_contoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}break;
 		}
 	}
 	else if (_aiContoller.lock())
@@ -1803,11 +1790,11 @@ bool PlayerAnimBattle::Update()
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Ability2);
 			return true;
 		}break;
-		}
-		if (_aiContoller.lock()->GetMoveState() == false)
+		case PlayerUnitState::Stand:
 		{
 			_aiContoller.lock()->SetAnimState(PlayerAnimType::Stand);
 			return true;
+		}break;
 		}
 	}
 
