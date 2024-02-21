@@ -177,6 +177,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="GUIInterface.h" />
+    <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="PlayerAnimState.h" />
     <ClInclude Include="Camera.h" />
@@ -248,6 +249,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="GUIInterface.cpp" />
+    <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="PlayerAnimState.cpp" />
     <ClCompile Include="Camera.cpp" />

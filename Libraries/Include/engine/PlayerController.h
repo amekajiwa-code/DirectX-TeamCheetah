@@ -11,12 +11,15 @@ class PlayerAnimJumpFall;
 class PlayerAnimJumpEnd;
 #pragma endregion
 
+class HeightGetter;
+
 class PlayerController : public CharacterController, public enable_shared_from_this<PlayerController>
 {
 public:
 	PlayerController();
 	~PlayerController();
 private:
+	weak_ptr<HeightGetter> _heightGetterCom;
 	weak_ptr<Transform> _transform;
 	Vec3 _movePos = { 0,0,0 };
 	Vec3 _moveForward = { 0,0,0 };
@@ -37,7 +40,6 @@ private:
 	float _battleTimer = 0.f;
 	float _attackTimer = 0.0f;
 	bool isend = false;
-	shared_ptr<Terrain> _terrain;
 private:
 	//Animation Controll
 	weak_ptr<ModelAnimator>				_animator;

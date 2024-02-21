@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ModelAnimator.h"
+#include <float.h>
 
 ModelAnimator::ModelAnimator() : Super(ComponentType::ModelAnimator)
 {
@@ -393,6 +394,7 @@ void ModelAnimator::ShadowUpdate() {
 	//Global
 
 }
+
 void ModelAnimator::Update()
 {
 	//if (_isPlay)
@@ -519,7 +521,6 @@ void ModelAnimator::Update()
 	//	}
 	//}
 }
-
 
 void ModelAnimator::RenderInstancingShadow(shared_ptr<class InstancingBuffer>& buffer, ShadowViewDesc& desc)
 {

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerController.h"
 #include "PlayerAnimState.h"
+#include "HeightGetter.h"
 #include <float.h>
 
 PlayerController::PlayerController()
@@ -155,6 +156,8 @@ const PlayerAnimType& PlayerController::GetCurrentAnimType()
 
 void PlayerController::PlayerInput()
 {
+	PlayerAttack();
+
 	PlayerMove();
 
 	//Debug
@@ -223,6 +226,12 @@ void PlayerController::PlayerMove()
 {
 	_dt = MANAGER_TIME()->GetDeltaTime();
 	_movePos = _transform.lock()->GetPosition();
+	if (_heightGetterCom.lock())
+	{
+		if(_jumpState->isJump == false)
+		_movePos.y = _heightGetterCom.lock()->GetHeight();
+	}
+
 
 	if (_isSlow)
 	{
@@ -239,7 +248,6 @@ void PlayerController::PlayerMove()
 		if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
 		{
 			*_currentState = PlayerUnitState::LeftMove;
-
 			{
 				_moveRight = _transform.lock()->GetRightVector();
 				_movePos -= _moveRight * _currentSpeed * _dt;
@@ -280,13 +288,13 @@ void PlayerController::PlayerMove()
 	}
 
 	PlayerJump();
-	PlayerAttack();
 
 	KeyStateCheck();
 }
 
 void PlayerController::PlayerJump()
 {
+
 	//มกวม
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
 	{
@@ -294,7 +302,7 @@ void PlayerController::PlayerJump()
 		{
 			_jumpState->isJump = true;
 			_jumpState->isJumpUP = true;
-			_jumpUpMaxPos = _movePos + _jumpUpDir * _jumpPower;
+			_jumpUpMaxPos = _movePos + (_jumpUpDir * _jumpPower);
 			*_currentState = PlayerUnitState::Jump;
 		}
 	}
@@ -303,7 +311,7 @@ void PlayerController::PlayerJump()
 	{
 		if (_jumpState->isJumpUP)
 		{
-			if (_movePos.y <= _jumpUpMaxPos.y + FLT_EPSILON)
+			if (_movePos.y < _jumpUpMaxPos.y + FLT_EPSILON)
 			{
 				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpUpDir * _jumpPower), 2.0f * _dt);
 				_transform.lock()->SetPosition(_movePos);
@@ -316,8 +324,9 @@ void PlayerController::PlayerJump()
 		}
 		if (_jumpState->isJumpFall)
 		{
-
-			if (_movePos.y <= _jumpPower / 2.0f)
+			float height = _heightGetterCom.lock()->GetHeight();
+			float test = height + _jumpPower;
+			if (_movePos.y < (height + _jumpPower) / 1.35f)
 			{
 				_jumpState->isJumpFall = false;
 				_jumpState->isJumEnd = true;
@@ -330,9 +339,9 @@ void PlayerController::PlayerJump()
 		}
 		if (_jumpState->isJumEnd)
 		{
-			if (_movePos.y <= 0.5f + FLT_EPSILON)
+			if (_movePos.y < _heightGetterCom.lock()->GetHeight() + FLT_EPSILON)
 			{
-				_movePos.y = 0.5f;
+				_movePos.y = _heightGetterCom.lock()->GetHeight();
 				_transform.lock()->SetLocalPosition(_movePos);
 				_jumpState->isJumEnd = false;
 				_jumpState->isJump = false;
@@ -444,6 +453,15 @@ void PlayerController::Start()
 	_transform = GetGameObject()->GetTransform();
 	_camera = GetGameObject()->GetChildByName(L"Camera");
 	_animator = GetGameObject()->GetChildByName(L"Model")->GetModelAnimator();
+	_heightGetterCom = GetGameObject()->GetComponent<HeightGetter>();
+	{
+		if (_transform.lock())
+		{
+			Vec3 temPos = _transform.lock()->GetLocalPosition();
+			temPos.y = _heightGetterCom.lock()->GetHeight();
+			_transform.lock()->SetLocalPosition(temPos);
+		}
+	}
 
 	_rCamPos = _camera.lock()->GetTransform()->GetLocalPosition();
 	_camDist = max(fabs(_rCamPos.x), fabs(_rCamPos.z));
@@ -453,12 +471,9 @@ void PlayerController::Start()
 
 void PlayerController::FixedUpdate()
 {
-
-	_animState->Update();
-
 	if (_isBattle)
 	{
-		if (_battleTimer > _battleTime)
+		if (_battleTimer + FLT_EPSILON >= _battleTime)
 		{
 			_isBattle = false;
 		}
@@ -471,6 +486,7 @@ void PlayerController::FixedUpdate()
 
 void PlayerController::Update()
 {
+	_animState->Update();
 }
 
 void PlayerController::LateUpdate()

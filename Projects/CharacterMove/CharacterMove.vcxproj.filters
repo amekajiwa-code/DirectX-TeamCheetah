@@ -42,7 +42,6 @@
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="QuadTreeBlock.cpp" />
@@ -89,7 +88,6 @@
     <ClInclude Include="ServerSession.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="QuadTreeBlock.h" />

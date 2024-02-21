@@ -4,9 +4,9 @@
 #include "LavaFlow.h"
 #include "StruectedLavaSprite.h"
 #include "LayerSplatter.h"
-#include "HeightGetter.h"
 #include "engine\Utils.h"
 #include "CameraMove.h"
+#include "engine\HeightGetter.h"
 #include "engine\Utils.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
@@ -57,17 +57,6 @@ void BaseScene::Init()
 		_childCamera->Start();
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
-	}
-	//Character
-	{
-		_warrior = make_shared<Warrior>();
-		_warrior->Awake();
-		_warrior->AddChild(_childCamera);
-		_warrior->AddComponent(make_shared<PlayerController>());
-		_warrior->Start();
-
-		Add(_warrior);
-		AddShadow(_warrior);
 	}
 
 	{
@@ -143,15 +132,24 @@ void BaseScene::Init()
 
 	quadTreeTerrain->AddSplatter(splatter);
 
-	{
-		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
-		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);
-	}
+
 	SetTerrain(_terrain);
 	//	Add(_chr);
 			//Character
+		//Character
+	{
+		_warrior = make_shared<Warrior>();
+		_warrior->Awake();
+		_warrior->AddChild(_childCamera);
+		_warrior->AddComponent(make_shared<PlayerController>());
+		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
+		getter->Set(_terrain.get());
+		_warrior->AddComponent(getter);
+		_warrior->Start();
 
+		Add(_warrior);
+		AddShadow(_warrior);
+	}
 		//collision Test
 	{
 		testBox = make_shared<GameObject>();

@@ -157,7 +157,6 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Demo.h" />
-    <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="main.h" />
@@ -178,7 +177,6 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="Demo.cpp" />
-    <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="main.cpp" />
