@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Warrior.h"
 #include "PlayerController.h"
+#include "HeightGetter.h"
 
 Warrior::Warrior()
 {
@@ -55,7 +56,11 @@ void Warrior::CharacterInit()
 		rot.y -= ::XMConvertToRadians(90.f);
 		_childModel->GetTransform()->SetLocalRotation(rot);
 	}
-
+	{
+		auto height = make_shared<HeightGetter>();
+		height->Set(MANAGER_SCENE()->GetCurrentScene()->GetCurrentTerrain().get());
+		AddComponent(height);
+	}
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));

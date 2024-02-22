@@ -21,15 +21,11 @@ void BaseScene::Init()
 	MANAGER_RESOURCES()->Init();
 	{
 		_shader = make_shared<Shader>(L"Instancing.fx");
-		//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
 		MANAGER_RESOURCES()->AddResource(L"Default", _shader);
 		wstring dTex = RESOURCES_ADDR_TEXTURE;
 		dTex += L"Effect/noise.png";
 		_dissolve = MANAGER_RESOURCES()->GetOrAddTexture(L"Dissolve", dTex);
 	}
-
-	//랜더 매니저 초기화
-	MANAGER_RENDERER()->Init(_shader);
 
 	//light
 	{
@@ -40,10 +36,8 @@ void BaseScene::Init()
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(0.1f);
 		lightDesc.direction = Vec3(-0.5f, -0.5f, 0.0f);
-		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
-		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	//Camera
@@ -130,22 +124,15 @@ void BaseScene::Init()
 	spDesc.alphaName = L"SplatAlpha";
 	splatter = make_shared<LayerSplatter>();
 	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShader"));
-
 	quadTreeTerrain->AddSplatter(splatter);
-
-
 	SetTerrain(_terrain);
-	//	Add(_chr);
-			//Character
-		//Character
+
+	//Character
 	{
 		_warrior = make_shared<Warrior>();
 		_warrior->Awake();
 		_warrior->AddChild(_childCamera);
 		_warrior->AddComponent(make_shared<PlayerController>());
-		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
-		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);
 		_warrior->Start();
 
 		Add(_warrior);
@@ -187,7 +174,6 @@ void BaseScene::Init()
 		testBox->GetTransform()->SetLocalPosition(Vec3(0, 60, 0));
 		testBox->GetTransform()->SetLocalScale(Vec3(15.f));
 
-
 		Add(testBox);
 	}
 
@@ -220,9 +206,6 @@ void BaseScene::Start()
 
 void BaseScene::Update()
 {
-	MANAGER_RENDERER()->Update();
-
-
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
 	MANAGER_SHADOW()->StartShadow();
 	_terrain->GetMeshRenderer()->SetPass(1);
@@ -231,37 +214,6 @@ void BaseScene::Update()
 
 	Scene::ShadowUpdate();
 	MANAGER_SHADOW()->EndShadow();
-
-	static float dt = 0.f;
-
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
-	{
-		if (_isdisv)
-		{
-			_isdisv = false;
-		}
-		else
-		{
-			_isdisv = true;
-		}
-	}
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_2))
-	{
-		if (dt >= 1.0f)
-		{
-			dt = 0.f;
-		}
-
-		_isdisv = false;
-	}
-
-	if (_isdisv)
-	{
-		dt += MANAGER_TIME()->GetDeltaTime() * 0.35f;
-	}
-
-	_shader->GetSRV("dissolve")->SetResource(_dissolve->GetTexture().Get());
-	_shader->GetScalar("time")->SetFloat(dt);
 
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
 	{
@@ -272,10 +224,11 @@ void BaseScene::Update()
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
-		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
-		sendInfo._isAttack = _isAttack;
+		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
+		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
+		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
@@ -330,9 +283,9 @@ void BaseScene::Update()
 	}
 	latestMessageSize = MANAGER_IMGUI()->GetLatestMessages().size();
 
-	quadTreeTerrain->Update();
 	skyBox->Update();
 	Scene::Update();
+	quadTreeTerrain->Update();
 }
 
 void BaseScene::LateUpdate()

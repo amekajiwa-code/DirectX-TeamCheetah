@@ -136,6 +136,7 @@ bool PlayerController::SetAnimState(const PlayerAnimType& animType)
 	else
 	{
 		_animState->Out();
+
 		_animState = _animStateList[static_cast<int>(animType)];
 
 		if (_animState)
@@ -156,9 +157,10 @@ const PlayerAnimType& PlayerController::GetCurrentAnimType()
 
 void PlayerController::PlayerInput()
 {
-	PlayerAttack();
-
 	PlayerMove();
+
+	_animState->Update();
+
 
 	//Debug
 	{
@@ -226,12 +228,12 @@ void PlayerController::PlayerMove()
 {
 	_dt = MANAGER_TIME()->GetDeltaTime();
 	_movePos = _transform.lock()->GetPosition();
+
 	if (_heightGetterCom.lock())
 	{
-		if(_jumpState->isJump == false)
-		_movePos.y = _heightGetterCom.lock()->GetHeight();
+		if (_jumpState->isJump == false)
+			_movePos.y = _heightGetterCom.lock()->GetHeight();
 	}
-
 
 	if (_isSlow)
 	{
@@ -241,6 +243,8 @@ void PlayerController::PlayerMove()
 	{
 		_currentSpeed = _defaultSpeed;
 	}
+
+	PlayerAttack();
 
 	if (_isAttack == false)
 	{
@@ -326,14 +330,14 @@ void PlayerController::PlayerJump()
 		{
 			float height = _heightGetterCom.lock()->GetHeight();
 			float test = height + _jumpPower;
-			if (_movePos.y < (height + _jumpPower) / 1.35f)
+			if (_movePos.y < (height + _jumpPower) / 1.4f)
 			{
 				_jumpState->isJumpFall = false;
 				_jumpState->isJumEnd = true;
 			}
 			else
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 1.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
 		}
@@ -349,7 +353,7 @@ void PlayerController::PlayerJump()
 			}
 			else
 			{
-				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 2.0f * _dt);
+				_movePos = Vec3::Lerp(_movePos, Vec3(_movePos + _jumpDownDir * _jumpPower), 1.5f * _dt);
 				_transform.lock()->SetPosition(_movePos);
 			}
 		}
@@ -358,23 +362,12 @@ void PlayerController::PlayerJump()
 
 void PlayerController::PlayerAttack()
 {
-	if (*_currentState == PlayerUnitState::Attack)
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q) && _isAttack == false && _jumpState->isJump == false)
 	{
-		if (_animator.lock()->GetFrameEnd() == true)
-		{
-			_isAttack = false;
-		}
-	}
-	else
-	{
-		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::Q) &&
-			_isAttack == false)
-		{
-			_isAttack = true;
-			_isBattle = true;
-			_battleTimer = 0.f;
-			*_currentState = PlayerUnitState::Attack;
-		}
+		_isAttack = true;
+		_isBattle = true;
+		_battleTimer = 0.f;
+		*_currentState = PlayerUnitState::Attack;
 	}
 }
 
@@ -382,48 +375,50 @@ void PlayerController::KeyStateCheck()
 {
 	if (_jumpState->isJump == false)
 	{
-		if (*_currentState == PlayerUnitState::LeftMove ||
-			*_currentState == PlayerUnitState::RightMove ||
-			*_currentState == PlayerUnitState::FrontMove)
+		if (_isAttack == false)
 		{
-			_isSlow = false;
-		}
-		else if (*_currentState == PlayerUnitState::BackMove)
-		{
-			_isSlow = true;
-		}
-
-		if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-			MANAGER_INPUT()->GetButton(KEY_TYPE::A))
-		{
-			*_currentState = PlayerUnitState::FrontLeftMove;
-		}
-		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-			MANAGER_INPUT()->GetButton(KEY_TYPE::A))
-		{
-			_isSlow = true;
-			*_currentState = PlayerUnitState::BackLeftMove;
-		}
-		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-		{
-			*_currentState = PlayerUnitState::FrontRightMove;
-		}
-		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-			MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-		{
-			_isSlow = true;
-			*_currentState = PlayerUnitState::BackRightMove;
-		}
-		else if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
-			!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
-		{
-			if (_isAttack == false && _jumpState->isJump == false)
+			if (*_currentState == PlayerUnitState::LeftMove ||
+				*_currentState == PlayerUnitState::RightMove ||
+				*_currentState == PlayerUnitState::FrontMove)
 			{
+				_isSlow = false;
+			}
+			else if (*_currentState == PlayerUnitState::BackMove)
+			{
+				_isSlow = true;
+			}
+
+			if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+				MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+			{
+				*_currentState = PlayerUnitState::FrontLeftMove;
+			}
+			else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+				MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+			{
+				_isSlow = true;
+				*_currentState = PlayerUnitState::BackLeftMove;
+			}
+			else if (MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+				MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+			{
+				*_currentState = PlayerUnitState::FrontRightMove;
+			}
+			else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+				MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+			{
+				_isSlow = true;
+				*_currentState = PlayerUnitState::BackRightMove;
+			}
+			else if (!MANAGER_INPUT()->GetButton(KEY_TYPE::W) &&
+				!MANAGER_INPUT()->GetButton(KEY_TYPE::S) &&
+				!MANAGER_INPUT()->GetButton(KEY_TYPE::A) &&
+				!MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+			{
+
 				if (_isBattle)
 				{
+					_currentSpeed = _defaultSpeed;
 					*_currentState = PlayerUnitState::Battle;
 				}
 				else
@@ -431,8 +426,10 @@ void PlayerController::KeyStateCheck()
 					_currentSpeed = _defaultSpeed;
 					*_currentState = PlayerUnitState::Stand;
 				}
+
 			}
 		}
+
 	}
 }
 
@@ -480,13 +477,11 @@ void PlayerController::FixedUpdate()
 
 		_battleTimer += MANAGER_TIME()->GetDeltaTime();
 	}
-
-	PlayerInput();
 }
 
 void PlayerController::Update()
 {
-	_animState->Update();
+	PlayerInput();
 }
 
 void PlayerController::LateUpdate()

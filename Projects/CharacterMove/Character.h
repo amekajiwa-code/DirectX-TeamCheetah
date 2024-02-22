@@ -16,6 +16,7 @@ struct CHARACTER_INFO
 	Vec3 _Rotate = { 0.f, 0.f, 0.f };
 	bool _isAlive = false;
 	bool _isAttack = false;
+	bool _isBattle = false;
 	double _timeStamp = 0.0f;
 };
 

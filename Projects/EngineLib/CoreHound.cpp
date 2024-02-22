@@ -34,14 +34,12 @@ void CoreHound::CharacterInit()
 			tempAnimator->SetModel(model);
 			tempAnimator->SetPlay(true);
 			tempAnimator->SetLoop(true);
-			tempAnimator->SetPass(1);
+			tempAnimator->SetPass(2);
 		}
 		_childModel->AddComponent(tempAnimator);
 		_childModel->Awake();
 		_childModel->Start();
 		_childModel->SetName(L"Model");
-		tempAnimator->GetTweenDesc().ClearNextAnim();
-		tempAnimator->SetNextAnimation(L"Death");
 
 		Vec3 rot = _childModel->GetTransform()->GetLocalRotation();
 		rot.x += ::XMConvertToRadians(90.f);

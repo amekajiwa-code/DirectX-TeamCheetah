@@ -135,7 +135,7 @@ void AIController::Start()
 	case AIType::PlayableUnit:
 	{
 		_currentPlayerState = make_shared<PlayerUnitState>();
-		*_currentPlayerState = PlayerUnitState::FrontMove;
+		*_currentPlayerState = PlayerUnitState::Stand;
 	}break;
 	case AIType::EnemyUnit:
 	{
@@ -149,23 +149,24 @@ void AIController::Start()
 
 void AIController::FixedUpdate()
 {
-}
-
-void AIController::Update()
-{
 	switch (_type)
 	{
 	case AIType::PlayableUnit:
 	{
 		_currentPlayerAnimState->Update();
 	}
-		break;
+	break;
 	case AIType::EnemyUnit:
 	{
 		_currentEnemyAnimState->Update();
 	}
-		break;
+	break;
 	}
+}
+
+void AIController::Update()
+{
+
 }
 
 void AIController::LateUpdate()

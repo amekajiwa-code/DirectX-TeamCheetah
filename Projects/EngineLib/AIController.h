@@ -42,7 +42,7 @@ public:
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
-	const bool& isAttack() const { return _isAttack; }
+	const bool& IsAttack() const { return _isAttack; }
 	void SetIsAttack(bool attack) { _isAttack = attack; }
 	void SetJumpState(const JumpFlag& jumpFlag) { *_jumpState = jumpFlag; }
 public:

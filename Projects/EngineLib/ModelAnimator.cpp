@@ -171,17 +171,19 @@ void ModelAnimator::UpdateTweenData()
 					if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
 					{
 						_isFrameEnd = true;
+						_tweenDesc.current.currentFrame = 0;
+						_tweenDesc.current.nextFrame = 1;
 					}
 
 					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
 					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
 
-					if (_tweenDesc.current.sumTime >= _timePerFrame)
+					if (_tweenDesc.current.sumTime > _timePerFrame + FLT_EPSILON)
 					{
-
 						_tweenDesc.current.sumTime = 0;
-						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
-						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1) % _currentAnim->frameCount;
+						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1);
+						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1);
+
 					}
 
 					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
@@ -193,9 +195,9 @@ void ModelAnimator::UpdateTweenData()
 				_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
 				_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
 
-				if (_tweenDesc.tweenRatio >= 1.f)
+				if (_tweenDesc.tweenRatio > 1.f + FLT_EPSILON)
 				{
-					//_tweenDesc.ClearCurrentAnim();
+					_tweenDesc.ClearCurrentAnim();
 					_tweenDesc.current = _tweenDesc.next;
 					_currentAnim = _nextAnim;
 					_nextAnim = nullptr;
@@ -209,7 +211,7 @@ void ModelAnimator::UpdateTweenData()
 
 						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
 
-						if (_tweenDesc.next.ratio >= 1.f)
+						if (_tweenDesc.next.ratio > 1.f + FLT_EPSILON)
 						{
 							_tweenDesc.next.sumTime = 0;
 							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
@@ -240,7 +242,7 @@ bool ModelAnimator::SetNextAnimation(wstring animName)
 		{
 			_nextAnim = anim;
 			_tweenDesc.next.animIndex = num;
-			_tweenDesc.tweenDuration = 10.0f / _nextAnim->frameRate;
+			_tweenDesc.tweenDuration = 3.f / _nextAnim->duration + FLT_EPSILON;
 			return true;
 		}
 		num++;
