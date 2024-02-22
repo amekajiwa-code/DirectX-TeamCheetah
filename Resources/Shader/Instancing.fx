@@ -59,7 +59,7 @@ float4 PSSHADOW(ShadowOutput input) : SV_TARGET
 	lerp(sourcevals[2], sourcevals[3], lerps.x),
 	 lerps.y);
         }
-        float finalColor = color * max(0.5f, LightAmount);
+        float4 finalColor = color * max(0.5f, LightAmount);
         return finalColor;
     }
 }
@@ -81,7 +81,8 @@ technique11 T0
     //Mesh
 	PASS_VP(P0, MeshVS, DefaultPS)
     //Model Static
-    PASS_VP(P1, StaticModelVS, DefaultPS)
+//    PASS_VP(P1, StaticModelVS, DefaultPS)
+    PASS_RS_SP(P1, CullNone, StaticModelVS, DefaultPS)
     //Model Dynamic
     PASS_VP(P2, DynamicModelVS, DefaultPS)
     //StaticMesh

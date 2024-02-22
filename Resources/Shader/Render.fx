@@ -175,6 +175,7 @@ ShadowOutput SkeletalMeshSHADOW(VertexModel input)
     
     output.position = mul(input.position, m);
     output.position = mul(output.position, input.world);
+    output.texShadow = mul(output.position, matShadow);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, VP);
 	
@@ -182,7 +183,6 @@ ShadowOutput SkeletalMeshSHADOW(VertexModel input)
     output.normal = mul(input.normal, (float3x3) input.world);
     output.tangent = mul(input.tangent, (float3x3) input.world);
     
-    output.texShadow = mul(input.position, matShadow);
     return output;
 }
 
@@ -192,13 +192,13 @@ ShadowOutput StaticMeshSHADOW(VertexModel input)
     
     output.position = mul(input.position, BoneTransform[BoneIndex]);
     output.position = mul(output.position, input.world);
+    output.texShadow = mul(output.position, matShadow);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, VP);
 	
     output.uv = input.uv;
     output.normal = mul(input.normal, (float3x3) input.world);
     output.tangent = mul(input.tangent, (float3x3) input.world);
-    output.texShadow = mul(input.position, matShadow);
     
     return output;
 }

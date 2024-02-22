@@ -14,7 +14,7 @@ void Skybox::Start()
 	}
 
 	GetOrAddTransform()->SetLocalPosition(Vec3(0, 0, 0));
-	GetOrAddTransform()->SetLocalScale(Vec3(1000, 1000, 1000));
+	GetOrAddTransform()->SetLocalScale(Vec3(10000, 10000, 10000));
 	AddComponent(make_shared<MeshRenderer>());
 	mesh = MANAGER_RESOURCES()->GetResource<Mesh>(L"Cube");
 	GetMeshRenderer()->SetMesh(mesh);

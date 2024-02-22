@@ -107,6 +107,7 @@ void InstancingManager::RenderModelRenderer(vector<shared_ptr<GameObject>>& game
 			}
 
 			shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+			MANAGER_SHADOW()->SetShadow(vec[0]->GetModelRenderer()->GetShader());
 			vec[0]->GetModelRenderer()->RenderInstancing(buffer);
 		}
 	}
@@ -178,12 +179,16 @@ void InstancingManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameO
 			{
 				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				MANAGER_SHADOW()->SetShadow(vec[0]->GetChildByName(L"Model")->GetModelAnimator()->GetShader());
 				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->RenderInstancing(buffer);
 			}
 			else
 			{
 				vec[0]->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+
+				MANAGER_SHADOW()->SetShadow(vec[0]->GetModelAnimator()->GetShader());
+
 				vec[0]->GetModelAnimator()->RenderInstancing(buffer);
 			}
 

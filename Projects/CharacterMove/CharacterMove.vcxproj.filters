@@ -68,6 +68,9 @@
     <ClCompile Include="StructList.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="DungeonScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="ObjectExporter.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

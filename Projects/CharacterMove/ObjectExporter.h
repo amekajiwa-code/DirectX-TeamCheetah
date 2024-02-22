@@ -3,17 +3,18 @@
 
 class EnemyUnit;
 class CoreHound;
-struct MobParser{
+struct MobParser {
 	pair <wstring, shared_ptr<CoreHound>> dog_pair;
-	
+
 };
 
 class ObjectExporter
 {
-	vector<shared_ptr<GameObject>> _structureList;
-	vector<shared_ptr<EnemyUnit>>  _enemyList;
 	map<wstring, std::vector<float>> enemyListforServer;
 	bool isLoaded = false;
+public:
+	vector<shared_ptr<GameObject>> _structureList;
+	vector<shared_ptr<EnemyUnit>>  _enemyList;
 public:
 	bool OpenFile(wstring filename);
 	void LoadStructure();

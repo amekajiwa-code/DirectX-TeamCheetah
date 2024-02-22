@@ -298,6 +298,31 @@ void Model::ReadModel(wstring fileName)
 				void* data = indices.data();
 				file->Read(&data, sizeof(uint32) * count);
 				mesh->geometry->AddIndices(indices);
+
+				auto& verties = mesh->geometry->GetVertices();
+				auto refIndexList = mesh->geometry->GetIndices();
+				//for (int j = 0; j < refIndexList.size(); j += 3) {
+				//	Vec3 p1 = verties[refIndexList[j + 0]].position;
+				//	Vec3 p2 = verties[refIndexList[j + 1]].position;
+				//	Vec3 p0 = verties[refIndexList[j + 2]].position;
+
+				//	Vec3 e1 = p1 - p0;
+				//	Vec3 e2 = p2 - p0;
+				//	Vec3 normal = e1.Cross(e2);
+				//	normal.Normalize();
+				//	const_cast<vector<ModelVertexType>&>(verties)[refIndexList[j + 0]].normal += normal;
+				//	const_cast<vector<ModelVertexType>&>(verties)[refIndexList[j + 1]].normal += normal;
+				//	const_cast<vector<ModelVertexType>&>(verties)[refIndexList[j + 2]].normal += normal;
+				//}
+				for (int i = 0; i < verties.size(); ++i) {
+					//					const_cast<vector<ModelVertexType>&>(verties)[i].normal.Normalize();
+					const_cast<vector<ModelVertexType>&>(verties)[i].normal = verties[i].normal * -1.0f;
+					//const_cast<vector<ModelVertexType>&>(verties)[i].normal.x=
+					//	fabs(verties[i].normal.x);
+					//const_cast<vector<ModelVertexType>&>(verties)[i].normal.y =
+					//	fabs(verties[i].normal.y);
+					//const_cast<vector<ModelVertexType>&>(verties)[i].normal.z =
+					//	fabs(verties[i].normal.z);
 			}
 
 			mesh->CreateBuffers();

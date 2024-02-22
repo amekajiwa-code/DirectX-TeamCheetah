@@ -5,11 +5,12 @@ void StructureObj::Awake()
 {
 	auto _obj = make_shared<GameObject>();
 	wstring objName = _name;
+	Super::Awake();
 
 	//Character
 	{
 		shared_ptr<Model> model = make_shared<Model>();
-		{	
+		{
 			wstring MeshAdr = RESOURCES_ADDR_MESH_STATIC;
 			MeshAdr += objName;
 			MeshAdr += L"/";
@@ -29,7 +30,7 @@ void StructureObj::Awake()
 		shared_ptr<ModelRenderer> tempModelRenderer = make_shared<ModelRenderer>(shader);
 		{
 			tempModelRenderer->SetModel(model);
-			tempModelRenderer->SetPass(0);
+			tempModelRenderer->SetPass(1);
 		}
 		this->AddComponent(tempModelRenderer);
 
@@ -40,5 +41,4 @@ void StructureObj::Awake()
 	}
 	SetName(objName);
 
-	Super::Awake();
 }

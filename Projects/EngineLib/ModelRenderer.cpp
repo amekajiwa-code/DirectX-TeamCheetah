@@ -23,6 +23,7 @@ void ModelRenderer::SetModel(shared_ptr<Model> model)
 
 void ModelRenderer::Update()
 {
+	/*
 	if (_model == nullptr)
 		return;
 
@@ -64,6 +65,7 @@ void ModelRenderer::Update()
 
 		_shader->DrawIndexed(0, _pass, mesh->indexBuffer->GetCount(), 0, 0);
 	}
+	*/
 }
 
 void ModelRenderer::LateUpdate()

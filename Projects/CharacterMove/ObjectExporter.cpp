@@ -22,16 +22,15 @@ bool ObjectExporter::OpenFile(wstring filename)
 		std::wstring realpath;
 		realpath.append(path);
 		delete[](path);
-		
+
 		std::size_t found = realpath.find_last_of(L"/");
-		std::wstring divpath = realpath.substr(0, found + 1);
-		if (path == L"") {
+		if (found > 1000) {
 			found = realpath.find_last_of(L"\\");
-			divpath = realpath.substr(0, found + 1);
 		}
+		wstring divpath = realpath.substr(found + 1, realpath.size());
 		found = divpath.find_last_of(L".");
-		std::wstring key = realpath.substr(0,found);
-		
+		std::wstring key = divpath.substr(0, found);
+
 		bool findObj;
 		//TODO
 		StructureList list;
@@ -41,7 +40,7 @@ bool ObjectExporter::OpenFile(wstring filename)
 				break;
 			}
 		}
-		
+
 		int type = 0;
 		fread(&type, sizeof(int), 1, fp);
 		int vectorsize = 0;
@@ -53,10 +52,12 @@ bool ObjectExporter::OpenFile(wstring filename)
 
 			int ids = 0;
 			Vec3 vecPos(floatVec[0], floatVec[1], floatVec[2]);
+			vecPos.z = vecPos.z * -1.0f;
 			Vec3 vecScale(floatVec[3], floatVec[4], floatVec[5]);
 			Vec3 vecRotate(floatVec[6], floatVec[7], floatVec[8]);
 			if (findObj) {
-				shared_ptr<StructureObj> obj= make_shared<StructureObj>(key);
+				shared_ptr<StructureObj> obj = make_shared<StructureObj>(key);
+				obj->Awake();
 				auto transformData = obj->GetOrAddTransform();
 				transformData->SetLocalPosition(vecPos);
 				transformData->SetLocalScale(vecScale);
@@ -64,7 +65,7 @@ bool ObjectExporter::OpenFile(wstring filename)
 				vecRotate = vecRotate + prevRotate;
 				transformData->SetLocalRotation(vecRotate);
 				_structureList.push_back(obj);
-				
+
 			}
 		}
 

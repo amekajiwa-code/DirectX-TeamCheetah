@@ -157,6 +157,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Demo.h" />
+    <ClInclude Include="DungeonScene.h" />
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="main.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="DungeonScene.cpp" />
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="main.cpp" />

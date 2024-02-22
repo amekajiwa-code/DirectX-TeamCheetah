@@ -137,6 +137,11 @@ RasterizerState FillModeWireFrame
 {
     FillMode = WireFrame;
 };
+
+RasterizerState CullNone
+{
+    CullMode = None;
+};
 RasterizerState ShadowRaster
 {
     DepthClipEnable = true;

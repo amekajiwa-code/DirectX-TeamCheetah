@@ -69,7 +69,7 @@ void ShadowManager::RenderMeshRenderer(vector<shared_ptr<GameObject>>& gameObjec
 			}
 
 			shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
-			vec[0]->GetMeshRenderer()->RenderInstancingShadow(buffer,_desc);
+			vec[0]->GetMeshRenderer()->RenderInstancingShadow(buffer, _desc);
 		}
 	}
 }
@@ -124,14 +124,14 @@ void ShadowManager::RenderModelRenderer(vector<shared_ptr<GameObject>>& gameObje
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
 				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->SetPass(5);
 				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->RenderInstancingShadow(buffer, _desc);
-				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->SetPass(1);
+				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->SetPass(3);
 			}
 			else
 			{
 				vec[0]->GetModelRenderer()->SetPass(5);
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
 				vec[0]->GetModelRenderer()->RenderInstancingShadow(buffer, _desc);
-				vec[0]->GetModelRenderer()->SetPass(1);
+				vec[0]->GetModelRenderer()->SetPass(3);
 			}
 		}
 	}
@@ -203,7 +203,7 @@ void ShadowManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameObjec
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
 				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
 				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->RenderInstancingShadow(buffer, _desc);
-				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->SetPass(2);
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->SetPass(4);
 			}
 			else
 			{
@@ -211,7 +211,7 @@ void ShadowManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameObjec
 				vec[0]->GetModelAnimator()->SetPass(6);
 				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
 				vec[0]->GetModelAnimator()->RenderInstancingShadow(buffer, _desc);
-				vec[0]->GetModelAnimator()->SetPass(2);
+				vec[0]->GetModelAnimator()->SetPass(4);
 			}
 		}
 	}

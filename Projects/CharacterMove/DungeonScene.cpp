@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "BaseScene.h"
+#include "DungeonScene.h"
 #include "CameraMove.h"
 #include "LavaFlow.h"
 #include "StruectedLavaSprite.h"
@@ -12,20 +12,24 @@
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
 #include "..\EngineLib\ImGuiManager.h"
+#include "ObjectExporter.h"
 
-SendBufferRef GsendBuffer;
 
-void BaseScene::Init()
+void DungeonScene::Init()
 {
 	//리소스 매니저 초기화
 	MANAGER_RESOURCES()->Init();
 	{
 		_shader = make_shared<Shader>(L"Instancing.fx");
+		//_shader = make_shared<Shader>(L"23. RenderDemo.fx");
 		MANAGER_RESOURCES()->AddResource(L"Default", _shader);
 		wstring dTex = RESOURCES_ADDR_TEXTURE;
 		dTex += L"Effect/noise.png";
 		_dissolve = MANAGER_RESOURCES()->GetOrAddTexture(L"Dissolve", dTex);
 	}
+
+	//랜더 매니저 초기화
+	MANAGER_RENDERER()->Init(_shader);
 
 	//light
 	{
@@ -36,8 +40,10 @@ void BaseScene::Init()
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(0.1f);
 		lightDesc.direction = Vec3(-0.5f, -0.5f, 0.0f);
+		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
+		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	//Camera
@@ -53,7 +59,11 @@ void BaseScene::Init()
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
-
+	ObjectExporter exporter;
+	exporter.OpenFile(L"../../Resources/Assets/dungeon1fix.dat");
+	for (int i = 0; i < exporter._structureList.size(); ++i) {
+		Add(exporter._structureList[i]);
+	}
 	{
 		auto obj = make_shared<GameObject>();
 		LavaSpriteDesc descs{};
@@ -94,14 +104,14 @@ void BaseScene::Init()
 
 	HeightPlainInfo heightMapDesc;
 	heightMapDesc.heightFilename = L"HeightMap";
-	heightMapDesc.heightFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"test.bmp";
+	heightMapDesc.heightFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"dungeon1.bmp";
 	heightMapDesc.shaderFilePath = L"ShadowSplattingMapping.fx";
 	//heightMapDesc.shaderFilePath = L"TerrainMapping.fx";
 	heightMapDesc.shaderFilename = L"HeightMapShader";
 	heightMapDesc.textureFilename = L"HeightMapTexture";
 	heightMapDesc.textureFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"020.bmp";
 	heightMapDesc.meshKey = L"TerrainMesh";
-	heightMapDesc.distance = 1;
+	heightMapDesc.distance = 2;
 	heightMapDesc.row = 253;
 	heightMapDesc.col = 253;
 
@@ -120,25 +130,32 @@ void BaseScene::Init()
 	spDesc.texName[0] = L"Splat1";
 	spDesc.texName[1] = L"Splat2";
 	spDesc.texName[2] = L"Splat3";
-	spDesc.alphaPath = wstring(RESOURCES_ADDR_TEXTURE) + L"testalpha.bmp";
+	spDesc.alphaPath = wstring(RESOURCES_ADDR_TEXTURE) + L"dungeon1alpha.bmp";
 	spDesc.alphaName = L"SplatAlpha";
 	splatter = make_shared<LayerSplatter>();
 	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShader"));
-	quadTreeTerrain->AddSplatter(splatter);
-	SetTerrain(_terrain);
 
-	//Character
+	quadTreeTerrain->AddSplatter(splatter);
+
+
+	SetTerrain(_terrain);
+	//	Add(_chr);
+			//Character
+		//Character
 	{
 		_warrior = make_shared<Warrior>();
 		_warrior->Awake();
 		_warrior->AddChild(_childCamera);
 		_warrior->AddComponent(make_shared<PlayerController>());
+		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
+		getter->Set(_terrain.get());
+		_warrior->AddComponent(getter);
 		_warrior->Start();
-
+		_warrior->GetTransform()->SetLocalPosition(Vec3(-374,25,338));
 		Add(_warrior);
 		AddShadow(_warrior);
 	}
-		//collision Test
+	//collision Test
 	{
 		testBox = make_shared<GameObject>();
 		shared_ptr<Mesh> box = make_shared<Mesh>();
@@ -174,6 +191,7 @@ void BaseScene::Init()
 		testBox->GetTransform()->SetLocalPosition(Vec3(0, 60, 0));
 		testBox->GetTransform()->SetLocalScale(Vec3(15.f));
 
+
 		Add(testBox);
 	}
 
@@ -199,21 +217,48 @@ void BaseScene::Init()
 	}
 #pragma endregion Client Thread
 }
-void BaseScene::Start()
+void DungeonScene::Start()
 {
 	Scene::Start();
 }
 
-void BaseScene::Update()
+void DungeonScene::Update()
 {
-	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
-	MANAGER_SHADOW()->StartShadow();
-	_terrain->GetMeshRenderer()->SetPass(1);
-	_terrain->GetMeshRenderer()->ShadowUpdate();
-	_terrain->GetMeshRenderer()->SetPass(0);
+	MANAGER_RENDERER()->Update();
 
-	Scene::ShadowUpdate();
-	MANAGER_SHADOW()->EndShadow();
+
+	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
+
+	static float dt = 0.f;
+
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
+	{
+		if (_isdisv)
+		{
+			_isdisv = false;
+		}
+		else
+		{
+			_isdisv = true;
+		}
+	}
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_2))
+	{
+		if (dt >= 1.0f)
+		{
+			dt = 0.f;
+		}
+
+		_isdisv = false;
+	}
+
+	if (_isdisv)
+	{
+		dt += MANAGER_TIME()->GetDeltaTime() * 0.35f;
+	}
+
+	_shader->GetSRV("dissolve")->SetResource(_dissolve->GetTexture().Get());
+	_shader->GetScalar("time")->SetFloat(dt);
 
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
 	{
@@ -224,11 +269,10 @@ void BaseScene::Update()
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
+		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
-		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
-		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
-		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+		sendInfo._isAttack = _isAttack;
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
@@ -284,11 +328,11 @@ void BaseScene::Update()
 	latestMessageSize = MANAGER_IMGUI()->GetLatestMessages().size();
 
 	Scene::Update();
-	skyBox->Update();
 	quadTreeTerrain->Update();
+	skyBox->Update();
 }
 
-void BaseScene::LateUpdate()
+void DungeonScene::LateUpdate()
 {
 	Scene::LateUpdate();
 }
