@@ -87,6 +87,15 @@ void ShadowManager::RenderModelRenderer(vector<shared_ptr<GameObject>>& gameObje
 		const InstanceID instanceId = gameObject->GetModelRenderer()->GetInstanceID();
 		cache[instanceId].push_back(gameObject);
 	}
+	for (shared_ptr<GameObject>& gameObject : gameObjects)
+	{
+		const auto& temp = gameObject->GetChildByName(L"Model");
+		if (temp->GetModelRenderer())
+		{
+			const InstanceID instanceId = temp->GetModelRenderer()->GetInstanceID();
+			cache[instanceId].push_back(gameObject);
+		}
+	}
 
 	for (auto& pair : cache)
 	{
@@ -110,7 +119,20 @@ void ShadowManager::RenderModelRenderer(vector<shared_ptr<GameObject>>& gameObje
 			}
 
 			shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
-			vec[0]->GetModelRenderer()->RenderInstancingShadow(buffer,_desc);
+			if (vec[0]->GetModelRenderer() == nullptr)
+			{
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->SetPass(5);
+				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->RenderInstancingShadow(buffer, _desc);
+				vec[0]->GetChildByName(L"Model")->GetModelRenderer()->SetPass(1);
+			}
+			else
+			{
+				vec[0]->GetModelRenderer()->SetPass(5);
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetModelRenderer()->RenderInstancingShadow(buffer, _desc);
+				vec[0]->GetModelRenderer()->SetPass(1);
+			}
 		}
 	}
 }
@@ -126,6 +148,15 @@ void ShadowManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameObjec
 
 		const InstanceID instanceId = gameObject->GetModelAnimator()->GetInstanceID();
 		cache[instanceId].push_back(gameObject);
+	}
+	for (shared_ptr<GameObject>& gameObject : gameObjects)
+	{
+		const auto& temp = gameObject->GetChildByName(L"Model");
+		if (temp->GetModelAnimator())
+		{
+			const InstanceID instanceId = temp->GetModelAnimator()->GetInstanceID();
+			cache[instanceId].push_back(gameObject);
+		}
 	}
 
 	for (auto& pair : cache)
@@ -148,17 +179,40 @@ void ShadowManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameObjec
 				InstancingData data;
 				data.world = gameObject->GetTransform()->GetWorldMatrix();
 
-				AddData(instanceId, data);
 
 				// INSTANCING
-				gameObject->GetModelAnimator()->UpdateTweenData();
-				tweenDesc->tweens[i] = gameObject->GetModelAnimator()->GetTweenDesc();
+				if (gameObject->GetModelAnimator() == nullptr)
+				{
+					tweenDesc->tweens[i] = gameObject->GetChildByName(L"Model")->GetModelAnimator()->GetTweenDesc();
+					data.world = gameObject->GetChildByName(L"Model")->GetTransform()->GetWorldMatrix();
+
+				}
+				else
+				{
+					tweenDesc->tweens[i] = gameObject->GetModelAnimator()->GetTweenDesc();
+
+				}
+
+				AddData(instanceId, data);
 			}
 
-			vec[0]->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
-
 			shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
-			vec[0]->GetModelAnimator()->RenderInstancingShadow(buffer,_desc);
+			if (vec[0]->GetModelAnimator() == nullptr)
+			{
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->SetPass(6);
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->RenderInstancingShadow(buffer, _desc);
+				vec[0]->GetChildByName(L"Model")->GetModelAnimator()->SetPass(2);
+			}
+			else
+			{
+				vec[0]->GetModelAnimator()->GetShader()->PushTweenData(*tweenDesc.get());
+				vec[0]->GetModelAnimator()->SetPass(6);
+				shared_ptr<InstancingBuffer>& buffer = _buffers[instanceId];
+				vec[0]->GetModelAnimator()->RenderInstancingShadow(buffer, _desc);
+				vec[0]->GetModelAnimator()->SetPass(2);
+			}
 		}
 	}
 }

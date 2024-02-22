@@ -11,6 +11,7 @@
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
+#include "..\EngineLib\ImGuiManager.h"
 
 SendBufferRef GsendBuffer;
 
@@ -316,6 +317,18 @@ void BaseScene::Update()
 	}
 #pragma endregion Client Thread
 
+	//채팅
+	if (MANAGER_IMGUI()->GetLatestMessages().size() > 0 && (MANAGER_IMGUI()->GetLatestMessages().size() != latestMessageSize))
+	{
+		string text = MANAGER_IMGUI()->GetLatestMessages().back();
+		const char* newMessage = text.c_str();
+		MESSAGE message;
+		std::strncpy(message._messageBox, newMessage, sizeof(message._messageBox) - 1);
+		message._messageBox[sizeof(message._messageBox) - 1] = '\0'; // Null 문자 추가
+		_sendBuffer = ClientPacketHandler::Instance().Make_MESSAGE(message);
+		_service->Broadcast(_sendBuffer);
+	}
+	latestMessageSize = MANAGER_IMGUI()->GetLatestMessages().size();
 
 	quadTreeTerrain->Update();
 	skyBox->Update();

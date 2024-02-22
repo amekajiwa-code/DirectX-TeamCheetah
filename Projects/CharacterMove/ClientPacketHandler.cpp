@@ -2,6 +2,7 @@
 #include "ClientPacketHandler.h"
 #include "BufferReader.h"
 #include "BufferWriter.h"
+#include "..\EngineLib\ImGuiManager.h"
 
 
 void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
@@ -18,6 +19,9 @@ void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 		break;
 	case PACKET_MONSTER_INFO:
 		Handle_MONSTER_INFO(buffer, len);
+		break;
+	case PACKET_MESSAGE:
+		Handle_MESSAGE(buffer, len);
 		break;
 	case PACKET_DISCONNECT:
 		Handle_USER_DISCONNECT(buffer, len);
@@ -91,7 +95,18 @@ void ClientPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 		}
 	}
 }
+void ClientPacketHandler::Handle_MESSAGE(BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
 
+	PacketHeader header;
+	br >> header;
+
+	MESSAGE message;
+	br >> message;
+
+	MANAGER_IMGUI()->AddMessage(message._messageBox);
+}
 void ClientPacketHandler::Handle_USER_DISCONNECT(BYTE* buffer, int32 len)
 {
 	
@@ -148,3 +163,20 @@ SendBufferRef ClientPacketHandler::Make_MONSTER_INFO(MONSTER_INFO info)
 	return sendBuffer;
 }
 
+SendBufferRef ClientPacketHandler::Make_MESSAGE(MESSAGE message)
+{
+	std::lock_guard<std::mutex> lock(_mutex);
+
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096); //4kb
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << message;
+
+	header->size = bw.WriteSize();
+	header->id = PACKET_MESSAGE;
+
+	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
+
+	return sendBuffer;
+}

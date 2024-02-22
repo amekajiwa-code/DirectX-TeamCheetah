@@ -1,12 +1,18 @@
 #pragma once
 #include "Character.h"
 
+struct MESSAGE
+{
+	char _messageBox[50];
+};
+
 struct Player_INFO : public CHARACTER_INFO
 {
 	uint64 _uid;
 	bool _isOnline = false;
 	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
+	MESSAGE _message;
 };
 
 class Player : public Character

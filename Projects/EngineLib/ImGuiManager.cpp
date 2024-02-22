@@ -134,6 +134,10 @@ void ImGuiManager::Update()
         for (const auto& message : chatMessages)
         {
             ImGui::TextWrapped("%s", message.c_str());
+        }        
+        for (const auto& message : otherChatMessages)
+        {
+            ImGui::TextWrapped("%s", message.c_str());
         }
         ImGui::EndChild();
 

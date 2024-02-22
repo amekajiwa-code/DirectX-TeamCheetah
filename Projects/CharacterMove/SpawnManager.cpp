@@ -48,6 +48,8 @@ void SpawnManager::SpawnOtherPlayer(uint64 uid, Vec3 spawnPos)
 	_chr->GetTransform()->SetLocalPosition(spawnPos);
 
 	_otherPlayers.insert(std::make_pair(uid, _chr)); //map에 모델과 식별id 추가
+	MANAGER_SCENE()->GetCurrentScene()->Add(_chr);
+	MANAGER_SCENE()->GetCurrentScene()->AddShadow(_chr);
 }
 
 void SpawnManager::SpawnOtherPlayers()
@@ -115,6 +117,8 @@ void SpawnManager::SpawnMonster(uint64 uid, Vec3 spawnPos)
 	_chr->GetTransform()->SetLocalPosition(spawnPos);
 
 	_monsters.insert(std::make_pair(uid, _chr)); //map에 모델과 식별id 추가
+	MANAGER_SCENE()->GetCurrentScene()->Add(_chr);
+	MANAGER_SCENE()->GetCurrentScene()->AddShadow(_chr);
 #pragma endregion
 }
 

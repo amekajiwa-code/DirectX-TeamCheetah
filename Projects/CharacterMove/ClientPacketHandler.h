@@ -8,6 +8,7 @@ enum
 	PACKET_CONNECT = 1,
 	PACKET_USER_INFO = 2,
 	PACKET_MONSTER_INFO = 3,
+	PACKET_MESSAGE = 4,
 	PACKET_DISCONNECT = 99,
 };
 
@@ -22,10 +23,13 @@ public:
 	void HandlePacket(BYTE* buffer, int32 len);
 	void Handle_USER_INFO(BYTE* buffer, int32 len);
 	void Handle_MONSTER_INFO(BYTE* buffer, int32 len);
+	void Handle_MESSAGE(BYTE* buffer, int32 len);
 	void Handle_USER_DISCONNECT(BYTE* buffer, int32 len);
 
 	SendBufferRef Make_USER_INFO(Player_INFO userInfo);
 	SendBufferRef Make_MONSTER_INFO(MONSTER_INFO info);
+	SendBufferRef Make_MESSAGE(MESSAGE message);
+
 
 	Player_INFO GetUserInfo() { return _userInfo; }
 	map<uint64, MONSTER_INFO> GetMobInfoList() { return _mobInfoList; }

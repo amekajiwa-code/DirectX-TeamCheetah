@@ -20,6 +20,9 @@ void ServerPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 	case PACKET_MONSTER_INFO:
 		Handle_MONSTER_INFO(buffer, len);
 		break;
+	case PACKET_MESSAGE:
+		Handle_MESSAGE(buffer, len);
+		break;
 	default:
 		break;
 	}
@@ -55,6 +58,20 @@ void ServerPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 	br >> info;
 
 	GSessionManager.UpdateMobInfo(info);
+}
+
+void ServerPacketHandler::Handle_MESSAGE(BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	MESSAGE message;
+	br >> message;
+
+	SendBufferRef sendBuffer = ServerPacketHandler::Make_MESSAGE(message);
+	GSessionManager.Broadcast(sendBuffer);
 }
 
 SendBufferRef ServerPacketHandler::Make_USER_CONNECT()
@@ -96,6 +113,22 @@ SendBufferRef ServerPacketHandler::Make_MONSTER_INFO(map<uint64, MONSTER_INFO> c
 
 	header->size = bw.WriteSize();
 	header->id = PACKET_MONSTER_INFO;
+
+	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
+
+	return sendBuffer;
+}
+
+SendBufferRef ServerPacketHandler::Make_MESSAGE(MESSAGE message)
+{
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096); //4kb
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << message;
+
+	header->size = bw.WriteSize();
+	header->id = PACKET_MESSAGE;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 

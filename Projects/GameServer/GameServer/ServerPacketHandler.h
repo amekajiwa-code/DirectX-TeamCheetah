@@ -8,6 +8,7 @@ enum
 	PACKET_CONNECT = 1,
 	PACKET_USER_INFO = 2,
 	PACKET_MONSTER_INFO = 3,
+	PACKET_MESSAGE = 4,
 	PACKET_DISCONNECT = 99,
 };
 
@@ -65,11 +66,16 @@ struct CHARACTER_INFO
 	uint16 _moveSpeed = 10;
 	uint16 _aggroLevel = 100;
 	float _attackRange = 15.0f;
-	Vec3 _pos = {0.0f, 0.0f, 0.0f};
+	Vec3 _pos = { 0.0f, 0.0f, 0.0f };
 	Vec3 _Rotate = { 0.0f, 0.0f, 0.0f };
 	bool _isAlive = true;
 	bool _isAttack = false;
-	double _timeStamp = 0.0f;	
+	double _timeStamp = 0.0f;
+};
+
+struct MESSAGE
+{
+	char _messageBox[50];
 };
 
 struct Player_INFO : public CHARACTER_INFO
@@ -78,6 +84,7 @@ struct Player_INFO : public CHARACTER_INFO
 	bool _isOnline = false;
 	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
+	MESSAGE _message;
 };
 
 struct MONSTER_INFO : public CHARACTER_INFO
@@ -94,9 +101,11 @@ public:
 	static void HandlePacket(BYTE* buffer, int32 len);
 	static void Handle_USER_INFO(BYTE* buffer, int32 len);
 	static void Handle_MONSTER_INFO(BYTE* buffer, int32 len);
+	static void Handle_MESSAGE(BYTE* buffer, int32 len);
 
 	static SendBufferRef Make_USER_CONNECT();
 	static SendBufferRef Make_USER_INFO(Player_INFO userInfo, bool otherPacket);
 	static SendBufferRef Make_MONSTER_INFO(map<uint64, MONSTER_INFO> mobInfo);
 	static SendBufferRef Make_USER_DISCONNECT(uint64 uid);
-}; 
+	static SendBufferRef Make_MESSAGE(MESSAGE message);
+};

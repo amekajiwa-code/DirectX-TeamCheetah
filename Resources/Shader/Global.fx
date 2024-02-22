@@ -105,6 +105,7 @@ SamplerState LinearSampler
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = Wrap;
     AddressV = Wrap;
+    AddressW = Wrap;
 };
 
 SamplerState PointSampler
@@ -158,7 +159,7 @@ RasterizerState MollaRaster
 RasterizerState FrontCounterClockwiseTrue
 {
     FrontCounterClockwise = true;
-}; 
+};
 //DepthStencilState//
 DepthStencilState ShadowDepth
 {

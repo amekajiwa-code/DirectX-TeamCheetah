@@ -194,7 +194,7 @@ void Graphics::RenderBegin()
 	_deviceContext->ClearDepthStencilView(_depthStancilViews[0].Get(),
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	_viewPort.RSSetViewport();
-	_deviceContext->OMSetBlendState(_blendState.Get(), 0, -1);
+//	_deviceContext->OMSetBlendState(_blendState.Get(), 0, -1);
 }
 
 void Graphics::RenderEnd()

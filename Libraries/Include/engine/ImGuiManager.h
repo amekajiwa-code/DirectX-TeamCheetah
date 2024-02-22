@@ -21,6 +21,20 @@ public:
 	void Init();
 	void Update();
 	void Render();
+
+	void AddMessage(char message[50])
+	{
+		// 받은 문자열을 std::string으로 변환
+		std::string newMessage(message);
+
+		// chatMessages 벡터에 추가
+		otherChatMessages.push_back(newMessage);
+	}
+
+	std::vector<std::string> GetLatestMessages()
+	{
+		return chatMessages;
+	}
 private:
 	//
 	float hp = 0.68f;
@@ -33,6 +47,7 @@ private:
 	//채팅 멤버
 	char buffer[256] = "";
 	std::vector<std::string> chatMessages; // 채팅 메시지를 저장할 벡터
+	std::vector<std::string> otherChatMessages; // 다른 유저 채팅 메시지를 저장할 벡터
 	bool isScrollBottom = false;
 };
 

@@ -174,13 +174,13 @@ ShadowOutput SkeletalMeshSHADOW(VertexModel input)
     matrix m = GetAnimationMatrix(input);
     
     output.position = mul(input.position, m);
-    output.position = mul(output.position, W);
+    output.position = mul(output.position, input.world);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, VP);
 	
     output.uv = input.uv;
-    output.normal = mul(input.normal, (float3x3) W);
-    output.tangent = mul(input.tangent, (float3x3) W);
+    output.normal = mul(input.normal, (float3x3) input.world);
+    output.tangent = mul(input.tangent, (float3x3) input.world);
     
     output.texShadow = mul(input.position, matShadow);
     return output;
@@ -191,13 +191,13 @@ ShadowOutput StaticMeshSHADOW(VertexModel input)
     ShadowOutput output;
     
     output.position = mul(input.position, BoneTransform[BoneIndex]);
-    output.position = mul(output.position, W);
+    output.position = mul(output.position, input.world);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, VP);
 	
     output.uv = input.uv;
-    output.normal = mul(input.normal, (float3x3) W);
-    output.tangent = mul(input.tangent, (float3x3) W);
+    output.normal = mul(input.normal, (float3x3) input.world);
+    output.tangent = mul(input.tangent, (float3x3) input.world);
     output.texShadow = mul(input.position, matShadow);
     
     return output;
@@ -208,10 +208,7 @@ ShadowDepthOutPut SHADOW_VSSKELETAL(VertexModel input)
     
     ShadowDepthOutPut output;
     output.position = mul(input.position, m);
-    output.position = mul(output.position, W);
-    output.position = mul(output.position, VP);
-
-    output.position = mul(float4(input.position), W);
+    output.position = mul(output.position, input.world);
     output.position = mul(output.position, VP);
 	
     output.d = output.position.zw;
@@ -222,10 +219,7 @@ ShadowDepthOutPut SHADOW_VSSTATIC(VertexModel input)
     
     ShadowDepthOutPut output;
     output.position = mul(input.position, BoneTransform[BoneIndex]);
-    output.position = mul(output.position, W);
-    output.position = mul(output.position, VP);
-
-    output.position = mul(float4(input.position), W);
+    output.position = mul(output.position, input.world);
     output.position = mul(output.position, VP);
 	
     output.d = output.position.zw;
@@ -236,7 +230,7 @@ ShadowDepthOutPut SHADOW_VSMESH(VertexMesh input)
 {
 	
     ShadowDepthOutPut output;
-    output.position = mul(float4(input.position), W);
+    output.position = mul(float4(input.position), input.world);
     output.position = mul(output.position, VP);
 	
     output.d = output.position.zw;
