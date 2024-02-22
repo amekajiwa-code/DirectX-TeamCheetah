@@ -161,21 +161,21 @@ struct ShadowViewDesc {
 struct CHARACTER_INFO
 {
 	//wstring _name;
-	uint32 _maxHp;
-	uint32 _maxMp;
-	uint32 _hp;
-	uint32 _mp;
-	uint16 _atk;
-	//uint16 _def;
-	uint16 _moveSpeed;
-	uint16 _aggroLevel;
-	float _attackRange;
-	Vec3 _pos;
-	Vec3 _Rotate;
-	bool _isAlive;
-	bool _isAttack;
-	bool _isBattle;
-	double _timeStamp;
+	uint32 _maxHp = 1000;
+	uint32 _maxMp = 1000;
+	uint32 _hp = 750;
+	uint32 _mp = 1000;
+	uint16 _atk = 100;
+	//uint16 _def = 100;
+	uint16 _moveSpeed = 10;
+	uint16 _aggroLevel = 100;
+	float _attackRange = 15.0f;
+	Vec3 _pos = { 0.0f, 0.0f, 0.0f };
+	Vec3 _Rotate = { 0.0f, 0.0f, 0.0f };
+	bool _isAlive = true;
+	bool _isAttack = false;
+	bool _isBattle = false;
+	double _timeStamp = 0.0f;
 };
 
 struct MESSAGE

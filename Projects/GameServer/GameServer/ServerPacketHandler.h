@@ -60,10 +60,10 @@ struct JumpFlag
 
 struct CHARACTER_INFO
 {
-	//wstring _name = "asd";
+	//wstring _name;
 	uint32 _maxHp = 1000;
 	uint32 _maxMp = 1000;
-	uint32 _hp = 750;
+	uint32 _hp = 1000;
 	uint32 _mp = 1000;
 	uint16 _atk = 100;
 	//uint16 _def = 100;
