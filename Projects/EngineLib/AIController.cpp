@@ -23,7 +23,26 @@ void AIController::InitAnimState()
 		_playerAnimStateList.push_back(make_shared<PlayerAnimJumpFall>());
 		//JumpEnd
 		_playerAnimStateList.push_back(make_shared<PlayerAnimJumpEnd>());
-
+		//Stun
+		_playerAnimStateList.push_back(make_shared<PlayerAnimStun>());
+		//Loot
+		_playerAnimStateList.push_back(make_shared<PlayerAnimLoot>());
+		//Damaged
+		_playerAnimStateList.push_back(make_shared<PlayerAnimDamaged>());
+		//Death
+		_playerAnimStateList.push_back(make_shared<PlayerAnimDeath>());
+		//Battle
+		_playerAnimStateList.push_back(make_shared<PlayerAnimBattle>());
+		//Attack1
+		_playerAnimStateList.push_back(make_shared<PlayerAnimAttack1>());
+		//Attack2
+		_playerAnimStateList.push_back(make_shared<PlayerAnimAttack2>());
+		//Casting
+		_playerAnimStateList.push_back(make_shared<PlayerAnimCasting>());
+		//Ability1
+		_playerAnimStateList.push_back(make_shared<PlayerAnimAbility1>());
+		//Ability2
+		_playerAnimStateList.push_back(make_shared<PlayerAnimAbility2>());
 
 		_currentPlayerAnimState = _playerAnimStateList[0];
 		_currentPlayerAnimState->Enter(shared_from_this());
