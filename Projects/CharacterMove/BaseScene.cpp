@@ -12,6 +12,7 @@
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
 #include "..\EngineLib\ImGuiManager.h"
+#include "CharacterInfo.h"
 
 SendBufferRef GsendBuffer;
 
@@ -244,9 +245,15 @@ void BaseScene::Update()
 
 			auto pickObj = Pick(mx, my);
 
-			if (pickObj)
+			if (pickObj && pickObj->GetName() == L"CoreHound")
 			{
-				Remove(pickObj);
+				CHARACTER_INFO info = pickObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
+				MANAGER_IMGUI()->UpdatePicked(true, info._maxHp, info._hp);
+			}
+			else
+			{
+				MANAGER_IMGUI()->UpdatePicked(false, 0, 0);
+
 			}
 		}
 	}

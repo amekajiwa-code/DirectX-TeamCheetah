@@ -13,60 +13,38 @@ ImGuiManager::~ImGuiManager()
 }
 void ImGuiManager::Init()
 {
-	//ImGui Main
-	{
-		// Show the window
-		::ShowWindow(g_gameDesc.hWnd, SW_SHOWDEFAULT);
-		::UpdateWindow(g_gameDesc.hWnd);
-		// Setup Dear ImGui context
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
+    //ImGui Main
+    {
+        // Show the window
+        ::ShowWindow(g_gameDesc.hWnd, SW_SHOWDEFAULT);
+        ::UpdateWindow(g_gameDesc.hWnd);
+        // Setup Dear ImGui context
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-		//한글 폰트 추가 - add kor font
-		io.Fonts->AddFontFromFileTTF("../../Resources/Font/Warhaven_Bold.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-		// Setup Dear ImGui style
-		ImGui::StyleColorsDark();
-		// Setup Platform/Renderer backends
-		ImGui_ImplWin32_Init(g_gameDesc.hWnd);
-		ImGui_ImplDX11_Init(DEVICE().Get(), DC().Get());
-	}
+        //한글 폰트 추가 - add kor font
+        io.Fonts->AddFontFromFileTTF("../../Resources/Font/LINESeedKR-Bd.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+        //io.Fonts->AddFontFromFileTTF("../../Resources/Font/Warhaven_Bold.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        // Setup Dear ImGui style
+        ImGui::StyleColorsDark();
+        // Setup Platform/Renderer backends
+        ImGui_ImplWin32_Init(g_gameDesc.hWnd);
+        ImGui_ImplDX11_Init(DEVICE().Get(), DC().Get());
+    }
 }
 
 void ImGuiManager::Update()
 {
-	//ImGui Main
-	{
-		// Start the Dear ImGui frame
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-		ImGuizmo::SetOrthographic(false);
-		ImGuizmo::BeginFrame();
-	}
-
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+    //ImGui Main
     {
-        /*static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Hp Window", &show_hp_window);
-        ImGui::Checkbox("Chat Window", &show_chat_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::End();*/
+        // Start the Dear ImGui frame
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::BeginFrame();
     }
-
 
     // show_hp_window
     if (show_hp_window)
@@ -94,7 +72,7 @@ void ImGuiManager::Update()
             float b = 2.0f / 255.0f;
             ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(r, g, b, 1.0f));
             ImGui::SameLine();
-            ImGui::ProgressBar(hp);
+            ImGui::ProgressBar(_hp);
             ImGui::PopStyleColor(1);
         }
         //Mp Bar
@@ -105,10 +83,49 @@ void ImGuiManager::Update()
             float b = 200.0f / 255.0f;
             ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(r, g, b, 1.0f));
             ImGui::SameLine();
-            ImGui::ProgressBar(mp);
+            ImGui::ProgressBar(_mp);
             ImGui::PopStyleColor(1);
         }
-        
+
+
+        ImGui::End();
+    }
+
+    //show_picked_hp_window
+    if (show_picked_hp_window)
+    {
+        float sizeX = 500.0f;
+        float sizeY = 150.0f;
+        ImGui::SetNextWindowSize(ImVec2(sizeX, sizeY), ImGuiCond_Always);
+        ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+        ImGui::SetNextWindowPos(ImVec2(displaySize.x / 2 - sizeX / 2, 0), ImGuiCond_Always);
+
+        // 윈도우의 배경색을 투명도(alpha)에 따라 설정
+        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+
+        ImGui::Begin("Picked Hp Window", &show_picked_hp_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+
+        ImGui::PopStyleColor(3); // Push한 스타일을 복원
+
+        ImVec2 textSize = ImGui::CalcTextSize("Core Hound");
+        float textPosX = (sizeX - textSize.x) * 0.5f;
+        ImGui::SetCursorPosX(textPosX);
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::Text("Core Hound");
+        ImGui::PopStyleColor();
+        //Hp Bar
+        {
+            ImGui::Text("HP");
+            float r = 187.0f / 255.0f;
+            float g = 0.0f / 255.0f;
+            float b = 2.0f / 255.0f;
+            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(r, g, b, 1.0f));
+            ImGui::SameLine();
+            ImGui::ProgressBar(_pickedHp);
+            ImGui::PopStyleColor(1);
+        }
 
         ImGui::End();
     }
@@ -121,7 +138,7 @@ void ImGuiManager::Update()
         // Set the window size to a fixed value
         ImGui::SetNextWindowSize(ImVec2(windowSizeX, windowSizeY), ImGuiCond_Always);
         ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-        ImGui::SetNextWindowPos(ImVec2(5.0f, displaySize.y - ImGui::GetFrameHeightWithSpacing() - windowSizeY + (windowSizeY/8.0f)), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(5.0f, displaySize.y - ImGui::GetFrameHeightWithSpacing() - windowSizeY + (windowSizeY / 8.0f)), ImGuiCond_Always);
         float r = 25.0f / 255.0f;
         float g = 25.0f / 255.0f;
         float b = 25.0f / 255.0f;
@@ -131,14 +148,16 @@ void ImGuiManager::Update()
 
         // 채팅 메시지 출력 리스트
         ImGui::BeginChild("ChatMessages", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
-        for (const auto& message : chatMessages)
+        /*for (const auto& message : chatMessages)
         {
             ImGui::TextWrapped("%s", message.c_str());
-        }        
+        }*/
+
         for (const auto& message : otherChatMessages)
         {
             ImGui::TextWrapped("%s", message.c_str());
         }
+
         ImGui::EndChild();
 
         // 채팅 입력박스
@@ -168,9 +187,34 @@ void ImGuiManager::Update()
 
 void ImGuiManager::Render()
 {
-	//ImGui Main
-	{
-		ImGui::Render();
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	}
+    //ImGui Main
+    {
+        ImGui::Render();
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    }
+}
+
+void ImGuiManager::AddMessage(char message[50])
+{
+    // 받은 문자열을 std::string으로 변환
+    std::string newMessage(message);
+
+    // chatMessages 벡터에 추가
+    otherChatMessages.push_back(newMessage);
+}
+
+void ImGuiManager::UpdateHp(uint32 maxHp, uint32 hp)
+{
+    _hp = static_cast<float>(hp) / static_cast<float>(maxHp);
+}
+
+void ImGuiManager::UpdateMp(uint32 maxMp, uint32 mp)
+{
+    _mp = static_cast<float>(mp) / static_cast<float>(maxMp);
+}
+
+void ImGuiManager::UpdatePicked(bool isPicked, uint32 maxHp, uint32 hp)
+{
+    show_picked_hp_window = isPicked;
+    _pickedHp = static_cast<float>(hp) / static_cast<float>(maxHp);
 }

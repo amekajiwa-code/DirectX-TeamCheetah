@@ -60,9 +60,13 @@ struct JumpFlag
 
 struct CHARACTER_INFO
 {
-	//wstring _name;
-	uint32 _hp = 1000;
+	//wstring _name = "asd";
+	uint32 _maxHp = 1000;
+	uint32 _maxMp = 1000;
+	uint32 _hp = 750;
+	uint32 _mp = 1000;
 	uint16 _atk = 100;
+	//uint16 _def = 100;
 	uint16 _moveSpeed = 10;
 	uint16 _aggroLevel = 100;
 	float _attackRange = 15.0f;
@@ -70,6 +74,7 @@ struct CHARACTER_INFO
 	Vec3 _Rotate = { 0.0f, 0.0f, 0.0f };
 	bool _isAlive = true;
 	bool _isAttack = false;
+	bool _isBattle = false;
 	double _timeStamp = 0.0f;
 };
 

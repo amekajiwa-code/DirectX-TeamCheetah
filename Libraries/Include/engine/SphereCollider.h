@@ -8,7 +8,7 @@ public:
 	SphereCollider();
 	virtual ~SphereCollider();
 private:
-	float			_radius = 0.5f;
+	float			_radius = 180;
 	BoundingSphere	_boundingSphere;
 	Vec3			_sphereWeight = Vec3(0.f);
 public:

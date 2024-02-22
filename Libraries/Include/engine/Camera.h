@@ -23,7 +23,7 @@ private:
 	Matrix _matAround = Matrix::Identity;
 
 	float _near = 0.1f;
-	float _far = 1000.f;
+	float _far = 10000.f;
 	float _fov = XM_PI / 4.f;
 	float _width = 0.f;
 	float _height = 0.f;

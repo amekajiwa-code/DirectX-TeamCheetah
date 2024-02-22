@@ -253,7 +253,7 @@ void Model::ReadModel(wstring fileName)
 				_bones[0]->children.push_back(_bones[i]);
 				_bones[i]->parent = _bones[0];
 			}
-			else if(_bones[i]->parentIndex >= 0)
+			else if (_bones[i]->parentIndex >= 0)
 			{
 				auto parent = GetBoneByIndex(_bones[i]->parentIndex);
 				parent->children.push_back(_bones[i]);
@@ -275,7 +275,7 @@ void Model::ReadModel(wstring fileName)
 
 			// Material
 			mesh->materialName = Utils::ToWString(file->Read<string>());
-			
+
 
 			//VertexData
 			{
@@ -323,15 +323,16 @@ void Model::ReadModel(wstring fileName)
 					//	fabs(verties[i].normal.y);
 					//const_cast<vector<ModelVertexType>&>(verties)[i].normal.z =
 					//	fabs(verties[i].normal.z);
+				}
+
+				mesh->CreateBuffers();
+
+				_meshes.push_back(mesh);
 			}
-
-			mesh->CreateBuffers();
-
-			_meshes.push_back(mesh);
 		}
-	}
 
-	BindCacheInfo();
+		BindCacheInfo();
+	}
 }
 
 void Model::ReadAnimation(wstring filename)

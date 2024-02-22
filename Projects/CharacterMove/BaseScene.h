@@ -1,13 +1,8 @@
 #pragma once
-//#include "Character.h"
-//#include "Player.h"
-//#include "ClientPacketHandler.h"
-//#include "SpawnManager.h"
-
 #include "engine\\FrustomCamera.h"
 #include "QuadTreeBlock.h"
 #include "Skybox.h"
-
+//Character
 #include "Character.h"
 #include "Player.h"
 #include "ClientPacketHandler.h"
@@ -46,12 +41,8 @@ class BaseScene : public Scene
 	bool _isdisv = false;
 	//camera
 	shared_ptr<GameObject> _childCamera;
-	
 	//Camera
 	shared_ptr<GameObject> _camera;
-	//임시공격
-	bool _isAttack = false;
-	float _attackTimer = 0.0f;
 
 	shared_ptr<GameObject> testBox;
 public:

@@ -156,3 +156,46 @@ struct ShadowViewDesc {
 	Matrix shadowView;
 	Matrix shadowProj;
 };
+
+//Character Info...
+struct CHARACTER_INFO
+{
+	//wstring _name;
+	uint32 _maxHp;
+	uint32 _maxMp;
+	uint32 _hp;
+	uint32 _mp;
+	uint16 _atk;
+	//uint16 _def;
+	uint16 _moveSpeed;
+	uint16 _aggroLevel;
+	float _attackRange;
+	Vec3 _pos;
+	Vec3 _Rotate;
+	bool _isAlive;
+	bool _isAttack;
+	bool _isBattle;
+	double _timeStamp;
+};
+
+struct MESSAGE
+{
+	char _messageBox[50];
+};
+
+struct Player_INFO : public CHARACTER_INFO
+{
+	uint64 _uid;
+	bool _isOnline = false;
+	PlayerUnitState _animState = PlayerUnitState::Stand;
+	JumpFlag _jumpFlag;
+	MESSAGE _message;
+};
+
+struct MONSTER_INFO : public CHARACTER_INFO
+{
+	uint64 _instanceId = 0;
+	Vec3 _targetPos = { 0.f, 0.f, 0.f };
+	bool _isMove = false;
+	EnemyUnitState _animState = EnemyUnitState::Stand;
+};

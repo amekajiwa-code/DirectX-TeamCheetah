@@ -22,25 +22,21 @@ public:
 	void Update();
 	void Render();
 
-	void AddMessage(char message[50])
-	{
-		// 받은 문자열을 std::string으로 변환
-		std::string newMessage(message);
+	void AddMessage(char message[50]);
 
-		// chatMessages 벡터에 추가
-		otherChatMessages.push_back(newMessage);
-	}
-
-	std::vector<std::string> GetLatestMessages()
-	{
-		return chatMessages;
-	}
+	std::vector<std::string> GetLatestMessages() { return chatMessages; }
+	void UpdateHp(uint32 maxHp, uint32 hp);
+	void UpdateMp(uint32 maxMp, uint32 mp);
+	void UpdatePicked(bool isPicked, uint32 maxHp, uint32 hp);
 private:
-	//
-	float hp = 0.68f;
-	float mp = 0.81f;
+	//Player Stat
+	float _hp = 1.0f;
+	float _mp = 1.0f;
+	//Picked Object Stat
+	float _pickedHp = 1.0f;
 	//윈도우 활성화 여부
 	bool show_hp_window = true;
+	bool show_picked_hp_window = false;
 	bool show_chat_window = true;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 

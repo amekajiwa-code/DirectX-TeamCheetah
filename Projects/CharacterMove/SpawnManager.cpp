@@ -3,6 +3,7 @@
 #include "engine\AIController.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
+#include "CharacterInfo.h"
 
 using namespace std::chrono;
 
@@ -113,6 +114,7 @@ void SpawnManager::SpawnMonster(uint64 uid, Vec3 spawnPos)
 	_aiCon = make_shared<AIController>();
 	_aiCon->SetAIType(AIType::EnemyUnit);
 	_chr->AddComponent(_aiCon);
+	_chr->AddComponent(make_shared<CharacterInfo>());
 	_chr->Start();
 	_chr->GetTransform()->SetLocalPosition(spawnPos);
 
@@ -165,6 +167,7 @@ void SpawnManager::SpawnMonsters()
 				it->second->GetTransform()->SetPosition(pos);
 				it->second->GetTransform()->SetLocalRotation(targetRot);
 				it->second->GetComponent<AIController>()->SetUnitState(pair.second._animState);
+				it->second->GetComponent<CharacterInfo>()->SetCharacterInfo(pair.second);
 			}
 		}
 		else
@@ -180,25 +183,4 @@ void SpawnManager::Update()
 {
 	SpawnOtherPlayers();
 	SpawnMonsters();
-
-	if (_otherPlayers.empty() == false)
-	{
-		for (const auto& pair : _otherPlayers)
-		{
-			pair.second->FixedUpdate();
-			pair.second->Update();
-			pair.second->LateUpdate();
-			
-		}
-	}
-
-	if (_monsters.empty() == false)
-	{
-		for (const auto& pair : _monsters)
-		{
-			pair.second->FixedUpdate();
-			pair.second->Update();
-			pair.second->LateUpdate();
-		}
-	}
 }

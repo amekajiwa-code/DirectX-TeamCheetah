@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CoreHound.h"
+#include "SphereCollider.h"
 
 CoreHound::CoreHound()
 {
@@ -47,6 +48,7 @@ void CoreHound::CharacterInit()
 		_childModel->GetTransform()->SetLocalRotation(rot);
 		_childModel->GetTransform()->SetLocalPosition(Vec3(0,150,0));
 	}
+	AddComponent(make_shared<SphereCollider>());
 	SetName(L"CoreHound");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));
