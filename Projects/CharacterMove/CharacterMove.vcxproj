@@ -155,7 +155,6 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterInfo.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Demo.h" />
     <ClInclude Include="DungeonScene.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="CameraMove.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterInfo.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="DungeonScene.cpp" />

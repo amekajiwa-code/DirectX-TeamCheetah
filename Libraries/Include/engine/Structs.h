@@ -160,10 +160,11 @@ struct ShadowViewDesc {
 //Character Info...
 struct CHARACTER_INFO
 {
+	uint32 _instanceId = 0;
 	//wstring _name;
 	uint32 _maxHp = 1000;
 	uint32 _maxMp = 1000;
-	uint32 _hp = 750;
+	uint32 _hp = 1000;
 	uint32 _mp = 1000;
 	uint16 _atk = 100;
 	//uint16 _def = 100;
@@ -185,16 +186,14 @@ struct MESSAGE
 
 struct Player_INFO : public CHARACTER_INFO
 {
-	uint64 _uid;
+	uint32 _uid;
 	bool _isOnline = false;
 	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
-	MESSAGE _message;
 };
 
 struct MONSTER_INFO : public CHARACTER_INFO
 {
-	uint64 _instanceId = 0;
 	Vec3 _targetPos = { 0.f, 0.f, 0.f };
 	bool _isMove = false;
 	EnemyUnitState _animState = EnemyUnitState::Stand;

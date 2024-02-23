@@ -167,15 +167,17 @@ extern CGameDesc g_gameDesc;
 #include "SceneManager.h"
 #include "InstancingManager.h"
 #include "ShadowManager.h"
+#include "ImGuiManager.h"
 
 //Global Macro
-#define MANAGER_INPUT() InputManager::GetInstance()
-#define MANAGER_TIME() TimeManager::GetInstance()
-#define MANAGER_RESOURCES() ResourceManager::GetInstance()
-#define MANAGER_RENDERER() RenderManager::GetInstance()
+#define MANAGER_INPUT()		 InputManager::GetInstance()
+#define MANAGER_TIME()		 TimeManager::GetInstance()
+#define MANAGER_RESOURCES()  ResourceManager::GetInstance()
+#define MANAGER_RENDERER()   RenderManager::GetInstance()
 #define MANAGER_INSTANCING() InstancingManager::GetInstance()
-#define MANAGER_SCENE()		SceneManager::GetInstance()
-#define MANAGER_SHADOW()	ShadowManager::GetInstance()
+#define MANAGER_SCENE()		 SceneManager::GetInstance()
+#define MANAGER_SHADOW()	 ShadowManager::GetInstance()
+#define MANAGER_IMGUI()		 ImGuiManager::GetInstance()
 
 //Components
 #include "Component.h"

@@ -176,6 +176,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="AIController.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="CharacterInfo.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="GUIInterface.h" />
     <ClInclude Include="HeightGetter.h" />
@@ -249,6 +250,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="AIController.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CharacterInfo.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="GUIInterface.cpp" />
     <ClCompile Include="HeightGetter.cpp" />

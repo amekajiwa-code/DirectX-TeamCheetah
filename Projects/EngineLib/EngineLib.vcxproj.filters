@@ -269,6 +269,9 @@
       <Filter>04. Component</Filter>
     </ClInclude>
     <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="CharacterInfo.h">
+      <Filter>04. Component\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -471,6 +474,9 @@
       <Filter>04. Component</Filter>
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp" />
+    <ClCompile Include="CharacterInfo.cpp">
+      <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

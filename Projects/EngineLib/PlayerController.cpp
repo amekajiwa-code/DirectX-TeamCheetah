@@ -3,6 +3,7 @@
 #include "PlayerAnimState.h"
 #include "HeightGetter.h"
 #include <float.h>
+#include "CharacterInfo.h"
 
 PlayerController::PlayerController()
 {
@@ -244,6 +245,7 @@ void PlayerController::PlayerMove()
 		_currentSpeed = _defaultSpeed;
 	}
 
+	PlayerPicking();
 	PlayerAttack();
 
 	if (_isAttack == false)
@@ -362,12 +364,55 @@ void PlayerController::PlayerJump()
 
 void PlayerController::PlayerAttack()
 {
-	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q) && _isAttack == false && _jumpState->isJump == false)
+	if (_isAttack == true && _jumpState->isJump == false && _isPicked == true)
 	{
-		_isAttack = true;
-		_isBattle = true;
 		_battleTimer = 0.f;
 		*_currentState = PlayerUnitState::Attack;
+	}
+}
+
+void PlayerController::PlayerPicking()
+{
+	if (_isPicked)
+	{
+		_pickedInfo = _pickedObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
+		MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp);
+
+		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::RBUTTON))
+		{
+			int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
+			int32 my = MANAGER_INPUT()->GetScreenMousePos().y;
+
+			auto pickObj = MANAGER_SCENE()->GetCurrentScene()->Pick(mx, my);
+
+			if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
+			{
+				_isPicked = true;
+				_isAttack = true;
+				_isBattle = true;
+			}
+		}
+	}
+
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::LBUTTON))
+	{
+		int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
+		int32 my = MANAGER_INPUT()->GetScreenMousePos().y;
+
+		auto pickObj = MANAGER_SCENE()->GetCurrentScene()->Pick(mx, my);
+
+		if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
+		{
+			_pickedInfo = pickObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
+			MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp);
+			_isPicked = true;
+			_pickedObj = pickObj;
+		}
+		else
+		{
+			MANAGER_IMGUI()->UpdatePicked(false);
+			_isPicked = false;
+		}
 	}
 }
 

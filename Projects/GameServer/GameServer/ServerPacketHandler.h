@@ -9,6 +9,7 @@ enum
 	PACKET_USER_INFO = 2,
 	PACKET_MONSTER_INFO = 3,
 	PACKET_MESSAGE = 4,
+	PACKET_BATTLE = 5,
 	PACKET_DISCONNECT = 99,
 };
 
@@ -60,7 +61,8 @@ struct JumpFlag
 
 struct CHARACTER_INFO
 {
-	//wstring _name;
+	uint32 _instanceId = 0;
+	//wstring _name;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 	uint32 _maxHp = 1000;
 	uint32 _maxMp = 1000;
 	uint32 _hp = 1000;
@@ -85,16 +87,14 @@ struct MESSAGE
 
 struct Player_INFO : public CHARACTER_INFO
 {
-	uint64 _uid = 0;
+	uint32 _uid = 0;
 	bool _isOnline = false;
 	PlayerUnitState _animState = PlayerUnitState::Stand;
 	JumpFlag _jumpFlag;
-	MESSAGE _message;
 };
 
 struct MONSTER_INFO : public CHARACTER_INFO
 {
-	uint64 _instanceId = 0;
 	Vec3 _targetPos = { 0.f, 0.f, 0.f };
 	bool _isMove = false;
 	EnemyUnitState _animState = EnemyUnitState::Stand;
@@ -107,6 +107,7 @@ public:
 	static void Handle_USER_INFO(BYTE* buffer, int32 len);
 	static void Handle_MONSTER_INFO(BYTE* buffer, int32 len);
 	static void Handle_MESSAGE(BYTE* buffer, int32 len);
+	static void Handle_BATTLE(BYTE* buffer, int32 len);
 
 	static SendBufferRef Make_USER_CONNECT();
 	static SendBufferRef Make_USER_INFO(Player_INFO userInfo, bool otherPacket);

@@ -11,8 +11,6 @@
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
-#include "..\EngineLib\ImGuiManager.h"
-#include "CharacterInfo.h"
 
 SendBufferRef GsendBuffer;
 
@@ -192,33 +190,20 @@ void BaseScene::Update()
 		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+
+		//Attack
+		if (sendInfo._isAttack)
+		{
+			uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
+			_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
+			_service->Broadcast(_sendBuffer);
+		}
+
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
 
 	SpawnManager::GetInstance().Update();
-
-	//collision
-	{
-		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::LBUTTON))
-		{
-			int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
-			int32 my = MANAGER_INPUT()->GetScreenMousePos().y;
-
-			auto pickObj = Pick(mx, my);
-
-			if (pickObj && pickObj->GetName() == L"CoreHound")
-			{
-				CHARACTER_INFO info = pickObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
-				MANAGER_IMGUI()->UpdatePicked(true, info._maxHp, info._hp);
-			}
-			else
-			{
-				MANAGER_IMGUI()->UpdatePicked(false, 0, 0);
-
-			}
-		}
-	}
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms

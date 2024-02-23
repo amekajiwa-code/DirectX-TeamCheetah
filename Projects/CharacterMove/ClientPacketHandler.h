@@ -9,6 +9,7 @@ enum
 	PACKET_USER_INFO = 2,
 	PACKET_MONSTER_INFO = 3,
 	PACKET_MESSAGE = 4,
+	PACKET_BATTLE = 5,
 	PACKET_DISCONNECT = 99,
 };
 
@@ -29,6 +30,7 @@ public:
 	SendBufferRef Make_USER_INFO(Player_INFO userInfo);
 	SendBufferRef Make_MONSTER_INFO(MONSTER_INFO info);
 	SendBufferRef Make_MESSAGE(MESSAGE message);
+	SendBufferRef Make_BATTLE(Player_INFO attackerInfo, uint32 targerId);
 
 
 	Player_INFO GetUserInfo() { return _userInfo; }

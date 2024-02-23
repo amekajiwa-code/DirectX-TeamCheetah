@@ -23,6 +23,9 @@ void ServerPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 	case PACKET_MESSAGE:
 		Handle_MESSAGE(buffer, len);
 		break;
+	case PACKET_BATTLE:
+		Handle_BATTLE(buffer, len);
+		break;
 	default:
 		break;
 	}
@@ -72,6 +75,35 @@ void ServerPacketHandler::Handle_MESSAGE(BYTE* buffer, int32 len)
 
 	SendBufferRef sendBuffer = ServerPacketHandler::Make_MESSAGE(message);
 	GSessionManager.Broadcast(sendBuffer);
+}
+
+void ServerPacketHandler::Handle_BATTLE(BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	Player_INFO atkInfo;
+	uint32 tgtId;
+	br >> atkInfo >> tgtId;
+
+	auto it = GSessionManager.GetMobInfoList().find(tgtId);
+	if (it != GSessionManager.GetMobInfoList().end())
+	{
+		if (it->second._hp == 0)
+		{
+			it->second._hp = 0;
+		}
+		else
+		{
+			it->second._hp -= atkInfo._atk;
+		}
+		
+		GSessionManager.UpdateMobInfo(it->second);
+	}
+
+	
 }
 
 SendBufferRef ServerPacketHandler::Make_USER_CONNECT()

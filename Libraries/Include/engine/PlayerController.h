@@ -36,6 +36,12 @@ private:
 	shared_ptr<PlayerUnitState>	_currentState;
 	bool _isAttack = false;
 	bool _isBattle = false;
+
+	//Pick
+	bool _isPicked = false;
+	CHARACTER_INFO _pickedInfo;
+	shared_ptr<GameObject> _pickedObj;
+
 	float _battleTime = 15.f;
 	float _battleTimer = 0.f;
 	float _attackTimer = 0.0f;
@@ -69,6 +75,7 @@ private:
 	void PlayerMove();
 	void PlayerJump();
 	void PlayerAttack();
+	void PlayerPicking();
 	void KeyStateCheck();
 	//Camera
 	void CameraMove();
@@ -83,6 +90,7 @@ public:
 	const bool& IsAttack() const { return _isAttack; }
 	void SetIsAttack(bool setting) { _isAttack = setting; }
 	const bool& IsBattle() const { return _isBattle; }
+	const CHARACTER_INFO& GetPickedInfo() const { return _pickedInfo; }
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();

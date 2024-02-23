@@ -56,7 +56,8 @@ void GameSessionManager::GenerateMobList()
 	// 랜덤 숫자 생성기 생성
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distribution(-100.0f, 100.0f);
+	std::uniform_real_distribution<float> distributionX(-350, -300.0f);
+	std::uniform_real_distribution<float> distributionY(300, 350.0f);
 
 	for (int id = 0; id < 1; ++id)
 	{
@@ -64,7 +65,7 @@ void GameSessionManager::GenerateMobList()
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
 		c0._instanceId = id;
-		c0._pos = { distribution(gen), 50.0f, distribution(gen) };
+		c0._pos = { distributionX(gen), 25.0f, distributionY(gen) };
 		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << endl;
 
 		_mobInfoList.insert(make_pair(id, c0));

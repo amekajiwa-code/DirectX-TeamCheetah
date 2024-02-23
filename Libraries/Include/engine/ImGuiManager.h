@@ -27,7 +27,7 @@ public:
 	std::vector<std::string> GetLatestMessages() { return chatMessages; }
 	void UpdateHp(uint32 maxHp, uint32 hp);
 	void UpdateMp(uint32 maxMp, uint32 mp);
-	void UpdatePicked(bool isPicked, uint32 maxHp, uint32 hp);
+	void UpdatePicked(bool isPicked, uint32 maxHp = 0, uint32 hp = 0);
 private:
 	//Player Stat
 	float _hp = 1.0f;
@@ -46,5 +46,3 @@ private:
 	std::vector<std::string> otherChatMessages; // 다른 유저 채팅 메시지를 저장할 벡터
 	bool isScrollBottom = false;
 };
-
-#define MANAGER_IMGUI() ImGuiManager::GetInstance()

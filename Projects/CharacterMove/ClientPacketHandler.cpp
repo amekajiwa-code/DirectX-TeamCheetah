@@ -2,7 +2,6 @@
 #include "ClientPacketHandler.h"
 #include "BufferReader.h"
 #include "BufferWriter.h"
-#include "..\EngineLib\ImGuiManager.h"
 
 
 void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
@@ -21,6 +20,9 @@ void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 		Handle_MONSTER_INFO(buffer, len);
 		break;
 	case PACKET_MESSAGE:
+		Handle_MESSAGE(buffer, len);
+		break;
+	case PACKET_BATTLE:
 		Handle_MESSAGE(buffer, len);
 		break;
 	case PACKET_DISCONNECT:
@@ -107,6 +109,7 @@ void ClientPacketHandler::Handle_MESSAGE(BYTE* buffer, int32 len)
 
 	MANAGER_IMGUI()->AddMessage(message._messageBox);
 }
+
 void ClientPacketHandler::Handle_USER_DISCONNECT(BYTE* buffer, int32 len)
 {
 	
@@ -175,6 +178,24 @@ SendBufferRef ClientPacketHandler::Make_MESSAGE(MESSAGE message)
 
 	header->size = bw.WriteSize();
 	header->id = PACKET_MESSAGE;
+
+	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
+
+	return sendBuffer;
+}
+
+SendBufferRef ClientPacketHandler::Make_BATTLE(Player_INFO attackerInfo, uint32 targerId)
+{
+	std::lock_guard<std::mutex> lock(_mutex);
+
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096); //4kb
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << attackerInfo << targerId;
+
+	header->size = bw.WriteSize();
+	header->id = PACKET_BATTLE;
 
 	sendBuffer->Close(bw.WriteSize()); //사용한 길이만큼 닫아줌
 

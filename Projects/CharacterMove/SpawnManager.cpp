@@ -3,7 +3,7 @@
 #include "engine\AIController.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
-#include "CharacterInfo.h"
+#include "engine/CharacterInfo.h"
 
 using namespace std::chrono;
 

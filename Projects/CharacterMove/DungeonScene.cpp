@@ -11,7 +11,6 @@
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
-#include "..\EngineLib\ImGuiManager.h"
 #include "ObjectExporter.h"
 
 
