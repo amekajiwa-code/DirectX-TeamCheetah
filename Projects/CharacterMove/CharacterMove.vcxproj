@@ -161,6 +161,7 @@
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="ManagerCleaner.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="ObjectExporter.h" />
     <ClInclude Include="pch.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManagerCleaner.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="ObjectExporter.cpp" />
     <ClCompile Include="pch.cpp">

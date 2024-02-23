@@ -6,6 +6,7 @@ class Model;
 class Shader;
 class Texture;
 class Material;
+class Sound;
 
 class ResourceManager
 {
@@ -113,6 +114,8 @@ inline ResourceType ResourceManager::GetResourceType()
 
 	if (std::is_same_v<T, Material>)
 		return ResourceType::Matertial;
+	if (std::is_same_v<T, Sound>)
+		return ResourceType::Sound;
 		
 	assert(false);
 	return ResourceType::None;

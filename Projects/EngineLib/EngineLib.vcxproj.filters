@@ -269,8 +269,11 @@
       <Filter>04. Component</Filter>
     </ClInclude>
     <ClInclude Include="DebugDraw.h" />
-    <ClInclude Include="CharacterInfo.h">
-      <Filter>04. Component\Scripts</Filter>
+    <ClInclude Include="SoundManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>00. Engine\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -71,6 +71,12 @@
     <ClCompile Include="DungeonScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterInfo.cpp">
+      <Filter>Scripts\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerCleaner.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -119,6 +125,12 @@
     </ClInclude>
     <ClInclude Include="DungeonScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInfo.h">
+      <Filter>Scripts\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerCleaner.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

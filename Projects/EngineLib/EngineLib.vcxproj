@@ -230,6 +230,8 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowManager.h" />
     <ClInclude Include="SimpleMath.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Sounds.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Technique.h" />
@@ -307,6 +309,8 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowManager.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Sounds.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Structs.cpp" />
     <ClCompile Include="Technique.cpp" />
