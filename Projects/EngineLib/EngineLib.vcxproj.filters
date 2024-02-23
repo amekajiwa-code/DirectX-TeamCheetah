@@ -269,6 +269,12 @@
       <Filter>04. Component</Filter>
     </ClInclude>
     <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="SoundManager.h">
+      <Filter>02. Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>00. Engine\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -471,6 +477,12 @@
       <Filter>04. Component</Filter>
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp" />
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sounds.cpp">
+      <Filter>00. Engine\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

@@ -14,7 +14,7 @@ enum class ResourceType : uint8
 };
 
 enum
-{
+{	
 	RESOURCE_TYPE_COUNT = static_cast<uint8>(ResourceType::End) - 1
 };
 
