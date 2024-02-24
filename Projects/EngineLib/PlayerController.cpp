@@ -292,6 +292,38 @@ void PlayerController::PlayerMove()
 			_transform.lock()->SetPosition(_movePos);
 		}
 	}
+	else // _isAttack == true
+	{
+		//왼쪽
+		if (MANAGER_INPUT()->GetButton(KEY_TYPE::A))
+		{
+			_moveRight = _transform.lock()->GetRightVector();
+			_movePos -= _moveRight * _currentSpeed * _dt;
+			_transform.lock()->SetPosition(_movePos);
+		}
+		//오른쪽
+		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::D))
+		{
+			_moveRight = _transform.lock()->GetRightVector();
+			_movePos += _moveRight * _currentSpeed * _dt;
+			_transform.lock()->SetPosition(_movePos);
+		}
+
+		//앞
+		if (MANAGER_INPUT()->GetButton(KEY_TYPE::W))
+		{
+			_moveForward = _transform.lock()->GetLookVector();
+			_movePos += _moveForward * _currentSpeed * _dt;
+			_transform.lock()->SetPosition(_movePos);
+		}
+		//뒤
+		else if (MANAGER_INPUT()->GetButton(KEY_TYPE::S))
+		{
+			_moveForward = _transform.lock()->GetLookVector();
+			_movePos -= _moveForward * _currentSpeed * _dt;
+			_transform.lock()->SetPosition(_movePos);
+		}
+	}
 
 	PlayerJump();
 
@@ -387,13 +419,23 @@ void PlayerController::PlayerPicking()
 
 			if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
 			{
-				_isPicked = true;
-				_isAttack = true;
-				_isBattle = true;
+				Vec3 diff = DirectX::XMVectorSubtract(_movePos, _pickedInfo._pos);
+				float distance = DirectX::XMVectorGetX(DirectX::XMVector3Length(diff));
+
+				if (distance <= 15.0f)
+				{
+					if (_isAttack == false)
+					{
+						_attackQueue.push(_pickedInfo);
+					}
+					_isAttack = true;
+					_isBattle = true;
+				}
+				
 			}
 		}
 	}
-
+	
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::LBUTTON))
 	{
 		int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
@@ -403,8 +445,6 @@ void PlayerController::PlayerPicking()
 
 		if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
 		{
-			_pickedInfo = pickObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
-			MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp);
 			_isPicked = true;
 			_pickedObj = pickObj;
 		}
@@ -476,6 +516,18 @@ void PlayerController::KeyStateCheck()
 		}
 
 	}
+}
+
+int PlayerController::GetAttackQueueSize()
+{
+	if (_attackQueue.empty() == false)
+	{
+		int queueSize = _attackQueue.size();
+		_attackQueue.pop();
+		return queueSize;
+	}
+
+	return -1;
 }
 
 void PlayerController::ReceiveEvent(const EventArgs& args)

@@ -43,8 +43,6 @@ class BaseScene : public Scene
 	shared_ptr<GameObject> _childCamera;
 	//Camera
 	shared_ptr<GameObject> _camera;
-
-	shared_ptr<GameObject> testBox;
 public:
 	virtual void Init();
 	virtual void Start();

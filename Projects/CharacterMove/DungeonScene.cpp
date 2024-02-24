@@ -154,45 +154,6 @@ void DungeonScene::Init()
 		Add(_warrior);
 		AddShadow(_warrior);
 	}
-	//collision Test
-	{
-		testBox = make_shared<GameObject>();
-		shared_ptr<Mesh> box = make_shared<Mesh>();
-		{
-			box->CreateCube();
-		}
-		shared_ptr<Material> mt = make_shared<Material>();
-		{
-			MaterialDesc desc;
-			desc.ambient = Color(1.f, 1.f, 1.f, 1.f);
-			desc.diffuse = Color(1.f, 1.f, 1.f, 1.f);
-			desc.specular = Color(1.f, 1.f, 1.f, 1.f);
-			mt->SetMaterialDesc(desc);
-			shared_ptr<Shader> tShader = make_shared<Shader>(L"23. RenderDemo.fx");
-			mt->SetShader(tShader);
-			shared_ptr<Texture> tTex = make_shared<Texture>();
-			wstring texAdr = RESOURCES_ADDR_TEXTURE;
-			texAdr += L"grass.jpg";
-			tTex->CreateTexture(texAdr);
-			mt->SetDiffuseMap(tTex);
-		}
-
-		testBox->AddComponent(make_shared<MeshRenderer>());
-		{
-			testBox->GetMeshRenderer()->SetMesh(box);
-			testBox->GetMeshRenderer()->SetMaterial(mt);
-			testBox->GetMeshRenderer()->SetPass(0);
-		}
-
-		testBox->AddComponent(make_shared<SphereCollider>());
-
-		testBox->Awake();
-		testBox->GetTransform()->SetLocalPosition(Vec3(0, 60, 0));
-		testBox->GetTransform()->SetLocalScale(Vec3(15.f));
-
-
-		Add(testBox);
-	}
 
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
@@ -268,31 +229,28 @@ void DungeonScene::Update()
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
 		sendInfo._isOnline = true;
-		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
-		sendInfo._isAttack = _isAttack;
+		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
+		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
+		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+
+		//Attack
+		{
+			int size = _warrior->GetComponent<PlayerController>()->GetAttackQueueSize();
+			if (size > 0)
+			{
+				uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
+				_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
+				_service->Broadcast(_sendBuffer);
+			}
+		}
+
 		//SendBuffer
 		_sendBuffer = ClientPacketHandler::Instance().Make_USER_INFO(sendInfo);
 	}
 
 	SpawnManager::GetInstance().Update();
-
-	//collision
-	{
-		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::LBUTTON))
-		{
-			int32 mx = MANAGER_INPUT()->GetScreenMousePos().x;
-			int32 my = MANAGER_INPUT()->GetScreenMousePos().y;
-
-			auto pickObj = Pick(mx, my);
-
-			if (pickObj)
-			{
-				Remove(pickObj);
-			}
-		}
-	}
 
 #pragma region Client Thread
 	//12∫–¿«1√  = 83.33ms

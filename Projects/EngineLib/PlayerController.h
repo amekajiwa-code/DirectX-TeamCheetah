@@ -41,9 +41,11 @@ private:
 	bool _isPicked = false;
 	CHARACTER_INFO _pickedInfo;
 	shared_ptr<GameObject> _pickedObj;
+	queue<CHARACTER_INFO> _attackQueue;
 
 	float _battleTime = 15.f;
 	float _battleTimer = 0.f;
+	float _attackTime = 15.f;
 	float _attackTimer = 0.0f;
 	bool isend = false;
 private:
@@ -91,6 +93,7 @@ public:
 	void SetIsAttack(bool setting) { _isAttack = setting; }
 	const bool& IsBattle() const { return _isBattle; }
 	const CHARACTER_INFO& GetPickedInfo() const { return _pickedInfo; }
+	int GetAttackQueueSize();
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();
