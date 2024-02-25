@@ -235,7 +235,7 @@ void DungeonScene::Update()
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 
-		//Attack
+		//Attack1
 		{
 			int size = _warrior->GetComponent<PlayerController>()->GetAttackQueueSize();
 			if (size > 0)

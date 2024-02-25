@@ -91,14 +91,17 @@ void ServerPacketHandler::Handle_BATTLE(BYTE* buffer, int32 len)
 	auto it = GSessionManager.GetMobInfoList().find(tgtId);
 	if (it != GSessionManager.GetMobInfoList().end())
 	{
-		if (it->second._hp == 0)
+		if (atkInfo._atk >= it->second._hp) //¸·Å¸
 		{
 			it->second._hp = 0;
+			it->second._isAlive = false;
 		}
 		else
 		{
 			it->second._hp -= atkInfo._atk;
 		}
+
+
 		
 		GSessionManager.UpdateMobInfo(it->second);
 	}

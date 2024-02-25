@@ -166,7 +166,6 @@ void AIController::FixedUpdate()
 
 void AIController::Update()
 {
-
 }
 
 void AIController::LateUpdate()

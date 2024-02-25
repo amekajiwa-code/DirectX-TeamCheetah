@@ -19,6 +19,7 @@ private:
 	float _slowSpeed = 150.f;
 	bool _isSlow = false;
 	bool _isAttack = false;
+	bool _isAlive = true;
 private:
 	//Player
 	shared_ptr<PlayerUnitState> _currentPlayerState;
@@ -37,6 +38,7 @@ public:
 	void SetUnitState(const PlayerUnitState& state) { *_currentPlayerState = state; }
 	void SetUnitState(const EnemyUnitState& state) { *_currentEnemyState = state; }
 	void SetAIType(AIType type) { _type = type; }
+	void notifyEnemyDeath() { _isAlive = false; }
 public:
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }

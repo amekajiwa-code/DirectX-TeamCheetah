@@ -292,6 +292,7 @@ bool EnemyAnimDeath::Update()
 		}break;
 		case EnemyUnitState::Death:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Death);
 			return true;
 		}break;
 		case EnemyUnitState::Battle:
@@ -353,6 +354,7 @@ bool EnemyAnimBattle::Update()
 		}break;
 		case EnemyUnitState::Death:
 		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Death);
 			return true;
 		}break;
 		case EnemyUnitState::Attack:

@@ -133,9 +133,13 @@ void SpawnManager::SpawnMonsters()
 		{
 			if (pair.second._isAlive == false)
 			{
+				//주의 : 이거 삭제한 이후로 얘 건들면 nullptr 뜰걸로 예상됨
+				it->second->GetComponent<AIController>()->notifyEnemyDeath();
+				it->second->GetComponent<AIController>()->SetUnitState(EnemyUnitState::Death);
+				it->second->GetComponent<CharacterInfo>()->SetCharacterInfo(pair.second);
+
 				_monsters.erase(it);
 				ClientPacketHandler::Instance().EraseMonster(pair.first);
-				//주의 : 이거 삭제한 이후로 얘 건들면 nullptr 뜰걸로 예상됨
 			}
 			else
 			{
@@ -173,7 +177,11 @@ void SpawnManager::SpawnMonsters()
 		else
 		{
 			//다른플레이어 처음 등장시 스폰
-			SpawnMonster(pair.first, pair.second._pos);
+			if (pair.second._isAlive == true)
+			{
+				SpawnMonster(pair.first, pair.second._pos);
+			}
+			
 			cout << "find not key, new player spawn" << endl;
 		}
 	}

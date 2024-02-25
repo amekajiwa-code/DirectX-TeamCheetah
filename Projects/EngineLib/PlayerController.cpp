@@ -409,6 +409,12 @@ void PlayerController::PlayerPicking()
 	{
 		_pickedInfo = _pickedObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
 		MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp);
+		if (_pickedInfo._hp == 0)
+		{
+			MANAGER_IMGUI()->UpdatePicked(false);
+			_isPicked = false;
+			MANAGER_SCENE()->GetCurrentScene()->Remove(_pickedObj);
+		}
 
 		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::RBUTTON))
 		{
