@@ -109,11 +109,11 @@ void ImGuiManager::Update()
 
         ImGui::PopStyleColor(3); // Push한 스타일을 복원
 
-        ImVec2 textSize = ImGui::CalcTextSize("Core Hound");
+        ImVec2 textSize = ImGui::CalcTextSize(_name);
         float textPosX = (sizeX - textSize.x) * 0.5f;
         ImGui::SetCursorPosX(textPosX);
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-        ImGui::Text("Core Hound");
+        ImGui::Text(_name);
         ImGui::PopStyleColor();
         //Hp Bar
         {
@@ -213,8 +213,12 @@ void ImGuiManager::UpdateMp(uint32 maxMp, uint32 mp)
     _mp = static_cast<float>(mp) / static_cast<float>(maxMp);
 }
 
-void ImGuiManager::UpdatePicked(bool isPicked, uint32 maxHp, uint32 hp)
+void ImGuiManager::UpdatePicked(bool isPicked, uint32 maxHp, uint32 hp, wstring name)
 {
     show_picked_hp_window = isPicked;
     _pickedHp = static_cast<float>(hp) / static_cast<float>(maxHp);
+
+    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, name.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    _name = new char[bufferSize];
+    WideCharToMultiByte(CP_UTF8, 0, name.c_str(), -1, _name, bufferSize, nullptr, nullptr);
 }

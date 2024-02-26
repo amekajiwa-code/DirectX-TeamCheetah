@@ -27,11 +27,12 @@ public:
 	std::vector<std::string> GetLatestMessages() { return chatMessages; }
 	void UpdateHp(uint32 maxHp, uint32 hp);
 	void UpdateMp(uint32 maxMp, uint32 mp);
-	void UpdatePicked(bool isPicked, uint32 maxHp = 0, uint32 hp = 0);
+	void UpdatePicked(bool isPicked, uint32 maxHp = 0, uint32 hp = 0, wstring name = L"");
 private:
 	//Player Stat
 	float _hp = 1.0f;
 	float _mp = 1.0f;
+	char* _name;
 	//Picked Object Stat
 	float _pickedHp = 1.0f;
 	//윈도우 활성화 여부

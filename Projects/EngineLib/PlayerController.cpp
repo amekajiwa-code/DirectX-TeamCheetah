@@ -411,7 +411,7 @@ void PlayerController::PlayerPicking()
 	if (_isPicked)
 	{
 		_pickedInfo = _pickedObj->GetComponent<CharacterInfo>()->GetCharacterInfo();
-		MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp);
+		MANAGER_IMGUI()->UpdatePicked(true, _pickedInfo._maxHp, _pickedInfo._hp, _pickedObj->GetName());
 		if (_pickedInfo._hp == 0)
 		{
 			MANAGER_IMGUI()->UpdatePicked(false);
@@ -426,7 +426,7 @@ void PlayerController::PlayerPicking()
 
 			auto pickObj = MANAGER_SCENE()->GetCurrentScene()->Pick(mx, my);
 
-			if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
+			if (pickObj && pickObj->GetName() != L"") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
 			{
 				Vec3 diff = DirectX::XMVectorSubtract(_movePos, _pickedInfo._pos);
 				float distance = DirectX::XMVectorGetX(DirectX::XMVector3Length(diff));
@@ -452,7 +452,7 @@ void PlayerController::PlayerPicking()
 
 		auto pickObj = MANAGER_SCENE()->GetCurrentScene()->Pick(mx, my);
 
-		if (pickObj && pickObj->GetName() == L"CoreHound") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
+		if (pickObj && pickObj->GetName() != L"") //어떤 타입이든 인식할수 있게 수정해야할 필요 있음
 		{
 			_isPicked = true;
 			_pickedObj = pickObj;
