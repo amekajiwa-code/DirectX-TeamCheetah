@@ -325,7 +325,10 @@ void PlayerController::PlayerMove()
 		}
 	}
 
-	PlayerJump();
+	if (_isAttack == false)
+	{
+		PlayerJump();
+	}
 
 	KeyStateCheck();
 }
