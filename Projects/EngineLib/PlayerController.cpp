@@ -413,7 +413,7 @@ void PlayerController::PlayerPicking()
 		{
 			MANAGER_IMGUI()->UpdatePicked(false);
 			_isPicked = false;
-			MANAGER_SCENE()->GetCurrentScene()->Remove(_pickedObj);
+			//MANAGER_SCENE()->GetCurrentScene()->Remove(_pickedObj);
 		}
 
 		if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::RBUTTON))

@@ -265,6 +265,20 @@ bool EnemyAnimDamaged::Out()
 
 bool EnemyAnimDeath::Enter(const shared_ptr<CharacterController>& enemyController)
 {
+	_controller = dynamic_pointer_cast<AIController>(enemyController);
+
+	if (_controller.lock())
+	{
+		_animator = _controller.lock()->GetAnimator();
+		_state = _controller.lock()->GetCurrentEnemyUnitState();
+		_animType = EnemyAnimType::Death;
+
+		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->SetNextAnimation(L"Death");
+
+		return true;
+	}
+
 	return false;
 }
 
