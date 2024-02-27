@@ -187,14 +187,34 @@ void DungeonScene::Update()
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
 
 	{
-		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
+		sendInfo = ClientPacketHandler::Instance().GetUserInfo();
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();
-		sendInfo._isOnline = true;
 		sendInfo._Rotate = _warrior->GetTransform()->GetLocalRotation();
 		sendInfo._jumpFlag = *_warrior->GetComponent<PlayerController>()->GetJumpState();
 		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+
+		//Alive
+		if (sendInfo._isAlive == false)
+		{
+			_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(false);
+			MANAGER_IMGUI()->NotifyPlayerAlive(false);
+		}
+
+		//Rebirth
+		{
+			int size = MANAGER_IMGUI()->GetAttackQueueSize();
+			if (size > 0)
+			{
+				sendInfo._isAlive = true;
+				sendInfo._hp = sendInfo._maxHp;
+				sendInfo._pos = spawnPos;
+				_warrior->GetTransform()->SetLocalPosition(spawnPos);
+				_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(true);
+				MANAGER_IMGUI()->NotifyPlayerAlive(true);
+			}
+		}
 
 		//Attack1
 		{

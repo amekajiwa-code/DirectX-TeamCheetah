@@ -36,6 +36,7 @@ private:
 	shared_ptr<PlayerUnitState>	_currentState;
 	bool _isAttack = false;
 	bool _isBattle = false;
+	bool _isAlive = true;
 
 	//Pick
 	bool _isPicked = false;
@@ -91,6 +92,7 @@ public:
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
 	const bool& IsAttack() const { return _isAttack; }
 	void SetIsAttack(bool setting) { _isAttack = setting; }
+	void NotifyPlayerAlive(bool isAlive);
 	const bool& IsBattle() const { return _isBattle; }
 	const CHARACTER_INFO& GetPickedInfo() const { return _pickedInfo; }
 	int GetAttackQueueSize();

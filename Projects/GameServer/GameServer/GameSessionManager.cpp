@@ -56,10 +56,10 @@ void GameSessionManager::GenerateMobList()
 	// 랜덤 숫자 생성기 생성
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distributionX(-350, -300.0f);
+	std::uniform_real_distribution<float> distributionX(-450, -200.0f);
 	std::uniform_real_distribution<float> distributionY(300, 350.0f);
 
-	for (int id = 0; id < 1; ++id)
+	for (int id = 0; id < 2; ++id)
 	{
 		MONSTER_INFO c0;
 
@@ -78,5 +78,38 @@ void GameSessionManager::UpdateMobInfo(MONSTER_INFO info)
 	if (it != _mobInfoList.end())
 	{
 		it->second = info;
+	}
+}
+
+void GameSessionManager::EnemyIsAttack(Player_INFO& target, MONSTER_INFO& enemy)
+{
+	WRITE_LOCK
+	if (attackTimer > attackTime)
+	{
+		if (enemy._atk >= target._hp) //막타
+		{
+			target._hp = 0;
+			target._isAlive = false;
+		}
+		else
+		{
+			target._hp -= enemy._atk;
+		}
+
+		for (const auto& session : GSessionManager.GetSessionsRef()) {
+			if (session->GetSessionId() == target._uid)
+			{
+				cout << "attack for " << target._uid << endl;
+				SendBufferRef sendbuffer = ServerPacketHandler::Make_USER_INFO(target, false);
+				session->Send(sendbuffer);
+				break;
+			}
+		}
+
+		attackTimer = 0.0f;
+	}
+	else
+	{
+		attackTimer += TIMER().getDeltaTime();
 	}
 }

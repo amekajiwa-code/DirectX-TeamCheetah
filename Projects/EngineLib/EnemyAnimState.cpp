@@ -119,6 +119,11 @@ bool EnemyAnimWalk::Update()
 			_controller.lock()->SetAnimState(EnemyAnimType::Battle);
 			return true;
 		}break;
+		case EnemyUnitState::Attack:
+		{
+			_controller.lock()->SetAnimState(EnemyAnimType::Attack1);
+			return true;
+		}break;
 		}
 	}
 
@@ -153,10 +158,6 @@ bool EnemyAnimRun::Update()
 {
 	if (_controller.lock())
 	{
-		if (_animator.lock()->GetFrameEnd())
-		{
-			return false;
-		}
 		switch (*_state.lock())
 		{
 		case EnemyUnitState::Stand:

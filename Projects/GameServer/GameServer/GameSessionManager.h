@@ -24,6 +24,10 @@ public:
 	void GenerateMobList();
 	map<uint64, MONSTER_INFO>& GetMobInfoList() { return _mobInfoList; }
 	void UpdateMobInfo(MONSTER_INFO info);
+	void EnemyIsAttack(Player_INFO& target, MONSTER_INFO& enemy);
+private:
+	float attackTime = 1.5f;
+	float attackTimer = 0.0f;
 private:
 	USE_LOCK;
 	Set<GameSessionRef> _sessions;
