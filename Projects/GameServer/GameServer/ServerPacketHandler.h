@@ -28,6 +28,7 @@ enum class PlayerUnitState
 	Jump,
 	Stun,
 	Loot,
+	Damaged,
 	Death,
 	Battle,
 	Attack,

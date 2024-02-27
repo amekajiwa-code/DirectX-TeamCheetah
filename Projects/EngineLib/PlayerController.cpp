@@ -79,7 +79,7 @@ void PlayerController::CameraMove()
 	}
 
 	//마우스 오른쪽 버튼 누르고 있을 때(캐릭터회전 = 카메라 회전(위치이동))
-	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON))
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::RBUTTON) && _isAlive == true)
 	{
 		{
 			_playerRot = _transform.lock()->GetLocalRotation();
@@ -158,7 +158,10 @@ const PlayerAnimType& PlayerController::GetCurrentAnimType()
 
 void PlayerController::PlayerInput()
 {
-	PlayerMove();
+	if (_isAlive == true)
+	{
+		PlayerMove();
+	}
 
 	_animState->Update();
 
@@ -524,6 +527,21 @@ void PlayerController::KeyStateCheck()
 			}
 		}
 
+	}
+}
+
+void PlayerController::NotifyPlayerAlive(bool isAlive)
+{
+	_isAlive = isAlive;
+
+	if (isAlive == true)
+	{
+		SetAnimState(PlayerAnimType::Stand);
+	}
+	
+	if (isAlive == false)
+	{
+		SetAnimState(PlayerAnimType::Death);
 	}
 }
 

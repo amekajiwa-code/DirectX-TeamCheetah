@@ -23,7 +23,7 @@ void ClientPacketHandler::HandlePacket(BYTE* buffer, int32 len)
 		Handle_MESSAGE(buffer, len);
 		break;
 	case PACKET_BATTLE:
-		Handle_MESSAGE(buffer, len);
+
 		break;
 	case PACKET_DISCONNECT:
 		Handle_USER_DISCONNECT(buffer, len);
@@ -45,11 +45,18 @@ void ClientPacketHandler::Handle_USER_INFO(BYTE* buffer, int32 len)
 
 	std::lock_guard<std::mutex> lock(_mutex);
 
+	if (_userInfo._uid == userInfo._uid)
+	{
+		_userInfo = userInfo;
+		MANAGER_IMGUI()->UpdateHp(_userInfo._maxHp, _userInfo._hp);
+	}
+
 	if (header.other == false)
 	{
 		_userInfo = userInfo;
-		cout << "your uid : " << userInfo._uid << endl;
-		cout << "position : ( " << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << " )" << endl;
+		MANAGER_IMGUI()->UpdateHp(_userInfo._maxHp, _userInfo._hp);
+		//cout << "your uid : " << userInfo._uid << endl;
+		//cout << "position : ( " << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << " )" << endl;
 	}
 	else if (_userInfo._uid != userInfo._uid)
 	{

@@ -18,6 +18,8 @@ class DungeonScene : public Scene
 {
 	//Map
 	shared_ptr<FrustomCamera> frustom;
+	//Spawn Pos
+	Vec3 spawnPos = Vec3(-375.0f, 25.0f, 325.0f); 
 	//obj
 	shared_ptr<Terrain> _terrain;
 	shared_ptr<QuadTreeTerrain> quadTreeTerrain;

@@ -24,6 +24,8 @@ bool GameServerAI::CalcNextBehavior()
 {
 	for (auto& mob : GSessionManager.GetMobInfoList())
 	{
+		if (mob.second._isAlive == false) continue;
+
 		float minDistance = FLT_MAX;
 		uint64 closestUserId = 0;
 
@@ -68,57 +70,53 @@ bool GameServerAI::CalcNextBehavior()
 
 			if (distance <= 15.0f)
 			{
-				if (it->second._isAttack)
-				{
-					mob.second._animState = EnemyUnitState::Damaged;
-					isDamaged = true;
-				}
-				else
-				{
-					mob.second._animState = EnemyUnitState::Attack;
-				}
+				state = AIState::Attack;
 			}
 			else if (distance <= range)
 			{
-				Vec3 direction = mob.second._targetPos - mob.second._pos;
-				mob.second._pos += direction * TIMER().getDeltaTime();
-				mob.second._animState = EnemyUnitState::Run;
+				state = AIState::Run;
 			}
-			else
+			else if (distance > range)
 			{
-				mob.second._animState = EnemyUnitState::Stand;
+				state = AIState::Stand;
 			}
-		}
-	}
 
-	for (auto& mob : GSessionManager.GetMobInfoList())
-	{
-		switch (mob.second._animState)
-		{
-		case EnemyUnitState::None:
-			break;
-		case EnemyUnitState::Stand:
-			break;
-		case EnemyUnitState::Walk:
-			break;
-		case EnemyUnitState::Run:
-			break;
-		case EnemyUnitState::Damaged:
-			break;
-		case EnemyUnitState::Death:
-			break;
-		case EnemyUnitState::Battle:
-			break;
-		case EnemyUnitState::Attack:
-			break;
-		case EnemyUnitState::Ability1:
-			break;
-		case EnemyUnitState::Ability2:
-			break;
-		case EnemyUnitState::End:
-			break;
-		default:
-			break;
+			Vec3 direction;
+
+			switch (state)
+			{
+			case AIState::None:
+				break;
+			case AIState::Stand:
+				mob.second._animState = EnemyUnitState::Stand;
+				break;
+			case AIState::Walk:
+				break;
+			case AIState::Run:
+				mob.second._animState = EnemyUnitState::Run;
+				direction = mob.second._targetPos - mob.second._pos;
+				mob.second._pos += direction * TIMER().getDeltaTime();
+				break;
+			case AIState::Damaged:
+				mob.second._animState = EnemyUnitState::Damaged;
+				break;
+			case AIState::Death:
+				break;
+			case AIState::Battle:
+				break;
+			case AIState::Attack:
+				mob.second._animState = EnemyUnitState::Attack;
+				GSessionManager.EnemyIsAttack(it->second, mob.second);
+				break;
+			case AIState::Ability1:
+				break;
+			case AIState::Ability2:
+				break;
+			case AIState::End:
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
