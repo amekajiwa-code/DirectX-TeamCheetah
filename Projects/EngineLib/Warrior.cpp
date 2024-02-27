@@ -2,6 +2,7 @@
 #include "Warrior.h"
 #include "PlayerController.h"
 #include "HeightGetter.h"
+#include "CharacterInfo.h"
 
 Warrior::Warrior()
 {
@@ -17,6 +18,10 @@ Warrior::~Warrior()
 void Warrior::CharacterInit()
 {
 	_childModel = make_shared<GameObject>();
+	_controller = make_shared<PlayerController>();
+	_unitInfo = make_shared<CharacterInfo>();
+	AddComponent(_controller);
+	AddComponent(_unitInfo);
 
 	//Character
 	{
@@ -61,6 +66,7 @@ void Warrior::CharacterInit()
 		height->Set(MANAGER_SCENE()->GetCurrentScene()->GetCurrentTerrain().get());
 		AddComponent(height);
 	}
+
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));

@@ -409,6 +409,23 @@ void PlayerController::PlayerAttack()
 	}
 }
 
+void PlayerController::PlayerSpawn()
+{
+	_isAlive = true;
+	_transform.lock()->SetLocalPosition(_spawnPos);
+	_playerInfoCom.lock()->Reset();
+
+	MANAGER_IMGUI()->NotifyPlayerAlive(true);
+}
+
+void PlayerController::PlayerDeath()
+{
+	_isAlive = false;
+	SetAnimState(PlayerAnimType::Death);
+
+	MANAGER_IMGUI()->NotifyPlayerAlive(false);
+}
+
 void PlayerController::PlayerPicking()
 {
 	if (_isPicked)
@@ -592,6 +609,21 @@ void PlayerController::Start()
 
 void PlayerController::FixedUpdate()
 {
+	if (_isAlive)
+	{
+		if (_playerInfoCom.lock() == nullptr)
+		{
+			_playerInfoCom = GetGameObject()->GetComponent<CharacterInfo>();
+		}
+		else
+		{
+			if (_playerInfoCom.lock()->GetCharacterInfo()._hp <= 0)
+			{
+				PlayerDeath();
+			}
+		}
+	}
+
 	if (_isBattle)
 	{
 		if (_battleTimer + FLT_EPSILON >= _battleTime)

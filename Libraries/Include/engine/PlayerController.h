@@ -9,9 +9,10 @@ class PlayerAnimBackRun;
 class PlayerAnimJumpStart;
 class PlayerAnimJumpFall;
 class PlayerAnimJumpEnd;
+class HeightGetter;
+class CharacterInfo;
 #pragma endregion
 
-class HeightGetter;
 
 class PlayerController : public CharacterController, public enable_shared_from_this<PlayerController>
 {
@@ -21,6 +22,8 @@ public:
 private:
 	weak_ptr<HeightGetter> _heightGetterCom;
 	weak_ptr<Transform> _transform;
+	weak_ptr<CharacterInfo> _playerInfoCom;
+	Vec3 _spawnPos = { 0,0,0 };
 	Vec3 _movePos = { 0,0,0 };
 	Vec3 _moveForward = { 0,0,0 };
 	Vec3 _moveRight = { 0,0,0 };
@@ -78,11 +81,14 @@ private:
 	void PlayerMove();
 	void PlayerJump();
 	void PlayerAttack();
+	void PlayerSpawn();
+	void PlayerDeath();
 	void PlayerPicking();
 	void KeyStateCheck();
 	//Camera
 	void CameraMove();
 public:
+	void SetSpawnPosition(const Vec3& pos) { _spawnPos = pos; }
 	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const shared_ptr<PlayerUnitState>& GetCurrentUnitState() { return _currentState; }

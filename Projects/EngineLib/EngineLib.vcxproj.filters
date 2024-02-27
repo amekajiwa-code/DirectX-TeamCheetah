@@ -314,7 +314,6 @@
     <ClInclude Include="Sounds.h">
       <Filter>00. Engine\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterInfo.h" />
     <ClInclude Include="EquipmentSlot.h">
       <Filter>04. Component\Player</Filter>
     </ClInclude>
@@ -326,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="ConsumableItem.h">
       <Filter>03. GameObject\Item\Consumable</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInfo.h">
+      <Filter>04. Component\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

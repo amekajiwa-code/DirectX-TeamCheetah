@@ -27,9 +27,6 @@ void DungeonScene::Init()
 		_dissolve = MANAGER_RESOURCES()->GetOrAddTexture(L"Dissolve", dTex);
 	}
 
-	//랜더 매니저 초기화
-	MANAGER_RENDERER()->Init(_shader);
-
 	//light
 	{
 		auto light = make_shared<GameObject>();
@@ -42,7 +39,6 @@ void DungeonScene::Init()
 		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
-		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	//Camera
@@ -145,10 +141,6 @@ void DungeonScene::Init()
 		_warrior = make_shared<Warrior>();
 		_warrior->Awake();
 		_warrior->AddChild(_childCamera);
-		_warrior->AddComponent(make_shared<PlayerController>());
-		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
-		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);
 		_warrior->Start();
 		_warrior->GetTransform()->SetLocalPosition(Vec3(-374,25,338));
 		Add(_warrior);
@@ -196,11 +188,10 @@ void DungeonScene::Update()
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 
 		//Alive
-		if (sendInfo._isAlive == false)
-		{
-			_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(false);
-			MANAGER_IMGUI()->NotifyPlayerAlive(false);
-		}
+		//if (sendInfo._isAlive == false)
+		//{
+		//	_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(false);
+		//}
 
 		//Rebirth
 		{

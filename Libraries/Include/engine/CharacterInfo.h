@@ -5,6 +5,8 @@ public:
 	CharacterInfo() {};
 	virtual ~CharacterInfo() {};
 public:
+	void Reset();
+public:
 	CHARACTER_INFO GetCharacterInfo() { return _info; }
 	void SetCharacterInfo(CHARACTER_INFO info)
 	{

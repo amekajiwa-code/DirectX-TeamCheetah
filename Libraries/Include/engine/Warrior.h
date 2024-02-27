@@ -3,6 +3,7 @@
 
 #pragma region Declaration
 class PlayerController;
+class CharacterInfo;
 #pragma endregion
 
 class Warrior : public PlayableUnit
@@ -10,6 +11,7 @@ class Warrior : public PlayableUnit
 	using Super = PlayableUnit;
 private:
 	shared_ptr<PlayerController> _controller;
+	shared_ptr<CharacterInfo> _unitInfo;
 	bool _isOtherPlayer = false;
 public:
 	Warrior();
