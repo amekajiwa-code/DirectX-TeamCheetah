@@ -179,6 +179,14 @@ struct CHARACTER_INFO
 	double _timeStamp = 0.0f;
 };
 
+struct CHARACTER_ADD_INFO
+{
+	uint32 _AddHP = 0;
+	uint32 _AddMP = 0;
+	uint16 _AddATK = 0;
+	uint16 _AddDEF = 0;
+};
+
 struct MESSAGE
 {
 	char _messageBox[50];
@@ -197,4 +205,19 @@ struct MONSTER_INFO : public CHARACTER_INFO
 	Vec3 _targetPos = { 0.f, 0.f, 0.f };
 	bool _isMove = false;
 	EnemyUnitState _animState = EnemyUnitState::Stand;
+};
+
+struct ItemInfo
+{
+	std::wstring	Name;
+	ItemType		ItemType = ItemType::None;
+	UsableItemType	UsableType = UsableItemType::None;
+	uint32			HP = 0;
+	uint32			MP = 0;
+	uint16			ATK = 0;
+	uint16			DEF = 0;
+	uint32			Price = 0;
+	std::wstring	MeshFilePath;
+	std::wstring	MaterialFilePath;
+	std::wstring	ImageFilePath;
 };

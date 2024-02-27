@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SceneManager.h"
+#include "Utils.h"
 
 SceneManager* SceneManager::_instance = nullptr;
 
@@ -28,4 +29,6 @@ void SceneManager::Update()
 	_currentScene->FixedUpdate();
 	_currentScene->Update();
 	_currentScene->LateUpdate();
+
+
 }

@@ -58,6 +58,45 @@
     <Filter Include="04. Component\Colision">
       <UniqueIdentifier>{fa4b7f4d-a8f7-44b8-afca-ccfc8a9e6278}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Component\Player">
+      <UniqueIdentifier>{ecb2a4f5-82c6-4049-aeca-b390ada6136b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\Item">
+      <UniqueIdentifier>{87a56f64-0269-47a5-b495-dc8a05cca15c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\Item\Equipment">
+      <UniqueIdentifier>{ace111dd-dc32-4530-9e82-a56f0c5351f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Component\Item\Consumable">
+      <UniqueIdentifier>{350dee07-ca36-4587-88d7-0b2be9b2163b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item">
+      <UniqueIdentifier>{97e872cd-cf84-487d-bb20-38bde4e90fab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment">
+      <UniqueIdentifier>{ef9c8c0d-dc4b-46ca-b750-3a7d607ea280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\LeftShoulder">
+      <UniqueIdentifier>{326db383-f3cc-4488-9bfa-14189e9dd5fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\Helm">
+      <UniqueIdentifier>{ca1e9602-aa27-4cf7-967d-336fb038d7ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\Belt">
+      <UniqueIdentifier>{e15beacc-9704-48e6-9fe4-325d8bf68c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\RightShoulder">
+      <UniqueIdentifier>{b2435a15-715e-41c2-af58-f50a086cf653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\Shield">
+      <UniqueIdentifier>{504a4117-f438-4cc9-aec2-8fe92aa3569d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Equipment\Weapon">
+      <UniqueIdentifier>{9c613a33-0c57-4f69-b0ec-4772d318d277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Item\Consumable">
+      <UniqueIdentifier>{e4d8fcb8-2410-4ec7-946e-c7122d82bd1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -275,6 +314,19 @@
     <ClInclude Include="Sounds.h">
       <Filter>00. Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterInfo.h" />
+    <ClInclude Include="EquipmentSlot.h">
+      <Filter>04. Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>04. Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipmentItem.h">
+      <Filter>03. GameObject\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableItem.h">
+      <Filter>03. GameObject\Item\Consumable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -479,6 +531,20 @@
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="CharacterInfo.cpp">
       <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Sounds.cpp" />
+    <ClCompile Include="EquipmentSlot.cpp">
+      <Filter>04. Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>04. Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipmentItem.cpp">
+      <Filter>03. GameObject\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableItem.cpp">
+      <Filter>03. GameObject\Item\Consumable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

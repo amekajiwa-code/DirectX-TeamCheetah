@@ -64,10 +64,6 @@ void Warrior::CharacterInit()
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));
-	//Vec3 rot = GetTransform()->GetLocalRotation();
-	//rot.x += ::XMConvertToRadians(90.f);
-	//rot.y -= ::XMConvertToRadians(90.f);
-	//_cGetTransform()->SetLocalRotation(rot);
 }
 
 void Warrior::Awake()

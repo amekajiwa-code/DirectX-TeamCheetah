@@ -27,6 +27,7 @@
 #define DATA_ADDR_SAVE L"../../Data/Save/"
 #define DATA_ADDR_LOAD L"../../Data/Load/"
 #define DATA_ADDR_META L"../../Data/Meta/"
+#define DATA_ADDR_ITEM L"../../Data/Item/"
 #define DATA_ADDR_SCREENSHOT L"../../Data/ScreenShot/"
 #else
 //resources
@@ -53,6 +54,7 @@
 #define DATA_ADDR_SAVE L"Data/Save/"
 #define DATA_ADDR_LOAD L"Data/Load/"
 #define DATA_ADDR_META L"Data/Meta/"
+#define DATA_ADDR_ITEM L"Data/Item/"
 #define DATA_ADDR_SCREENSHOT L"Data/ScreenShot/"
 #endif
 
@@ -99,10 +101,6 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 
 //Lib Header
-//assimp
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 //imgui
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
@@ -129,8 +127,6 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "dxtex\\DirectXTex_d.lib")
 #pragma comment(lib, "dxtk\\DirectXTK_d.lib")
 #pragma comment(lib, "fx11\\Effects11d.lib")
-////Assimp
-#pragma comment(lib, "assimp\\assimp-vc143-mtd.lib")
 ////Imgui
 #pragma comment(lib, "imgui\\Imgui_d.lib")
 #else
@@ -138,8 +134,6 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "dxtex\\DirectXTex.lib")
 #pragma comment(lib, "dxtk\\DirectXTK.lib")
 #pragma comment(lib, "fx11\\Effects11.lib")
-////Assimp
-#pragma comment(lib, "assimp\\assimp-vc143-mt.lib")
 ////Imgui
 #pragma comment(lib, "imgui\\Imgui.lib")
 #endif

@@ -2,6 +2,7 @@
 #include "CGame.h"
 #include "IExecute.h"
 #include "ImGuiManager.h"
+#include "Utils.h"
 
 HWND g_hWnd = 0;
 CGameDesc g_gameDesc;
@@ -19,6 +20,11 @@ void CGame::Update()
 	//_desc.App->Update();
 	//_desc.App->Render();
 	MANAGER_IMGUI()->Render(); //IMGUI
+
+	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
+	{
+		Utils::ScreenShot(DC(), L"");
+	}
 	GRAPHICS()->RenderEnd();
 }
 

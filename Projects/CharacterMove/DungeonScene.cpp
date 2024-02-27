@@ -184,46 +184,7 @@ void DungeonScene::Start()
 
 void DungeonScene::Update()
 {
-	MANAGER_RENDERER()->Update();
-
-
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
-
-	static float dt = 0.f;
-
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
-	{
-		if (_isdisv)
-		{
-			_isdisv = false;
-		}
-		else
-		{
-			_isdisv = true;
-		}
-	}
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_2))
-	{
-		if (dt >= 1.0f)
-		{
-			dt = 0.f;
-		}
-
-		_isdisv = false;
-	}
-
-	if (_isdisv)
-	{
-		dt += MANAGER_TIME()->GetDeltaTime() * 0.35f;
-	}
-
-	_shader->GetSRV("dissolve")->SetResource(_dissolve->GetTexture().Get());
-	_shader->GetScalar("time")->SetFloat(dt);
-
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
-	{
-		Utils::ScreenShot(DC(), L"");
-	}
 
 	{
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;

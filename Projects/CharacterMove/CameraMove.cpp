@@ -50,7 +50,7 @@ void CameraMove::Update()
 			rot.y -= deltaX * _dt * 0.075f;
 			rot.x -= deltaY * _dt * 0.075f;
 
-			rot.x = (std::max<float>(std::min(rot.x, 90.0f), -90.0f));
+			rot.x = (std::max<float>(min(rot.x, 90.0f), -90.0f));
 			GetTransform()->SetLocalRotation(rot);
 		}
 	}

@@ -174,11 +174,6 @@ void BaseScene::Update()
 	Scene::ShadowUpdate();
 	MANAGER_SHADOW()->EndShadow();
 
-	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::PrintScreen))
-	{
-		Utils::ScreenShot(DC(), L"");
-	}
-
 	{
 		sendInfo._uid = ClientPacketHandler::Instance().GetUserInfo()._uid;
 		sendInfo._pos = _warrior->GetTransform()->GetPosition();

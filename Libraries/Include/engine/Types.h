@@ -161,3 +161,27 @@ enum class ColliderType
 	OBB,
 	Sphere
 };
+
+//Item Type
+enum class ItemType : uint8
+{
+	None,
+	Helm,
+	LeftShoulder,
+	RightShoulder,
+	Belt,
+	Weapon,
+	Shield,
+	Consumable,
+	End
+};
+
+enum class UsableItemType : uint8
+{
+	None,
+	ALL,
+	Warrior,
+	Mage,
+	Priest,
+	End
+};

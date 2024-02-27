@@ -14,7 +14,6 @@ void CoreHound::CharacterInit()
 {
 	_childModel = make_shared<GameObject>();
 
-
 	//Character
 	{
 		shared_ptr<Model> model = make_shared<Model>();

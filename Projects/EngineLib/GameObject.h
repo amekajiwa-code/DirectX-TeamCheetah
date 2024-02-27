@@ -35,8 +35,8 @@ public:
 	shared_ptr<ModelRenderer>	GetModelRenderer();
 	shared_ptr<ModelAnimator>	GetModelAnimator();
 	shared_ptr<Transform>		GetOrAddTransform();
-	shared_ptr<Light> GetLight();
-	shared_ptr<BaseCollider> GetCollider();
+	shared_ptr<Light>			GetLight();
+	shared_ptr<BaseCollider>	GetCollider();
 public:
 	void SetActive(bool active);
 	bool GetActive() { return _isActive; }
