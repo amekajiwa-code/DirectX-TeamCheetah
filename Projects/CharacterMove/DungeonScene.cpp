@@ -57,6 +57,8 @@ void DungeonScene::Init()
 		_childCamera->Start();
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
+		DamageIndicator::GetInstance().Init();
+		DamageIndicator::GetInstance().SetCamera(_childCamera);
 	}
 	ObjectExporter exporter;
 	exporter.OpenFile(L"../../Resources/Assets/dungeon1fix.dat");
@@ -154,7 +156,6 @@ void DungeonScene::Init()
 		Add(_warrior);
 		AddShadow(_warrior);
 	}
-
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
@@ -190,7 +191,15 @@ void DungeonScene::Update()
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
 
 	static float dt = 0.f;
-
+	if (dt >= 10.0f)
+	{
+		DamageIndiCatorBox box;
+		box.damage = 444;
+		box.pos = _warrior->GetTransform()->GetLocalPosition();
+		box.textDuration = 20;
+		DamageIndicator::GetInstance().Add(box);
+		dt = 0.f;
+	}
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_1))
 	{
 		if (_isdisv)
@@ -204,18 +213,15 @@ void DungeonScene::Update()
 	}
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::KEY_2))
 	{
-		if (dt >= 1.0f)
-		{
-			dt = 0.f;
-		}
+
 
 		_isdisv = false;
 	}
 
 	if (_isdisv)
 	{
-		dt += MANAGER_TIME()->GetDeltaTime() * 0.35f;
 	}
+	dt += MANAGER_TIME()->GetDeltaTime();
 
 	_shader->GetSRV("dissolve")->SetResource(_dissolve->GetTexture().Get());
 	_shader->GetScalar("time")->SetFloat(dt);
@@ -287,6 +293,8 @@ void DungeonScene::Update()
 	Scene::Update();
 	quadTreeTerrain->Update();
 	skyBox->Update();
+	DamageIndicator::GetInstance().Frame();
+	DamageIndicator::GetInstance().Render();
 }
 
 void DungeonScene::LateUpdate()

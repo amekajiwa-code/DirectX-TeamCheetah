@@ -148,5 +148,8 @@
     <FxCompile Include="..\..\Resources\Shader\Render.fx">
       <Filter>Shader\Common</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shader\Damage.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

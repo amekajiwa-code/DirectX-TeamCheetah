@@ -21,6 +21,7 @@ SoundManager::~SoundManager()
 void SoundManager::Init()
 {
 	if (g_fmSystem == nullptr) {
+		FMOD::System_Create(&g_fmSystem);
 		g_fmSystem->init(128, FMOD_INIT_NORMAL, nullptr);
 	}
 }

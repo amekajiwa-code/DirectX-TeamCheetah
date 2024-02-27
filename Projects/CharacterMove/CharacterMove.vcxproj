@@ -202,6 +202,7 @@
     <ClCompile Include="StruectedLavaSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Resources\Shader\Damage.fx" />
     <FxCompile Include="..\..\Resources\Shader\GameTerrain.fx" />
     <FxCompile Include="..\..\Resources\Shader\Global.fx" />
     <FxCompile Include="..\..\Resources\Shader\Instancing.fx" />
