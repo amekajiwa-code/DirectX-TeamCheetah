@@ -293,11 +293,11 @@ void DungeonScene::Update()
 	Scene::Update();
 	quadTreeTerrain->Update();
 	skyBox->Update();
-	DamageIndicator::GetInstance().Frame();
-	DamageIndicator::GetInstance().Render();
 }
 
 void DungeonScene::LateUpdate()
 {
 	Scene::LateUpdate();
+	DamageIndicator::GetInstance().Frame();
+	DamageIndicator::GetInstance().Render();
 }

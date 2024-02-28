@@ -3,7 +3,17 @@
 #include "Global.fx"
 
 Texture2D NumListMap[10];
-
+BlendState DamageBlendState
+{
+    BlendEnable[0] = true;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    BlendOpAlpha = ADD;
+    SrcBlendAlpha = ONE;
+    DestBlendAlpha = ZERO;
+    RenderTargetWriteMask[0] = 0x0F;
+};
 //Mesh Render//
 struct NumMesh
 {
@@ -13,7 +23,7 @@ struct NumMesh
     float3 tangent : TANGENT;
     uint instanceID : SV_INSTANCEID;
     matrix world : INST;
-    uint num : UINST;
+    uint num : INSTU;
 };
 struct NumOutput
 {
@@ -38,7 +48,7 @@ NumOutput MeshVS(NumMesh input)
 
 float4 PS(NumOutput input) : SV_TARGET
 {
-    float4 color = float4(1, 1, 1, 1);
+    float4 color = float4(1, 0, 0, 1);
     switch (input.num)
     {
         case 0:color = NumListMap[0].Sample(LinearSampler, input.uv);break;
@@ -58,7 +68,8 @@ float4 PS(NumOutput input) : SV_TARGET
 
 technique11 T0
 {
-    PASS_RS_SP(P0, CullNone, MeshVS, PS)
+    PASS_RS_BS_VP(P0,CullNone,DamageBlendState,MeshVS,PS)
+//    PASS_RS_SP(P0, CullNone, MeshVS, PS)
 //	PASS_RS_SP(P0, ShadowRaster, MeshVS, PS)
 };
 
