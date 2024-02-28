@@ -3,12 +3,15 @@
 #include "PlayerAnimState.h"
 #include "EnemyAnimState.h"
 
+class HeightGetter;
+
 class AIController : public CharacterController, public enable_shared_from_this<AIController>
 {
 public:
 	AIController(){}
 	virtual ~AIController(){}
 private:
+	weak_ptr<HeightGetter> _heightGetterCom;
 	weak_ptr<Transform>			_transform;
 	weak_ptr<ModelAnimator>		_animator;
 	shared_ptr<JumpFlag>		_jumpState;

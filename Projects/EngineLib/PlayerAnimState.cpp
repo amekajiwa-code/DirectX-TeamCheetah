@@ -1268,10 +1268,11 @@ bool PlayerAnimDeath::Enter(const shared_ptr<CharacterController>& playerControl
 		_playerState = _aiContoller.lock()->GetCurrentPlayerUnitState();
 	}
 
+
 	_stateAnim = PlayerAnimType::Death;
 	_animator.lock()->GetTweenDesc().ClearNextAnim();
 	_animator.lock()->SetNextAnimation(L"Death");
-
+	
 	return false;
 }
 

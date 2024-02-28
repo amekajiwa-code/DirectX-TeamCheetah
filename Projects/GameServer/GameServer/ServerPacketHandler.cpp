@@ -42,9 +42,9 @@ void ServerPacketHandler::Handle_USER_INFO(BYTE* buffer, int32 len)
 	br >> userInfo;
 	userInfo._timeStamp = TIMER().getCurrentTime();
 
-	cout << "uid : " << userInfo._uid << endl;
+	/*cout << "uid : " << userInfo._uid << endl;
 	cout << "position : (" << userInfo._pos.x << ", " << userInfo._pos.y << ", " << userInfo._pos.z << ")" << endl;
-	cout << "hp : " << userInfo._hp << endl;
+	cout << "hp : " << userInfo._hp << endl;*/
 
 	SendBufferRef sendBuffer = ServerPacketHandler::Make_USER_INFO(userInfo, true);
 	GSessionManager.UpdateUserInfo(userInfo);

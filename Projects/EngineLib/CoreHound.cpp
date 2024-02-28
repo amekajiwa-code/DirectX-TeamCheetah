@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CoreHound.h"
 #include "SphereCollider.h"
+#include "HeightGetter.h"
 
 CoreHound::CoreHound()
 {
@@ -51,6 +52,12 @@ void CoreHound::CharacterInit()
 	SetName(L"CoreHound");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));
+
+	{
+		auto height = make_shared<HeightGetter>();
+		height->Set(MANAGER_SCENE()->GetCurrentScene()->GetCurrentTerrain().get());
+		AddComponent(height);
+	}
 }
 
 void CoreHound::Awake()

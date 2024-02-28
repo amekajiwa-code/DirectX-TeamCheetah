@@ -80,6 +80,7 @@ void SpawnManager::SpawnOtherPlayers()
 				Vec3 rot = it->second->GetTransform()->GetLocalRotation();
 
 				Vec3 direction = target - pos;
+				direction.y = 0.0f; // Height가 알아서 설정해주므로 0
 				pos += interpolate(alpha, direction, Vec3(0.0f, 0.0f, 0.0f)) * pair.second._moveSpeed * MANAGER_TIME()->GetDeltaTime();
 
 				//회전 보간 계산

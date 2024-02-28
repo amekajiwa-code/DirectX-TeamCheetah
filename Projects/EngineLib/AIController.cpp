@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "AIController.h"
+#include "HeightGetter.h"
 
 void AIController::InitAnimState()
 {
@@ -130,6 +131,17 @@ void AIController::Start()
 		_animator = GetGameObject()->GetChildByName(L"Model")->GetModelAnimator();
 		_jumpState = make_shared<JumpFlag>();
 	}
+
+	_heightGetterCom = GetGameObject()->GetComponent<HeightGetter>();
+	{
+		if (_transform.lock())
+		{
+			Vec3 temPos = _transform.lock()->GetLocalPosition();
+			temPos.y = _heightGetterCom.lock()->GetHeight();
+			_transform.lock()->SetLocalPosition(temPos);
+		}
+	}
+
 	switch (_type)
 	{
 	case AIType::PlayableUnit:
@@ -166,6 +178,12 @@ void AIController::FixedUpdate()
 
 void AIController::Update()
 {
+	if (_heightGetterCom.lock())
+	{
+		Vec3 tempPos = _transform.lock()->GetLocalPosition();
+		tempPos.y = _heightGetterCom.lock()->GetHeight();
+		_transform.lock()->SetLocalPosition(tempPos);
+	}
 }
 
 void AIController::LateUpdate()

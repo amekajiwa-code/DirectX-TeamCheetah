@@ -592,6 +592,12 @@ void PlayerController::Start()
 
 void PlayerController::FixedUpdate()
 {
+	if (_isAlive == false)
+	{
+		_isBattle = false;
+
+	}
+
 	if (_isBattle)
 	{
 		if (_battleTimer + FLT_EPSILON >= _battleTime)
