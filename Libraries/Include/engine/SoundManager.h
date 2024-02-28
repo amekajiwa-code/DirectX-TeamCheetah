@@ -4,10 +4,8 @@
 
 class SoundManager
 {
-
-	FMOD::System* fm_System;
-
-	list<FMOD::Channel*> channelList;
+//	list<pair<wstring,FMOD::Channel*>> channelList;
+	shared_ptr<Transform> soundTransform;
 
 	static SoundManager* _instance;
 private:
@@ -17,5 +15,14 @@ private:
 public:
 	SoundManager* GetInstance();
 	~SoundManager();
+public:
+	void Init();
+	void Update();
+	void SetTransForm(shared_ptr<Transform> refTransform) {
+		soundTransform = refTransform;
+	}
+//	void Pause();
+//	void Resume();
+//	void Stop();
 };
 

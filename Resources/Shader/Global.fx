@@ -216,6 +216,14 @@ pass name											\
     SetRasterizerState(rs);							\
     SetVertexShader(CompileShader(vs_5_0, vs()));	\
     SetPixelShader(CompileShader(ps_5_0, ps()));	\
+}                                                   
+#define PASS_RS_BS_VP(name, rs,bs, vs,ps)			\
+pass name											\
+{													\
+    SetRasterizerState(rs);							\
+    SetBlendState(bs,float4(0.0, 0.0, 0.0, 0.0), 0xFFFFFFFF);							    \
+    SetVertexShader(CompileShader(vs_5_0, vs()));	\
+    SetPixelShader(CompileShader(ps_5_0, ps()));	\
 }                                                   \
 //Function//
 float3 CameraPosition()

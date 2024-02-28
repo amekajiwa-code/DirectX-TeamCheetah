@@ -71,10 +71,10 @@
     <ClCompile Include="DungeonScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterInfo.cpp">
-      <Filter>Scripts\Component</Filter>
-    </ClCompile>
     <ClCompile Include="ManagerCleaner.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageIndicator.cpp">
       <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,10 +126,10 @@
     <ClInclude Include="DungeonScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterInfo.h">
-      <Filter>Scripts\Component</Filter>
-    </ClInclude>
     <ClInclude Include="ManagerCleaner.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageIndicator.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>

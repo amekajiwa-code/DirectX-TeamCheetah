@@ -5,3 +5,5 @@
 
 #pragma comment(lib, "../../Libraries/lib/server/ServerCore.lib")
 #include "CorePch.h"
+
+#include "DamageIndicator.h"

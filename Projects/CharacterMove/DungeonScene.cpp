@@ -58,6 +58,10 @@ void DungeonScene::Init()
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
+
+	DamageIndicator::GetInstance().Init();
+	DamageIndicator::GetInstance().SetCamera(_childCamera);
+
 	ObjectExporter exporter;
 	exporter.OpenFile(L"../../Resources/Assets/dungeon1fix.dat");
 	for (int i = 0; i < exporter._structureList.size(); ++i) {
@@ -265,12 +269,20 @@ void DungeonScene::Update()
 	}
 	latestMessageSize = MANAGER_IMGUI()->GetLatestMessages().size();
 
+	//DamageIndiCatorBox box;
+	//box.damage = 444;
+	//box.pos = _warrior->GetTransform()->GetLocalPosition();
+	//box.textDuration = 20;
+	//DamageIndicator::GetInstance().Add(box);
+
 	Scene::Update();
 	quadTreeTerrain->Update();
 	skyBox->Update();
+	DamageIndicator::GetInstance().Frame();
 }
 
 void DungeonScene::LateUpdate()
 {
 	Scene::LateUpdate();
+	DamageIndicator::GetInstance().Render();
 }

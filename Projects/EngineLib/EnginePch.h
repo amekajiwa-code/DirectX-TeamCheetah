@@ -114,14 +114,14 @@ using namespace Microsoft::WRL;
 #include <imgui/ImCurveEdit.h>
 #include <imgui/GraphEditor.h>
 //fmod
-//#include <fmod/fmod.h>
-//#include <fmod/fmod.hpp>
-//#include <fmod/fmod_errors.h>/
+#include <fmod/fmod.h>
+#include <fmod/fmod.hpp>
+#include <fmod/fmod_errors.h>/
 
 //Lib
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-//#pragma comment(lib, "fmod\\fmod-vc.lib")
+#pragma comment(lib, "fmod\\fmod_vc.lib")
 #ifdef _DEBUG
 //DX
 #pragma comment(lib, "dxtex\\DirectXTex_d.lib")
@@ -144,7 +144,7 @@ using namespace Microsoft::WRL;
 //Extern
 extern HWND g_hWnd;
 extern CGameDesc g_gameDesc;
-//extern FMOD::System* g_fmSystem;
+extern FMOD::System* g_fmSystem;
 
 #include "Graphics.h"
 #define GRAPHICS()		Graphics::GetInstance()
