@@ -3,16 +3,16 @@
 
 FMOD::System* g_fmSystem;
 
-Sound::Sound() :Super(ResourceType::Sound)
+Sounds::Sounds() :Super(ResourceType::Sounds)
 {
 }
 
-Sound::~Sound()
+Sounds::~Sounds()
 {	
 	if (fm_Sound)fm_Sound->release();
 }
 
-void Sound::Load(const wstring& path)
+void Sounds::Load(const wstring& path)
 {
 	if (g_fmSystem == nullptr) {
 		FMOD::System_Create(&g_fmSystem);
@@ -27,53 +27,61 @@ void Sound::Load(const wstring& path)
 	}
 
 }
-FMOD::Channel* Sound::Play(bool doLoop)
+FMOD::Channel* Sounds::Play(bool doLoop)
 {
 	FMOD::Channel* channel;
 
-	(doLoop) ? fm_Sound->setMode(FMOD_LOOP_NORMAL) : fm_Sound->setMode(FMOD_LOOP_OFF);
-	fm_Sound->setMode(FMOD_2D);
-	g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
-
+	FMOD_RESULT fr;
+	(doLoop) ? fr = fm_Sound->setMode(FMOD_LOOP_NORMAL) : fr = fm_Sound->setMode(FMOD_LOOP_OFF);
+	fr=fm_Sound->setMode(FMOD_2D);
+	fr=g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
+	fr=channel->setVolume(100);
+	float speed;
+	MANAGER_SOUND()->AddChannel(channel);
 	return channel;
 }
-FMOD::Channel* Sound::Play3D(bool doLoop, Vec3 pos, Vec3 vel = { 1,1,1 })
+FMOD::Channel* Sounds::Play3D(bool doLoop, Vec3 *pos, Vec3 vel)
 {
 	FMOD::Channel* channel;
 
 	FMOD_VECTOR position;
 	FMOD_VECTOR velocity;
-	position.x = pos.x;
-	position.y = pos.y;
-	position.z = pos.z;
+	position.x = pos->x;
+	position.y = pos->y;
+	position.z = pos->z;
 	velocity.x = vel.x;
 	velocity.y = vel.y;
 	velocity.z = vel.z;
+	
+	FMOD_RESULT fr;
+	(doLoop) ? fr=fm_Sound->setMode(FMOD_LOOP_NORMAL) : fr=fm_Sound->setMode(FMOD_LOOP_OFF);
+	fr=fm_Sound->setMode(FMOD_3D);
+	fr=g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
+//	fm_Sound->get3DCustomRolloff(&vec,&ids);
+	fr=channel->set3DAttributes(&position, &velocity);
+	channel->set3DMinMaxDistance(10,100);
 
-
-	(doLoop) ? fm_Sound->setMode(FMOD_LOOP_NORMAL) : fm_Sound->setMode(FMOD_LOOP_OFF);
-	fm_Sound->setMode(FMOD_3D);
-	g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
-	channel->set3DAttributes(&position, &velocity);
-
+	MANAGER_SOUND()->AddChannel(pos,channel);
+//	c
 	return channel;
 }
-void Sound::PlayEffect()
+void Sounds::PlayEffect()
 {
 	FMOD::Channel* channel;
 	fm_Sound->setMode(FMOD_2D);
 	g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
+	MANAGER_SOUND()->AddChannel(channel);
 
 }
-void Sound::Play3DEffect(Vec3 pos,Vec3 vel = { 1,1,1 })
+void Sounds::Play3DEffect(Vec3* pos,Vec3 vel )
 {
 	FMOD::Channel* channel;
 
 	FMOD_VECTOR position;
 	FMOD_VECTOR velocity;
-	position.x = pos.x;
-	position.y = pos.y;
-	position.z = pos.z;
+	position.x = pos->x;
+	position.y = pos->y;
+	position.z = pos->z;
 	velocity.x = vel.x;
 	velocity.y = vel.y;
 	velocity.z = vel.z;
@@ -81,6 +89,7 @@ void Sound::Play3DEffect(Vec3 pos,Vec3 vel = { 1,1,1 })
 
 	g_fmSystem->playSound(fm_Sound, nullptr, false, &channel);
 	channel->set3DAttributes(&position, &velocity);
+	MANAGER_SOUND()->AddChannel(pos, channel);
 
 }
 

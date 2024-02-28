@@ -22,6 +22,7 @@
     <ClCompile Include="ServerPacketHandler.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectExporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -42,6 +43,7 @@
     <ClInclude Include="ServerPacketHandler.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectExporter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">

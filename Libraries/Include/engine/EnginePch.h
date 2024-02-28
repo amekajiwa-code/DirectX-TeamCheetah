@@ -121,7 +121,7 @@ using namespace Microsoft::WRL;
 //Lib
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-#pragma comment(lib, "fmod\\fmod_vc.lib")
+#pragma comment(lib, "fmod\\fmodL_vc.lib")
 #ifdef _DEBUG
 //DX
 #pragma comment(lib, "dxtex\\DirectXTex_d.lib")
@@ -167,6 +167,7 @@ extern FMOD::System* g_fmSystem;
 #include "SceneManager.h"
 #include "InstancingManager.h"
 #include "ShadowManager.h"
+#include "SoundManager.h"
 #include "ImGuiManager.h"
 
 //Global Macro
@@ -177,6 +178,7 @@ extern FMOD::System* g_fmSystem;
 #define MANAGER_INSTANCING() InstancingManager::GetInstance()
 #define MANAGER_SCENE()		 SceneManager::GetInstance()
 #define MANAGER_SHADOW()	 ShadowManager::GetInstance()
+#define MANAGER_SOUND()		SoundManager::GetInstance()
 #define MANAGER_IMGUI()		 ImGuiManager::GetInstance()
 
 //Components

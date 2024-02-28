@@ -31,8 +31,8 @@ void BaseScene::Init()
 	}
 
 	//랜더 매니저 초기화
-	MANAGER_RENDERER()->Init(_shader);
-
+//	MANAGER_RENDERER()->Init(_shader);
+	MANAGER_SOUND()->Init();
 	//light
 	{
 		auto light = make_shared<GameObject>();
@@ -45,7 +45,7 @@ void BaseScene::Init()
 		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
-		MANAGER_RENDERER()->PushLightData(lightDesc);
+//		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	//Camera
@@ -104,14 +104,14 @@ void BaseScene::Init()
 	}
 
 	HeightPlainInfo heightMapDesc;
-	heightMapDesc.heightFilename = L"HeightMap";
+	heightMapDesc.heightFilename = L"HeightMapBase";
 	heightMapDesc.heightFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"test.bmp";
 	heightMapDesc.shaderFilePath = L"ShadowSplattingMapping.fx";
 	//heightMapDesc.shaderFilePath = L"TerrainMapping.fx";
-	heightMapDesc.shaderFilename = L"HeightMapShader";
-	heightMapDesc.textureFilename = L"HeightMapTexture";
+	heightMapDesc.shaderFilename = L"HeightMapShaderBase";
+	heightMapDesc.textureFilename = L"HeightMapTextureBase";
 	heightMapDesc.textureFilePath = wstring(RESOURCES_ADDR_TEXTURE) + L"020.bmp";
-	heightMapDesc.meshKey = L"TerrainMesh";
+	heightMapDesc.meshKey = L"TerrainMeshBase";
 	heightMapDesc.distance = 1;
 	heightMapDesc.row = 253;
 	heightMapDesc.col = 253;
@@ -128,13 +128,13 @@ void BaseScene::Init()
 	spDesc.texPath[0] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsash01.png";
 	spDesc.texPath[1] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsashcracks.png";
 	spDesc.texPath[2] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppscharcoal01.png";
-	spDesc.texName[0] = L"Splat1";
-	spDesc.texName[1] = L"Splat2";
-	spDesc.texName[2] = L"Splat3";
+	spDesc.texName[0] = L"Splat1Base";
+	spDesc.texName[1] = L"Splat2Base";
+	spDesc.texName[2] = L"Splat3Base";
 	spDesc.alphaPath = wstring(RESOURCES_ADDR_TEXTURE) + L"testalpha.bmp";
-	spDesc.alphaName = L"SplatAlpha";
+	spDesc.alphaName = L"SplatAlphaBase";
 	splatter = make_shared<LayerSplatter>();
-	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShader"));
+	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShaderBase"));
 	quadTreeTerrain->AddSplatter(splatter);
 	SetTerrain(_terrain);
 
@@ -151,6 +151,19 @@ void BaseScene::Init()
 		_warrior->GetTransform()->SetLocalPosition(spawnPos);
 		Add(_warrior);
 		AddShadow(_warrior);
+		MANAGER_SOUND()->SetTransForm(_warrior->GetTransform());
+	}
+	shared_ptr<Sounds> bgm = MANAGER_RESOURCES()->GetResource<Sounds>(L"Lobby");
+	if (bgm == nullptr) {
+	shared_ptr<Sounds> bgm = make_shared<Sounds>();
+	wstring bgmpath = RESOURCES_ADDR_SOUND;
+	bgmpath += L"Scene/Lobby.mp3";
+	bgm->Load(bgmpath);
+	MANAGER_RESOURCES()->AddResource<Sounds>(L"Lobby", bgm);
+	auto chs = bgm->Play(true);
+	}
+	else {
+		bgm->Play(true);
 	}
 
 	SpawnManager::GetInstance().Init();
@@ -163,6 +176,7 @@ void BaseScene::Start()
 void BaseScene::Update()
 {
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
+	MANAGER_SOUND()->Update();
 	MANAGER_SHADOW()->StartShadow();
 	_terrain->GetMeshRenderer()->SetPass(1);
 	_terrain->GetMeshRenderer()->ShadowUpdate();

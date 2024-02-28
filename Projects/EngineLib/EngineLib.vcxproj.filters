@@ -532,8 +532,6 @@
     <ClCompile Include="CharacterInfo.cpp">
       <Filter>04. Component\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="Sounds.cpp" />
     <ClCompile Include="EquipmentSlot.cpp">
       <Filter>04. Component\Player</Filter>
     </ClCompile>
@@ -545,6 +543,12 @@
     </ClCompile>
     <ClCompile Include="ConsumableItem.cpp">
       <Filter>03. GameObject\Item\Consumable</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>02. Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Sounds.cpp">
+      <Filter>00. Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

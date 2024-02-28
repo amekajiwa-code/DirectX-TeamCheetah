@@ -9,13 +9,13 @@ enum class ResourceType : uint8
 	Texture,
 	Matertial,
 	Animation,
-	Sound,
+	Sounds,
 	End
 };
 
 enum
 {	
-	RESOURCE_TYPE_COUNT = static_cast<uint8>(ResourceType::End) - 1
+	RESOURCE_TYPE_COUNT = static_cast<uint8>(ResourceType::End)
 };
 
 class GameObject;

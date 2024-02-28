@@ -38,7 +38,7 @@ float4 PS(MeshOutput input) : SV_TARGET
     float4 color = ComputeLightMixed(input.normal, input.uv, input.worldPosition,finalColor);
 	//color.w=max(0.7f,color.w);
 	//finalColor = finalColor*color.w;
-	return color; 
+	return finalColor; 
 }
 
 technique11 T0

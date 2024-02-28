@@ -146,10 +146,13 @@ void TerrainBlock::DivideBlock(int depth, TerrainBlock* parentBlock)
 		parentBlock->childs[i]->BlockMeshKey = ((wstring)QUADTERRAIN_MESHKEY)+to_wstring(++meshKeyCoutner);
 		parentBlock->childs[i]->BlockTextureKey = parentBlock->BlockTextureKey;
 		parentBlock->childs[i]->BlockShaderKey = parentBlock->BlockShaderKey;
-		MANAGER_RESOURCES()->AddResource(parentBlock->childs[i]->BlockMeshKey,childMesh);
+//		MANAGER_RESOURCES()->AddResource(parentBlock->childs[i]->BlockMeshKey,childMesh);
 		parentBlock->childs[i]->personal_Mesh = childMesh;
 		parentBlock->childs[i]->Awake();
 		shared_ptr<MeshRenderer> childRenderer = make_shared<MeshRenderer>();
+		childRenderer->SetMesh(childMesh);
+		childRenderer->SetMaterial(MANAGER_RESOURCES()->GetResource<Material>(BlockTextureKey));
+		childRenderer->SetPass(0);
 		parentBlock->childs[i]->AddComponent(childRenderer);
 		parentBlock->childs[i]->DivideBlock(depth, parentBlock->childs[i].get());
 	}
@@ -207,20 +210,20 @@ void TerrainBlock::CreateBoundingBox(TerrainBlock* block)
 
 void TerrainBlock::Start()
 {
-	auto renderer = GetMeshRenderer();
-	if (renderer) {
-		//renderer->SetMesh(personal_Mesh);
-		renderer->SetMesh(MANAGER_RESOURCES()->GetResource<Mesh>(BlockMeshKey));
-		renderer->SetMaterial(MANAGER_RESOURCES()->GetResource<Material>(BlockTextureKey)->Clone());
-		renderer->SetPass(0);
-	}
-	else {
-#ifdef _DEBUG
-		MessageBoxA(NULL, "WTF THIS MASSAGE FROM Plain AWAKE", "ERROR FROM PLAIN", MB_OK);
-		assert(true);
-#endif // _DEBUG
+//	auto renderer = GetMeshRenderer();
+//	if (renderer) {
+//		//renderer->SetMesh(personal_Mesh);
+////		renderer->SetMesh(MANAGER_RESOURCES()->GetResource<Mesh>(BlockMeshKey));
+//		renderer->SetMaterial(MANAGER_RESOURCES()->GetResource<Material>(BlockTextureKey)->Clone());
+//		renderer->SetPass(0);
+//	}
+//	else {
+//#ifdef _DEBUG
+//		MessageBoxA(NULL, "WTF THIS MASSAGE FROM Plain AWAKE", "ERROR FROM PLAIN", MB_OK);
+//		assert(true);
+//#endif // _DEBUG
 
-	}
+	
 	GameObject::Start();
 }
 

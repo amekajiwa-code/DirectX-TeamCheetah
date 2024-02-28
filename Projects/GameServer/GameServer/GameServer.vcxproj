@@ -106,7 +106,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../../Libraries/Include/server;</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -139,6 +139,7 @@
     <ClCompile Include="GameServerAI.cpp" />
     <ClCompile Include="GameSession.cpp" />
     <ClCompile Include="GameSessionManager.cpp" />
+    <ClCompile Include="ObjectExporter.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -149,6 +150,7 @@
     <ClInclude Include="GameServerAI.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="GameSessionManager.h" />
+    <ClInclude Include="ObjectExporter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerPacketHandler.h" />
     <ClInclude Include="Timer.h" />
