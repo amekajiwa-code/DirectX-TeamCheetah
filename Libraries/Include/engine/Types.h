@@ -60,7 +60,8 @@ enum class AssetType
 enum class ObjectType
 {
 	None,
-	Unit,
+	PlayableUnit,
+	EnemyUnit,
 	Environment,
 	Structure,
 	Ui,

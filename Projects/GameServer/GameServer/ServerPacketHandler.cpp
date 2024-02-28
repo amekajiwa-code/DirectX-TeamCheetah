@@ -144,6 +144,9 @@ SendBufferRef ServerPacketHandler::Make_MONSTER_INFO(map<uint64, MONSTER_INFO> c
 		MONSTER_INFO info = pair.second;
 		info._timeStamp = TIMER().getCurrentTime();
 
+		cout << "map id : " << pair.second._spawnMapId << endl;
+		cout << "position : ( " << pair.second._pos.x << ", " << pair.second._pos.y << ", " << pair.second._pos.z << " )" << endl;
+
 		bw << info;
 	}
 

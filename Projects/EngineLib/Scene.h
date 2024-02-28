@@ -24,6 +24,8 @@ public:
 	shared_ptr<Terrain> GetCurrentTerrain() { return _terrain==nullptr ? nullptr:_terrain; };
 	void SetTerrain(shared_ptr<Terrain> terrain) { _terrain = terrain; };
 	shared_ptr<GameObject> Pick(int32 screenX, int32 screenY);
+	wstring GetSceneName() { return _sceneName; }
+	void SetSceneName(wstring sceneName) { _sceneName = sceneName; }
 protected:
 	wstring _sceneName;
 	unordered_set<shared_ptr<GameObject>> _objects;

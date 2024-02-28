@@ -44,10 +44,12 @@ private:
 	bool show_picked_hp_window = false;
 	bool show_chat_window = true;
 	bool show_death_window = false;
+	bool show_nickname_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 	//채팅 멤버
 	char buffer[256] = "";
+	char nameBuffer[256] = "";
 	std::vector<std::string> chatMessages; // 채팅 메시지를 저장할 벡터
 	std::vector<std::string> otherChatMessages; // 다른 유저 채팅 메시지를 저장할 벡터
 	bool isScrollBottom = false;

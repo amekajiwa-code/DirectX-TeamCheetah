@@ -53,20 +53,42 @@ void GameSessionManager::UpdateUserInfo(Player_INFO info)
 
 void GameSessionManager::GenerateMobList()
 {
-	// 랜덤 숫자 생성기 생성
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> distributionX(-450, -200.0f);
-	std::uniform_real_distribution<float> distributionY(300, 350.0f);
+	
 
 	for (int id = 0; id < 2; ++id)
 	{
+		// 랜덤 숫자 생성기 생성
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distributionX(-50, 50.0f);
+		std::uniform_real_distribution<float> distributionZ(-50, 50.0f);
+
 		MONSTER_INFO c0;
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
 		c0._instanceId = id;
-		c0._pos = { distributionX(gen), 25.0f, distributionY(gen) };
-		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << endl;
+		c0._pos = { distributionX(gen), 25.0f, distributionZ(gen) };
+		c0._spawnMapId = 0;
+		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << "mapId: " << c0._spawnMapId << endl;
+
+		_mobInfoList.insert(make_pair(id, c0));
+	}
+
+	for (int id = 2; id < 4; ++id)
+	{
+		// 랜덤 숫자 생성기 생성
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distributionX(-450, -200.0f);
+		std::uniform_real_distribution<float> distributionZ(300, 350.0f);
+
+		MONSTER_INFO c0;
+
+		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
+		c0._instanceId = id;
+		c0._pos = { distributionX(gen), 25.0f, distributionZ(gen) };
+		c0._spawnMapId = 1;
+		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << "mapId: " << c0._spawnMapId << endl;
 
 		_mobInfoList.insert(make_pair(id, c0));
 	}

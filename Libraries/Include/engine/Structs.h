@@ -161,6 +161,7 @@ struct ShadowViewDesc {
 struct CHARACTER_INFO
 {
 	uint32 _instanceId = 0;
+	uint32 _spawnMapId = 0;
 	//wstring _name;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 	uint32 _maxHp = 1000;
 	uint32 _maxMp = 1000;

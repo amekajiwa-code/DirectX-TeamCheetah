@@ -12,7 +12,11 @@
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
 #include "ObjectExporter.h"
+#include "Demo.h"
 
+#include "DungeonScene.h"
+#include "BaseScene.h"
+#include "MainScene.h"
 
 void DungeonScene::Init()
 {
@@ -154,32 +158,12 @@ void DungeonScene::Init()
 		getter->Set(_terrain.get());
 		_warrior->AddComponent(getter);
 		_warrior->Start();
-		_warrior->GetTransform()->SetLocalPosition(Vec3(-374,25,338));
+		_warrior->GetTransform()->SetLocalPosition(spawnPos);
 		Add(_warrior);
 		AddShadow(_warrior);
 	}
 
-#pragma region Client Thread
-	_service = MakeShared<ClientService>(
-		NetAddress(L"127.0.0.1", 7777),
-		MakeShared<IocpCore>(),
-		MakeShared<ServerSession>,
-		1);
-
-	ASSERT_CRASH(_service->Start());
-
-	for (int32 i = 0; i < 3; i++)
-	{
-		GThreadManager->Launch([=]()
-			{
-				while (true)
-				{
-					_service->GetIocpCore()->Dispatch();
-				}
-			}
-		);
-	}
-#pragma endregion Client Thread
+	SpawnManager::GetInstance().Init();
 }
 void DungeonScene::Start()
 {
@@ -198,6 +182,7 @@ void DungeonScene::Update()
 		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+		sendInfo._spawnMapId = SpawnManager::GetInstance().GetSpawnMapId();
 
 		//Alive
 		if (sendInfo._isAlive == false)
@@ -279,6 +264,17 @@ void DungeonScene::Update()
 	quadTreeTerrain->Update();
 	skyBox->Update();
 	DamageIndicator::GetInstance().Frame();
+
+	shared_ptr<Scene> scene = make_shared<BaseScene>();
+	scene->SetSceneName(L"BaseScene");
+
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q))
+	{
+		wstring name = MANAGER_SCENE()->GetCurrentScene()->GetSceneName();
+		SpawnManager::GetInstance().Reset(name);
+		SpawnManager::GetInstance().EraseSpawnerMap(name);
+		MANAGER_SCENE()->ChangeScene(scene);
+	}
 }
 
 void DungeonScene::LateUpdate()

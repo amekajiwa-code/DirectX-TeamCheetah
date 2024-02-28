@@ -18,6 +18,8 @@ class BaseScene : public Scene
 {
 	//Map
 	shared_ptr<FrustomCamera> frustom;
+	//Spawn Pos
+	Vec3 spawnPos = Vec3(0, 25, 0);
 	//obj
 	shared_ptr<Terrain> _terrain;
 	shared_ptr<QuadTreeTerrain> quadTreeTerrain;
@@ -31,7 +33,6 @@ class BaseScene : public Scene
 	shared_ptr<Unit> _warrior;
 	shared_ptr<Unit> _coreHound;
 	//client
-	ClientServiceRef _service;
 	float _threadTimer = 0.0f;
 	SendBufferRef _sendBuffer;
 	Player_INFO sendInfo; //플레이어 인포

@@ -5,6 +5,7 @@
 
 void Scene::Init() {};
 
+
 void Scene::Start()
 {
 	unordered_set<shared_ptr<GameObject>> objects = _objects;

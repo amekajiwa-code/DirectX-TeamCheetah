@@ -10,6 +10,13 @@ class GameSession;
 
 using GameSessionRef = std::shared_ptr<GameSession>;
 
+enum
+{
+	Lobby = 0,
+	Dungeon = 1,
+	BossRoom = 2,
+};
+
 class GameSessionManager
 {
 public:

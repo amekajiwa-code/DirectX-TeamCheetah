@@ -19,7 +19,7 @@ class DungeonScene : public Scene
 	//Map
 	shared_ptr<FrustomCamera> frustom;
 	//Spawn Pos
-	Vec3 spawnPos = Vec3(-375.0f, 25.0f, 325.0f); 
+	Vec3 spawnPos = Vec3(-374, 25, 338);
 	//obj
 	shared_ptr<Terrain> _terrain;
 	shared_ptr<QuadTreeTerrain> quadTreeTerrain;
@@ -33,7 +33,6 @@ class DungeonScene : public Scene
 	shared_ptr<Unit> _warrior;
 	shared_ptr<Unit> _coreHound;
 	//client
-	ClientServiceRef _service;
 	float _threadTimer = 0.0f;
 	SendBufferRef _sendBuffer;
 	Player_INFO sendInfo; //플레이어 인포

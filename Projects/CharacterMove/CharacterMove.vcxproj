@@ -162,6 +162,7 @@
     <ClInclude Include="LavaFlow.h" />
     <ClInclude Include="LayerSplatter.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="MainScene.h" />
     <ClInclude Include="ManagerCleaner.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="ObjectExporter.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="QuadTreeBlock.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="Spawner.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="StructList.h" />
     <ClInclude Include="StruectedLavaSprite.h" />
@@ -185,6 +187,7 @@
     <ClCompile Include="LavaFlow.cpp" />
     <ClCompile Include="LayerSplatter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="ManagerCleaner.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="ObjectExporter.cpp" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="QuadTreeBlock.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="StructList.cpp" />
     <ClCompile Include="StruectedLavaSprite.cpp" />

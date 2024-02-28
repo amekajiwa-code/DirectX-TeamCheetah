@@ -77,6 +77,12 @@
     <ClCompile Include="DamageIndicator.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Spawner.cpp">
+      <Filter>Scripts\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -131,6 +137,12 @@
     </ClInclude>
     <ClInclude Include="DamageIndicator.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawner.h">
+      <Filter>Scripts\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

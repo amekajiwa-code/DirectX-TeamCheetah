@@ -87,6 +87,7 @@ void ClientPacketHandler::Handle_MONSTER_INFO(BYTE* buffer, int32 len)
 
 	MONSTER_INFO mobInfo;
 	//br의 커서가 끝에 도달할때까지 계속 뽑아냄
+
 	std::lock_guard<std::mutex> lock(_mutex);
 
 	while (br.ReadSize() < br.Size())

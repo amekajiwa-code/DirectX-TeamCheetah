@@ -42,6 +42,12 @@ bool GameServerAI::CalcNextBehavior()
 
 		if (it != GSessionManager.GetUserInfoList().end())
 		{
+			if (mob.second._spawnMapId != it->second._spawnMapId)
+			{
+				mob.second._animState = EnemyUnitState::Stand;
+				continue;
+			}
+
 			float distance = IsPlayerInRanger(mob.second._pos, it->second._pos);
 
 			//Rotate

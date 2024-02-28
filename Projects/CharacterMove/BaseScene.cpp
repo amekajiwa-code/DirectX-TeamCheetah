@@ -11,6 +11,12 @@
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
 #include "engine/SphereCollider.h"
+#include "ObjectExporter.h"
+#include "Demo.h"
+
+#include "DungeonScene.h"
+#include "BaseScene.h"
+#include "MainScene.h"
 
 void BaseScene::Init()
 {
@@ -24,6 +30,9 @@ void BaseScene::Init()
 		_dissolve = MANAGER_RESOURCES()->GetOrAddTexture(L"Dissolve", dTex);
 	}
 
+	//랜더 매니저 초기화
+	MANAGER_RENDERER()->Init(_shader);
+
 	//light
 	{
 		auto light = make_shared<GameObject>();
@@ -33,8 +42,10 @@ void BaseScene::Init()
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(0.1f);
 		lightDesc.direction = Vec3(-0.5f, -0.5f, 0.0f);
+		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
+		MANAGER_RENDERER()->PushLightData(lightDesc);
 	}
 
 	//Camera
@@ -50,6 +61,9 @@ void BaseScene::Init()
 		_childCamera->SetName(L"Camera");
 		MANAGER_SCENE()->GetCurrentScene()->Add(_childCamera);
 	}
+
+	DamageIndicator::GetInstance().Init();
+	DamageIndicator::GetInstance().SetCamera(_childCamera);
 
 	{
 		auto obj = make_shared<GameObject>();
@@ -130,33 +144,16 @@ void BaseScene::Init()
 		_warrior->Awake();
 		_warrior->AddChild(_childCamera);
 		_warrior->AddComponent(make_shared<PlayerController>());
+		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
+		getter->Set(_terrain.get());
+		_warrior->AddComponent(getter);
 		_warrior->Start();
-
+		_warrior->GetTransform()->SetLocalPosition(spawnPos);
 		Add(_warrior);
 		AddShadow(_warrior);
 	}
 
-#pragma region Client Thread
-	_service = MakeShared<ClientService>(
-		NetAddress(L"127.0.0.1", 7777),
-		MakeShared<IocpCore>(),
-		MakeShared<ServerSession>,
-		1);
-
-	ASSERT_CRASH(_service->Start());
-
-	for (int32 i = 0; i < 3; i++)
-	{
-		GThreadManager->Launch([=]()
-			{
-				while (true)
-				{
-					_service->GetIocpCore()->Dispatch();
-				}
-			}
-		);
-	}
-#pragma endregion Client Thread
+	SpawnManager::GetInstance().Init();
 }
 void BaseScene::Start()
 {
@@ -183,13 +180,38 @@ void BaseScene::Update()
 		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
+		sendInfo._spawnMapId = SpawnManager::GetInstance().GetSpawnMapId();
 
-		//Attack
-		if (sendInfo._isAttack)
+		//Alive
+		if (sendInfo._isAlive == false)
 		{
-			uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
-			_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
-			_service->Broadcast(_sendBuffer);
+			_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(false);
+			MANAGER_IMGUI()->NotifyPlayerAlive(false);
+		}
+
+		//Rebirth
+		{
+			int size = MANAGER_IMGUI()->GetAttackQueueSize();
+			if (size > 0)
+			{
+				sendInfo._isAlive = true;
+				sendInfo._hp = sendInfo._maxHp;
+				sendInfo._pos = spawnPos;
+				_warrior->GetTransform()->SetLocalPosition(spawnPos);
+				_warrior->GetComponent<PlayerController>()->NotifyPlayerAlive(true);
+				MANAGER_IMGUI()->NotifyPlayerAlive(true);
+			}
+		}
+
+		//Attack1
+		{
+			int size = _warrior->GetComponent<PlayerController>()->GetAttackQueueSize();
+			if (size > 0)
+			{
+				uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
+				_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
+				_service->Broadcast(_sendBuffer);
+			}
 		}
 
 		//SendBuffer
@@ -197,6 +219,8 @@ void BaseScene::Update()
 	}
 
 	SpawnManager::GetInstance().Update();
+
+
 
 #pragma region Client Thread
 	//12분의1초 = 83.33ms
@@ -233,9 +257,22 @@ void BaseScene::Update()
 	Scene::Update();
 	skyBox->Update();
 	quadTreeTerrain->Update();
+	DamageIndicator::GetInstance().Frame();
+
+	shared_ptr<Scene> scene = make_shared<DungeonScene>();
+	scene->SetSceneName(L"DungeonScene");
+
+	if (MANAGER_INPUT()->GetButton(KEY_TYPE::Q))
+	{
+		wstring name = MANAGER_SCENE()->GetCurrentScene()->GetSceneName();
+		SpawnManager::GetInstance().Reset(name);
+		SpawnManager::GetInstance().EraseSpawnerMap(name);
+		MANAGER_SCENE()->ChangeScene(scene);
+	}
 }
 
 void BaseScene::LateUpdate()
 {
 	Scene::LateUpdate();
+	DamageIndicator::GetInstance().Render();
 }
