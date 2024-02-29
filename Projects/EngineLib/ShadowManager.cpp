@@ -183,13 +183,13 @@ void ShadowManager::RenderAnimRenderer(vector<shared_ptr<GameObject>>& gameObjec
 				// INSTANCING
 				if (gameObject->GetModelAnimator() == nullptr)
 				{
-					tweenDesc->tweens[i] = gameObject->GetChildByName(L"Model")->GetModelAnimator()->GetTweenDesc();
+					tweenDesc->tweens[i] = *gameObject->GetChildByName(L"Model")->GetModelAnimator()->GetTweenDesc();
 					data.world = gameObject->GetChildByName(L"Model")->GetTransform()->GetWorldMatrix();
 
 				}
 				else
 				{
-					tweenDesc->tweens[i] = gameObject->GetModelAnimator()->GetTweenDesc();
+					tweenDesc->tweens[i] = *gameObject->GetModelAnimator()->GetTweenDesc();
 
 				}
 

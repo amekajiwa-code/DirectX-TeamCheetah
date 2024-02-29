@@ -1,6 +1,6 @@
 #pragma once
 #include "MonoBehaviour.h"
-#include "EquipmentItem.h"
+#include "Item.h"
 
 #define MAX_EQUIPMENT_ITEM_SLOT (size_t)6
 
@@ -10,7 +10,7 @@ public:
 	EquipmentSlot();
 	virtual ~EquipmentSlot();
 private:
-	array<shared_ptr<EquipmentItem>, MAX_EQUIPMENT_ITEM_SLOT> _equipmentSlot;
+	array<shared_ptr<Item>, MAX_EQUIPMENT_ITEM_SLOT> _equipmentSlot;
 public:
 
 };

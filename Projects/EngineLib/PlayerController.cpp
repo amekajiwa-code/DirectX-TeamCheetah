@@ -622,6 +622,7 @@ void PlayerController::FixedUpdate()
 				PlayerDeath();
 			}
 		}
+
 	}
 
 	if (_isBattle)

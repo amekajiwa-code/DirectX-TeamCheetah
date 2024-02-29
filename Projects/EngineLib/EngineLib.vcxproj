@@ -174,17 +174,23 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AIController.h" />
+    <ClInclude Include="AncientBeltData.h" />
+    <ClInclude Include="AncientHelmData.h" />
+    <ClInclude Include="AncientLShoulderData.h" />
+    <ClInclude Include="AncientRShoulderData.h" />
+    <ClInclude Include="AncientShieldData.h" />
+    <ClInclude Include="AncientSword.h" />
+    <ClInclude Include="AncientSwordData.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CharacterInfo.h" />
-    <ClInclude Include="ConsumableItem.h" />
     <ClInclude Include="DebugDraw.h" />
-    <ClInclude Include="EquipmentItem.h" />
     <ClInclude Include="EquipmentSlot.h" />
     <ClInclude Include="GUIInterface.h" />
     <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemData.h" />
     <ClInclude Include="PlayerAnimState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CharacterController.h" />
@@ -254,17 +260,23 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIController.cpp" />
+    <ClCompile Include="AncientBeltData.cpp" />
+    <ClCompile Include="AncientHelmData.cpp" />
+    <ClCompile Include="AncientLShoulderData.cpp" />
+    <ClCompile Include="AncientRShoulderData.cpp" />
+    <ClCompile Include="AncientShieldData.cpp" />
+    <ClCompile Include="AncientSword.cpp" />
+    <ClCompile Include="AncientSwordData.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CharacterInfo.cpp" />
-    <ClCompile Include="ConsumableItem.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
-    <ClCompile Include="EquipmentItem.cpp" />
     <ClCompile Include="EquipmentSlot.cpp" />
     <ClCompile Include="GUIInterface.cpp" />
     <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemData.cpp" />
     <ClCompile Include="PlayerAnimState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CharacterController.cpp" />

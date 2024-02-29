@@ -1,4 +1,6 @@
 #pragma once
+#include "MonoBehaviour.h"
+
 class CharacterInfo : public MonoBehaviour
 {
 public:

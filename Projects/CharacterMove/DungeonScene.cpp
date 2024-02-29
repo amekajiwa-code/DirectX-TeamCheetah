@@ -13,6 +13,10 @@
 #include "engine/SphereCollider.h"
 #include "ObjectExporter.h"
 
+#include "engine/CharacterInfo.h"
+#include "engine/ItemData.h"
+#include "engine/AncientHelmData.h"
+#include "engine/AncientSword.h"
 
 void DungeonScene::Init()
 {
@@ -147,6 +151,48 @@ void DungeonScene::Init()
 		AddShadow(_warrior);
 	}
 
+
+	//itemtest
+	{
+		//shared_ptr<ItemData> item = make_shared<ItemData>();
+		//ItemInfo tempInfo;
+		//tempInfo.Name = wstring(L"AncientShield");
+		//tempInfo.ItemType = ItemType::Shield;
+		//tempInfo.UsableType = UsableItemType::Warrior;
+		//tempInfo.HP = 100;
+		//tempInfo.MP = 100;
+		//tempInfo.ATK = 0;
+		//tempInfo.DEF = 100;
+		//tempInfo.Price = 5000;
+		//wstring mPath = RESOURCES_ADDR_MESH_STATIC;
+		//mPath += L"AncientHelm/AncientShield.mesh";
+		//tempInfo.MeshFilePath = mPath;
+		//mPath = RESOURCES_ADDR_TEXTURE_STATIC;
+		//mPath += L"AncientHelm/AncientShield.xml";
+		//tempInfo.MaterialFilePath = mPath;
+		//mPath = RESOURCES_ADDR_TEXTURE;
+		//mPath += L"Item/Helm/AncientShield.png";
+		//tempInfo.ImageFilePath = mPath;
+
+		//item->SetItemInfo(tempInfo);
+		//wstring savePath = DATA_ADDR_ITEM;
+		//savePath += L"Equipment/Shield/AncientShieldData.xml";
+
+		//item->SaveItemInformationToFile(savePath);
+
+		//shared_ptr<AncientHelmData> helm = make_shared<AncientHelmData>();
+
+		Matrix wow = Matrix::Identity;
+		sword = make_shared<AncientSword>();
+		sword->SetItemOwnerInfo(_warrior->GetComponent<CharacterInfo>());
+		//sword->SetItemOwnerAnimator(_warrior->GetChildByName(L"Model")->GetModelAnimator());
+		sword->Init();
+		shared_ptr<GameObject> obj = static_pointer_cast<GameObject>(sword);
+		_warrior->GetChildByName(L"Model")->AddChild(obj);
+	}
+
+
+
 #pragma region Client Thread
 	_service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
@@ -264,4 +310,12 @@ void DungeonScene::Update()
 void DungeonScene::LateUpdate()
 {
 	Scene::LateUpdate();
+	static bool tt = false;
+
+	if (tt == false)
+	{
+		sword->SetItemOwnerAnimator(_warrior->GetChildByName(L"Model")->GetModelAnimator());
+		tt = true;
+	}
+
 }

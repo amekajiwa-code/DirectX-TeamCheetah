@@ -1,31 +1,30 @@
 #pragma once
-#include "MonoBehaviour.h"
 
+class ItemData;
 class CharacterInfo;
 
-class Item : public MonoBehaviour
+class Item : public GameObject
 {
+	using Super = GameObject;
 public:
-	Item();
-	virtual ~Item();
+	Item(){}
+	virtual ~Item(){}
 protected:
-	weak_ptr<CharacterInfo> _unitInfo;
-	ItemInfo				_itemInfo;
-	shared_ptr<Model>		_itemMesh;
-	shared_ptr<Texture>		_itemImage;
+	shared_ptr<ModelRenderer>	_itemModel;
+	shared_ptr<ModelAnimator>	_itemOwnerAnimator;
+	shared_ptr<ItemData>		_itemData;
+	shared_ptr<CharacterInfo>   _itemOwnerInfo;
 public:
-	bool LoadItemInformationFromFile(const wstring& loadPath);
-	bool SaveItemInformationToFile(const wstring& savePath);
+	void SetItemOwnerInfo(const shared_ptr<CharacterInfo>& info) { _itemOwnerInfo = info; }
+	void SetItemOwnerAnimator(const shared_ptr<ModelAnimator>& Animator) { _itemOwnerAnimator = Animator; }
 public:
-	void SetItemInfo(const ItemInfo& info) { _itemInfo = info; }
-	void SetItemMesh(const shared_ptr<Model>& mesh) { _itemMesh = mesh; }
-	void SetItemImage(const shared_ptr<Texture>& image) { _itemImage = image; }
+	virtual void Init() {}
+	virtual bool ApplyItem(const bool& apply) { return false; }
 public:
-	const ItemInfo& GetItemInfo() const { return _itemInfo; }
-	const shared_ptr<Model>& GetItemMesh() const { return _itemMesh; }
-	const shared_ptr<Texture>& GetItemImage() const { return _itemImage; }
-public:
-	virtual bool ItemEffectToSelf();
-	virtual bool ItemEffectToTarget(const shared_ptr<GameObject>& target);
+	virtual void Awake() override;
+	virtual void Start() override;
+	virtual void FixedUpdate() override;
+	virtual void Update() override;
+	virtual void LateUpdate() override;
 };
 

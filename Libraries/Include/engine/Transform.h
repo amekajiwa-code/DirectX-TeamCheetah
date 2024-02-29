@@ -7,6 +7,8 @@ class Transform : public Component, public enable_shared_from_this<Transform>
 public:
 	Transform();
 	virtual ~Transform();
+public:
+	bool isWroldMode = false;
 private:
 	shared_ptr<Transform>			_parent;
 	vector<shared_ptr<Transform>>	_children;
@@ -24,7 +26,7 @@ private:
 private:
 	Matrix _matLocal = Matrix::Identity;
 	Matrix _matWorld = Matrix::Identity;
-private:
+public:
 	Vec3 QuatToEulerAngles(Quaternion q);
 public:
 	bool HasParent() { return _parent != nullptr; }
@@ -56,6 +58,8 @@ public:
 	void SetRotation(const Vec3& rot);
 	void SetPosition(const Vec3& pos);
 	void SetLookVector(const Vec3& look) { _matWorld.Backward() = look; }
+
+	void SetLocalMatrix(const Matrix& mat) { _matLocal = mat; }
 public:
 	void RotateAround(const Vec3 axis);
 private:

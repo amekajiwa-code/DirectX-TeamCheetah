@@ -13,6 +13,7 @@
 #include "Service.h"
 
 class Unit;
+class AncientSword;
 
 class DungeonScene : public Scene
 {
@@ -46,6 +47,7 @@ class DungeonScene : public Scene
 
 	//Camera
 	shared_ptr<GameObject> _camera;
+	shared_ptr<AncientSword> sword;
 public:
 	virtual void Init();
 	virtual void Start();

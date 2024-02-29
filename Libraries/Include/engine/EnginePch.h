@@ -75,7 +75,6 @@
 #include <type_traits>
 #include <typeinfo>
 #include <unordered_set>
-
 using namespace std;
 
 //WINAPI
