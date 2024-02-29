@@ -144,12 +144,28 @@ void Spawner::SpawnOtherPlayers()
 	}
 }
 
-void Spawner::SpawnMonster(uint64 uid, Vec3 spawnPos)
+void Spawner::SpawnMonster(uint64 uid, uint32 monsterId, Vec3 spawnPos)
 {
 #pragma region Initialize
 	shared_ptr<Shader> _shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
 
-	shared_ptr<CoreHound> _chr = make_shared<CoreHound>();
+	// monsterId : 0. CoreHound    1. MoltenGiant    2. BaronGeddon
+	shared_ptr<EnemyUnit> _chr;
+	switch (monsterId)
+	{
+	case 0:
+		_chr = make_shared<CoreHound>();
+		break;
+	case 1:
+		_chr = make_shared<CoreHound>();
+		break;
+	case 2:
+		_chr = make_shared<BaronGeddon>();
+		break;
+	default:
+		_chr = make_shared<CoreHound>();
+		break;
+	}
 	_chr->Awake();
 	_aiCon = make_shared<AIController>();
 	_aiCon->SetAIType(AIType::EnemyUnit);
@@ -239,7 +255,7 @@ void Spawner::SpawnMonsters()
 			//다른플레이어 처음 등장시 스폰
 			if (pair.second._isAlive == true)
 			{
-				SpawnMonster(pair.first, pair.second._pos);
+				SpawnMonster(pair.first, pair.second._monsterId, pair.second._pos);
 			}
 
 			cout << "find not key, new player spawn" << endl;

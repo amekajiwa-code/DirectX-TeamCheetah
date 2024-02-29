@@ -17,6 +17,8 @@ enum
 	BossRoom = 2,
 };
 
+
+
 class GameSessionManager
 {
 public:

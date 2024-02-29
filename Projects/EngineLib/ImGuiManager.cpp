@@ -203,87 +203,84 @@ void ImGuiManager::Update()
     if (show_death_window)
     {
         //TODO
-        for (int i = 0; i < 10; ++i)
+        float windowSizeX = 300.0f;
+        float windowSizeY = 150.0f;
+        // Set the window size to a fixed value
+        ImGui::SetNextWindowSize(ImVec2(windowSizeX, windowSizeY), ImGuiCond_Always);
+        ImVec2 displaySize = ImGui::GetIO().DisplaySize;
+        ImGui::SetNextWindowPos(ImVec2(displaySize.x / 2 - windowSizeX / 2, displaySize.y / 2 - windowSizeY / 2), ImGuiCond_Always);
+        float r = 25.0f / 255.0f;
+        float g = 25.0f / 255.0f;
+        float b = 25.0f / 255.0f;
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(r, g, b, 0.9f));
+        ImGui::Begin("DeathWindow", &show_death_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+
+        srand(static_cast<unsigned int>(time(nullptr))); // 난수 초기화
+        ImVec4 dynamicColor = GetRandomColor();
+        ImGui::NewLine();
+
         {
-            _rebirthQueue.push(true);
+            wchar_t buffer[256] = L"                당신은 사망하였습니다.";
+            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+            char* charBuffer = new char[bufferSize];
+            WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
+            ImGui::TextColored(dynamicColor, charBuffer);
+            delete[] charBuffer;
         }
 
-        //float windowSizeX = 300.0f;
-        //float windowSizeY = 150.0f;
-        //// Set the window size to a fixed value
-        //ImGui::SetNextWindowSize(ImVec2(windowSizeX, windowSizeY), ImGuiCond_Always);
-        //ImVec2 displaySize = ImGui::GetIO().DisplaySize;
-        //ImGui::SetNextWindowPos(ImVec2(displaySize.x / 2 - windowSizeX / 2, displaySize.y / 2 - windowSizeY / 2), ImGuiCond_Always);
-        //float r = 25.0f / 255.0f;
-        //float g = 25.0f / 255.0f;
-        //float b = 25.0f / 255.0f;
-        //ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(r, g, b, 0.9f));
-        //ImGui::Begin("DeathWindow", &show_death_window, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+        {
+            wchar_t buffer[256] = L"                부활하시겠습니까?";
+            int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+            char* charBuffer = new char[bufferSize];
+            WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
+            ImGui::TextColored(dynamicColor, charBuffer);
+            delete[] charBuffer;
+        }
+        ImGui::NewLine();
+        ImGui::NewLine();
+        {
+            ImVec2 buttonSize(100.0f, 30.0f);
+            float r = 208 / 255.0f;
+            float g = 171 / 255.0f;
+            float b = 156 / 255.0f;
+            ImVec4 buttonColor(r, g, b, 0.5f);
+            {
+                ImGui::SameLine((ImGui::GetWindowWidth() / 2 - buttonSize.x / 2) * 0.5f);
+                ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+                wchar_t buffer[256] = L"예";
+                int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+                char* charBuffer = new char[bufferSize];
+                WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
+                if (ImGui::Button(charBuffer, buttonSize))
+                {
+                    //TODO
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        _rebirthQueue.push(true);
+                    }
 
-        //srand(static_cast<unsigned int>(time(nullptr))); // 난수 초기화
-        //ImVec4 dynamicColor = GetRandomColor();
-        //ImGui::NewLine();
-
-        //{
-        //    wchar_t buffer[256] = L"                당신은 사망하였습니다.";
-        //    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
-        //    char* charBuffer = new char[bufferSize];
-        //    WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
-        //    ImGui::TextColored(dynamicColor, charBuffer);
-        //    delete[] charBuffer;
-        //}
-
-        //{
-        //    wchar_t buffer[256] = L"                부활하시겠습니까?";
-        //    int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
-        //    char* charBuffer = new char[bufferSize];
-        //    WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
-        //    ImGui::TextColored(dynamicColor, charBuffer);
-        //    delete[] charBuffer;
-        //}
-        //ImGui::NewLine();
-        //ImGui::NewLine();
-        //{
-        //    ImVec2 buttonSize(100.0f, 30.0f);
-        //    float r = 208 / 255.0f;
-        //    float g = 171 / 255.0f;
-        //    float b = 156 / 255.0f;
-        //    ImVec4 buttonColor(r, g, b, 0.5f);
-        //    {
-        //        ImGui::SameLine((ImGui::GetWindowWidth() / 2 - buttonSize.x / 2) * 0.5f);
-        //        ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
-        //        wchar_t buffer[256] = L"예";
-        //        int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
-        //        char* charBuffer = new char[bufferSize];
-        //        WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
-        //        if (ImGui::Button(charBuffer, buttonSize))
-        //        {
-        //            //TODO
-        //            for (int i = 0; i < 10; ++i)
-        //            {
-        //                _rebirthQueue.push(true);
-        //            }
-
-        //            show_death_window = false;
-        //        }
-        //        delete[] charBuffer;
-        //        ImGui::PopStyleColor();
-        //    }
-        //    ImGui::SameLine();
-        //    {
-        //        wchar_t buffer[256] = L"아니오";
-        //        int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
-        //        char* charBuffer = new char[bufferSize];
-        //        WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
-        //        ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
-        //        if (ImGui::Button(charBuffer, buttonSize))
-        //        {
-        //            // 그런건없다.
-        //        }
-        //        delete[] charBuffer;
-        //        ImGui::PopStyleColor();
-        //    }
-        //}
+                    show_death_window = false;
+                }
+                delete[] charBuffer;
+                ImGui::PopStyleColor();
+            }
+            ImGui::SameLine();
+            {
+                wchar_t buffer[256] = L"아니오";
+                int bufferSize = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+                char* charBuffer = new char[bufferSize];
+                WideCharToMultiByte(CP_UTF8, 0, buffer, -1, charBuffer, bufferSize, nullptr, nullptr);
+                ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+                if (ImGui::Button(charBuffer, buttonSize))
+                {
+                    // 그런건없다.
+                }
+                delete[] charBuffer;
+                ImGui::PopStyleColor();
+            }
+        }
+        ImGui::PopStyleColor();
+        ImGui::End();
     }
 
     // show_nickname_window

@@ -6,6 +6,7 @@
 #include "engine\AIController.h"
 #include "engine/Warrior.h"
 #include "engine/CoreHound.h"
+#include "engine/BaronGeddon.h"
 #include "engine/CharacterInfo.h"
 
 enum
@@ -28,7 +29,7 @@ public:
 	void SpawnOtherPlayer(uint64 uid, Vec3 spawnPos);
 	void SpawnOtherPlayers();
 	//∏ÛΩ∫≈Õ
-	void SpawnMonster(uint64 uid, Vec3 spawnPos);
+	void SpawnMonster(uint64 uid, uint32 monsterId, Vec3 spawnPos);
 	void SpawnMonsters();
 	int GetOtherPlayersSize() { return _otherPlayers.size(); }
 	void Reset();

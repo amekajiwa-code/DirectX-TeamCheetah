@@ -73,19 +73,41 @@ void GameSessionManager::GenerateMobList()
 
 	//	_mobInfoList.insert(make_pair(id, c0));
 	//}
+
+	
+
 	ObjectExporter exporter;
 	exporter.OpenFile(L"MobDungeon.dat");
 	for (int id = 0; id < exporter.enemyListforServer.size(); ++id)
 	{
-		MONSTER_INFO c0;
+		MONSTER_INFO mobInfo;
 
 		// 지정된 범위 내에서 x 및 z에 대한 무작위 값 설정
-		c0._instanceId = id;
-		c0._pos = exporter.enemyListforServer[id].second;
-		c0._spawnMapId = 1;
-		cout << "x : " << c0._pos.x << ", z : " << c0._pos.z << "mapId: " << c0._spawnMapId << endl;
+		mobInfo._instanceId = id;
+		wstring name = exporter.enemyListforServer[id].first;
+		mobInfo._pos = exporter.enemyListforServer[id].second;
+		mobInfo._spawnMapId = Dungeon;
 
-		_mobInfoList.insert(make_pair(id, c0));
+		// monsterId : 0. CoreHound    1. MoltenGiant    2. BaronGeddon
+		if (name == L"CoreHound")
+		{
+			mobInfo._monsterId = 0;
+		}
+		if (name == L"MoltenGiant")
+		{
+			mobInfo._monsterId = 1;
+		}
+		if (name == L"BaronGeddon")
+		{
+			mobInfo._monsterId = 2;
+			mobInfo._maxHp = 10000;
+			mobInfo._hp = 10000;
+			mobInfo._atk = 200;
+		}
+
+		cout << "x : " << mobInfo._pos.x << ", z : " << mobInfo._pos.z << "mapId: " << mobInfo._spawnMapId << endl;
+
+		_mobInfoList.insert(make_pair(id, mobInfo));
 	}
 }
 

@@ -327,6 +327,9 @@
     <ClInclude Include="ConsumableItem.h">
       <Filter>03. GameObject\Item\Consumable</Filter>
     </ClInclude>
+    <ClInclude Include="BaronGeddon.h">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -549,6 +552,9 @@
     </ClCompile>
     <ClCompile Include="Sounds.cpp">
       <Filter>00. Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="BaronGeddon.cpp">
+      <Filter>03. GameObject\Unit\EnemyUnit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

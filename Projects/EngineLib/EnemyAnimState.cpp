@@ -291,6 +291,13 @@ bool EnemyAnimDeath::Update()
 {
 	if (_controller.lock())
 	{
+		uint32 tempNextFrame = _animator.lock()->GetTweenDesc().current.nextFrame;
+		if (tempNextFrame >= 90)
+		{
+			_animator.lock()->SetLoop(false);
+			MANAGER_SCENE()->GetCurrentScene()->Remove(_controller.lock()->GetGameObject());
+		}
+
 		switch (*_state.lock())
 		{
 		case EnemyUnitState::Stand:

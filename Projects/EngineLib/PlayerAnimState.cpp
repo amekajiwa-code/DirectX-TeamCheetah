@@ -1255,6 +1255,11 @@ bool PlayerAnimDamaged::Out()
 
 bool PlayerAnimDeath::Enter(const shared_ptr<CharacterController>& playerController)
 {
+	if (_stateAnim == PlayerAnimType::Death)
+	{
+		return false;
+	}
+
 	if (dynamic_pointer_cast<PlayerController>(playerController))
 	{
 		_contoller = dynamic_pointer_cast<PlayerController>(playerController);
@@ -1278,6 +1283,21 @@ bool PlayerAnimDeath::Enter(const shared_ptr<CharacterController>& playerControl
 
 bool PlayerAnimDeath::Update()
 {
+	if (_contoller.lock())
+	{
+		uint32 tempNextFrame = _animator.lock()->GetTweenDesc().current.nextFrame;
+		if (tempNextFrame >= 80)
+		{
+			//_animator.lock()->SetLoop(false);
+		}
+
+		switch (*_playerState.lock())
+		{
+		default:
+			break;
+		}
+	}
+
 	return false;
 }
 
