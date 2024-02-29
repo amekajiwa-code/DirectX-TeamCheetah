@@ -43,6 +43,7 @@ public:
 	Vec3 GetScale() const { return _scale; }
 	Vec3 GetRotation() const { return _rotation; }
 	Vec3 GetPosition() const { return _position; }
+	Vec3& const GetPositionRef() { return _position; }
 	Matrix GetWorldMatrix() const { return _matWorld; }
 public:
 	Vec3 GetUpVector() const { return _matWorld.Up(); }

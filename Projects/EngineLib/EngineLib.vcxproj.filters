@@ -324,6 +324,7 @@
     <ClInclude Include="ConsumableItem.h">
       <Filter>03. GameObject\Item\Consumable</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="BaronGeddon.h">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
     </ClInclude>
@@ -353,6 +354,13 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>04. Component\Item</Filter>
+=======
+    <ClInclude Include="PlayerSoundController.h">
+      <Filter>04. Component\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySoundController.h">
+      <Filter>04. Component\Scripts</Filter>
+>>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -574,6 +582,7 @@
     <ClCompile Include="Sounds.cpp">
       <Filter>00. Engine\Resource</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="BaronGeddon.cpp">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
     </ClCompile>
@@ -603,6 +612,13 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>04. Component\Item</Filter>
+=======
+    <ClCompile Include="PlayerSoundController.cpp">
+      <Filter>04. Component\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySoundController.cpp">
+      <Filter>04. Component\Scripts</Filter>
+>>>>>>> Stashed changes
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

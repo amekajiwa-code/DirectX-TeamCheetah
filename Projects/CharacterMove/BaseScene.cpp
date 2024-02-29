@@ -41,7 +41,7 @@ void BaseScene::Init()
 		lightDesc.ambient = Vec4(0.4f);
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(0.1f);
-		lightDesc.direction = Vec3(-0.5f, -0.5f, 0.0f);
+		lightDesc.direction = Vec3(0.5f, -0.5f, 0.f);
 		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
@@ -89,17 +89,17 @@ void BaseScene::Init()
 	}
 
 	{
-		SkyBoxDesc descs{};
-		descs.resourceFilePath[SkyBoxDesc::SKY_Front] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.resourceFilePath[SkyBoxDesc::SKY_Back] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.resourceFilePath[SkyBoxDesc::SKY_Right] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.resourceFilePath[SkyBoxDesc::SKY_Left] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.resourceFilePath[SkyBoxDesc::SKY_UP] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.resourceFilePath[SkyBoxDesc::SKY_DOWN] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
-		descs.shaderPath = L"skyBox.fx";
-		skyBox = make_shared < Skybox>();
-		skyBox->Set(&descs);
-		skyBox->Start();
+		//SkyBoxDesc descs{};
+		//descs.resourceFilePath[SkyBoxDesc::SKY_Front] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.resourceFilePath[SkyBoxDesc::SKY_Back] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.resourceFilePath[SkyBoxDesc::SKY_Right] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.resourceFilePath[SkyBoxDesc::SKY_Left] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.resourceFilePath[SkyBoxDesc::SKY_UP] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.resourceFilePath[SkyBoxDesc::SKY_DOWN] = wstring(RESOURCES_ADDR_TEXTURE) + L"burningsteppsrock01.png";
+		//descs.shaderPath = L"skyBox.fx";
+		//skyBox = make_shared < Skybox>();
+		//skyBox->Set(&descs);
+		//skyBox->Start();
 
 	}
 
@@ -137,6 +137,38 @@ void BaseScene::Init()
 	splatter->Set(spDesc, MANAGER_RESOURCES()->GetResource<Shader>(L"HeightMapShaderBase"));
 	quadTreeTerrain->AddSplatter(splatter);
 	SetTerrain(_terrain);
+
+	auto fog_obj = make_shared<GameObject>();
+	//Character
+	{
+		shared_ptr<Model> model = make_shared<Model>();
+		{
+			wstring MeshAdr = RESOURCES_ADDR_MESH_STATIC;
+			MeshAdr += L"fog";
+			MeshAdr += L"/";
+			MeshAdr += L"fog";
+			MeshAdr += L".mesh";
+
+			wstring MaterialAdr = RESOURCES_ADDR_TEXTURE_STATIC;
+			MaterialAdr += L"fog";
+			MaterialAdr += L"/";
+			MaterialAdr += L"fog";
+			MaterialAdr += L".xml";
+
+			model->ReadModel(MeshAdr);
+			model->ReadMaterial(MaterialAdr);
+		}
+		const auto& shader = MANAGER_RESOURCES()->GetResource<Shader>(L"Default");
+		shared_ptr<ModelRenderer> tempModelRenderer = make_shared<ModelRenderer>(shader);
+		{
+			tempModelRenderer->SetModel(model);
+			tempModelRenderer->SetPass(8);
+		}
+		fog_obj->AddComponent(tempModelRenderer);
+		fog_obj->GetOrAddTransform()->SetLocalPosition(Vec3(0,0,0));
+	}
+	fog_obj->Awake();
+	Add(fog_obj);
 
 	//Character
 	{
@@ -266,7 +298,7 @@ void BaseScene::Update()
 	latestMessageSize = MANAGER_IMGUI()->GetLatestMessages().size();
 
 	Scene::Update();
-	skyBox->Update();
+	//skyBox->Update();
 	quadTreeTerrain->Update();
 	DamageIndicator::GetInstance().Frame();
 

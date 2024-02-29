@@ -184,6 +184,13 @@ void AIController::Update()
 		tempPos.y = _heightGetterCom.lock()->GetHeight();
 		_transform.lock()->SetLocalPosition(tempPos);
 	}
+
+	if (_aiSound)
+		_aiSound->PlaySound(GetCurrentPlayerAnimType());
+
+	if (_enemySound)
+		_enemySound->PlaySound(GetCurrentEnemyAnimType());
+
 }
 
 void AIController::LateUpdate()

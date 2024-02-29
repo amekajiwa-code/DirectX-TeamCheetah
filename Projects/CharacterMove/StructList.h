@@ -2,7 +2,7 @@
 static struct StructureList{
 	vector<wstring> _dataList;
 	StructureList(){
-		_dataList.push_back(L"bush");
+//		_dataList.push_back(L"bush");
 		_dataList.push_back(L"rock1");
 		_dataList.push_back(L"rock2");
 		_dataList.push_back(L"rock3");

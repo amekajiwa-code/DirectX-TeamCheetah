@@ -30,7 +30,7 @@ void StructureObj::Awake()
 		shared_ptr<ModelRenderer> tempModelRenderer = make_shared<ModelRenderer>(shader);
 		{
 			tempModelRenderer->SetModel(model);
-			tempModelRenderer->SetPass(1);
+			tempModelRenderer->SetPass(8);
 		}
 		this->AddComponent(tempModelRenderer);
 

@@ -35,10 +35,8 @@ float4 PS(MeshOutput input) : SV_TARGET
 	finalColor = lerp(finalColor, colorB, alpha.g);
 	finalColor = lerp(finalColor, colorC, alpha.b);
 
-    float4 color = ComputeLightMixed(input.normal, input.uv, input.worldPosition,finalColor);
-	//color.w=max(0.7f,color.w);
-	//finalColor = finalColor*color.w;
-	return finalColor; 
+    	float4 color = ComputeLightMixed(input.normal, input.uv, input.worldPosition,finalColor);
+	return color; 
 }
 
 technique11 T0

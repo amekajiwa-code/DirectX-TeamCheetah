@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterController.h"
+#include "PlayerSoundController.h"
 
 #pragma region Declaration
 class PlayerAnimState;
@@ -72,6 +73,9 @@ private:
 	float _camDist = 0.f;
 	float _camSpeed = 2000.f;
 private:
+	//Sound
+	shared_ptr<PlayerSoundController> _sound=nullptr;
+private:
 	void AnimStateInit();
 	//Player
 	void PlayerInput();
@@ -85,8 +89,10 @@ private:
 public:
 	bool SetAnimState(const PlayerAnimType& animType);
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
-	const shared_ptr<PlayerUnitState>& GetCurrentUnitState() { return _currentState; }
-	const PlayerAnimType& GetCurrentAnimType();
+	const shared_ptr<PlayerUnitState> GetCurrentUnitState() { return _currentState; }
+	shared_ptr<PlayerAnimState> GetAnimState() { return _animState; }
+	const PlayerAnimType GetCurrentAnimType();
+	PlayerAnimType& GetCurrentAnimTypeRef();
 	const shared_ptr<JumpFlag>& GetJumpState() { return _jumpState; }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }
 	const float& GetCurrentSpeed() const { return _currentSpeed; }
@@ -96,6 +102,8 @@ public:
 	const bool& IsBattle() const { return _isBattle; }
 	const CHARACTER_INFO& GetPickedInfo() const { return _pickedInfo; }
 	int GetAttackQueueSize();
+	//Sound
+	void SetSoundController(shared_ptr<PlayerSoundController> controller) { _sound = controller; };
 public:
 	void ReceiveEvent(const EventArgs& args);
 	void DispatchEvent();

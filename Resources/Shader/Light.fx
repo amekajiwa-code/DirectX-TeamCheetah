@@ -131,7 +131,7 @@ float4 ComputeLightMixed(float3 normal, float2 uv, float3 worldPosition, float4 
         emissiveColor = GlobalLight.emissive * Material.emissive * emissive;
     }
     
-    return ambientColor + diffuseColor + specularColor + emissiveColor;
+    return min(0.5, ambientColor + diffuseColor + specularColor + emissiveColor);
 };
 
 void ComputeNormalMapping(inout float3 normal, float3 tangent, float2 uv)

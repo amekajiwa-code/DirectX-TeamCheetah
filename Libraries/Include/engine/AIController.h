@@ -2,7 +2,8 @@
 #include "CharacterController.h"
 #include "PlayerAnimState.h"
 #include "EnemyAnimState.h"
-
+#include "PlayerSoundController.h"
+#include "EnemySoundController.h"
 class HeightGetter;
 
 class AIController : public CharacterController, public enable_shared_from_this<AIController>
@@ -34,6 +35,10 @@ private:
 	shared_ptr<EnemyAnimState>	_currentEnemyAnimState;
 	vector<shared_ptr<EnemyAnimState>>	_enemyAnimStateList;
 private:
+	//Sound
+	shared_ptr<EnemySoundController> _enemySound;
+	shared_ptr<PlayerSoundController> _aiSound;
+private:
 	void InitAnimState();
 public:
 	bool SetAnimState(const PlayerAnimType& type);
@@ -42,6 +47,9 @@ public:
 	void SetUnitState(const EnemyUnitState& state) { *_currentEnemyState = state; }
 	void SetAIType(AIType type) { _type = type; }
 	void notifyEnemyDeath() { _isAlive = false; }
+	//Sound
+	void SetEnemySound(shared_ptr<EnemySoundController> enemySound) { _enemySound = enemySound; };
+	void SetAiSound(shared_ptr<PlayerSoundController> aiSound) { _aiSound = aiSound; };
 public:
 	const shared_ptr<ModelAnimator>& GetAnimator() { return _animator.lock(); }
 	const float& GetDefaultSpeed() const { return _defaultSpeed; }

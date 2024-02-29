@@ -187,6 +187,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="CharacterInfo.h" />
     <ClInclude Include="ConsumableItem.h" />
     <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="EnemySoundController.h" />
     <ClInclude Include="EquipmentItem.h" />
     <ClInclude Include="EquipmentSlot.h" />
     <ClInclude Include="GUIInterface.h" />
@@ -243,6 +244,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowManager.h" />
     <ClInclude Include="SimpleMath.h" />
+    <ClInclude Include="PlayerSoundController.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -276,6 +278,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="CharacterInfo.cpp" />
     <ClCompile Include="ConsumableItem.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
+    <ClCompile Include="EnemySoundController.cpp" />
     <ClCompile Include="EquipmentItem.cpp" />
     <ClCompile Include="EquipmentSlot.cpp" />
     <ClCompile Include="GUIInterface.cpp" />
@@ -335,6 +338,7 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowManager.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="PlayerSoundController.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sounds.cpp" />
     <ClCompile Include="SphereCollider.cpp" />

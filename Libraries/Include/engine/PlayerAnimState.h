@@ -23,7 +23,7 @@ public:
 	virtual bool Enter(const shared_ptr<CharacterController>& playerController) = 0;
 	virtual bool Update() = 0;
 	virtual bool Out() = 0;
-	PlayerAnimType GetStateAnimtype() { return _stateAnim; }
+	PlayerAnimType& GetStateAnimtype() { return _stateAnim; }
 };
 
 class PlayerAnimIdle : public PlayerAnimState

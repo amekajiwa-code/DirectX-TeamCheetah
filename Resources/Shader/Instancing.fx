@@ -13,6 +13,14 @@ float4 DefaultPS(MeshOutput input) : SV_TARGET
 
     return color;
 }
+float4 NoneLightPS(MeshOutput input) : SV_TARGET
+{
+    ComputeNormalMapping(input.normal, input.tangent, input.uv);
+    //float4 color = ComputeLight(input.normal, input.uv, input.worldPosition);
+    float4 color = DiffuseMap.Sample(LinearSampler, input.uv);
+
+    return color;
+}
 
 float4 DissolvePS(MeshOutput input) : SV_TARGET
 {
@@ -95,4 +103,5 @@ technique11 T0
     PASS_RS_SP(P6, ShadowRaster, SHADOW_VSSKELETAL, PSG)
     //Dissolve Shader
     PASS_VP(P7, DynamicModelVS, DissolvePS)
+    PASS_RS_SP(P8, CullNone, StaticModelVS, NoneLightPS)
 };

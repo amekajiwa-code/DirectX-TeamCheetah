@@ -18,6 +18,8 @@
 #include "BaseScene.h"
 #include "MainScene.h"
 
+#include "engine\PlayerSoundController.h"
+
 void DungeonScene::Init()
 {
 	//리소스 매니저 초기화
@@ -43,7 +45,7 @@ void DungeonScene::Init()
 		lightDesc.ambient = Vec4(0.4f);
 		lightDesc.diffuse = Vec4(1.f);
 		lightDesc.specular = Vec4(0.1f);
-		lightDesc.direction = Vec3(-0.5f, -0.5f, 0.0f);
+		lightDesc.direction = Vec3(0.f, -1.f, 0.0f);
 		//		lightDesc.direction = Vec3(0, 0.0f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc);
 		MANAGER_SCENE()->GetCurrentScene()->Add(light);
@@ -160,12 +162,59 @@ void DungeonScene::Init()
 		Add(_warrior);
 		AddShadow(_warrior);
 		MANAGER_SOUND()->SetTransForm(_warrior->GetTransform());
+
+		shared_ptr< PlayerSoundController> soundController = make_shared<PlayerSoundController>();
+
+		soundController->Set(_warrior->GetTransform());
+		shared_ptr<Sounds> bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Attack");
+		if (bgm2 == nullptr) {
+			bgm2 = make_shared<Sounds>();
+			wstring bgmpath = RESOURCES_ADDR_SOUND;
+			bgmpath += L"Character/Playable/Warrior/Warrior_Attack1.mp3";
+			bgm2->Load(bgmpath);
+			MANAGER_RESOURCES()->AddResource<Sounds>(L"Warrior_Attack", bgm2);
+		}
+		soundController->SetSound(PlayerAnimType::Attack1,bgm2);
+
+		bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Attack2");
+		if (bgm2 == nullptr) {
+			bgm2 = make_shared<Sounds>();
+			wstring bgmpath = RESOURCES_ADDR_SOUND;
+			bgmpath += L"Character/Playable/Warrior/Warrior_Attack2.mp3";
+			bgm2->Load(bgmpath);
+			MANAGER_RESOURCES()->AddResource<Sounds>(L"Warrior_Attack2", bgm2);
+		}
+		soundController->SetSound(PlayerAnimType::Attack2, bgm2);
+
+		bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Damaged");
+		if (bgm2 == nullptr) {
+			bgm2 = make_shared<Sounds>();
+			wstring bgmpath = RESOURCES_ADDR_SOUND;
+			bgmpath += L"Character/Playable/Warrior/Warrior_Damaged.mp3";
+			bgm2->Load(bgmpath);
+			MANAGER_RESOURCES()->AddResource<Sounds>(L"Warrior_Damaged", bgm2);
+		}
+		soundController->SetSound(PlayerAnimType::Damaged, bgm2);
+
+		bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Death");
+		if (bgm2 == nullptr) {
+			bgm2 = make_shared<Sounds>();
+			wstring bgmpath = RESOURCES_ADDR_SOUND;
+			bgmpath += L"Character/Playable/Warrior/Warrior_Death.mp3";
+			bgm2->Load(bgmpath);
+			MANAGER_RESOURCES()->AddResource<Sounds>(L"Warrior_Death", bgm2);
+		}
+		soundController->SetSound(PlayerAnimType::Death, bgm2);
+
+		_warrior->GetComponent<PlayerController>()->SetSoundController(soundController);
+//		_warrior->AddComponent(soundController);
+
 	}
 
 
 	shared_ptr<Sounds> bgm = MANAGER_RESOURCES()->GetResource<Sounds>(L"fireland");
 	if (bgm == nullptr) {
-		shared_ptr<Sounds> bgm = make_shared<Sounds>();
+		bgm = make_shared<Sounds>();
 		wstring bgmpath = RESOURCES_ADDR_SOUND;
 		bgmpath += L"Scene/Dungeon.mp3";
 		bgm->Load(bgmpath);
@@ -188,7 +237,6 @@ void DungeonScene::Start()
 void DungeonScene::Update()
 {
 	quadTreeTerrain->Frame((*frustom->frustomBox.get()));
-	MANAGER_SOUND()->Update();
 
 	{
 		sendInfo = ClientPacketHandler::Instance().GetUserInfo();
@@ -199,7 +247,6 @@ void DungeonScene::Update()
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
 		sendInfo._spawnMapId = SpawnManager::GetInstance().GetSpawnMapId();
-
 		//Alive
 		if (sendInfo._isAlive == false)
 		{
@@ -227,6 +274,16 @@ void DungeonScene::Update()
 			if (size > 0)
 			{
 				uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
+
+				srand((unsigned int)MANAGER_TIME()->GetGameTime()*100);
+				DamageIndiCatorBox box;
+				box.damage= (int)sendInfo._atk;
+				box.damage += (rand() % 15) - 7.5f;
+				box.textDuration = 5;
+				box.pos=	_warrior->GetComponent<PlayerController>()->GetPickedInfo()._pos;
+				box.pos.y += 10;
+				DamageIndicator::GetInstance().Add(box);
+				sendInfo._atk = box.damage;
 				_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
 				_service->Broadcast(_sendBuffer);
 			}
@@ -291,10 +348,12 @@ void DungeonScene::Update()
 		SpawnManager::GetInstance().EraseSpawnerMap(name);
 		MANAGER_SCENE()->ChangeScene(scene);
 	}
+
 }
 
 void DungeonScene::LateUpdate()
 {
 	Scene::LateUpdate();
 	DamageIndicator::GetInstance().Render();
+	MANAGER_SOUND()->Update();
 }

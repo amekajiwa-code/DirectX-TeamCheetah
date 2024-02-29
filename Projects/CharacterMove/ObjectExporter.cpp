@@ -31,7 +31,7 @@ bool ObjectExporter::OpenFile(wstring filename)
 		found = divpath.find_last_of(L".");
 		std::wstring key = divpath.substr(0, found);
 
-		bool findObj;
+		bool findObj=false;
 		//TODO
 		StructureList list;
 		for (auto c : list._dataList) {

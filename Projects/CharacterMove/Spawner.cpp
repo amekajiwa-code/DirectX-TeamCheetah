@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Spawner.h"
-
+#include "engine/EnemySoundController.h"
+#include "engine/PlayerSoundController.h"
 using namespace std::chrono;
 
 Vec3 interpolate(double alpha, Vec3 targetPos, Vec3 prePos) {
@@ -67,9 +68,30 @@ void Spawner::SpawnOtherPlayer(uint64 uid, Vec3 spawnPos)
 	_chr->Start();
 	_chr->GetTransform()->SetLocalPosition(spawnPos);
 
+
+	//DOTO FOR TEMPLATE
+	shared_ptr< PlayerSoundController> soundController = make_shared<PlayerSoundController>();
+
+	soundController->Set(_chr->GetTransform());
+	shared_ptr<Sounds> bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Attack");
+	soundController->SetSound(PlayerAnimType::Attack1, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Attack2");
+	soundController->SetSound(PlayerAnimType::Attack2, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Damaged");
+	soundController->SetSound(PlayerAnimType::Damaged, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"Warrior_Death");
+	soundController->SetSound(PlayerAnimType::Death, bgm2);
+
+	_aiCon->SetAiSound(soundController);
+
 	_otherPlayers.insert(std::make_pair(uid, _chr)); //map에 모델과 식별id 추가
 	MANAGER_SCENE()->GetCurrentScene()->Add(_chr);
 	MANAGER_SCENE()->GetCurrentScene()->AddShadow(_chr);
+
+
 
 }
 
@@ -174,9 +196,59 @@ void Spawner::SpawnMonster(uint64 uid, uint32 monsterId, Vec3 spawnPos)
 	_chr->Start();
 	_chr->GetTransform()->SetLocalPosition(spawnPos);
 
+	shared_ptr<EnemySoundController> soundController = make_shared<EnemySoundController>();
+
+	soundController->Set(_chr->GetTransform());
+
+	shared_ptr<Sounds> bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"CoreHound_Attack1");
+	if (bgm2 == nullptr) {
+		bgm2 = make_shared<Sounds>();
+		wstring bgmpath = RESOURCES_ADDR_SOUND;
+		bgmpath += L"Character/Enemy/CoreHound/CoreHound_Attack1.mp3";
+		bgm2->Load(bgmpath);
+		MANAGER_RESOURCES()->AddResource<Sounds>(L"CoreHound_Attack1", bgm2);
+	}
+	soundController->SetSound(EnemyAnimType::Attack1, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"CoreHound_Attack2");
+	if (bgm2 == nullptr) {
+		bgm2 = make_shared<Sounds>();
+		wstring bgmpath = RESOURCES_ADDR_SOUND;
+		bgmpath += L"Character/Enemy/CoreHound/CoreHound_Attack2.mp3";
+		bgm2->Load(bgmpath);
+		MANAGER_RESOURCES()->AddResource<Sounds>(L"CoreHound_Attack2", bgm2);
+	}
+	soundController->SetSound(EnemyAnimType::Attack2, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"CoreHound_Damaged");
+	if (bgm2 == nullptr) {
+		bgm2 = make_shared<Sounds>();
+		wstring bgmpath = RESOURCES_ADDR_SOUND;
+		bgmpath += L"Character/Enemy/CoreHound/CoreHound_Damaged.mp3";
+		bgm2->Load(bgmpath);
+		MANAGER_RESOURCES()->AddResource<Sounds>(L"CoreHound_Damaged", bgm2);
+	}
+	soundController->SetSound(EnemyAnimType::Damaged, bgm2);
+
+	bgm2 = MANAGER_RESOURCES()->GetResource<Sounds>(L"CoreHound_Death");
+	if (bgm2 == nullptr) {
+		bgm2 = make_shared<Sounds>();
+		wstring bgmpath = RESOURCES_ADDR_SOUND;
+		bgmpath += L"Character/Enemy/CoreHound/CoreHound_Death.mp3";
+		bgm2->Load(bgmpath);
+		MANAGER_RESOURCES()->AddResource<Sounds>(L"CoreHound_Death", bgm2);
+	}
+	soundController->SetSound(EnemyAnimType::Death, bgm2);
+
+
+
+	_aiCon->SetEnemySound(soundController);
+
 	_monsters.insert(std::make_pair(uid, _chr)); //map에 모델과 식별id 추가
 	MANAGER_SCENE()->GetCurrentScene()->Add(_chr);
 	MANAGER_SCENE()->GetCurrentScene()->AddShadow(_chr);
+
+
 #pragma endregion
 }
 

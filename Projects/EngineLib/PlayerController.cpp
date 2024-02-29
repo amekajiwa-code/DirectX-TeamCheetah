@@ -151,7 +151,11 @@ bool PlayerController::SetAnimState(const PlayerAnimType& animType)
 	return false;
 }
 
-const PlayerAnimType& PlayerController::GetCurrentAnimType()
+const PlayerAnimType PlayerController::GetCurrentAnimType()
+{
+	return _animState->GetStateAnimtype();
+}
+PlayerAnimType& PlayerController::GetCurrentAnimTypeRef()
 {
 	return _animState->GetStateAnimtype();
 }
@@ -164,7 +168,8 @@ void PlayerController::PlayerInput()
 	}
 
 	_animState->Update();
-
+	if(_sound)
+	_sound->PlaySound(_animState->GetStateAnimtype());
 
 	//Debug
 	{
