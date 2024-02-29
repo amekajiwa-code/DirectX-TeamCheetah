@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "Warrior.h"
 #include "PlayerController.h"
+#include "CharacterInfo.h"
 #include "HeightGetter.h"
+#include "ItemData.h"
+#include "AncientHelmData.h"
+#include "AncientSword.h"
 
 Warrior::Warrior()
 {
@@ -17,6 +21,10 @@ Warrior::~Warrior()
 void Warrior::CharacterInit()
 {
 	_childModel = make_shared<GameObject>();
+	//_controller = make_shared<PlayerController>();
+	//_unitInfo = make_shared<CharacterInfo>();
+	//AddComponent(_controller);
+	//AddComponent(_unitInfo);
 
 	//Character
 	{
@@ -61,9 +69,19 @@ void Warrior::CharacterInit()
 		height->Set(MANAGER_SCENE()->GetCurrentScene()->GetCurrentTerrain().get());
 		AddComponent(height);
 	}
+
 	SetName(L"Warrior");
 	AddChild(_childModel);
 	GetTransform()->SetScale(Vec3(0.1f));
+
+	{
+		//shared_ptr<AncientSword> sword = make_shared<AncientSword>();
+		//sword->SetItemOwnerInfo(_unitInfo);
+		////sword->SetItemOwnerAnimator(GetChildByName(L"Model")->GetModelAnimator());
+		//sword->Init();
+		//shared_ptr<GameObject> obj = static_pointer_cast<GameObject>(sword);
+		//GetChildByName(L"Model")->AddChild(obj);
+	}
 }
 
 void Warrior::Awake()

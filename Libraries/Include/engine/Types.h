@@ -186,3 +186,4 @@ enum class UsableItemType : uint8
 	Priest,
 	End
 };
+

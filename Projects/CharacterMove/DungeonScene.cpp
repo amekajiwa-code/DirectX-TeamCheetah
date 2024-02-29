@@ -155,9 +155,6 @@ void DungeonScene::Init()
 		_warrior->Awake();
 		_warrior->AddChild(_childCamera);
 		_warrior->AddComponent(make_shared<PlayerController>());
-		shared_ptr<HeightGetter> getter = make_shared<HeightGetter>();
-		getter->Set(_terrain.get());
-		_warrior->AddComponent(getter);
 		_warrior->Start();
 		_warrior->GetTransform()->SetLocalPosition(spawnPos);
 		Add(_warrior);

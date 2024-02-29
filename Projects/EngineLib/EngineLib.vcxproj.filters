@@ -318,9 +318,6 @@
     <ClInclude Include="EquipmentSlot.h">
       <Filter>04. Component\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>04. Component\Item</Filter>
-    </ClInclude>
     <ClInclude Include="EquipmentItem.h">
       <Filter>03. GameObject\Item\Equipment</Filter>
     </ClInclude>
@@ -329,6 +326,33 @@
     </ClInclude>
     <ClInclude Include="BaronGeddon.h">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientShieldData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientSword.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientSwordData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientBeltData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientHelmData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientLShoulderData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AncientRShoulderData.h">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemData.h">
+      <Filter>04. Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>04. Component\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -538,9 +562,6 @@
     <ClCompile Include="EquipmentSlot.cpp">
       <Filter>04. Component\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>04. Component\Item</Filter>
-    </ClCompile>
     <ClCompile Include="EquipmentItem.cpp">
       <Filter>03. GameObject\Item\Equipment</Filter>
     </ClCompile>
@@ -555,6 +576,33 @@
     </ClCompile>
     <ClCompile Include="BaronGeddon.cpp">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientShieldData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientSword.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientSwordData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientBeltData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientHelmData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientLShoulderData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AncientRShoulderData.cpp">
+      <Filter>04. Component\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemData.cpp">
+      <Filter>04. Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>04. Component\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

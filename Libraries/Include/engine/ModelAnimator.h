@@ -26,8 +26,7 @@ private:
 	ComPtr<ID3D11ShaderResourceView>	_srv;
 private:
 	KeyframeDesc	_keyFrameDesc;
-	TweenDesc		_tweenDesc;
-	InstancedTweenDesc _tweenDescInstance;
+	shared_ptr<TweenDesc>		_tweenDesc;
 	uint16			_animCount = 0;
 	bool			_isPlay = false;
 	bool			_isLoop = false;
@@ -52,10 +51,11 @@ public:
 	bool GetLoop() const { return _isLoop; }
 	bool GetFrameEnd() const { return _isFrameEnd; }
 	void SetFrameEnd(bool fr) { _isFrameEnd = fr; }
+	const shared_ptr<Model>& GetModel() const { return _model; }
+	vector<AnimTransform>& GetAnimTransform();
 public:
 	KeyframeDesc& GetKeyFrame() { return _keyFrameDesc; }
-	TweenDesc& GetTweenDesc() { return _tweenDesc; }
-	InstancedTweenDesc& GetInstancingTweenDesc() { return _tweenDescInstance; }
+	const shared_ptr<TweenDesc>& GetTweenDesc() { return _tweenDesc; }
 	bool SetCurrentAnimation(wstring animName);
 	bool SetNextAnimation(wstring animName);
 public:

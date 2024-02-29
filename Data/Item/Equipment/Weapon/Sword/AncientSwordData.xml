@@ -1,0 +1,13 @@
+<ItemInfo>
+    <Name>AncientSword</Name>
+    <ItemType>5</ItemType>
+    <UsableType>2</UsableType>
+    <HP>0</HP>
+    <MP>0</MP>
+    <ATK>250</ATK>
+    <DEF>0</DEF>
+    <Price>5000</Price>
+    <MeshFilePath>../../Resources/Mesh/Static/AncientSword/AncientSword.mesh</MeshFilePath>
+    <MaterialFilePath>../../Resources/Texture/Static/AncientSword/AncientSword.xml</MaterialFilePath>
+    <ImageFilePath>../../Resources/Texture/Item/Wepon/Sword/AncientSword.png</ImageFilePath>
+</ItemInfo>

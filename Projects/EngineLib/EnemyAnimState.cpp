@@ -13,7 +13,7 @@ bool EnemyAnimStand::Enter(const shared_ptr<CharacterController>& enemyControlle
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Stand;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Stand");
 
 		return true;
@@ -79,7 +79,7 @@ bool EnemyAnimWalk::Enter(const shared_ptr<CharacterController>& enemyController
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Walk;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Walk");
 
 		return true;
@@ -145,7 +145,7 @@ bool EnemyAnimRun::Enter(const shared_ptr<CharacterController>& enemyController)
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Run;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Run");
 
 		return true;
@@ -211,7 +211,7 @@ bool EnemyAnimDamaged::Enter(const shared_ptr<CharacterController>& enemyControl
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Damaged;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Damaged");
 
 		return true;
@@ -278,7 +278,7 @@ bool EnemyAnimDeath::Enter(const shared_ptr<CharacterController>& enemyControlle
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Death;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Death");
 
 		return true;
@@ -291,7 +291,7 @@ bool EnemyAnimDeath::Update()
 {
 	if (_controller.lock())
 	{
-		uint32 tempNextFrame = _animator.lock()->GetTweenDesc().current.nextFrame;
+		uint32 tempNextFrame = _animator.lock()->GetTweenDesc()->current.nextFrame;
 		if (tempNextFrame >= 90)
 		{
 			_animator.lock()->SetLoop(false);
@@ -342,7 +342,7 @@ bool EnemyAnimBattle::Enter(const shared_ptr<CharacterController>& enemyControll
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Battle;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Battle");
 
 		return true;
@@ -412,7 +412,7 @@ bool EnemyAnimAttack1::Enter(const shared_ptr<CharacterController>& enemyControl
 		_state = _controller.lock()->GetCurrentEnemyUnitState();
 		_animType = EnemyAnimType::Attack1;
 
-		_animator.lock()->GetTweenDesc().ClearNextAnim();
+		_animator.lock()->GetTweenDesc()->ClearNextAnim();
 		_animator.lock()->SetNextAnimation(L"Attack1");
 		return true;
 	}

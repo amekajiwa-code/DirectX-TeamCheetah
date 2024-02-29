@@ -1,0 +1,13 @@
+<ItemInfo>
+    <Name>AncientShield</Name>
+    <ItemType>6</ItemType>
+    <UsableType>2</UsableType>
+    <HP>100</HP>
+    <MP>100</MP>
+    <ATK>0</ATK>
+    <DEF>100</DEF>
+    <Price>5000</Price>
+    <MeshFilePath>../../Resources/Mesh/Static/AncientHelm/AncientShield.mesh</MeshFilePath>
+    <MaterialFilePath>../../Resources/Texture/Static/AncientHelm/AncientShield.xml</MaterialFilePath>
+    <ImageFilePath>../../Resources/Texture/Item/Helm/AncientShield.png</ImageFilePath>
+</ItemInfo>

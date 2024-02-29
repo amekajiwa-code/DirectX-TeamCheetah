@@ -1,0 +1,13 @@
+<ItemInfo>
+    <Name>AncientBelt</Name>
+    <ItemType>4</ItemType>
+    <UsableType>2</UsableType>
+    <HP>50</HP>
+    <MP>0</MP>
+    <ATK>0</ATK>
+    <DEF>50</DEF>
+    <Price>5000</Price>
+    <MeshFilePath>../../Resources/Mesh/Static/AncientHelm/AncientBelt.mesh</MeshFilePath>
+    <MaterialFilePath>../../Resources/Texture/Static/AncientHelm/AncientBelt.xml</MaterialFilePath>
+    <ImageFilePath>../../Resources/Texture/Item/Helm/AncientBelt.png</ImageFilePath>
+</ItemInfo>

@@ -4,10 +4,13 @@
 
 ModelAnimator::ModelAnimator() : Super(ComponentType::ModelAnimator)
 {
+	_tweenDesc = make_shared<TweenDesc>();
 }
 
 ModelAnimator::ModelAnimator(shared_ptr<Shader> shader) : Super(ComponentType::ModelAnimator), _shader(shader)
 {
+	_tweenDesc = make_shared<TweenDesc>();
+
 }
 
 ModelAnimator::~ModelAnimator()
@@ -132,6 +135,18 @@ void ModelAnimator::CreateAnimationTransform(uint32 index)
 	}
 }
 
+vector<AnimTransform>& ModelAnimator::GetAnimTransform()
+{
+	//_animTransforms.resize(_model->GetAnimationCount());
+
+	//if (_animTransforms.size() <= 0) 
+	//{
+	//	for (uint32 i = 0; i < _model->GetAnimationCount(); i++)
+	//		CreateAnimationTransform(i);
+	//}   
+	return  _animTransforms;
+}
+
 bool ModelAnimator::SetCurrentAnimation(wstring animName)
 {
 	int num = 0;
@@ -141,7 +156,7 @@ bool ModelAnimator::SetCurrentAnimation(wstring animName)
 		if (anim->name == animName)
 		{
 			_currentAnim = anim;
-			_tweenDesc.current.animIndex = num;
+			_tweenDesc->current.animIndex = num;
 			return true;
 		}
 
@@ -168,56 +183,56 @@ void ModelAnimator::UpdateTweenData()
 			{
 				if (_currentAnim)
 				{
-					if (_tweenDesc.current.currentFrame >= _currentAnim->duration)
+					if (_tweenDesc->current.currentFrame >= _currentAnim->duration)
 					{
 						_isFrameEnd = true;
-						_tweenDesc.current.currentFrame = 0;
-						_tweenDesc.current.nextFrame = 1;
+						_tweenDesc->current.currentFrame = 0;
+						_tweenDesc->current.nextFrame = 1;
 					}
 
-					_tweenDesc.current.sumTime += MANAGER_TIME()->GetDeltaTime();
-					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc.current.speed);
+					_tweenDesc->current.sumTime += MANAGER_TIME()->GetDeltaTime();
+					_timePerFrame = 1 / (_currentAnim->frameRate * _tweenDesc->current.speed);
 
-					if (_tweenDesc.current.sumTime > _timePerFrame + FLT_EPSILON)
+					if (_tweenDesc->current.sumTime > _timePerFrame + FLT_EPSILON)
 					{
-						_tweenDesc.current.sumTime = 0;
-						_tweenDesc.current.currentFrame = (_tweenDesc.current.currentFrame + 1);
-						_tweenDesc.current.nextFrame = (_tweenDesc.current.currentFrame + 1);
+						_tweenDesc->current.sumTime = 0;
+						_tweenDesc->current.currentFrame = (_tweenDesc->current.currentFrame + 1);
+						_tweenDesc->current.nextFrame = (_tweenDesc->current.currentFrame + 1);
 
 					}
 
-					_tweenDesc.current.ratio = (_tweenDesc.current.sumTime / _timePerFrame);
+					_tweenDesc->current.ratio = (_tweenDesc->current.sumTime / _timePerFrame);
 				}
 			}
 			//다음 애니메이션 예약 시
-			if (_tweenDesc.next.animIndex >= 0)
+			if (_tweenDesc->next.animIndex >= 0)
 			{
-				_tweenDesc.tweenSumTime += MANAGER_TIME()->GetDeltaTime();
-				_tweenDesc.tweenRatio = _tweenDesc.tweenSumTime / _tweenDesc.tweenDuration;
+				_tweenDesc->tweenSumTime += MANAGER_TIME()->GetDeltaTime();
+				_tweenDesc->tweenRatio = _tweenDesc->tweenSumTime / _tweenDesc->tweenDuration;
 
-				if (_tweenDesc.tweenRatio > 1.f + FLT_EPSILON)
+				if (_tweenDesc->tweenRatio > 1.f + FLT_EPSILON)
 				{
-					_tweenDesc.ClearCurrentAnim();
-					_tweenDesc.current = _tweenDesc.next;
+					_tweenDesc->ClearCurrentAnim();
+					_tweenDesc->current = _tweenDesc->next;
 					_currentAnim = _nextAnim;
 					_nextAnim = nullptr;
-					_tweenDesc.ClearNextAnim();
+					_tweenDesc->ClearNextAnim();
 				}
 				else
 				{
 					if (_nextAnim)
 					{
-						_tweenDesc.next.sumTime += MANAGER_TIME()->GetDeltaTime();
+						_tweenDesc->next.sumTime += MANAGER_TIME()->GetDeltaTime();
 
-						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc.next.speed);
+						float timeperFrame = 1.f / (_nextAnim->frameRate * _tweenDesc->next.speed);
 
-						if (_tweenDesc.next.ratio > 1.f + FLT_EPSILON)
+						if (_tweenDesc->next.ratio > 1.f + FLT_EPSILON)
 						{
-							_tweenDesc.next.sumTime = 0;
-							_tweenDesc.next.currentFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
-							_tweenDesc.next.nextFrame = (_tweenDesc.next.currentFrame + 1) % _nextAnim->frameCount;
+							_tweenDesc->next.sumTime = 0;
+							_tweenDesc->next.currentFrame = (_tweenDesc->next.currentFrame + 1) % _nextAnim->frameCount;
+							_tweenDesc->next.nextFrame = (_tweenDesc->next.currentFrame + 1) % _nextAnim->frameCount;
 						}
-						_tweenDesc.next.ratio = _tweenDesc.next.sumTime / timeperFrame;
+						_tweenDesc->next.ratio = _tweenDesc->next.sumTime / timeperFrame;
 					}
 				}
 			}
@@ -241,8 +256,8 @@ bool ModelAnimator::SetNextAnimation(wstring animName)
 		if (anim->name == animName)
 		{
 			_nextAnim = anim;
-			_tweenDesc.next.animIndex = num;
-			_tweenDesc.tweenDuration = 3.f / _nextAnim->duration + FLT_EPSILON;
+			_tweenDesc->next.animIndex = num;
+			_tweenDesc->tweenDuration = 3.f / _nextAnim->duration + FLT_EPSILON;
 			return true;
 		}
 		num++;
@@ -340,7 +355,7 @@ void ModelAnimator::ShadowUpdate() {
 
 
 	// 애니메이션 현재 프레임 정보
-	_shader->PushTweenData(_tweenDesc);
+	_shader->PushTweenData(*_tweenDesc);
 
 	// SRV를 통해 정보 전달
 	_shader->GetSRV("TransformMap")->SetResource(_srv.Get());
@@ -548,7 +563,6 @@ void ModelAnimator::RenderInstancingShadow(shared_ptr<class InstancingBuffer>& b
 	const auto& meshes = _model->GetMeshes();
 	for (auto& mesh : meshes)
 	{
-
 		//Bone Index
 		_shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
 

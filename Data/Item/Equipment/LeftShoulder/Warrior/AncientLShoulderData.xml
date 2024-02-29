@@ -1,0 +1,13 @@
+<ItemInfo>
+    <Name>AncientLShoulder</Name>
+    <ItemType>2</ItemType>
+    <UsableType>2</UsableType>
+    <HP>150</HP>
+    <MP>100</MP>
+    <ATK>0</ATK>
+    <DEF>100</DEF>
+    <Price>5000</Price>
+    <MeshFilePath>../../Resources/Mesh/Static/AncientHelm/AncientLShoulder.mesh</MeshFilePath>
+    <MaterialFilePath>../../Resources/Texture/Static/AncientHelm/AncientLShoulder.xml</MaterialFilePath>
+    <ImageFilePath>../../Resources/Texture/Item/Helm/AncientLShoulder.png</ImageFilePath>
+</ItemInfo>
