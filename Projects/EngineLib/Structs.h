@@ -157,15 +157,6 @@ struct ShadowViewDesc {
 	Matrix shadowProj;
 };
 
-//MapType
-enum class MapType
-{
-	None,
-	Lobby,
-	Dungeon,
-	BossRoom
-};
-
 //Character Info...
 struct CHARACTER_INFO
 {

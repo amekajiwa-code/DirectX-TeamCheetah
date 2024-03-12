@@ -60,6 +60,15 @@ enum class MapType
 	BossRoom
 };
 
+enum class SkillType
+{
+	NormalAttack,
+	WhirlWind,
+	IceArrow,
+	Blizzard,
+	Test_AllAttack,
+};
+
 struct JumpFlag
 {
 	bool isJumpUP = false;
@@ -122,7 +131,7 @@ public:
 
 	static SendBufferRef Make_USER_CONNECT();
 	static SendBufferRef Make_USER_INFO(Player_INFO userInfo, bool otherPacket);
-	static SendBufferRef Make_MONSTER_INFO(map<uint64, MONSTER_INFO> mobInfo);
+	static SendBufferRef Make_MONSTER_INFO(map<uint32, MONSTER_INFO> mobInfo);
 	static SendBufferRef Make_USER_DISCONNECT(uint64 uid);
 	static SendBufferRef Make_MESSAGE(MESSAGE message);
 };

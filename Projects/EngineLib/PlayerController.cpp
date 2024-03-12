@@ -338,7 +338,7 @@ void PlayerController::PlayerMove()
 
 void PlayerController::PlayerJump()
 {
-
+	 
 	//มกวม
 	if (MANAGER_INPUT()->GetButtonDown(KEY_TYPE::SPACE))
 	{
@@ -438,12 +438,28 @@ void PlayerController::PlayerPicking()
 				{
 					if (_isAttack == false)
 					{
-						_attackQueue.push(_pickedInfo);
+						_attackQueue.push(SkillType::NormalAttack);
 					}
 					_isAttack = true;
 					_isBattle = true;
 				}
 				
+			}
+		}
+
+		if (MANAGER_INPUT()->GetButton(KEY_TYPE::KEY_1))
+		{
+			Vec3 diff = DirectX::XMVectorSubtract(_movePos, _pickedInfo._pos);
+			float distance = DirectX::XMVectorGetX(DirectX::XMVector3Length(diff));
+
+			if (distance > 15.0f)
+			{
+				if (_isAttack == false)
+				{
+					_attackQueue.push(SkillType::Test_AllAttack);
+				}
+				_isAttack = true;
+				_isBattle = true;
 			}
 		}
 	}
@@ -545,13 +561,23 @@ void PlayerController::NotifyPlayerAlive(bool isAlive)
 	}
 }
 
+SkillType PlayerController::GetFrontAttackQueue()
+{
+	if (_attackQueue.empty() == false)
+	{
+		SkillType result = _attackQueue.front();
+		_attackQueue.pop();
+		return result;
+	}
+
+	return SkillType::NormalAttack;
+}
+
 int PlayerController::GetAttackQueueSize()
 {
 	if (_attackQueue.empty() == false)
 	{
-		int queueSize = _attackQueue.size();
-		_attackQueue.pop();
-		return queueSize;
+		return _attackQueue.size();
 	}
 
 	return -1;

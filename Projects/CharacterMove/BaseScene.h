@@ -31,6 +31,7 @@ class BaseScene : public Scene
 	shared_ptr<Shader> _terShader;
 	//Character
 	shared_ptr<Unit> _warrior;
+	shared_ptr<Unit> _MagniBronzebeard;
 	shared_ptr<Unit> _coreHound;
 	//client
 	float _threadTimer = 0.0f;

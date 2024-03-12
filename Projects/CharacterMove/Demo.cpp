@@ -30,10 +30,10 @@ void Demo::Init(){
 	}
 #pragma endregion Client Thread
 
-	//shared_ptr<BaseScene> scene = make_shared<BaseScene>();
-	//scene->SetSceneName(L"BaseScene");
-	shared_ptr<Scene> scene = make_shared<DungeonScene>();
-	scene->SetSceneName(L"DungeonScene");
+	shared_ptr<BaseScene> scene = make_shared<BaseScene>();
+	scene->SetSceneName(L"BaseScene");
+	//shared_ptr<Scene> scene = make_shared<DungeonScene>();
+	//scene->SetSceneName(L"DungeonScene");
 	//shared_ptr<Scene> scene = make_shared<MainScene>();
 	MANAGER_SCENE()->ChangeScene(scene);
 }

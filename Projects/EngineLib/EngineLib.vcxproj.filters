@@ -97,6 +97,9 @@
     <Filter Include="03. GameObject\Item\Consumable">
       <UniqueIdentifier>{e4d8fcb8-2410-4ec7-946e-c7122d82bd1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Unit\NpcUnit">
+      <UniqueIdentifier>{0c5a154d-dabd-49eb-b46d-6d1b5fd3db3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -330,6 +333,12 @@
     <ClInclude Include="BaronGeddon.h">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
     </ClInclude>
+    <ClInclude Include="MagniBronzebeard.h">
+      <Filter>03. GameObject\Unit\NpcUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="NpcUnit.h">
+      <Filter>03. GameObject\Unit\NpcUnit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -555,6 +564,12 @@
     </ClCompile>
     <ClCompile Include="BaronGeddon.cpp">
       <Filter>03. GameObject\Unit\EnemyUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="MagniBronzebeard.cpp">
+      <Filter>03. GameObject\Unit\NpcUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="NpcUnit.cpp">
+      <Filter>03. GameObject\Unit\NpcUnit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

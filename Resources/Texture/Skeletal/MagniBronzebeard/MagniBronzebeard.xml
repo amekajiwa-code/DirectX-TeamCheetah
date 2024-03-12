@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+    <Material>
+        <Name>creature_magnibronzebeard_magnibronzebeard_crystal_0</Name>
+        <DiffuseFile>magnibronzebeard_01.png</DiffuseFile>
+        <SpecularFile>magnibronzebeard_01.png</SpecularFile>
+        <NormalFile>magnibronzebeard_01.png</NormalFile>
+        <Ambient R="1" G="1" B="1" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>creature_magnibronzebeard_magnibronzebeard_crystal_1</Name>
+        <DiffuseFile>magnibronzebeard_02diamond.png</DiffuseFile>
+        <SpecularFile>magnibronzebeard_02diamond.png</SpecularFile>
+        <NormalFile>magnibronzebeard_02diamond.png</NormalFile>
+        <Ambient R="1" G="1" B="1" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>creature_magnibronzebeard_magnibronzebeard_crystal_2</Name>
+        <DiffuseFile>magnibronzebeard_beard.png</DiffuseFile>
+        <SpecularFile>magnibronzebeard_beard.png</SpecularFile>
+        <NormalFile>magnibronzebeard_beard.png</NormalFile>
+        <Ambient R="1" G="1" B="1" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.2" G="0.2" B="0.2" A="20"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+</Materials>

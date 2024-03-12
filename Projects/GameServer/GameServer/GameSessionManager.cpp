@@ -145,3 +145,47 @@ void GameSessionManager::CheckAndResetMonster()
 		GSessionManager.GenerateMobList();
 	}
 }
+
+void GameSessionManager::DamageCalculate(Player_INFO atkInfo, uint32 tgtId, SkillType skillType)
+{
+	auto it = _mobInfoList.find(tgtId);
+
+	if (it != _mobInfoList.end())
+	{
+		if (atkInfo._atk >= it->second._hp) //¸·Å¸
+		{
+			it->second._hp = 0;
+			it->second._isAlive = false;
+		}
+		else
+		{
+			it->second._hp -= atkInfo._atk;
+		}
+
+		UpdateMobInfo(it->second);
+	}
+}
+
+void GameSessionManager::BattleCalculate(Player_INFO atkInfo, uint32 tgtId, SkillType skillType)
+{
+	switch (skillType)
+	{
+	case SkillType::NormalAttack:
+		DamageCalculate(atkInfo, tgtId, skillType);
+		break;
+	case SkillType::WhirlWind:
+		break;
+	case SkillType::IceArrow:
+		break;
+	case SkillType::Blizzard:
+		break;
+	case SkillType::Test_AllAttack:
+		for (const auto& pair : _mobInfoList)
+		{
+			DamageCalculate(atkInfo, pair.first, skillType);
+		}
+		break;
+	default:
+		break;
+	}
+}

@@ -186,6 +186,8 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClInclude Include="HeightGetter.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="MagniBronzebeard.h" />
+    <ClInclude Include="NpcUnit.h" />
     <ClInclude Include="PlayerAnimState.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CharacterController.h" />
@@ -267,6 +269,8 @@ copy "Bin\\Release\\*.pdb" "..\\..\\Libraries\\lib\\engine"</Command>
     <ClCompile Include="HeightGetter.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="MagniBronzebeard.cpp" />
+    <ClCompile Include="NpcUnit.cpp" />
     <ClCompile Include="PlayerAnimState.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CharacterController.cpp" />

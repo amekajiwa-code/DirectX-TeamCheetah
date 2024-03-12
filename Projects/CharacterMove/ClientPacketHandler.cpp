@@ -191,7 +191,7 @@ SendBufferRef ClientPacketHandler::Make_MESSAGE(MESSAGE message)
 	return sendBuffer;
 }
 
-SendBufferRef ClientPacketHandler::Make_BATTLE(Player_INFO attackerInfo, uint32 targerId)
+SendBufferRef ClientPacketHandler::Make_BATTLE(Player_INFO attackerInfo, uint32 targerId, SkillType skillType)
 {
 	std::lock_guard<std::mutex> lock(_mutex);
 
@@ -199,7 +199,7 @@ SendBufferRef ClientPacketHandler::Make_BATTLE(Player_INFO attackerInfo, uint32 
 	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw << attackerInfo << targerId;
+	bw << attackerInfo << targerId << skillType;
 
 	header->size = bw.WriteSize();
 	header->id = PACKET_BATTLE;

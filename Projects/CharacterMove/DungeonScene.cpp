@@ -230,7 +230,8 @@ void DungeonScene::Update()
 			if (size > 0)
 			{
 				uint32 targetId = _warrior->GetComponent<PlayerController>()->GetPickedInfo()._instanceId;
-				_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId);
+				SkillType skillType = _warrior->GetComponent<PlayerController>()->GetFrontAttackQueue();
+				_sendBuffer = ClientPacketHandler::Instance().Make_BATTLE(sendInfo, targetId, skillType);
 				_service->Broadcast(_sendBuffer);
 			}
 		}
