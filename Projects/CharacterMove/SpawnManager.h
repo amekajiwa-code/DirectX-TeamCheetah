@@ -17,7 +17,7 @@ public:
 public:
 	void AddSceneSpawner(wstring name);
 	void Reset(wstring name);
-	uint32 GetSpawnMapId();
+	MapType GetSpawnMapType();
 	void EraseSpawnerMap(wstring name) { _spawnerMap.erase(name); }
 private:
 	SpawnManager() = default;

@@ -52,6 +52,14 @@ enum class EnemyUnitState
 	End
 };
 
+enum class MapType
+{
+	None,
+	Lobby,
+	Dungeon,
+	BossRoom
+};
+
 struct JumpFlag
 {
 	bool isJumpUP = false;
@@ -63,7 +71,7 @@ struct JumpFlag
 struct CHARACTER_INFO
 {
 	uint32 _instanceId = 0;
-	uint32 _spawnMapId = 0;
+	MapType _spawnMapType = MapType::Lobby;
 	//wstring _name;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 	uint32 _maxHp = 1000;
 	uint32 _maxMp = 1000;

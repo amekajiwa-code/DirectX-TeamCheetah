@@ -33,10 +33,8 @@ public:
 	void SpawnMonsters();
 	int GetOtherPlayersSize() { return _otherPlayers.size(); }
 	void Reset();
-
-	uint32 GetSpawnMapId() { return _spawnMapId; }
 private:
-	uint32 _spawnMapId = 99;
+	MapType _spawnMapType = MapType::None;
 	shared_ptr<AIController> _aiCon;
 	map<uint64, shared_ptr<GameObject>> _otherPlayers;
 	map<uint64, shared_ptr<GameObject>> _monsters;

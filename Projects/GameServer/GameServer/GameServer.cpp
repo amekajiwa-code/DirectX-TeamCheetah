@@ -47,6 +47,9 @@ int main()
 
 				SendBufferRef sendBuffer = ServerPacketHandler::Make_MONSTER_INFO(GSessionManager.GetMobInfoList());
 				GSessionManager.Broadcast(sendBuffer);
+
+				GSessionManager.CheckAndResetMonster();
+
 				this_thread::sleep_for(100ms);
 			}
 		});

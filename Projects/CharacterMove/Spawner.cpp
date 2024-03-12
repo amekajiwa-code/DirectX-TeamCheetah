@@ -40,12 +40,12 @@ void Spawner::Init()
 
 	if (name == L"BaseScene")
 	{
-		_spawnMapId = 0;
+		_spawnMapType = MapType::Lobby;
 	}
 
 	if (name == L"DungeonScene")
 	{
-		_spawnMapId = 1;
+		_spawnMapType = MapType::Dungeon;
 	}
 }
 
@@ -76,12 +76,12 @@ void Spawner::SpawnOtherPlayer(uint64 uid, Vec3 spawnPos)
 void Spawner::SpawnOtherPlayers()
 {
 	for (const auto& pair : ClientPacketHandler::Instance().GetOtherUserInfoMap()) {
-		if (pair.second._spawnMapId != _spawnMapId)
+		if (pair.second._spawnMapType != _spawnMapType)
 		{
 			//내 Map정보가 아니면 스킵
-			auto it = _monsters.find(pair.first);
+			auto it = _otherPlayers.find(pair.first);
 
-			if (it != _monsters.end())
+			if (it != _otherPlayers.end())
 			{
 				MANAGER_SCENE()->GetCurrentScene()->Remove(it->second);
 			}
@@ -89,21 +89,16 @@ void Spawner::SpawnOtherPlayers()
 			continue;
 		}
 
-		if (pair.second._spawnMapId == _spawnMapId)
-		{
-			cout << "sdf";
-		}
 		//다른플레이어 위치 동기화
 		auto it = _otherPlayers.find(pair.first);
 		// it : first : uint64 / second : shared_ptr<LSkinningModel>
 		if (it != _otherPlayers.end())
 		{
-			
-
 			// 다른플레이어가 이미 있다.
 			if (pair.second._isOnline == false)
 			{
 				//접속중이 아니라면 다른플레이어 목록에서 삭제
+				MANAGER_SCENE()->GetCurrentScene()->Remove(it->second);
 				_otherPlayers.erase(it);
 				ClientPacketHandler::Instance().EraseOtherUserInfoMap(pair.first);
 				//주의 : 이거 삭제한 이후로 얘 건들면 nullptr 뜰걸로 예상됨
@@ -183,7 +178,7 @@ void Spawner::SpawnMonster(uint64 uid, uint32 monsterId, Vec3 spawnPos)
 void Spawner::SpawnMonsters()
 {
 	for (const auto& pair : ClientPacketHandler::Instance().GetMobInfoList()) {
-		if (pair.second._spawnMapId != _spawnMapId)
+		if (pair.second._spawnMapType != _spawnMapType)
 		{
 			//내 Map정보가 아니면 스킵
 			auto it = _monsters.find(pair.first);
@@ -194,11 +189,6 @@ void Spawner::SpawnMonsters()
 			}
 			
 			continue;
-		}
-
-		if (pair.second._spawnMapId == _spawnMapId)
-		{
-			cout << "sdf";
 		}
 
 		auto it = _monsters.find(pair.first);

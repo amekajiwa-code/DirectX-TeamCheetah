@@ -42,7 +42,7 @@ bool GameServerAI::CalcNextBehavior()
 
 		if (it != GSessionManager.GetUserInfoList().end())
 		{
-			if (mob.second._spawnMapId != it->second._spawnMapId)
+			if (mob.second._spawnMapType != it->second._spawnMapType)
 			{
 				mob.second._animState = EnemyUnitState::Stand;
 				continue;

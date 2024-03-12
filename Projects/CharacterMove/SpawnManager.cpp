@@ -38,18 +38,18 @@ void SpawnManager::Reset(wstring name)
     }
 }
 
-uint32 SpawnManager::GetSpawnMapId()
+MapType SpawnManager::GetSpawnMapType()
 {
     wstring name = MANAGER_SCENE()->GetCurrentScene()->GetSceneName();
 
     if (name == L"BaseScene")
     {
-        return 0;
+        return MapType::Lobby;
     }
 
     if (name == L"DungeonScene")
     {
-        return 1;
+        return MapType::Dungeon;
     }
 
     

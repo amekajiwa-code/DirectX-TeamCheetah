@@ -33,7 +33,10 @@ public:
 	void GenerateMobList();
 	map<uint64, MONSTER_INFO>& GetMobInfoList() { return _mobInfoList; }
 	void UpdateMobInfo(MONSTER_INFO info);
+	void ClearMobInfoList() { _mobInfoList.clear(); }
 	void EnemyIsAttack(Player_INFO& target, MONSTER_INFO& enemy);
+
+	void CheckAndResetMonster();
 private:
 	float attackTime = 1.5f;
 	float attackTimer = 0.0f;

@@ -194,7 +194,7 @@ void BaseScene::Update()
 		sendInfo._isAttack = _warrior->GetComponent<PlayerController>()->IsAttack();
 		sendInfo._isBattle = _warrior->GetComponent<PlayerController>()->IsBattle();
 		sendInfo._animState = *_warrior->GetComponent<PlayerController>()->GetCurrentUnitState();
-		sendInfo._spawnMapId = SpawnManager::GetInstance().GetSpawnMapId();
+		sendInfo._spawnMapType = SpawnManager::GetInstance().GetSpawnMapType();
 
 		//Alive
 		if (sendInfo._isAlive == false)
